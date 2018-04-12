@@ -95,8 +95,7 @@
       route: route
     });
     if (newVdom) {
-      SFComponent.replaceNode(el.childNodes, newVdom.children);
-      SFComponent.replaceAttributes(el.childNodes, newVdom.children);
+      SFComponent.replaceNode(el, newVdom);
     }
     if (el.classList.contains('active')) return;
     try {
