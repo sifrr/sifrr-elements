@@ -5,17 +5,45 @@
 <script>
   let sflux = SFComponent['sf-flux'];
   let targets = [];
-  sflux.connectedCallback = function(el) {}
-  class SFlux {
-    constructor(targets) {
-      this.targets = targets;
-      this.states = [];
-      this.diffs = [];
+  var SFLUX;
+  sflux.connectedCallback = function(el) {
+    SFLUX = new SFlux([], el);
+    SFComponent.stateChanged = function(target, oldState, newState) {
+      SFLUX.addState(target, newState, oldState);
     }
-    addState(state) {
-      this.diffs.push(SFlux.diff(this.state, state));
-      this.states.push(state);
-      this.state = state;
+  }
+  class SFlux {
+    constructor(targets = [], el) {
+      this.el = el;
+      this.targets = Array.from(targets);
+      this.states = Array(this.targets.length).fill([]);
+      this.diffs = Array(this.targets.length).fill([]);
+    }
+    addState(target, state, old) {
+      let index = this.targets.indexOf(target);
+      if (index > -1) {
+        this.diffs[index].push(SFlux.diff(old, state));
+        this.states[index].push(state);
+      }
+    }
+    addTarget(target) {
+      this.targets.push(target);
+      let index = this.targets.indexOf(target);
+      this.states[index] = [];
+      this.diffs[index] = [];
+      return this.targets;
+    }
+    removeTarget(target) {
+      let index = this.targets.indexOf(target);
+      if (index > -1) {
+        this.targets.splice(index, 1);
+        this.states.splice(index, 1);
+        this.diffs.splice(index, 1);
+      }
+      return this.targets;
+    }
+    getTarget(i) {
+      return this.targets[i];
     }
     static diff(obj1, obj2) {
       if (typeof obj1 === 'object') {
@@ -49,8 +77,5 @@
       }
       return 'updated';
     }
-  }
-  SFComponent.stateChanged = function(target, oldState, newState) {
-    console.log(SFlux.diff(oldState, newState));
   }
 </script>
