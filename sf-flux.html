@@ -3,7 +3,54 @@
   </style>
 </template>
 <script>
+  let sflux = SFComponent['sf-flux'];
+  let targets = [];
+  sflux.connectedCallback = function(el) {}
+  class SFlux {
+    constructor(targets) {
+      this.targets = targets;
+      this.states = [];
+      this.diffs = [];
+    }
+    addState(state) {
+      this.diffs.push(SFlux.diff(this.state, state));
+      this.states.push(state);
+      this.state = state;
+    }
+    static diff(obj1, obj2) {
+      if (typeof obj1 === 'object') {
+        let diff = {};
+        for (let key in obj1) {
+          diff[key] = this.diff(obj1[key], obj2[key]);
+        }
+        for (let key in obj2) {
+          if (!(key in obj1)) diff[key] = this.diff(undefined, obj2[key]);
+        }
+        return diff;
+      } else {
+        return {
+          type: this.compareValues(obj1, obj2),
+          data: {
+            oldValue: obj1,
+            newValue: obj2
+          }
+        }
+      }
+    }
+    static compareValues(value1, value2) {
+      if (value1 === value2) {
+        return 'unchanged';
+      }
+      if ('undefined' === typeof(value1)) {
+        return 'created';
+      }
+      if ('undefined' === typeof(value2)) {
+        return 'deleted';
+      }
+      return 'updated';
+    }
+  }
   SFComponent.stateChanged = function(target, oldState, newState) {
-    console.log(target, oldState, newState)
+    console.log(SFlux.diff(oldState, newState));
   }
 </script>
