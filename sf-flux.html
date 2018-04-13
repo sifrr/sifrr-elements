@@ -16,7 +16,7 @@
     constructor(targets = [], el) {
       this.el = el;
       this.targets = Array.from(targets);
-      this.states = Array(this.targets.length).fill([]);
+      this.states = targets.map(t => [t.state]);
       this.diffs = Array(this.targets.length).fill([]);
     }
     addState(target, state, old) {
@@ -29,7 +29,7 @@
     addTarget(target) {
       this.targets.push(target);
       let index = this.targets.indexOf(target);
-      this.states[index] = [];
+      this.states[index] = [target.state];
       this.diffs[index] = [];
       return this.targets;
     }
@@ -44,6 +44,18 @@
     }
     getTarget(i) {
       return this.targets[i];
+    }
+    commit(target) {
+
+    }
+    rollback(target) {
+
+    }
+    commitAll() {
+
+    }
+    rollbackAll() {
+
     }
     static diff(obj1, obj2) {
       if (typeof obj1 === 'object') {
