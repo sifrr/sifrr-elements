@@ -35,14 +35,12 @@
       this.el = el;
       this.targets = Array.from(targets);
       this.states = targets.map(t => [t.state]);
-      this.diffs = Array(this.targets.length).fill([]);
       this.activeStates = [0];
     }
-    addState(target, state, old) {
+    addState(target, state) {
       let index = this.targets.indexOf(target);
       let active = this.activeStates[index];
       if (index > -1) {
-        this.diffs[index].splice(active + 1, 0, SFlux.diff(old, state));
         this.states[index].splice(active + 1, 0, state);
         this.activeStates[index] = active + 1;
         this.el.state = {
@@ -54,7 +52,6 @@
       this.targets.push(target);
       let index = this.targets.indexOf(target);
       this.states[index] = [target.state];
-      this.diffs[index] = [];
       this.activeStates[index] = 0;
       return this.targets;
     }
@@ -63,7 +60,6 @@
       if (index > -1) {
         this.targets.splice(index, 1);
         this.states.splice(index, 1);
-        this.diffs.splice(index, 1);
         this.activeStates.splice(index, 1);
       }
       return this.targets;
@@ -73,7 +69,6 @@
       let first_state = this.states[index][0];
       let last_state = this.states[index][this.states[index].length - 1];
       this.states[index] = [first_state, last_state];
-      this.diffs[index] = [SFlux.diff(first_state, last_state)];
       this.activeStates[index] = 1;
     }
     commitAll() {
@@ -88,7 +83,6 @@
     resetToFirstState(target) {
       let index = this.targets.indexOf(target);
       this.states[index] = [this.states[index][0]];
-      this.diffs[index] = [];
       this.activeStates[index] = 0;
     }
     resetAllToFirstState() {
