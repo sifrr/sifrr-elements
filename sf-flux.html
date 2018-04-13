@@ -18,19 +18,23 @@
       this.targets = Array.from(targets);
       this.states = targets.map(t => [t.state]);
       this.diffs = Array(this.targets.length).fill([]);
+      this.activeStates = [0];
     }
     addState(target, state, old) {
       let index = this.targets.indexOf(target);
+      let active = this.activeStates[index];
       if (index > -1) {
-        this.diffs[index].push(SFlux.diff(old, state));
-        this.states[index].push(state);
+        this.diffs[index].splice(active + 1, 0, SFlux.diff(old, state));
+        this.states[index].splice(active + 1, 0, state);
       }
+      this.activeStates[index] = active + 1;
     }
     addTarget(target) {
       this.targets.push(target);
       let index = this.targets.indexOf(target);
       this.states[index] = [target.state];
       this.diffs[index] = [];
+      this.activeStates[index] = 0;
       return this.targets;
     }
     removeTarget(target) {
@@ -39,6 +43,7 @@
         this.targets.splice(index, 1);
         this.states.splice(index, 1);
         this.diffs.splice(index, 1);
+        this.activeStates.splice(index, 1);
       }
       return this.targets;
     }
@@ -48,16 +53,26 @@
       let last_state = this.states[index][this.states[index].length - 1];
       this.states[index] = [first_state, last_state];
       this.diffs[index] = [SFlux.diff(first_state, last_state)];
-    }
-    rollback(target) {
-
+      this.activeStates[index] = 1;
     }
     commitAll() {
       let me = this;
       this.targets.forEach(t => me.commit(t));
     }
-    rollbackAll() {
-
+    toState(target, n) {
+      let index = this.targets.indexOf(target);
+      this.activeStates[index] = n;
+      target.state = this.states[index][n];
+    }
+    resetToFirstState(target) {
+      let index = this.targets.indexOf(target);
+      this.states[index] = [this.states[index][0]];
+      this.diffs[index] = [];
+      this.activeStates[index] = 0;
+    }
+    resetAllToFirstState() {
+      let me = this;
+      this.targets.forEach(t => me.resetToFirstState(t));
     }
     static diff(obj1, obj2) {
       if (typeof obj1 === 'object') {
