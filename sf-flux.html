@@ -42,17 +42,19 @@
       }
       return this.targets;
     }
-    getTarget(i) {
-      return this.targets[i];
-    }
     commit(target) {
-
+      let index = this.targets.indexOf(target);
+      let first_state = this.states[index][0];
+      let last_state = this.states[index][this.states[index].length - 1];
+      this.states[index] = [first_state, last_state];
+      this.diffs[index] = [SFlux.diff(first_state, last_state)];
     }
     rollback(target) {
 
     }
     commitAll() {
-
+      let me = this;
+      this.targets.forEach(t => me.commit(t));
     }
     rollbackAll() {
 
