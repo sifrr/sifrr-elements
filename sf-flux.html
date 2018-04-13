@@ -1,7 +1,13 @@
 <template>
   <style>
-    * {
+    .state {
       white-space: pre-wrap;
+      max-height: 90px;
+      overflow: hidden;
+    }
+    .state.open {
+      white-space: pre-wrap;
+      max-height: none;
     }
     .key {
       color: red;
@@ -13,7 +19,7 @@
       color: blue;
     }
   </style>
-  <div id="state">
+  <div class="state">
     ${myapp}
   </div>
 </template>
@@ -29,6 +35,9 @@
     SFComponent.stateChanged = function(target, oldState, newState) {
       SFLUX.addState(target, newState, oldState);
     }
+  }
+  SFComponent.clickEvents['.state'] = function(el) {
+    el.classList.contains('open') ? el.classList.remove('open') : el.classList.add('open');
   }
   class SFlux {
     constructor(targets = [], el) {
