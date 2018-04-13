@@ -1,9 +1,24 @@
 <template>
   <style>
+    .key {
+      color: red;
+    }
+    .string {
+      color: green;
+    }
+    .number, .null, .boolean {
+      color: blue;
+    }
   </style>
+  <div id="state">
+    ${myapp}
+  </div>
 </template>
 <script>
   let sflux = SFComponent['sf-flux'];
+  sflux.defaultState = {
+    'myapp': {}
+  };
   let targets = [];
   var SFLUX;
   sflux.connectedCallback = function(el) {
@@ -26,8 +41,11 @@
       if (index > -1) {
         this.diffs[index].splice(active + 1, 0, SFlux.diff(old, state));
         this.states[index].splice(active + 1, 0, state);
+        this.activeStates[index] = active + 1;
+        this.el.state = {
+          'myapp': SFlux.prettyJSON(state)
+        }
       }
-      this.activeStates[index] = active + 1;
     }
     addTarget(target) {
       this.targets.push(target);
@@ -74,19 +92,16 @@
       let me = this;
       this.targets.forEach(t => me.resetToFirstState(t));
     }
-    prettyJSON(json) {
-      if (typeof json != 'string') {
-        json = JSON.stringify(json, undefined, 2);
-      }
+    static prettyJSON(json) {
+      json = JSON.stringify(json, null, 2);
       json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
       return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function(match) {
         var cls = 'number';
-        if (/^"/.test(match)) {
-          if (/:$/.test(match)) {
-            cls = 'key';
-          } else {
-            cls = 'string';
-          }
+        if (/:$/.test(match)) {
+          cls = 'key';
+          return '<br><span class="' + cls + '">' + match + '</span>';
+        } else if (/^"/.test(match)) {
+          cls = 'string';
         } else if (/true|false/.test(match)) {
           cls = 'boolean';
         } else if (/null/.test(match)) {
