@@ -22,6 +22,8 @@
   <div class="state">
     ${myapp}
   </div>
+  <input id="addTargetInput" type="text" name="addTargetInput" value="" placeholder="Enter query string of target">
+  <button id="addTargetButton" type="button" name="addTargetButton">Add Taget</button>
 </template>
 <script>
   let sflux = SFComponent['sf-flux'];
@@ -45,6 +47,10 @@
       this.targets = Array.from(targets);
       this.states = targets.map(t => [t.state]);
       this.activeStates = [0];
+      let me = this;
+      this.el.shadowRoot.querySelector('#addTargetButton').addEventListener('click', function(e) {
+        me.addTarget(document.querySelector(me.el.shadowRoot.querySelector('#addTargetInput').value));
+      });
     }
     addState(target, state) {
       let index = this.targets.indexOf(target);
