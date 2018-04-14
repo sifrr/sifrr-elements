@@ -57,7 +57,7 @@
   class SFlux {
     constructor(targets = [], el) {
       this.el = el;
-      this.targets = Array.from(targets);
+      this.targets = Array.from(targets).filter(t => t && t.state);
       this.states = targets.map(t => [t.state]);
       this.activeStates = [0];
       let me = this;
@@ -73,6 +73,7 @@
       }
     }
     addTarget(target) {
+      if (!target || !target.state) return;
       this.targets.push(target);
       let index = this.targets.indexOf(target);
       this.states[index] = [target.state];
