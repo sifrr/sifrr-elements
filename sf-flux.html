@@ -1,5 +1,15 @@
 <template>
   <style>
+    :host {
+      position: fixed;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      height: 100%;
+      max-width: 100%;
+      width: 320px;
+      z-index: 1000;
+    }
     .state {
       white-space: pre-wrap;
       max-height: 90px;
@@ -41,6 +51,9 @@
   SFComponent.clickEvents['.state'] = function(el) {
     el.classList.contains('open') ? el.classList.remove('open') : el.classList.add('open');
   }
+  SFComponent.clickEvents['#addTargetButton'] = function() {
+    SFLUX.addTarget(document.querySelector(SFLUX.el.shadowRoot.querySelector('#addTargetInput').value));
+  }
   class SFlux {
     constructor(targets = [], el) {
       this.el = el;
@@ -48,9 +61,6 @@
       this.states = targets.map(t => [t.state]);
       this.activeStates = [0];
       let me = this;
-      this.el.shadowRoot.querySelector('#addTargetButton').addEventListener('click', function(e) {
-        me.addTarget(document.querySelector(me.el.shadowRoot.querySelector('#addTargetInput').value));
-      });
     }
     addState(target, state) {
       let index = this.targets.indexOf(target);
