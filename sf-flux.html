@@ -29,9 +29,10 @@
       color: blue;
     }
   </style>
-  <div class="state">
-    ${myapp}
-  </div>
+  <ul class="">
+    ${targets.join('')}
+  </ul>
+  <div>${states}</div>
   <input id="addTargetInput" type="text" name="addTargetInput" value="" placeholder="Enter query string of target">
   <button id="addTargetButton" type="button" name="addTargetButton">Add Taget</button>
 </template>
@@ -40,7 +41,6 @@
   sflux.defaultState = {
     'myapp': {}
   };
-  let targets = [];
   var SFLUX;
   sflux.connectedCallback = function(el) {
     SFLUX = new SFlux([], el);
@@ -61,16 +61,15 @@
       this.states = targets.map(t => [t.state]);
       this.activeStates = [0];
       let me = this;
+      this.updateState();
     }
     addState(target, state) {
       let index = this.targets.indexOf(target);
-      let active = this.activeStates[index];
       if (index > -1) {
+        let active = this.activeStates[index];
         this.states[index].splice(active + 1, 0, state);
         this.activeStates[index] = active + 1;
-        this.el.state = {
-          'myapp': SFlux.prettyJSON(state)
-        }
+        this.updateState();
       }
     }
     addTarget(target) {
@@ -78,6 +77,7 @@
       let index = this.targets.indexOf(target);
       this.states[index] = [target.state];
       this.activeStates[index] = 0;
+      this.updateState();
       return this.targets;
     }
     removeTarget(target) {
@@ -86,6 +86,7 @@
         this.targets.splice(index, 1);
         this.states.splice(index, 1);
         this.activeStates.splice(index, 1);
+        this.updateState();
       }
       return this.targets;
     }
@@ -95,24 +96,36 @@
       let last_state = this.states[index][this.states[index].length - 1];
       this.states[index] = [first_state, last_state];
       this.activeStates[index] = 1;
+      this.updateState();
     }
     commitAll() {
       let me = this;
       this.targets.forEach(t => me.commit(t));
+      this.updateState();
     }
     toState(target, n) {
       let index = this.targets.indexOf(target);
       this.activeStates[index] = n;
       target.state = this.states[index][n];
+      this.updateState();
     }
     resetToFirstState(target) {
       let index = this.targets.indexOf(target);
       this.states[index] = [this.states[index][0]];
       this.activeStates[index] = 0;
+      this.updateState();
     }
     resetAllToFirstState() {
       let me = this;
       this.targets.forEach(t => me.resetToFirstState(t));
+      this.updateState();
+    }
+    updateState() {
+      let me = this;
+      this.el.state = {
+        targets: me.targets.map((t, i) => `<li data-key="${i}">${t.tagName}</li>`),
+        states: me.states.map((s, i) => `<div data-key="${i}" class="state">${SFlux.prettyJSON(s[s.length - 1])}</div>`).join('')
+      }
     }
     static prettyJSON(json) {
       json = JSON.stringify(json, null, 2);
