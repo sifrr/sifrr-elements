@@ -29,10 +29,11 @@
       color: blue;
     }
   </style>
-  <ul class="">
+  <simple-tabs>
     ${targets.join('')}
-  </ul>
-  <div>${states}</div>
+    <!--- divide -->
+    ${states}
+  </simple-tabs>
   <input id="addTargetInput" type="text" name="addTargetInput" value="" placeholder="Enter query string of target">
   <button id="addTargetButton" type="button" name="addTargetButton">Add Taget</button>
 </template>
@@ -124,8 +125,8 @@
     updateState() {
       let me = this;
       this.el.state = {
-        targets: me.targets.map((t, i) => `<li data-key="${i}">${t.tagName}</li>`),
-        states: me.states.map((s, i) => `<div data-key="${i}" class="state">${SFlux.prettyJSON(s[s.length - 1])}</div>`).join('')
+        targets: me.targets.map((t, i) => `<li slot="list" data-key="${i}">${t.tagName}</li>`),
+        states: me.states.map((s, i) => `<div data-key="${i}" class="state tab" slot="tabs">${SFlux.prettyJSON(s[s.length - 1])}</div>`).join('')
       }
     }
     static prettyJSON(json) {
