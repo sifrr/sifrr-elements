@@ -36,7 +36,7 @@
       overflow: hidden;
       background-color: rgba(255, 255, 255, 0.9);
       padding: 5px;
-      margin: 5px;
+      margin-bottom: 5px;
       position: relative;
     }
     .state:hover::after {
@@ -105,7 +105,7 @@
     constructor(targets = [], el) {
       this.el = el;
       this.targets = Array.from(targets).filter(t => t && t.state);
-      this.states = targets.map(t => [t.state]);
+      this.states = targets.map(t => [JSON.parse(JSON.stringify(t.state))]);
       this.activeStates = [0];
       let me = this;
       this.updateState();
@@ -114,7 +114,7 @@
       let index = this.targets.indexOf(target);
       if (index > -1) {
         let active = this.activeStates[index];
-        this.states[index].splice(active + 1, 0, state);
+        this.states[index].splice(active + 1, 0, JSON.parse(JSON.stringify(state)));
         this.activeStates[index] = active + 1;
         this.updateState();
       }
@@ -125,7 +125,7 @@
       if (index > -1) return;
       this.targets.push(target);
       index = this.targets.indexOf(target);
-      this.states[index] = [target.state];
+      this.states[index] = [JSON.parse(JSON.stringify(target.state))];
       this.activeStates[index] = 0;
       this.updateState();
       return this.targets;
@@ -174,7 +174,7 @@
       let me = this;
       this.el.state = {
         targets: me.targets.map((t, i) => `<li slot="list" data-key="${i}">${t.tagName}</li>`),
-        states: me.states.map((s, i) => `<div data-key="${i}" class="state tab" slot="tabs">${SFlux.prettyJSON(s[s.length - 1])}</div>`).join('')
+        states: me.states.map((s, i) => `<div data-key="${i}" class="tab" slot="tabs">${s.map(i => '<div class="state">' + SFlux.prettyJSON(i) + '</div>').join('')}</div>`).join('')
       }
     }
     static prettyJSON(json) {
