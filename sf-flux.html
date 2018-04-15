@@ -29,7 +29,7 @@
       color: blue;
     }
   </style>
-  <simple-tabs options='{"tabHeight": "calc(100% - 90px)"}'>
+  <simple-tabs options='{"tabHeight": "calc(100vh - 90px)"}'>
     ${targets.join('')}
     <!--- divide -->
     ${states}
@@ -75,8 +75,10 @@
     }
     addTarget(target) {
       if (!target || !target.state) return;
-      this.targets.push(target);
       let index = this.targets.indexOf(target);
+      if (index > -1) return;
+      this.targets.push(target);
+      index = this.targets.indexOf(target);
       this.states[index] = [target.state];
       this.activeStates[index] = 0;
       this.updateState();
