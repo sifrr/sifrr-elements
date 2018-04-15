@@ -10,10 +10,43 @@
       width: 320px;
       z-index: 1000;
     }
+    #showHide {
+      position: fixed;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      width: 10px;
+      height: 30px;
+      margin-top: 5px;
+      background-color: blue;
+      z-index: 2;
+    }
+    .content {
+      transition: all 0.5s ease;
+      transform: translate3d(100%, 0, 0);
+      z-index: 1;
+      background-color: rgba(0, 0, 0, .8);
+    }
+    .content.show {
+      transform: translate3d(0, 0, 0);
+    }
     .state {
       white-space: pre-wrap;
       max-height: 90px;
       overflow: hidden;
+      background-color: rgba(255, 255, 255, 0.9);
+      padding: 5px;
+      position: relative;
+    }
+    .state:hover::after {
+      content: '\\\/';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background-color: rgba(0, 0, 0, 0.6);
+      text-align: center;
+      color: white;
     }
     .state.open {
       white-space: pre-wrap;
@@ -29,13 +62,18 @@
       color: blue;
     }
   </style>
-  <simple-tabs options='{"tabHeight": "calc(100vh - 90px)"}'>
-    ${targets.join('')}
-    <!--- divide -->
-    ${states}
-  </simple-tabs>
-  <input id="addTargetInput" type="text" name="addTargetInput" value="" placeholder="Enter query string of target">
-  <button id="addTargetButton" type="button" name="addTargetButton">Add Taget</button>
+  <div id="showHide">
+
+  </div>
+  <div class="content">
+    <simple-tabs options='{"tabHeight": "calc(100vh - 90px)"}'>
+      ${targets.join('')}
+      <!--- divide -->
+      ${states}
+    </simple-tabs>
+    <input id="addTargetInput" type="text" name="addTargetInput" value="" placeholder="Enter query string of target">
+    <button id="addTargetButton" type="button" name="addTargetButton">Add Taget</button>
+  </div>
 </template>
 <script>
   let sflux = SFComponent['sf-flux'];
@@ -54,6 +92,10 @@
   }
   SFComponent.clickEvents['#addTargetButton'] = function() {
     SFLUX.addTarget(document.querySelector(SFLUX.el.shadowRoot.querySelector('#addTargetInput').value));
+  }
+  SFComponent.clickEvents['#showHide'] = function() {
+    let el = SFLUX.el.shadowRoot.querySelector('.content');
+    el.classList.contains('show') ? el.classList.remove('show') : el.classList.add('show');
   }
   class SFlux {
     constructor(targets = [], el) {
