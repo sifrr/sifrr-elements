@@ -77,6 +77,8 @@
     </simple-tabs>
     <input id="addTargetInput" type="text" name="addTargetInput" value="" placeholder="Enter query string of target">
     <button id="addTargetButton" type="button" name="addTargetButton">Add Taget</button>
+    <button id="commitAll" type="button" name="commitAll" onclick="SFLUX.commitAll()">Commit All</button>
+    <button id="resetAll" type="button" name="resetAll" onclick="SFLUX.resetAllToFirstState()">Reset All</button>
   </div>
 </template>
 <script>
@@ -161,8 +163,8 @@
     }
     resetToFirstState(target) {
       let index = this.targets.indexOf(target);
+      this.toState(target, 0);
       this.states[index] = [this.states[index][0]];
-      this.activeStates[index] = 0;
       this.updateState();
     }
     resetAllToFirstState() {
