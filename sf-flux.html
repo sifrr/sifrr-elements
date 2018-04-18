@@ -10,6 +10,9 @@
       width: 320px;
       z-index: 1000;
     }
+    * {
+      box-sizing: border-box;
+    }
     #showHide {
       position: fixed;
       right: 0;
@@ -65,27 +68,34 @@
     .number, .null, .boolean {
       color: blue;
     }
+    input {
+      margin: 3px;
+      width: calc(100% - 6px);
+      padding: 3px;
+    }
+    .btn3 {
+      margin: 3px;
+      width: calc(33% - 8px);
+      padding: 3px;
+    }
   </style>
   <div id="showHide" onclick="showHide()">
 
   </div>
   <div class="content">
-    <simple-tabs options='{"tabHeight": "calc(100vh - 90px)"}'>
+    <simple-tabs options='{"tabHeight": "calc(100vh - 110px)"}'>
       ${targets.join('')}
       <!--- divide -->
       ${states}
     </simple-tabs>
-    <input id="addTargetInput" type="text" name="addTargetInput" value="" placeholder="Enter query string of target">
-    <button type="button" name="addTargetButton" onclick="addTarget()">Add Taget</button>
-    <button type="button" name="commitAll" onclick="SFLUX.commitAll()">Commit All</button>
-    <button type="button" name="resetAll" onclick="SFLUX.resetAllToFirstState()">Reset All</button>
+    <input id="addTargetInput" type="text" name="addTargetInput" value="" placeholder="Enter query string of target" onkeyup="addTargetOnEnter(event)">
+    <button class="btn3" type="button" name="addTargetButton" onclick="addTarget()">Add Taget</button>
+    <button class="btn3" type="button" name="commitAll" onclick="SFLUX.commitAll()">Commit All</button>
+    <button class="btn3" type="button" name="resetAll" onclick="SFLUX.resetAllToFirstState()">Reset All</button>
   </div>
 </template>
 <script>
   let sflux = SFComponent['sf-flux'];
-  sflux.defaultState = {
-    'myapp': {}
-  };
   var SFLUX;
   sflux.connectedCallback = function(el) {
     SFLUX = new SFlux([], el);
@@ -95,6 +105,12 @@
   }
   SFComponent.clickEvents['.state'] = function(el) {
     el.classList.contains('open') ? el.classList.remove('open') : el.classList.add('open');
+  }
+
+  function addTargetOnEnter(event) {
+    if (event.key === 'Enter') {
+      SFLUX.addTarget(document.querySelector(SFLUX.el.shadowRoot.querySelector('#addTargetInput').value));
+    }
   }
 
   function addTarget() {
@@ -201,8 +217,9 @@
       let me = this;
       let states = me.states.map((s, i) =>
         `<div data-key="${i}" class="tab" slot="tabs">
-        <button type="button" name="commit" onclick="SFLUX.commit(${i})">Commit</button>
-        <button type="button" name="reset" onclick="SFLUX.resetToFirstState(${i})">Reset</button>
+        <button class="btn3" type="button" name="commit" onclick="SFLUX.commit(${i})">Commit</button>
+        <button class="btn3" type="button" name="reset" onclick="SFLUX.resetToFirstState(${i})">Reset</button>
+        <button class="btn3" type="button" name="remove" onclick="SFLUX.removeTarget(${i})">Remove</button>
         ${s.map(j => '<div class="state">' + SFlux.prettyJSON(j) + '</div>').join('')}</div>`
       ).join('');
       this.el.state = {
