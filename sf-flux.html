@@ -146,10 +146,9 @@
     }
     commit(target) {
       let index = Number.isInteger(target) ? target : this.targets.indexOf(target);
-      let first_state = this.states[index][0];
       let last_state = this.states[index][this.states[index].length - 1];
-      this.states[index] = [first_state, last_state];
-      this.activeStates[index] = 1;
+      this.states[index] = [last_state];
+      this.activeStates[index] = 0;
       this.updateState();
     }
     commitAll() {
