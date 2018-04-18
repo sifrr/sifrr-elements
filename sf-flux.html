@@ -115,7 +115,13 @@
       this.updateState();
     }
     addState(target, state) {
-      let index = Number.isInteger(target) ? target : this.targets.indexOf(target);
+      let index;
+      if (Number.isInteger(target)) {
+        index = target;
+        target = this.targets[index]
+      } else {
+        index = this.targets.indexOf(target);
+      }
       if (index > -1) {
         let active = this.activeStates[index];
         this.states[index].splice(active + 1, 0, JSON.parse(JSON.stringify(state)));
@@ -135,7 +141,13 @@
       return this.targets;
     }
     removeTarget(target) {
-      let index = Number.isInteger(target) ? target : this.targets.indexOf(target);
+      let index;
+      if (Number.isInteger(target)) {
+        index = target;
+        target = this.targets[index]
+      } else {
+        index = this.targets.indexOf(target);
+      }
       if (index > -1) {
         this.targets.splice(index, 1);
         this.states.splice(index, 1);
@@ -145,7 +157,13 @@
       return this.targets;
     }
     commit(target) {
-      let index = Number.isInteger(target) ? target : this.targets.indexOf(target);
+      let index;
+      if (Number.isInteger(target)) {
+        index = target;
+        target = this.targets[index]
+      } else {
+        index = this.targets.indexOf(target);
+      }
       let last_state = this.states[index][this.states[index].length - 1];
       this.states[index] = [last_state];
       this.activeStates[index] = 0;
@@ -157,7 +175,13 @@
       this.updateState();
     }
     toState(target, n) {
-      let index = Number.isInteger(target) ? target : this.targets.indexOf(target);
+      let index;
+      if (Number.isInteger(target)) {
+        index = target;
+        target = this.targets[index]
+      } else {
+        index = this.targets.indexOf(target);
+      }
       this.activeStates[index] = n;
       target.state = this.states[index][n];
       this.updateState();
@@ -175,9 +199,15 @@
     }
     updateState() {
       let me = this;
+      let states = me.states.map((s, i) =>
+        `<div data-key="${i}" class="tab" slot="tabs">
+        <button type="button" name="commit" onclick="SFLUX.commit(${i})">Commit</button>
+        <button type="button" name="reset" onclick="SFLUX.resetToFirstState(${i})">Reset</button>
+        ${s.map(j => '<div class="state">' + SFlux.prettyJSON(j) + '</div>').join('')}</div>`
+      ).join('');
       this.el.state = {
         targets: me.targets.map((t, i) => `<li slot="list" data-key="${i}">${t.tagName}</li>`),
-        states: me.states.map((s, i) => `<div data-key="${i}" class="tab" slot="tabs">${s.map(i => '<div class="state">' + SFlux.prettyJSON(i) + '</div>').join('')}</div>`).join('')
+        states: states
       }
     }
     static prettyJSON(json) {
