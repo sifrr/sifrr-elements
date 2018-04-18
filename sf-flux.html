@@ -66,7 +66,7 @@
       color: blue;
     }
   </style>
-  <div id="showHide">
+  <div id="showHide" onclick="showHide()">
 
   </div>
   <div class="content">
@@ -76,9 +76,9 @@
       ${states}
     </simple-tabs>
     <input id="addTargetInput" type="text" name="addTargetInput" value="" placeholder="Enter query string of target">
-    <button id="addTargetButton" type="button" name="addTargetButton">Add Taget</button>
-    <button id="commitAll" type="button" name="commitAll" onclick="SFLUX.commitAll()">Commit All</button>
-    <button id="resetAll" type="button" name="resetAll" onclick="SFLUX.resetAllToFirstState()">Reset All</button>
+    <button type="button" name="addTargetButton" onclick="addTarget()">Add Taget</button>
+    <button type="button" name="commitAll" onclick="SFLUX.commitAll()">Commit All</button>
+    <button type="button" name="resetAll" onclick="SFLUX.resetAllToFirstState()">Reset All</button>
   </div>
 </template>
 <script>
@@ -96,10 +96,12 @@
   SFComponent.clickEvents['.state'] = function(el) {
     el.classList.contains('open') ? el.classList.remove('open') : el.classList.add('open');
   }
-  SFComponent.clickEvents['#addTargetButton'] = function() {
+
+  function addTarget() {
     SFLUX.addTarget(document.querySelector(SFLUX.el.shadowRoot.querySelector('#addTargetInput').value));
   }
-  SFComponent.clickEvents['#showHide'] = function() {
+
+  function showHide() {
     let el = SFLUX.el.shadowRoot.querySelector('.content');
     el.classList.contains('show') ? el.classList.remove('show') : el.classList.add('show');
   }
@@ -113,7 +115,7 @@
       this.updateState();
     }
     addState(target, state) {
-      let index = this.targets.indexOf(target);
+      let index = Number.isInteger(target) ? target : this.targets.indexOf(target);
       if (index > -1) {
         let active = this.activeStates[index];
         this.states[index].splice(active + 1, 0, JSON.parse(JSON.stringify(state)));
@@ -133,7 +135,7 @@
       return this.targets;
     }
     removeTarget(target) {
-      let index = this.targets.indexOf(target);
+      let index = Number.isInteger(target) ? target : this.targets.indexOf(target);
       if (index > -1) {
         this.targets.splice(index, 1);
         this.states.splice(index, 1);
@@ -143,7 +145,7 @@
       return this.targets;
     }
     commit(target) {
-      let index = this.targets.indexOf(target);
+      let index = Number.isInteger(target) ? target : this.targets.indexOf(target);
       let first_state = this.states[index][0];
       let last_state = this.states[index][this.states[index].length - 1];
       this.states[index] = [first_state, last_state];
@@ -156,13 +158,13 @@
       this.updateState();
     }
     toState(target, n) {
-      let index = this.targets.indexOf(target);
+      let index = Number.isInteger(target) ? target : this.targets.indexOf(target);
       this.activeStates[index] = n;
       target.state = this.states[index][n];
       this.updateState();
     }
     resetToFirstState(target) {
-      let index = this.targets.indexOf(target);
+      let index = Number.isInteger(target) ? target : this.targets.indexOf(target);
       this.toState(target, 0);
       this.states[index] = [this.states[index][0]];
       this.updateState();
