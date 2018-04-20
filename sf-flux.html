@@ -109,12 +109,12 @@
 
   function addTargetOnEnter(event) {
     if (event.key === 'Enter') {
-      SFLUX.addTarget(document.querySelector(SFLUX.el.shadowRoot.querySelector('#addTargetInput').value));
+      addTarget();
     }
   }
 
   function addTarget() {
-    if (SFLUX.addTarget(document.querySelector(SFLUX.el.shadowRoot.querySelector('#addTargetInput').value))) {
+    if (SFLUX.addTarget(SFLUX.el.shadowRoot.querySelector('#addTargetInput').value)) {
       SFLUX.el.shadowRoot.querySelector('#addTargetInput').value = "";
     }
   }
@@ -126,12 +126,12 @@
   class SFlux {
     constructor(queries = [], el) {
       this.el = el;
+      this.queries = [];
       this.targets = [];
       this.activeStates = [];
       this.states = [];
       let me = this;
       queries.map(q => document.querySelector(q)).forEach(t => me.addTarget(t));
-      let me = this;
       this.updateState();
     }
     addState(target, state) {
@@ -150,7 +150,7 @@
       }
     }
     addTarget(query) {
-      target = document.querySelector(target);
+      let target = document.querySelector(query);
       if (!target || !target.state) {
         console.log("Not valid Element.");
         return false;
@@ -158,6 +158,7 @@
       let index = this.targets.indexOf(target);
       if (index > -1) return;
       this.targets.push(target);
+      this.queries.push(query);
       index = this.targets.indexOf(target);
       this.states[index] = [JSON.parse(JSON.stringify(target.state))];
       this.activeStates[index] = 0;
@@ -174,6 +175,7 @@
       }
       if (index > -1) {
         this.targets.splice(index, 1);
+        this.queries.splice(index, 1);
         this.states.splice(index, 1);
         this.activeStates.splice(index, 1);
         this.updateState();
