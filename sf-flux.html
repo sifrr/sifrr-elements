@@ -92,6 +92,8 @@
     <button class="btn3" type="button" name="addTargetButton" onclick="addTarget()">Add Taget</button>
     <button class="btn3" type="button" name="commitAll" onclick="SFLUX.commitAll()">Commit All</button>
     <button class="btn3" type="button" name="resetAll" onclick="SFLUX.resetAllToFirstState()">Reset All</button>
+    <button class="btn3 btn2" type="button" name="saveData" onclick="SFLUX.saveData()">Save Data</button>
+    <button class="btn3 btn2" type="button" name="loadData" onclick="SFLUX.loadData()">Load Data</button>
   </div>
 </template>
 <script>
@@ -237,8 +239,10 @@
         states: states
       }
     }
-    saveState() {
-
+    saveData() {
+      this.queries.forEach((q, i) => {
+        console.log(q, i);
+      });
     }
     static prettyJSON(json) {
       json = JSON.stringify(json, null, 2);
