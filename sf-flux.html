@@ -96,6 +96,7 @@
     <button class="btn3 btn2" type="button" name="loadData" onclick="SFLUX.loadData()">Load Data</button>
   </div>
 </template>
+<script src="./localforage.min.js" charset="utf-8"></script>
 <script>
   let sflux = SFComponent['sf-flux'];
   var SFLUX;
@@ -125,6 +126,7 @@
     let el = SFLUX.el;
     el.classList.contains('show') ? el.classList.remove('show') : el.classList.add('show');
   }
+
   class SFlux {
     constructor(queries = [], el) {
       this.el = el;
@@ -132,6 +134,10 @@
       this.targets = [];
       this.activeStates = [];
       this.states = [];
+      this.storage = localforage.createInstance({
+        name: "SFLUX"
+      });
+      this.storage.setDriver([localforage.INDEXEDDB, localforage.LOCALSTORAGE]);
       let me = this;
       queries.map(q => document.querySelector(q)).forEach(t => me.addTarget(t));
       this.updateState();
@@ -240,8 +246,29 @@
       }
     }
     saveData() {
-      this.queries.forEach((q, i) => {
-        console.log(q, i);
+      let me = this;
+      this.storage.clear().then(() => {
+        me.queries.forEach((q, i) => {
+          let data = {
+            active: me.activeStates[i],
+            states: me.states[i]
+          }
+          this.storage.setItem(q, JSON.stringify(data));
+        });
+      });
+    }
+    loadData() {
+      let me = this;
+      me.commitAll();
+      this.storage.keys().then((queries) => {
+        queries.forEach((q, i) => {
+          me.storage.getItem(q).then(d => {
+            me.addTarget(q);
+            let data = JSON.parse(d);
+            data["states"].forEach(s => me.targets[i].state = s);
+            setTimeout(me.toState(i, data["active"] + 1), 1000);
+          });
+        });
       });
     }
     static prettyJSON(json) {
