@@ -114,7 +114,9 @@
   }
 
   function addTarget() {
-    SFLUX.addTarget(document.querySelector(SFLUX.el.shadowRoot.querySelector('#addTargetInput').value));
+    if (SFLUX.addTarget(document.querySelector(SFLUX.el.shadowRoot.querySelector('#addTargetInput').value))) {
+      SFLUX.el.shadowRoot.querySelector('#addTargetInput').value = "";
+    }
   }
 
   function showHide() {
@@ -122,11 +124,13 @@
     el.classList.contains('show') ? el.classList.remove('show') : el.classList.add('show');
   }
   class SFlux {
-    constructor(targets = [], el) {
+    constructor(queries = [], el) {
       this.el = el;
-      this.targets = Array.from(targets).filter(t => t && t.state);
-      this.states = targets.map(t => [JSON.parse(JSON.stringify(t.state))]);
-      this.activeStates = [0];
+      this.targets = [];
+      this.activeStates = [];
+      this.states = [];
+      let me = this;
+      queries.map(q => document.querySelector(q)).forEach(t => me.addTarget(t));
       let me = this;
       this.updateState();
     }
@@ -145,8 +149,12 @@
         this.updateState();
       }
     }
-    addTarget(target) {
-      if (!target || !target.state) return;
+    addTarget(query) {
+      target = document.querySelector(target);
+      if (!target || !target.state) {
+        console.log("Not valid Element.");
+        return false;
+      }
       let index = this.targets.indexOf(target);
       if (index > -1) return;
       this.targets.push(target);
@@ -226,6 +234,9 @@
         targets: me.targets.map((t, i) => `<li slot="list" data-key="${i}">${t.tagName}</li>`),
         states: states
       }
+    }
+    saveState() {
+
     }
     static prettyJSON(json) {
       json = JSON.stringify(json, null, 2);
