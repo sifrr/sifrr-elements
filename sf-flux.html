@@ -9,29 +9,29 @@
       max-width: 100%;
       width: 320px;
       z-index: 1000;
+      transform: translate3d(100%, 0, 0);
+      transition: all 0.5s ease;
+    }
+    :host(.show) {
+      transform: translate3d(0, 0, 0);
     }
     * {
       box-sizing: border-box;
     }
     #showHide {
       position: fixed;
-      right: 0;
+      left: -30px;
       top: 0;
       bottom: 0;
-      width: 10px;
+      width: 30px;
       height: 30px;
       margin-top: 5px;
       background-color: blue;
       z-index: 2;
     }
     .content {
-      transition: all 0.5s ease;
-      transform: translate3d(100%, 0, 0);
       z-index: 1;
       background-color: rgba(0, 0, 0, .8);
-    }
-    .content.show {
-      transform: translate3d(0, 0, 0);
     }
     .state {
       white-space: pre-wrap;
@@ -83,7 +83,7 @@
 
   </div>
   <div class="content">
-    <simple-tabs options='{"tabHeight": "calc(100vh - 110px)"}'>
+    <simple-tabs options='{"tabHeight": "calc(100vh - 150px)"}'>
       ${targets.join('')}
       <!--- divide -->
       ${states}
@@ -118,7 +118,7 @@
   }
 
   function showHide() {
-    let el = SFLUX.el.shadowRoot.querySelector('.content');
+    let el = SFLUX.el;
     el.classList.contains('show') ? el.classList.remove('show') : el.classList.add('show');
   }
   class SFlux {
