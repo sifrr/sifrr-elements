@@ -217,8 +217,9 @@
       } else {
         index = this.targets.indexOf(target);
       }
-      this.activeStates[index] = n;
       target.state = this.states[index][n];
+      this.states[index].pop();
+      this.activeStates[index] = n;
       this.updateState();
     }
     resetToFirstState(target) {
