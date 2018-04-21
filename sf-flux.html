@@ -9,6 +9,7 @@
       max-width: 100%;
       width: 320px;
       z-index: 1000;
+      background-color: rgba(0, 0, 0, .8);
       transform: translate3d(100%, 0, 0);
       transition: all 0.5s ease;
     }
@@ -29,15 +30,19 @@
       background-color: blue;
       z-index: 2;
     }
-    .content {
-      z-index: 1;
-      background-color: rgba(0, 0, 0, .8);
+    .stateContainer {
+      padding-left: 10px;
+      margin-left: 10px;
+      border-left: 1px solid white;
+    }
+    .stateContainer.off {
+      opacity: 0.6;
     }
     .state {
       white-space: pre-wrap;
       max-height: 90px;
       overflow: hidden;
-      background-color: rgba(255, 255, 255, 0.9);
+      background-color: rgba(255, 255, 255, 0.97);
       padding: 5px;
       margin-bottom: 5px;
       position: relative;
@@ -48,7 +53,7 @@
       bottom: 0;
       left: 0;
       width: 100%;
-      background-color: rgba(0, 0, 0, 0.6);
+      background-color: rgba(0, 0, 0, 0.9);
       text-align: center;
       color: white;
     }
@@ -82,20 +87,18 @@
   <div id="showHide" onclick="showHide()">
 
   </div>
-  <div class="content">
-    <simple-tabs options='{"tabHeight": "calc(100vh - 150px)"}'>
-      ${targets.join('')}
-      <!--- divide -->
-      ${states}
-    </simple-tabs>
-    <input id="addTargetInput" type="text" name="addTargetInput" value="" placeholder="Enter query string of target" onkeyup="addTargetOnEnter(event)">
-    <button class="btn3" type="button" name="addTargetButton" onclick="addTarget()">Add Taget</button>
-    <button class="btn3" type="button" name="commitAll" onclick="SFLUX.commitAll()">Commit All</button>
-    <button class="btn3" type="button" name="resetAll" onclick="SFLUX.resetAllToFirstState()">Reset All</button>
-    <button class="btn3" type="button" name="saveData" onclick="SFLUX.saveData()">Save Data</button>
-    <button class="btn3" type="button" name="loadData" onclick="SFLUX.loadData()">Load Data</button>
-    <button class="btn3" type="button" name="clearAll" onclick="SFLUX.clearAll()">Clear All</button>
-  </div>
+  <simple-tabs options='{"tabHeight": "calc(100vh - 150px)"}'>
+    ${targets.join('')}
+    <!--- divide -->
+    ${states}
+  </simple-tabs>
+  <input id="addTargetInput" type="text" name="addTargetInput" value="" placeholder="Enter query string of target" onkeyup="addTargetOnEnter(event)">
+  <button class="btn3" type="button" name="addTargetButton" onclick="addTarget()">Add Taget</button>
+  <button class="btn3" type="button" name="commitAll" onclick="SFLUX.commitAll()">Commit All</button>
+  <button class="btn3" type="button" name="resetAll" onclick="SFLUX.resetAllToFirstState()">Reset All</button>
+  <button class="btn3" type="button" name="saveData" onclick="SFLUX.saveData()">Save Data</button>
+  <button class="btn3" type="button" name="loadData" onclick="SFLUX.loadData()">Load Data</button>
+  <button class="btn3" type="button" name="clearAll" onclick="SFLUX.clearAll()">Clear All</button>
 </template>
 <script src="./localforage.min.js" charset="utf-8"></script>
 <script>
@@ -252,16 +255,19 @@
     }
     updateState() {
       let me = this;
+      console.log(me.activeStates);
       let states = me.states.map((s, i) =>
         `<div data-key="${i}" class="tab" slot="tabs">
         <button class="btn3" type="button" name="commit" onclick="SFLUX.commit(${i})">Commit</button>
         <button class="btn3" type="button" name="reset" onclick="SFLUX.resetToFirstState(${i})">Reset</button>
         <button class="btn3" type="button" name="remove" onclick="SFLUX.removeTarget(${i})">Remove</button>
-        ${s.map(j => '<div class="state">' + SFlux.prettyJSON(j) + '</div>').join('')}</div>`
+        ${s.map((jsn, j) => `<div class="stateContainer ${j <= me.activeStates[i] ? 'on' : 'off'}"><div class="state">
+                            ${SFlux.prettyJSON(jsn)}</div></div>`).join('')}</div>`
       ).join('');
       this.el.state = {
         targets: me.targets.map((t, i) => `<li slot="list" data-key="${i}">${t.tagName}</li>`),
-        states: states
+        states: states,
+        activeStates: me.activeStates
       }
     }
     saveData() {
