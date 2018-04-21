@@ -34,9 +34,27 @@
       padding-left: 10px;
       margin-left: 10px;
       border-left: 1px solid white;
+      position: relative;
     }
     .stateContainer.off {
-      opacity: 0.6;
+      opacity: 0.5;
+    }
+    .stateContainer .dotC {
+      position: absolute;
+      top: 0;
+      left: -10px;
+      width: 20px;
+      height: 100%;
+    }
+    .stateContainer .dotC .dot {
+      position: absolute;
+      top: 50%;
+      left: 10px;
+      width: 10px;
+      height: 10px;
+      transform: translate3d(-50%, -50%, 0);
+      background-color: white;
+      border-radius: 50%;
     }
     .state {
       white-space: pre-wrap;
@@ -53,7 +71,7 @@
       bottom: 0;
       left: 0;
       width: 100%;
-      background-color: rgba(0, 0, 0, 0.9);
+      background-color: rgba(0, 0, 0, 0.7);
       text-align: center;
       color: white;
     }
@@ -111,7 +129,10 @@
     }
   }
   SFComponent.clickEvents['.state'] = function(el) {
-    el.classList.contains('open') ? el.classList.remove('open') : el.classList.add('open');
+    el.className.indexOf('open') > -1 ? el.className.replace(/open/g, '') : el.className += ' open';
+  }
+  SFComponent.clickEvents['.dotC'] = function(el) {
+    SFLUX.toState(parseInt(el.dataset.target), parseInt(el.dataset.stateIndex));
   }
 
   function addTargetOnEnter(event) {
@@ -221,7 +242,8 @@
         index = this.targets.indexOf(target);
       }
       target.state = this.states[index][n];
-      this.states[index].pop();
+      let active = this.activeStates[index];
+      this.states[index].splice(active, 1);
       this.activeStates[index] = n;
       this.updateState();
     }
@@ -255,14 +277,15 @@
     }
     updateState() {
       let me = this;
-      console.log(me.activeStates);
       let states = me.states.map((s, i) =>
         `<div data-key="${i}" class="tab" slot="tabs">
         <button class="btn3" type="button" name="commit" onclick="SFLUX.commit(${i})">Commit</button>
         <button class="btn3" type="button" name="reset" onclick="SFLUX.resetToFirstState(${i})">Reset</button>
         <button class="btn3" type="button" name="remove" onclick="SFLUX.removeTarget(${i})">Remove</button>
-        ${s.map((jsn, j) => `<div class="stateContainer ${j <= me.activeStates[i] ? 'on' : 'off'}"><div class="state">
-                            ${SFlux.prettyJSON(jsn)}</div></div>`).join('')}</div>`
+        ${s.map((jsn, j) => `<div class="stateContainer ${j <= me.activeStates[i] ? 'on' : 'off'}">
+                             <div class="dotC" data-target="${i}" data-state-index="${j}"><div class="dot"></div></div>
+                             <div class="state">${SFlux.prettyJSON(jsn)}</div>
+                             </div>`).join('')}</div>`
       ).join('');
       this.el.state = {
         targets: me.targets.map((t, i) => `<li slot="list" data-key="${i}">${t.tagName}</li>`),
