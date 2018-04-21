@@ -92,8 +92,9 @@
     <button class="btn3" type="button" name="addTargetButton" onclick="addTarget()">Add Taget</button>
     <button class="btn3" type="button" name="commitAll" onclick="SFLUX.commitAll()">Commit All</button>
     <button class="btn3" type="button" name="resetAll" onclick="SFLUX.resetAllToFirstState()">Reset All</button>
-    <button class="btn3 btn2" type="button" name="saveData" onclick="SFLUX.saveData()">Save Data</button>
-    <button class="btn3 btn2" type="button" name="loadData" onclick="SFLUX.loadData()">Load Data</button>
+    <button class="btn3" type="button" name="saveData" onclick="SFLUX.saveData()">Save Data</button>
+    <button class="btn3" type="button" name="loadData" onclick="SFLUX.loadData()">Load Data</button>
+    <button class="btn3" type="button" name="clearAll" onclick="SFLUX.clearAll()">Clear All</button>
   </div>
 </template>
 <script src="./localforage.min.js" charset="utf-8"></script>
@@ -231,6 +232,23 @@
       this.targets.forEach(t => me.resetToFirstState(t));
       this.updateState();
     }
+    clear(target) {
+      let index;
+      if (Number.isInteger(target)) {
+        index = target;
+        target = this.targets[index]
+      } else {
+        index = this.targets.indexOf(target);
+      }
+      this.activeStates[index] = -1;
+      this.states[index] = [];
+      this.updateState();
+    }
+    clearAll() {
+      let me = this;
+      this.targets.forEach(t => me.clear(t));
+      this.updateState();
+    }
     updateState() {
       let me = this;
       let states = me.states.map((s, i) =>
@@ -259,14 +277,14 @@
     }
     loadData() {
       let me = this;
-      me.commitAll();
       this.storage.keys().then((queries) => {
         queries.forEach((q, i) => {
           me.storage.getItem(q).then(d => {
             me.addTarget(q);
+            me.clear(i);
             let data = JSON.parse(d);
             data["states"].forEach(s => me.targets[i].state = s);
-            setTimeout(me.toState(i, data["active"] + 1), 1000);
+            sleep(1000).then(me.toState(i, data["active"]));
           });
         });
       });
@@ -321,5 +339,9 @@
       }
       return 'updated';
     }
+  }
+
+  function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
   }
 </script>
