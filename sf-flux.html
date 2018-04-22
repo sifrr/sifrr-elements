@@ -129,7 +129,7 @@
     }
   }
   SFComponent.clickEvents['.state'] = function(el) {
-    el.className.indexOf('open') > -1 ? el.className.replace(/open/g, '') : el.className += ' open';
+    el.className = el.className.indexOf('open') > -1 ? el.className.replace(/( )*open/g, '') : el.className + ' open';
   }
   SFComponent.clickEvents['.dotC'] = function(el) {
     SFLUX.toState(parseInt(el.dataset.target), parseInt(el.dataset.stateIndex));
