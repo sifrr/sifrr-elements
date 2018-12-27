@@ -132,6 +132,7 @@
   class SifrrStater extends Sifrr.Dom.Element {
     onConnect() {
       let me = this;
+      this.storage = new Sifrr.Storage({ name: 'STATER' });
       this.qs('#showHide').$click = this.showHide.bind(this);
       this.qs('#addTargetInput').onkeyup = this.addTargetOnEnter.bind(this);
       this.qs('#addTarget').$click = this.addTarget.bind(this);
@@ -187,8 +188,7 @@
                              </div>`).join('')}</div>`
       ).join('');
     }
-    addTarget() {
-      const query = this.qs('#addTargetInput').value;
+    addTarget(query = this.qs('#addTargetInput').value) {
       const target = window.document.querySelector(query);
       if (!target || !target.state) {
         console.log("Invalid Sifrr Element.", target);
@@ -203,14 +203,8 @@
       this.state.activeStates[index] = 0;
       this.updateState();
     }
-    removeTarget(target) {
-      let index;
-      if (Number.isInteger(target)) {
-        index = target;
-        target = this.state.targets[index]
-      } else {
-        index = this.state.targets.indexOf(target);
-      }
+    removeTarget(el) {
+      const { index, target } = this.getTarget(el);
       if (index > -1) {
         this.state.targets.splice(index, 1);
         this.state.queries.splice(index, 1);
@@ -219,14 +213,8 @@
         this.updateState();
       }
     }
-    addState(target, state) {
-      let index;
-      if (Number.isInteger(target)) {
-        index = target;
-        target = this.state.targets[index]
-      } else {
-        index = this.state.targets.indexOf(target);
-      }
+    addState(el, state) {
+      const { index, target } = this.getTarget(el);
       if (index > -1) {
         const active = this.state.activeStates[index];
         const newState = JSON.stringify(state);
@@ -237,14 +225,8 @@
         }
       }
     }
-    deleteState(target, stateN) {
-      let index;
-      if (Number.isInteger(target)) {
-        index = target;
-        target = this.state.targets[index]
-      } else {
-        index = this.state.targets.indexOf(target);
-      }
+    deleteState(el, stateN) {
+      const { index, target } = this.getTarget(el);
       this.state.states[index].splice(stateN, 1);
       if (stateN < this.state.activeStates[index]) {
         this.state.activeStates[index] -= 1;
@@ -254,14 +236,8 @@
       }
       this.updateState();
     }
-    commit(target) {
-      let index;
-      if (Number.isInteger(target)) {
-        index = target;
-        target = this.state.targets[index]
-      } else {
-        index = this.state.targets.indexOf(target);
-      }
+    commit(el) {
+      const { index, target } = this.getTarget(el);
       const last_state = this.state.states[index][this.state.states[index].length - 1];
       this.state.states[index] = [last_state];
       this.state.activeStates[index] = 0;
@@ -272,21 +248,15 @@
       this.state.targets.forEach(t => me.commit(t));
       this.updateState();
     }
-    toState(target, n, remove = true) {
-      let index;
-      if (Number.isInteger(target)) {
-        index = target;
-        target = this.state.targets[index]
-      } else {
-        index = this.state.targets.indexOf(target);
-      }
+    toState(el, n) {
+      const { index, target } = this.getTarget(el);
       const active = this.state.activeStates[index];
       this.state.activeStates[index] = n;
       target.state = this.state.states[index][n];
       this.updateState();
     }
-    resetToFirstState(target) {
-      const index = Number.isInteger(target) ? target : this.state.targets.indexOf(target);
+    resetToFirstState(el) {
+      const { index, target } = this.getTarget(el);
       this.toState(target, 0, false);
       this.state.states[index] = [this.state.states[index][0]];
       this.updateState();
@@ -297,13 +267,7 @@
       this.updateState();
     }
     clear(target) {
-      let index;
-      if (Number.isInteger(target)) {
-        index = target;
-        target = this.state.targets[index]
-      } else {
-        index = this.state.targets.indexOf(target);
-      }
+      const { index } = this.getTarget(target);
       this.state.activeStates[index] = -1;
       this.state.states[index] = [];
       this.updateState();
@@ -316,28 +280,37 @@
     saveData() {
       const me = this;
       this.storage.clear().then(() => {
-        me.queries.forEach((q, i) => {
+        me.state.queries.forEach((q, i) => {
           const data = {
-            active: me.activeStates[i],
-            states: me.states[i]
+            active: me.state.activeStates[i],
+            states: me.state.states[i]
           }
-          this.storage.setItem(q, JSON.stringify(data));
+          me.storage.insert(q, data);
         });
       });
     }
     loadData() {
       const me = this;
-      this.storage.keys().then((queries) => {
-        queries.forEach((q, i) => {
-          me.storage.getItem(q).then(d => {
-            me.addTarget(q);
-            me.clear(i);
-            let data = JSON.parse(d);
-            data["states"].forEach(s => me.targets[i].state = s);
-            sleep(1000).then(me.toState(i, data["active"]));
-          });
-        });
+      this.storage.data().then((data) => {
+        let i = 0;
+        for (let q in data) {
+          me.addTarget(q);
+          me.clear(i);
+          data[q].states.forEach(s => me.addState(i, s));
+          sleep(1000).then(me.toState(i, data[q].active));
+          i++;
+        }
       });
+    }
+    getTarget(target) {
+      let index;
+      if (Number.isInteger(target)) {
+        index = target;
+        target = this.state.targets[index]
+      } else {
+        index = this.state.targets.indexOf(target);
+      }
+      return { index: index, target: target };
     }
     static prettyJSON(json) {
       json = JSON.stringify(json, null, 4);
