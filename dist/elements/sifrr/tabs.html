@@ -1,0 +1,339 @@
+<template>
+  <style media="screen">
+    :host {
+      line-height: 24px;
+      overflow: hidden;
+      width: 100%;
+      display: block;
+      position: relative;
+      border: 1px solid rgba(0, 0, 0, 0.1);
+    }
+
+    .headings {
+      width: 100%;
+      overflow-y: hidden;
+      overflow-x: auto;
+      position: relative;
+      background: green;
+      box-shadow: 0 3px 5px rgba(0, 0, 0, 0.3);
+    }
+
+    .headings ul {
+      padding: 0 0 3px;
+      margin: 0;
+      font-size: 0;
+    }
+
+    .headings *::slotted(li) {
+      font-size: 16px;
+      display: inline-block;
+      text-align: center;
+      padding: 8px;
+      text-decoration: none;
+      list-style: none;
+      color: white;
+      border-bottom: 2px solid transparent;
+      opacity: 0.9;
+      cursor: pointer;
+      box-sizing: border-box;
+    }
+
+    .headings *::slotted(li.active) {
+      opacity: 1;
+    }
+
+    .headings *::slotted(li:hover) {
+      opacity: 1;
+      box-shadow: 0 3px 0 rgba(255, 255, 255, 0.8);
+    }
+
+    .headings .underline {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      height: 3px;
+      background: white;
+    }
+
+    .arrow {
+      position: absolute;
+      z-index: 5;
+      top: 0;
+      bottom: 0;
+      width: 40px;
+    }
+
+    .arrow > * {
+      position: absolute;
+      width: 30px;
+      height: 30px;
+      top: 50%;
+    }
+
+    .arrow img {
+      filter: drop-shadow(-1px -1px 3px #000);
+    }
+
+    .arrow.l {
+      left: 0;
+    }
+
+    .arrow.l img {
+      left: 0;
+      transform: translateY(-50%) rotate(90deg);
+    }
+
+    .arrow.r {
+      right: 0;
+    }
+
+    .arrow.r img {
+      right: 0;
+      transform: translateY(-50%) rotate(-90deg);
+    }
+
+    .content {
+      width: 100%;
+      height: 100%;
+      overflow-x: auto;
+      overflow-y: hidden;
+      margin: 0;
+      padding-bottom: 8px;
+      line-height: normal;
+      box-sizing: border-box;
+    }
+
+    .content .tabs {
+      min-height: 1px;
+    }
+
+    .content *::slotted([slot="tab"]) {
+      float: left;
+      max-height: 100%;
+      width: 100%;
+      height: 100%;
+      overflow-x: hidden;
+      overflow-y: auto;
+      vertical-align: top;
+      padding: 8px;
+      box-sizing: border-box;
+    }
+  </style>
+  <div class="headings">
+    <ul>
+      <slot name="heading">
+      </slot>
+    </ul>
+    <div class="underline"></div>
+  </div>
+  <div class="arrow l">
+    <img src="./down.svg" class="fit" alt="\/" />
+  </div>
+  <div class="arrow r">
+    <img src="./down.svg" class="fit" alt="\/" />
+  </div>
+  <div class="content">
+    <div class="tabs">
+      <slot name="tab">
+      </slot>
+    </div>
+  </div>
+</template>
+<script>
+  function removeExceptOne(elems, classN, index) {
+    for (let j = 0; j < elems.length; j++) {
+      j !== index && elems[j] !== index ? elems[j].classList.remove(classN) : elems[j].classList.add(classN);
+    }
+  }
+
+  //Simple tabs
+  class SifrrTabs extends Sifrr.Dom.Element {
+    onConnect() {
+      this.options = {
+        menu: this.qs(".headings ul"),
+        content: this.qs(".content"),
+        tabcontainer: this.qs(".tabs"),
+        menus: this.qs('slot[name=heading]').assignedNodes(),
+        tabs: this.qs('slot[name=tab]').assignedNodes(),
+        la: this.qs(".arrow.l"),
+        ra: this.qs(".arrow.r"),
+        line: this.qs(".underline"),
+        num: 1,
+        showArrows: false,
+        showMenu: true,
+        step: 1,
+        tabHeight: 'auto'
+      }
+      if (this.getAttribute('options')) Object.assign(this.options, JSON.parse(this.getAttribute('options')));
+      this.animations = this.animations();
+      this.setWindowResizeEvent();
+      this.setClickEvents();
+      this.setSlotChangeEvent();
+      this.refresh();
+    }
+    refresh(params = {}){
+      Object.assign(this.options, params);
+      if (!this.options.tabs || this.options.tabs.length < 1) return;
+      this.width = this.options.showArrows ? (this.offsetWidth - 80) / this.options.num : this.offsetWidth;
+      this.setProps();
+      this.active = params.active || this.active || 0;
+    }
+    get active(){
+      return this._active;
+    }
+    set active(i){
+      i = this.getTabNumber(i);
+      this._active = i;
+      this.animate(this.options.content, 'scrollLeft', i * this.width, 300);
+      removeExceptOne(this.options.tabs, 'active', i);
+      removeExceptOne(this.options.tabs, 'prev', this.getTabNumber(i - 1));
+      removeExceptOne(this.options.tabs, 'next', this.getTabNumber(i + 1));
+      removeExceptOne(this.options.menus, 'active', i);
+      removeExceptOne(this.options.menus, 'prev', this.getTabNumber(i - 1));
+      removeExceptOne(this.options.menus, 'next', this.getTabNumber(i + 1));
+      if (this.options.showArrows){
+        this.options.la.style.display = this.hasPrev() ? "block" : "none";
+        this.options.ra.style.display = this.hasNext() ? "block" : "none";
+      }
+    }
+    next(){
+      if (this.hasNext()) {
+        this.active = this._active + this.options.step;
+      }
+    }
+    hasNext(){
+      if (this.active == this.options.tabs.length - this.options.num){
+        return false;
+      }
+      return true;
+    }
+    prev(){
+      if (this.hasPrev()) {
+        this.active = this._active - this.options.step;
+      }
+    }
+    hasPrev(){
+      if (this.active == 0){
+        return false;
+      }
+      return true;
+    }
+    getTabNumber(i){
+      let l = this.options.tabs.length - this.options.num + 1;
+      return i < 0 ? i + l : i % l;
+    }
+    setProps(){
+      if (this.options.showArrows){
+        this.options.tabcontainer.style.width = this.options.tabs.length * this.width + 40 + 'px';
+        this.options.content.style.padding = `0 40px`;
+      } else {
+        this.options.tabcontainer.style.width = this.options.tabs.length * this.width + 'px';
+        this.options.line.style.width = this.options.menus[0].offsetWidth + 'px';
+        if (this.options.la) this.options.la.style.display = 'none';
+        if (this.options.ra) this.options.ra.style.display = 'none';
+      }
+      if (this.options.showMenu) {
+        this.setMenuProps();
+      } else {
+        if (this.options.menu) this.options.menu.style.display = 'none';
+      }
+      this.options.tabcontainer.style.height = this.options.tabHeight;
+      this.setScrollEvent();
+      Array.from(this.options.tabs).forEach(e => e.style.width = this.width + 'px');
+    }
+    setMenuProps(){
+      const me = this;
+      let left = 0;
+      this.options.menuProps = {};
+      Array.from(this.options.menus).forEach((elem, i) => {
+        this.options.menuProps[i] = {
+          width: elem.offsetWidth,
+          left: left
+        }
+        left += elem.offsetWidth;
+        elem.$click = () => me.active = i;
+      });
+      const last = this.options.menuProps[this.options.menus.length - 1], active = this.options.menuProps[this.active];
+      this.options.menu.style.width = last.left + last.width + 5 + 'px';
+      if (active) {
+        me.options.line.style.left = active.left + 'px';
+        me.options.line.style.width = active.width + 'px';
+      }
+    }
+    setClickEvents(){
+      let me = this;
+      if (this.options.la) {
+        this.options.la.$click = () => me.prev();
+      }
+      if (this.options.ra) {
+        this.options.ra.$click = () => me.next();
+      }
+    }
+    setScrollEvent(){
+      let me = this, isScrolling;
+      me.options.content.onscroll = () => requestAnimationFrame(onScroll);
+      function onScroll(){
+        const per = (me.options.content.scrollLeft % me.width) / me.width;
+        const t = Math.floor(me.options.content.scrollLeft / me.width);
+        if (me.options.showMenu) {
+          try {
+            const left = me.options.menuProps[t].left * (1 - per) + me.options.menuProps[t + 1].left * per;
+            const width = me.options.menuProps[t].width * (1 - per) + me.options.menuProps[t + 1].width * per;
+            me.options.line.style.left = left + 'px';
+            me.options.line.style.width = width + 'px';
+            me.options.menu.parentElement.scrollLeft = left - (me.width - width) / 2;
+          } catch(e) {}
+        }
+        clearTimeout(isScrolling);
+      	isScrolling = setTimeout(function() {
+          if (per >= 0.50) {
+            me.active = t + 1;
+          } else {
+            me.active = t;
+          }
+      	}, 66);
+      }
+    }
+    setWindowResizeEvent(){
+      const me = this;
+      window.addEventListener("resize", function(){
+        me.refresh();
+      });
+    }
+    setSlotChangeEvent() {
+      const me = this;
+      this.qsAll('slot')[0].addEventListener('slotchange', function(event) {
+        me.options.menus = me.qsAll('slot')[0].assignedNodes();
+        me.refresh();
+      });
+      this.qsAll('slot')[1].addEventListener('slotchange', function(event) {
+        me.options.tabs = me.qsAll('slot')[1].assignedNodes();
+        me.refresh();
+      });
+    }
+    animate(who, what, to, time, type = 'easeOut'){
+      const from = who[what];
+      const diff = to - from;
+      const step = 1 / Math.round(time / 16) * diff;
+      const me = this;
+      let pos = 0, raf, startTime = performance.now();
+      function frame(currentTime){
+        if (currentTime - startTime > time) {
+          who[what] = to;
+          return;
+        }
+        let percent = (currentTime - startTime) / time;
+        who[what] = Math.round(me.animations[type].call(this, percent) * diff + from);
+        requestAnimationFrame(frame);
+      }
+      requestAnimationFrame(frame);
+    }
+    animations(){
+      return {
+        linear: i => i,
+        easeOut: i => i * (2 - i)
+      }
+    }
+  }
+  Sifrr.Dom.register(SifrrTabs);
+</script>

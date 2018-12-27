@@ -116,7 +116,7 @@
 
   </div>
   <sifrr-tabs options='{"tabHeight": "calc(100vh - 150px)"}' data-sifrr-html="true">
-    ${this.state.queries.join('')}
+    ${this.headingHtml()}
     ${this.stateHtml()}
   </sifrr-tabs>
   <input id="addTargetInput" type="text" name="addTargetInput" value="" placeholder="Enter query string of target">
@@ -166,6 +166,9 @@
         me.addState(target, target.state);
       }
     }
+    onStateChange() {
+      this.qs('sifrr-tabs').refresh && this.qs('sifrr-tabs').refresh();
+    }
     showHide() {
       this.classList.contains('show') ? this.classList.remove('show') : this.classList.add('show');
     }
@@ -174,10 +177,13 @@
         this.addTarget();
       }
     }
+    headingHtml() {
+      return this.state.queries.map((q) => `<li slot="heading">${q}</li>`).join('');
+    }
     stateHtml() {
       let me = this;
       return this.state.states.map((s, i) =>
-        `<div data-target="${i}" class="tab" slot="tabs">
+        `<div data-target="${i}" slot="tab">
         <button class="btn3 commit" type="button" name="commit">Commit</button>
         <button class="btn3 reset" type="button" name="reset">Reset</button>
         <button class="btn3 remove" type="button" name="remove">Remove</button>
@@ -188,7 +194,8 @@
                              </div>`).join('')}</div>`
       ).join('');
     }
-    addTarget(query = this.qs('#addTargetInput').value) {
+    addTarget(query) {
+      if (typeof query !== 'string') query = this.qs('#addTargetInput').value;
       const target = window.document.querySelector(query);
       if (!target || !target.state) {
         console.log("Invalid Sifrr Element.", target);
@@ -340,5 +347,6 @@
   function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
+  Sifrr.Dom.load('sifrr-tabs');
   Sifrr.Dom.register(SifrrStater);
 </script>
