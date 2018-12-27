@@ -7,6 +7,7 @@
       display: block;
       position: relative;
       border: 1px solid rgba(0, 0, 0, 0.1);
+      border-radius: 5px;
     }
 
     .headings {
@@ -14,8 +15,8 @@
       overflow-y: hidden;
       overflow-x: auto;
       position: relative;
-      background: green;
-      box-shadow: 0 3px 5px rgba(0, 0, 0, 0.3);
+      background: #714cfe;
+      box-shadow: 0 2px 3px rgba(0, 0, 0, 0.2);
     }
 
     .headings ul {
@@ -44,7 +45,7 @@
 
     .headings *::slotted(li:hover) {
       opacity: 1;
-      box-shadow: 0 3px 0 rgba(255, 255, 255, 0.8);
+      box-shadow: 0 3px 0 rgba(255, 255, 255, 0.3);
     }
 
     .headings .underline {
@@ -60,17 +61,19 @@
       z-index: 5;
       top: 0;
       bottom: 0;
-      width: 40px;
+      width: 20px;
     }
 
     .arrow > * {
       position: absolute;
-      width: 30px;
-      height: 30px;
+      width: 8px;
+      height: 8px;
+      margin: -6px 5px;
       top: 50%;
-    }
-
-    .arrow img {
+      border: solid white;
+      border-width: 0 3px 3px 0;
+      display: inline-block;
+      padding: 3px;
       filter: drop-shadow(-1px -1px 3px #000);
     }
 
@@ -78,18 +81,18 @@
       left: 0;
     }
 
-    .arrow.l img {
+    .arrow.l > * {
       left: 0;
-      transform: translateY(-50%) rotate(90deg);
+      transform: rotate(135deg);
     }
 
     .arrow.r {
       right: 0;
     }
 
-    .arrow.r img {
+    .arrow.r > * {
       right: 0;
-      transform: translateY(-50%) rotate(-90deg);
+      transform: rotate(-45deg);
     }
 
     .content {
@@ -126,13 +129,13 @@
     </ul>
     <div class="underline"></div>
   </div>
-  <div class="arrow l">
-    <img src="./down.svg" class="fit" alt="\/" />
-  </div>
-  <div class="arrow r">
-    <img src="./down.svg" class="fit" alt="\/" />
-  </div>
   <div class="content">
+    <div class="arrow l">
+      <span></span>
+    </div>
+    <div class="arrow r">
+      <span></span>
+    </div>
     <div class="tabs">
       <slot name="tab">
       </slot>
@@ -159,10 +162,11 @@
         ra: this.qs(".arrow.r"),
         line: this.qs(".underline"),
         num: 1,
-        showArrows: false,
-        showMenu: true,
+        showArrows: true,
+        showMenu: false,
         step: 1,
-        tabHeight: 'auto'
+        tabHeight: 'auto',
+        loop: true
       }
       if (this.getAttribute('options')) Object.assign(this.options, JSON.parse(this.getAttribute('options')));
       this.animations = this.animations();
@@ -174,16 +178,18 @@
     refresh(params = {}){
       Object.assign(this.options, params);
       if (!this.options.tabs || this.options.tabs.length < 1) return;
-      this.width = this.options.showArrows ? (this.offsetWidth - 80) / this.options.num : this.offsetWidth;
+      this.width = this.offsetWidth / this.options.num;
       this.setProps();
       this.active = params.active || this.active || 0;
     }
     get active(){
-      return this._active;
+      return this.state.active;
     }
     set active(i){
       i = this.getTabNumber(i);
-      this._active = i;
+      if (i + this.options.num == this.options.tabs.length) i = this.options.tabs.length - this.options.num;
+      if (i == this.state.active) return;
+      this.state.active = i;
       this.animate(this.options.content, 'scrollLeft', i * this.width, 300);
       removeExceptOne(this.options.tabs, 'active', i);
       removeExceptOne(this.options.tabs, 'prev', this.getTabNumber(i - 1));
@@ -192,46 +198,37 @@
       removeExceptOne(this.options.menus, 'prev', this.getTabNumber(i - 1));
       removeExceptOne(this.options.menus, 'next', this.getTabNumber(i + 1));
       if (this.options.showArrows){
-        this.options.la.style.display = this.hasPrev() ? "block" : "none";
-        this.options.ra.style.display = this.hasNext() ? "block" : "none";
+        this.options.la.style.display = this.hasPrev() || this.options.loop ? "block" : "none";
+        this.options.ra.style.display = this.hasNext() || this.options.loop ? "block" : "none";
       }
     }
     next(){
-      if (this.hasNext()) {
-        this.active = this._active + this.options.step;
-      }
+      this.active = this.state.active + this.options.step;
     }
     hasNext(){
-      if (this.active == this.options.tabs.length - this.options.num){
-        return false;
-      }
+      if (this.active === this.options.tabs.length - this.options.num) return false;
       return true;
     }
     prev(){
-      if (this.hasPrev()) {
-        this.active = this._active - this.options.step;
-      }
+      this.active = this.state.active - this.options.step;
     }
     hasPrev(){
-      if (this.active == 0){
-        return false;
-      }
+      if (this.active === 0) return false;
       return true;
     }
     getTabNumber(i){
-      let l = this.options.tabs.length - this.options.num + 1;
-      return i < 0 ? i + l : i % l;
+      const l = this.options.tabs.length;
+      i = i < 0 ? i + l : i % l
+      return i;
     }
     setProps(){
-      if (this.options.showArrows){
-        this.options.tabcontainer.style.width = this.options.tabs.length * this.width + 40 + 'px';
-        this.options.content.style.padding = `0 40px`;
-      } else {
-        this.options.tabcontainer.style.width = this.options.tabs.length * this.width + 'px';
-        this.options.line.style.width = this.options.menus[0].offsetWidth + 'px';
+      const me = this;
+      if (!this.options.showArrows){
         if (this.options.la) this.options.la.style.display = 'none';
         if (this.options.ra) this.options.ra.style.display = 'none';
       }
+      this.options.tabcontainer.style.width = this.options.tabs.length * this.width + 'px';
+      this.options.line.style.width = this.options.menus[0].offsetWidth + 'px';
       if (this.options.showMenu) {
         this.setMenuProps();
       } else {

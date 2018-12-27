@@ -101,6 +101,10 @@
     .number, .null, .boolean {
       color: blue;
     }
+    footer {
+      position: absolute;
+      bottom: 0;
+    }
     input {
       margin: 3px;
       width: calc(100% - 6px);
@@ -112,20 +116,20 @@
       padding: 3px;
     }
   </style>
-  <div id="showHide">
-
-  </div>
-  <sifrr-tabs options='{"tabHeight": "calc(100vh - 150px)"}' data-sifrr-html="true">
+  <div id="showHide"></div>
+  <sifrr-tabs options='{"tabHeight": "calc(100vh - 132px)", "showArrows": true}' data-sifrr-html="true">
     ${this.headingHtml()}
     ${this.stateHtml()}
   </sifrr-tabs>
-  <input id="addTargetInput" type="text" name="addTargetInput" value="" placeholder="Enter query string of target">
-  <button id="addTarget" class="btn3" type="button" name="addTargetButton">Add Taget</button>
-  <button id="commitAll" class="btn3" type="button" name="commitAll">Commit All</button>
-  <button id="resetAllToFirstState" class="btn3" type="button" name="resetAll">Reset All</button>
-  <button id="saveData" class="btn3" type="button" name="saveData">Save Data</button>
-  <button id="loadData" class="btn3" type="button" name="loadData">Load Data</button>
-  <button id="clearAll" class="btn3" type="button" name="clearAll">Clear All</button>
+  <footer>
+    <input id="addTargetInput" type="text" name="addTargetInput" value="" placeholder="Enter query string of target">
+    <button id="addTarget" class="btn3" type="button" name="addTargetButton">Add Taget</button>
+    <button id="commitAll" class="btn3" type="button" name="commitAll">Commit All</button>
+    <button id="resetAllToFirstState" class="btn3" type="button" name="resetAll">Reset All</button>
+    <button id="saveData" class="btn3" type="button" name="saveData">Save Data</button>
+    <button id="loadData" class="btn3" type="button" name="loadData">Load Data</button>
+    <button id="clearAll" class="btn3" type="button" name="clearAll">Clear All</button>
+  </footer>
 </template>
 <script type="text/javascript">
   Sifrr.Dom.Event.add('click');
