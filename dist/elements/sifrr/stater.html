@@ -115,10 +115,10 @@
   <div id="showHide">
 
   </div>
-  <simple-tabs options='{"tabHeight": "calc(100vh - 150px)"}' data-sifrr-html="true">
+  <sifrr-tabs options='{"tabHeight": "calc(100vh - 150px)"}' data-sifrr-html="true">
     ${this.state.queries.join('')}
     ${this.stateHtml()}
-  </simple-tabs>
+  </sifrr-tabs>
   <input id="addTargetInput" type="text" name="addTargetInput" value="" placeholder="Enter query string of target">
   <button id="addTarget" class="btn3" type="button" name="addTargetButton">Add Taget</button>
   <button id="commitAll" class="btn3" type="button" name="commitAll">Commit All</button>
@@ -280,10 +280,9 @@
       } else {
         index = this.state.targets.indexOf(target);
       }
-      target.state = this.state.states[index][n];
       const active = this.state.activeStates[index];
-      if (remove) this.state.states[index].splice(active, 1);
       this.state.activeStates[index] = n;
+      target.state = this.state.states[index][n];
       this.updateState();
     }
     resetToFirstState(target) {
