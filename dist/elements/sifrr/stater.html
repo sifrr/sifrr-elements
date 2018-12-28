@@ -117,7 +117,7 @@
     }
   </style>
   <div id="showHide"></div>
-  <sifrr-tabs options='{"tabHeight": "calc(100vh - 132px)", "showArrows": true}' data-sifrr-html="true">
+  <sifrr-tabs options='{"tabHeight": "calc(100vh - 132px)"}' data-sifrr-html="true">
     ${this.headingHtml()}
     ${this.stateHtml()}
   </sifrr-tabs>
@@ -308,7 +308,7 @@
           me.addTarget(q);
           me.clear(i);
           data[q].states.forEach(s => me.addState(i, s));
-          sleep(1000).then(me.toState(i, data[q].active));
+          me.toState(i, data[q].active);
           i++;
         }
       });
