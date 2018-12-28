@@ -7,7 +7,13 @@
       *:not(:defined) * {
         display: none;
       }
-      *:not(:defined)::before {
+      *:not(:defined) .spinner {
+        display: block;
+      }
+      .spinner {
+        display: none;
+      }
+      .spinner::before {
         content: " ";
         display: block !important;
         width: 24px;
@@ -31,6 +37,8 @@
   <body>
     <h1>OK</h1>
     <sifrr-tabs>
+      <div class="spinner">
+      </div>
       <!-- Heading should be li and have slot='heading' -->
       <li slot='heading'>Heading 1</li>
       <li slot='heading'>Heading 2</li>
@@ -42,7 +50,10 @@
         Tab 2
       </div>
     </sifrr-tabs>
-    <sifrr-test></sifrr-test>
+    <sifrr-test>
+      <div class="spinner">
+      </div>
+    </sifrr-test>
     <sifrr-stater></sifrr-stater>
     <script src="index.bundled.js" charset="utf-8"></script>
   </body>
