@@ -1,6 +1,7 @@
 <template>
   <style media="screen">
     :host {
+      /* CSS for tabs container */
       line-height: 24px;
       overflow: hidden;
       width: 100%;
@@ -11,6 +12,7 @@
     }
 
     .headings {
+      /* CSS for heading bar */
       width: 100%;
       overflow-y: hidden;
       overflow-x: auto;
@@ -25,6 +27,7 @@
       font-size: 0;
     }
 
+    /* CSS for heading text li */
     .headings *::slotted(li) {
       font-size: 16px;
       display: inline-block;
@@ -48,6 +51,7 @@
       box-shadow: 0 3px 0 rgba(255, 255, 255, 0.3);
     }
 
+    /* CSS for line under active tab heading */
     .headings .underline {
       position: absolute;
       bottom: 0;
@@ -56,6 +60,7 @@
       background: white;
     }
 
+    /* Arrows css */
     .arrow {
       position: absolute;
       z-index: 5;
@@ -95,6 +100,7 @@
       transform: rotate(-45deg);
     }
 
+    /* Tab content css */
     .content {
       width: 100%;
       height: 100%;
@@ -197,6 +203,7 @@
         this.state = { active: i };
         return;
       }
+      // 300 is time to change slide in ms
       this.animate(this.options.content, 'scrollLeft', i * this.width, 300);
       removeExceptOne(this.options.tabs, 'active', i);
       removeExceptOne(this.options.tabs, 'prev', this.getTabNumber(i - 1));
@@ -328,9 +335,9 @@
         }
         let percent = (currentTime - startTime) / time;
         who[what] = Math.round(me.animations[type].call(this, percent) * diff + from);
-        requestAnimationFrame(frame);
+        window.requestAnimationFrame(frame);
       }
-      requestAnimationFrame(frame);
+      window.requestAnimationFrame(frame);
     }
     animations(){
       return {

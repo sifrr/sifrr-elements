@@ -122,13 +122,13 @@
     ${this.stateHtml()}
   </sifrr-tabs>
   <footer>
-    <input id="addTargetInput" type="text" name="addTargetInput" value="" placeholder="Enter query string of target">
+    <input id="addTargetInput" type="text" name="addTargetInput" value="" placeholder="Enter css selector query of target">
     <button id="addTarget" class="btn3" type="button" name="addTargetButton">Add Taget</button>
     <button id="commitAll" class="btn3" type="button" name="commitAll">Commit All</button>
     <button id="resetAllToFirstState" class="btn3" type="button" name="resetAll">Reset All</button>
     <button id="saveData" class="btn3" type="button" name="saveData">Save Data</button>
     <button id="loadData" class="btn3" type="button" name="loadData">Load Data</button>
-    <button id="clearAll" class="btn3" type="button" name="clearAll">Clear All</button>
+    <button id="clearAll" class="btn3" type="button" name="clearAll">Remove All</button>
   </footer>
 </template>
 <script type="text/javascript">
@@ -136,7 +136,7 @@
   class SifrrStater extends Sifrr.Dom.Element {
     onConnect() {
       let me = this;
-      this.storage = new Sifrr.Storage({ name: 'STATER' });
+      this.storage = new Sifrr.Storage({ name: window.location.href });
       this.qs('#showHide').$click = this.showHide.bind(this);
       this.qs('#addTargetInput').onkeyup = this.addTargetOnEnter.bind(this);
       this.qs('#addTarget').$click = this.addTarget.bind(this);

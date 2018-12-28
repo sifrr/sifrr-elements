@@ -31,12 +31,16 @@
   <body>
     <h1>OK</h1>
     <sifrr-tabs>
-      <li slot="heading">First</li>
-      <li slot="heading">Second longggggggg name hahahah</li>
-      <li slot="heading">3</li>
-      <div slot="tab">First</div>
-      <div slot="tab">Second One</div>
-      <div slot="tab">3</div>
+      <!-- Heading should be li and have slot='heading' -->
+      <li slot='heading'>Heading 1</li>
+      <li slot='heading'>Heading 2</li>
+      <!-- Tabs should have slot='tab' -->
+      <div slot='tab'>
+        Tab 1
+      </div>
+      <div slot='tab'>
+        Tab 2
+      </div>
     </sifrr-tabs>
     <sifrr-test></sifrr-test>
     <sifrr-stater></sifrr-stater>
