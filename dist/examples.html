@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <style media="screen">
+      *:not(:defined) * {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Sifrr Element Examples</h1>
+    <h2>Sifrr-Tabs with menu and content</h2>
+    <xmp>
+      <sifrr-tabs>
+        <li slot='heading'>Heading 1</li>
+        <li slot='heading'>Heading 2 - very longggggggg</li>
+        <div slot='tab'>
+          Tab 1
+        </div>
+        <div slot='tab'>
+          Tab 2
+        </div>
+      </sifrr-tabs>
+    </xmp>
+    <sifrr-tabs>
+      <li slot='heading'>Heading 1</li>
+      <li slot='heading'>Heading 2 - very longggggggg</li>
+      <div slot='tab'>
+        Tab 1
+      </div>
+      <div slot='tab'>
+        Tab 2
+      </div>
+    </sifrr-tabs>
+    <h2>Sifrr-Tabs without menu, with arrows</h2>
+    <xmp>
+      <sifrr-tabs options='{ "showMenu": false, "showArrows": true }'>
+        <div slot='tab'>
+          Tab 1
+        </div>
+        <div slot='tab'>
+          Tab 2
+        </div>
+      </sifrr-tabs>
+    </xmp>
+    <sifrr-tabs options='{ "showMenu": false, "showArrows": true }'>
+      <div slot='tab'>
+        Tab 1
+      </div>
+      <div slot='tab'>
+        Tab 2
+      </div>
+    </sifrr-tabs>
+    <h2>Sifrr-Tabs without menu, with arrows, looped</h2>
+    <xmp>
+      <sifrr-tabs options='{ "showMenu": false, "showArrows": true, "loop": true }'>
+        <div slot='tab'>
+          Tab 1
+        </div>
+        <div slot='tab'>
+          Tab 2
+        </div>
+      </sifrr-tabs>
+    </xmp>
+    <sifrr-tabs options='{ "showMenu": false, "showArrows": true, "loop": true }'>
+      <div slot='tab'>
+        Tab 1
+      </div>
+      <div slot='tab'>
+        Tab 2
+      </div>
+    </sifrr-tabs>
+    <h2>Sifrr-Tabs without multiple tabs in view</h2>
+    <xmp>
+      <sifrr-tabs options='{ "showMenu": false, "showArrows": true, "num": 3 }'>
+        <div slot='tab'>
+          Tab 1
+        </div>
+        <div slot='tab'>
+          Tab 2
+        </div>
+        <div slot='tab'>
+          Tab 3
+        </div>
+        <div slot='tab'>
+          Tab 4
+        </div>
+        <div slot='tab'>
+          Tab 5
+        </div>
+        <div slot='tab'>
+          Tab 6
+        </div>
+      </sifrr-tabs>
+    </xmp>
+    <sifrr-tabs options='{ "showMenu": false, "showArrows": true, "num": 3 }'>
+      <div slot='tab'>
+        Tab 1
+      </div>
+      <div slot='tab'>
+        Tab 2
+      </div>
+      <div slot='tab'>
+        Tab 3
+      </div>
+      <div slot='tab'>
+        Tab 4
+      </div>
+      <div slot='tab'>
+        Tab 5
+      </div>
+      <div slot='tab'>
+        Tab 6
+      </div>
+    </sifrr-tabs>
+    <h2>Sifrr-Tabs without multiple tabs in view, looped, and arrow steps more than 1</h2>
+    <xmp>
+      <sifrr-tabs options='{ "showMenu": false, "showArrows": true, "num": 3, "loop": true, "step": 3 }'>
+        <div slot='tab'>
+          Tab 1
+        </div>
+        <div slot='tab'>
+          Tab 2
+        </div>
+        <div slot='tab'>
+          Tab 3
+        </div>
+        <div slot='tab'>
+          Tab 4
+        </div>
+        <div slot='tab'>
+          Tab 5
+        </div>
+        <div slot='tab'>
+          Tab 6
+        </div>
+      </sifrr-tabs>
+    </xmp>
+    <sifrr-tabs options='{ "showMenu": false, "showArrows": true, "num": 3, "loop": true, "step": 3 }'>
+      <div slot='tab'>
+        Tab 1
+      </div>
+      <div slot='tab'>
+        Tab 2
+      </div>
+      <div slot='tab'>
+        Tab 3
+      </div>
+      <div slot='tab'>
+        Tab 4
+      </div>
+      <div slot='tab'>
+        Tab 5
+      </div>
+      <div slot='tab'>
+        Tab 6
+      </div>
+    </sifrr-tabs>
+    <h2>Sifrr-Tabs with pre defined tab height</h2>
+    <xmp>
+      <sifrr-tabs options='{ "tabHeight": "100px" }'>
+        <li slot='heading'>Heading 1</li>
+        <li slot='heading'>Heading 2</li>
+        <div slot='tab'>
+          Tab 1
+        </div>
+        <div slot='tab'>
+          Tab 2
+        </div>
+      </sifrr-tabs>
+    </xmp>
+    <sifrr-tabs options='{ "tabHeight": "100px" }'>
+      <li slot='heading'>Heading 1</li>
+      <li slot='heading'>Heading 2</li>
+      <div slot='tab'>
+        Tab 1
+      </div>
+      <div slot='tab'>
+        Tab 2
+      </div>
+    </sifrr-tabs>
+    <h2>Sifrr-Tabs with no animation</h2>
+    <xmp>
+      <sifrr-tabs options='{ "animation": "none" }'>
+        <li slot='heading'>Heading 1</li>
+        <li slot='heading'>Heading 2</li>
+        <div slot='tab'>
+          Tab 1
+        </div>
+        <div slot='tab'>
+          Tab 2
+        </div>
+      </sifrr-tabs>
+    </xmp>
+    <sifrr-tabs options='{ "animation": "none" }'>
+      <li slot='heading'>Heading 1</li>
+      <li slot='heading'>Heading 2</li>
+      <div slot='tab'>
+        Tab 1
+      </div>
+      <div slot='tab'>
+        Tab 2
+      </div>
+    </sifrr-tabs>
+    <sifrr-stater></sifrr-stater>
+    <script src="./example.bundled.js" charset="utf-8"></script>
+  </body>
+</html>

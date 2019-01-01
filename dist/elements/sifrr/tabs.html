@@ -172,7 +172,9 @@
         showMenu: true,
         step: 1,
         tabHeight: 'auto',
-        loop: false
+        showUnderline: true,
+        loop: false,
+        animation: 'easeOut'
       }
       if (this.getAttribute('options')) Object.assign(this.options, JSON.parse(this.getAttribute('options')));
       this.animations = this.animations();
@@ -198,13 +200,16 @@
       if (!this.options) return;
       let i = this.state.active;
       i = this.getTabNumber(i);
-      if (i + this.options.num == this.options.tabs.length) i = this.options.tabs.length - this.options.num;
+      if (i + this.options.num - 1 == this.options.tabs.length) {
+        if (this.options.loop) i = 0;
+        else i = this.options.tabs.length - this.options.num;
+      }
       if (i !== this.state.active) {
         this.state = { active: i };
         return;
       }
       // 300 is time to change slide in ms
-      this.animate(this.options.content, 'scrollLeft', i * this.width, 300);
+      this.animate(this.options.content, 'scrollLeft', i * this.width, 300, this.options.animation);
       removeExceptOne(this.options.tabs, 'active', i);
       removeExceptOne(this.options.tabs, 'prev', this.getTabNumber(i - 1));
       removeExceptOne(this.options.tabs, 'next', this.getTabNumber(i + 1));
@@ -237,19 +242,22 @@
     }
     setProps(){
       const me = this;
-      if (!this.options.showArrows){
+      if (!this.options.showArrows) {
         if (this.options.la) this.options.la.style.display = 'none';
         if (this.options.ra) this.options.ra.style.display = 'none';
       }
-      this.options.tabcontainer.style.width = this.options.tabs.length * this.width + 'px';
-      this.options.line.style.width = this.options.menus[0].offsetWidth + 'px';
+      if (!this.options.showUnderline) {
+        if (this.options.line) this.options.line.style.display = 'none';
+      }
       if (this.options.showMenu) {
         this.setMenuProps();
+        this.setScrollEvent();
+        this.options.line.style.width = this.options.menus[0].offsetWidth + 'px';
       } else {
         if (this.options.menu) this.options.menu.style.display = 'none';
       }
+      this.options.tabcontainer.style.width = this.options.tabs.length * this.width + 'px';
       this.options.tabcontainer.style.height = this.options.tabHeight;
-      this.setScrollEvent();
       Array.from(this.options.tabs).forEach(e => e.style.width = this.width + 'px');
     }
     setMenuProps(){
@@ -286,15 +294,13 @@
       function onScroll(){
         const per = (me.options.content.scrollLeft % me.width) / me.width;
         const t = Math.floor(me.options.content.scrollLeft / me.width);
-        if (me.options.showMenu) {
-          try {
-            const left = me.options.menuProps[t].left * (1 - per) + me.options.menuProps[t + 1].left * per;
-            const width = me.options.menuProps[t].width * (1 - per) + me.options.menuProps[t + 1].width * per;
-            me.options.line.style.left = left + 'px';
-            me.options.line.style.width = width + 'px';
-            me.options.menu.parentElement.scrollLeft = left - (me.width - width) / 2;
-          } catch(e) {}
-        }
+        try {
+          const left = me.options.menuProps[t].left * (1 - per) + (me.options.menuProps[t + 1] || { left: 0 }).left * per;
+          const width = me.options.menuProps[t].width * (1 - per) + (me.options.menuProps[t + 1] || { width: 0 }).width * per;
+          me.options.line.style.left = left + 'px';
+          me.options.line.style.width = width + 'px';
+          me.options.menu.parentElement.scrollLeft = left - (me.width - width) / 2;
+        } catch(e) {}
         clearTimeout(isScrolling);
       	isScrolling = setTimeout(function() {
           if (per >= 0.50) {
@@ -342,7 +348,8 @@
     animations(){
       return {
         linear: i => i,
-        easeOut: i => i * (2 - i)
+        easeOut: i => i * (2 - i),
+        none: i => 1
       }
     }
   }

@@ -8,6 +8,9 @@ Elements for sifrr
 | [sifrr-stater](./elements/sifrr/stater.html) | State checker for sifrr elements, save them to storage, replay state changes, travel to past state | [![Minified + Gzipped](https://img.badgesize.io/sifrr/sifrr-elements/master/dist/elements/sifrr/stater.html?compression=gzip&maxAge=60)](./dist/elements/sifrr/stater.html) |
 | [sifrr-tabs](./elements/sifrr/tabs.html) | Android like tabs in browser | [![Minified + Gzipped](https://img.badgesize.io/sifrr/sifrr-elements/master/dist/elements/sifrr/tabs.html?compression=gzip&maxAge=60)](./dist/elements/sifrr/tabs.html) |
 
+## View examples
+Clone the repo and run `npm run examples-server` and go to http://localhost:2222
+
 ## How to use
 Copy contents of `dist/elements` to `elements` folder in your sifrr app. And use `Sifrr.Dom.load('<tag-name>')` to load that element like you do with any other sifrr element.
 
@@ -89,8 +92,10 @@ Sifrr.Dom.load('sifrr-tabs');
   num: 1, // Number of tabs to shown at once
   showArrows: false, // Show arrows or not
   showMenu: true, // Show Headings menu or not
+  showUnderline: true, // Show underline below active menu item or not
   step: 1, // Number of tabs to move when clicking arrow
   tabHeight: 'auto', // Tab height
-  loop: false // Loop when navigating using arrows
+  loop: false, // Loop when navigating using arrows
+  animation: 'easeOut' // allowed values: easeOut | linear | none
 }
 ```

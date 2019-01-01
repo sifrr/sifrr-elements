@@ -6,11 +6,11 @@ import { terser } from 'rollup-plugin-terser';
 import commonjs from 'rollup-plugin-commonjs';
 
 export default {
-  input: 'index.js',
+  input: 'example.js',
   output: {
-    file: 'index.bundled.js',
+    file: 'example.bundled.js',
     format: 'umd',
-    name: 'index',
+    name: 'example',
     sourcemap: true
   },
   plugins: [
