@@ -69,7 +69,7 @@
       width: 20px;
     }
 
-    .arrow > * {
+    .arrow>* {
       position: absolute;
       width: 8px;
       height: 8px;
@@ -86,7 +86,7 @@
       left: 0;
     }
 
-    .arrow.l > * {
+    .arrow.l>* {
       left: 0;
       transform: rotate(135deg);
     }
@@ -95,7 +95,7 @@
       right: 0;
     }
 
-    .arrow.r > * {
+    .arrow.r>* {
       right: 0;
       transform: rotate(-45deg);
     }
@@ -159,14 +159,14 @@
   class SifrrTabs extends Sifrr.Dom.Element {
     onConnect() {
       this.options = {
-        menu: this.qs(".headings ul"),
-        content: this.qs(".content"),
-        tabcontainer: this.qs(".tabs"),
-        menus: this.qs('slot[name=heading]').assignedNodes(),
-        tabs: this.qs('slot[name=tab]').assignedNodes(),
-        la: this.qs(".arrow.l"),
-        ra: this.qs(".arrow.r"),
-        line: this.qs(".underline"),
+        menu: this.$(".headings ul"),
+        content: this.$(".content"),
+        tabcontainer: this.$(".tabs"),
+        menus: this.$('slot[name=heading]').assignedNodes(),
+        tabs: this.$('slot[name=tab]').assignedNodes(),
+        la: this.$(".arrow.l"),
+        ra: this.$(".arrow.r"),
+        line: this.$(".underline"),
         num: 1,
         showArrows: false,
         showMenu: true,
@@ -183,18 +183,20 @@
       this.setSlotChangeEvent();
       this.refresh();
     }
-    refresh(params = {}){
+    refresh(params = {}) {
       Object.assign(this.options, params);
       if (!this.options.tabs || this.options.tabs.length < 1) return;
       this.width = this.offsetWidth / this.options.num;
       this.setProps();
       this.active = params.active || this.active || 0;
     }
-    get active(){
-      return this.state.active;
+    get active() {
+      return this.state ? this.state.active : 0;
     }
-    set active(i){
-      this.state = { active: i }
+    set active(i) {
+      this.state = {
+        active: i
+      };
     }
     onStateChange() {
       if (!this.options) return;
@@ -205,7 +207,9 @@
         else i = this.options.tabs.length - this.options.num;
       }
       if (i !== this.state.active) {
-        this.state = { active: i };
+        this.state = {
+          active: i
+        };
         return;
       }
       // 300 is time to change slide in ms
@@ -216,31 +220,31 @@
       removeExceptOne(this.options.menus, 'active', i);
       removeExceptOne(this.options.menus, 'prev', this.getTabNumber(i - 1));
       removeExceptOne(this.options.menus, 'next', this.getTabNumber(i + 1));
-      if (this.options.showArrows){
+      if (this.options.showArrows) {
         this.options.la.style.display = this.hasPrev() || this.options.loop ? "block" : "none";
         this.options.ra.style.display = this.hasNext() || this.options.loop ? "block" : "none";
       }
     }
-    next(){
+    next() {
       this.active = this.state.active + this.options.step;
     }
-    hasNext(){
+    hasNext() {
       if (this.active === this.options.tabs.length - this.options.num) return false;
       return true;
     }
-    prev(){
+    prev() {
       this.active = this.state.active - this.options.step;
     }
-    hasPrev(){
+    hasPrev() {
       if (this.active === 0) return false;
       return true;
     }
-    getTabNumber(i){
+    getTabNumber(i) {
       const l = this.options.tabs.length;
       i = i < 0 ? i + l : i % l
       return i;
     }
-    setProps(){
+    setProps() {
       const me = this;
       if (!this.options.showArrows) {
         if (this.options.la) this.options.la.style.display = 'none';
@@ -260,7 +264,7 @@
       this.options.tabcontainer.style.height = this.options.tabHeight;
       Array.from(this.options.tabs).forEach(e => e.style.width = this.width + 'px');
     }
-    setMenuProps(){
+    setMenuProps() {
       const me = this;
       let left = 0;
       this.options.menuProps = {};
@@ -272,14 +276,15 @@
         left += elem.offsetWidth;
         elem.$click = () => me.active = i;
       });
-      const last = this.options.menuProps[this.options.menus.length - 1], active = this.options.menuProps[this.active];
+      const last = this.options.menuProps[this.options.menus.length - 1],
+        active = this.options.menuProps[this.active];
       this.options.menu.style.width = last.left + last.width + 5 + 'px';
       if (active) {
         me.options.line.style.left = active.left + 'px';
         me.options.line.style.width = active.width + 'px';
       }
     }
-    setClickEvents(){
+    setClickEvents() {
       let me = this;
       if (this.options.la) {
         this.options.la.$click = () => me.prev();
@@ -288,53 +293,61 @@
         this.options.ra.$click = () => me.next();
       }
     }
-    setScrollEvent(){
-      let me = this, isScrolling;
+    setScrollEvent() {
+      let me = this,
+        isScrolling;
       me.options.content.onscroll = () => requestAnimationFrame(onScroll);
-      function onScroll(){
+
+      function onScroll() {
         const per = (me.options.content.scrollLeft % me.width) / me.width;
         const t = Math.floor(me.options.content.scrollLeft / me.width);
         try {
-          const left = me.options.menuProps[t].left * (1 - per) + (me.options.menuProps[t + 1] || { left: 0 }).left * per;
-          const width = me.options.menuProps[t].width * (1 - per) + (me.options.menuProps[t + 1] || { width: 0 }).width * per;
+          const left = me.options.menuProps[t].left * (1 - per) + (me.options.menuProps[t + 1] || {
+            left: 0
+          }).left * per;
+          const width = me.options.menuProps[t].width * (1 - per) + (me.options.menuProps[t + 1] || {
+            width: 0
+          }).width * per;
           me.options.line.style.left = left + 'px';
           me.options.line.style.width = width + 'px';
           me.options.menu.parentElement.scrollLeft = left - (me.width - width) / 2;
-        } catch(e) {}
+        } catch (e) {}
         clearTimeout(isScrolling);
-      	isScrolling = setTimeout(function() {
+        isScrolling = setTimeout(function() {
           if (per >= 0.50) {
             me.active = t + 1;
           } else {
             me.active = t;
           }
-      	}, 66);
+        }, 66);
       }
     }
-    setWindowResizeEvent(){
+    setWindowResizeEvent() {
       const me = this;
-      window.addEventListener("resize", function(){
+      window.addEventListener("resize", function() {
         me.refresh();
       });
     }
     setSlotChangeEvent() {
       const me = this;
-      this.qsAll('slot')[0].addEventListener('slotchange', function(event) {
-        me.options.menus = me.qsAll('slot')[0].assignedNodes();
+      this.$$('slot')[0].addEventListener('slotchange', function(event) {
+        me.options.menus = me.$$('slot')[0].assignedNodes();
         me.refresh();
       });
-      this.qsAll('slot')[1].addEventListener('slotchange', function(event) {
-        me.options.tabs = me.qsAll('slot')[1].assignedNodes();
+      this.$$('slot')[1].addEventListener('slotchange', function(event) {
+        me.options.tabs = me.$$('slot')[1].assignedNodes();
         me.refresh();
       });
     }
-    animate(who, what, to, time, type = 'easeOut'){
+    animate(who, what, to, time, type = 'easeOut') {
       const from = who[what];
       const diff = to - from;
       const step = 1 / Math.round(time / 16) * diff;
       const me = this;
-      let pos = 0, raf, startTime = performance.now();
-      function frame(currentTime){
+      let pos = 0,
+        raf, startTime = performance.now();
+
+      function frame(currentTime) {
         if (currentTime - startTime > time) {
           who[what] = to;
           return;
@@ -345,7 +358,7 @@
       }
       window.requestAnimationFrame(frame);
     }
-    animations(){
+    animations() {
       return {
         linear: i => i,
         easeOut: i => i * (2 - i),

@@ -136,15 +136,17 @@
   class SifrrStater extends Sifrr.Dom.Element {
     onConnect() {
       let me = this;
-      this.storage = new Sifrr.Storage({ name: window.location.href });
-      this.qs('#showHide').$click = this.showHide.bind(this);
-      this.qs('#addTargetInput').onkeyup = this.addTargetOnEnter.bind(this);
-      this.qs('#addTarget').$click = this.addTarget.bind(this);
-      this.qs('#commitAll').$click = this.commitAll.bind(this);
-      this.qs('#resetAllToFirstState').$click = this.resetAllToFirstState.bind(this);
-      this.qs('#saveData').$click = this.saveData.bind(this);
-      this.qs('#loadData').$click = this.loadData.bind(this);
-      this.qs('#clearAll').$click = this.clearAll.bind(this);
+      this.storage = new Sifrr.Storage({
+        name: window.location.href
+      });
+      this.$('#showHide').$click = this.showHide.bind(this);
+      this.$('#addTargetInput').onkeyup = this.addTargetOnEnter.bind(this);
+      this.$('#addTarget').$click = this.addTarget.bind(this);
+      this.$('#commitAll').$click = this.commitAll.bind(this);
+      this.$('#resetAllToFirstState').$click = this.resetAllToFirstState.bind(this);
+      this.$('#saveData').$click = this.saveData.bind(this);
+      this.$('#loadData').$click = this.loadData.bind(this);
+      this.$('#clearAll').$click = this.clearAll.bind(this);
       Sifrr.Dom.Event.addListener('click', '.state', function(e, el) {
         el.classList.contains('open') ? el.classList.remove('open') : el.classList.add('open');
       });
@@ -171,7 +173,7 @@
       }
     }
     onStateChange() {
-      this.qs('sifrr-tabs').refresh && this.qs('sifrr-tabs').refresh();
+      this.$('sifrr-tabs').refresh && this.$('sifrr-tabs').refresh();
     }
     showHide() {
       this.classList.contains('show') ? this.classList.remove('show') : this.classList.add('show');
@@ -199,7 +201,7 @@
       ).join('');
     }
     addTarget(query) {
-      if (typeof query !== 'string') query = this.qs('#addTargetInput').value;
+      if (typeof query !== 'string') query = this.$('#addTargetInput').value;
       const target = window.document.querySelector(query);
       if (!target || !target.state) {
         console.log("Invalid Sifrr Element.", target);
@@ -215,7 +217,10 @@
       this.updateState();
     }
     removeTarget(el) {
-      const { index, target } = this.getTarget(el);
+      const {
+        index,
+        target
+      } = this.getTarget(el);
       if (index > -1) {
         this.state.targets.splice(index, 1);
         this.state.queries.splice(index, 1);
@@ -225,7 +230,10 @@
       }
     }
     addState(el, state) {
-      const { index, target } = this.getTarget(el);
+      const {
+        index,
+        target
+      } = this.getTarget(el);
       if (index > -1) {
         const active = this.state.activeStates[index];
         const newState = JSON.stringify(state);
@@ -237,7 +245,10 @@
       }
     }
     deleteState(el, stateN) {
-      const { index, target } = this.getTarget(el);
+      const {
+        index,
+        target
+      } = this.getTarget(el);
       this.state.states[index].splice(stateN, 1);
       if (stateN < this.state.activeStates[index]) {
         this.state.activeStates[index] -= 1;
@@ -248,7 +259,10 @@
       this.updateState();
     }
     commit(el) {
-      const { index, target } = this.getTarget(el);
+      const {
+        index,
+        target
+      } = this.getTarget(el);
       const last_state = this.state.states[index][this.state.states[index].length - 1];
       this.state.states[index] = [last_state];
       this.state.activeStates[index] = 0;
@@ -260,14 +274,20 @@
       this.updateState();
     }
     toState(el, n) {
-      const { index, target } = this.getTarget(el);
+      const {
+        index,
+        target
+      } = this.getTarget(el);
       const active = this.state.activeStates[index];
       this.state.activeStates[index] = n;
       target.state = this.state.states[index][n];
       this.updateState();
     }
     resetToFirstState(el) {
-      const { index, target } = this.getTarget(el);
+      const {
+        index,
+        target
+      } = this.getTarget(el);
       this.toState(target, 0, false);
       this.state.states[index] = [this.state.states[index][0]];
       this.updateState();
@@ -278,7 +298,9 @@
       this.updateState();
     }
     clear(target) {
-      const { index } = this.getTarget(target);
+      const {
+        index
+      } = this.getTarget(target);
       this.state.activeStates[index] = -1;
       this.state.states[index] = [];
       this.updateState();
@@ -321,7 +343,10 @@
       } else {
         index = this.state.targets.indexOf(target);
       }
-      return { index: index, target: target };
+      return {
+        index: index,
+        target: target
+      };
     }
     static prettyJSON(json) {
       json = JSON.stringify(json, null, 4);
