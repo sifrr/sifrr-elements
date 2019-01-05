@@ -91,6 +91,7 @@ Sifrr.Dom.load('sifrr-tabs');
   // You can change these
   num: 1, // Number of tabs to shown at once
   showArrows: false, // Show arrows or not
+  arrowMargin: 0, // Margin on tabs when arrows are shown (integer)
   showMenu: true, // Show Headings menu or not
   showUnderline: true, // Show underline below active menu item or not
   step: 1, // Number of tabs to move when clicking arrow

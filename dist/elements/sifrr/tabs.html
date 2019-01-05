@@ -100,14 +100,13 @@
       transform: rotate(-45deg);
     }
 
-    /* Tab content css */
+    /* Tab container css */
     .content {
       width: 100%;
       height: 100%;
       overflow-x: auto;
       overflow-y: hidden;
       margin: 0;
-      padding-bottom: 8px;
       line-height: normal;
       box-sizing: border-box;
     }
@@ -116,6 +115,7 @@
       min-height: 1px;
     }
 
+    /* Tab element css */
     .content *::slotted([slot="tab"]) {
       float: left;
       max-height: 100%;
@@ -169,6 +169,7 @@
         line: this.$(".underline"),
         num: 1,
         showArrows: false,
+        arrowMargin: 0,
         showMenu: true,
         step: 1,
         tabHeight: 'auto',
@@ -187,6 +188,11 @@
       Object.assign(this.options, params);
       if (!this.options.tabs || this.options.tabs.length < 1) return;
       this.width = this.clientWidth / this.options.num;
+      this.margin = 0;
+      if (this.options.showArrows) {
+        this.width -= 2 * this.options.arrowMargin;
+        this.margin = this.options.arrowMargin;
+      }
       this.setProps();
       this.active = params.active || this.active || 0;
     }
@@ -213,7 +219,7 @@
         return;
       }
       // 300 is time to change slide in ms
-      this.animate(this.options.content, 'scrollLeft', i * this.width, 300, this.options.animation);
+      this.animate(this.options.content, 'scrollLeft', i * (this.width + 2 * this.margin), 300, this.options.animation);
       removeExceptOne(this.options.tabs, 'active', i);
       removeExceptOne(this.options.tabs, 'prev', this.getTabNumber(i - 1));
       removeExceptOne(this.options.tabs, 'next', this.getTabNumber(i + 1));
@@ -249,6 +255,8 @@
       if (!this.options.showArrows) {
         if (this.options.la) this.options.la.style.display = 'none';
         if (this.options.ra) this.options.ra.style.display = 'none';
+      } else {
+        Array.from(this.options.tabs).forEach(e => e.style.margin = `0 ${this.margin}px`);
       }
       if (!this.options.showUnderline) {
         if (this.options.line) this.options.line.style.display = 'none';
@@ -260,7 +268,7 @@
         if (this.options.menu) this.options.menu.style.display = 'none';
       }
       this.setScrollEvent();
-      this.options.tabcontainer.style.width = this.options.tabs.length * this.width + 'px';
+      this.options.tabcontainer.style.width = this.options.tabs.length * (this.width + 2 * this.margin) + 'px';
       this.options.tabcontainer.style.height = this.options.tabHeight;
       Array.from(this.options.tabs).forEach(e => e.style.width = this.width + 'px');
     }
