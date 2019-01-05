@@ -7,6 +7,9 @@
       *:not(:defined) * {
         display: none;
       }
+      [slot=tab] {
+        border: 1px solid red;
+      }
     </style>
   </head>
   <body>
@@ -72,7 +75,7 @@
         Tab 2
       </div>
     </sifrr-tabs>
-    <h2>Sifrr-Tabs without multiple tabs in view</h2>
+    <h2>Sifrr-Tabs without multiple tabs (integer) in view</h2>
     <xmp>
       <sifrr-tabs options='{ "showMenu": false, "showArrows": true, "num": 3 }'>
         <div slot='tab'>

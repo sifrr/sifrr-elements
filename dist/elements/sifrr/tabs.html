@@ -186,7 +186,7 @@
     refresh(params = {}) {
       Object.assign(this.options, params);
       if (!this.options.tabs || this.options.tabs.length < 1) return;
-      this.width = this.offsetWidth / this.options.num;
+      this.width = this.clientWidth / this.options.num;
       this.setProps();
       this.active = params.active || this.active || 0;
     }
@@ -255,11 +255,11 @@
       }
       if (this.options.showMenu) {
         this.setMenuProps();
-        this.setScrollEvent();
         this.options.line.style.width = this.options.menus[0].offsetWidth + 'px';
       } else {
         if (this.options.menu) this.options.menu.style.display = 'none';
       }
+      this.setScrollEvent();
       this.options.tabcontainer.style.width = this.options.tabs.length * this.width + 'px';
       this.options.tabcontainer.style.height = this.options.tabHeight;
       Array.from(this.options.tabs).forEach(e => e.style.width = this.width + 'px');
