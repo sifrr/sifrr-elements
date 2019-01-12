@@ -1,5 +1,6 @@
 window.Sifrr = window.Sifrr || {};
 window.Sifrr.Dom = require('@sifrr/dom');
+window.Sifrr.Fetch = require('@sifrr/fetch');
 window.Sifrr.Storage = require('@sifrr/storage');
 
 const Sifrr = window.Sifrr;

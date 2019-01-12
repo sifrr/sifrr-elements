@@ -48,7 +48,6 @@
 
     .headings *::slotted(li:hover) {
       opacity: 1;
-      box-shadow: 0 3px 0 rgba(255, 255, 255, 0.3);
     }
 
     /* CSS for line under active tab heading */
@@ -175,7 +174,8 @@
         tabHeight: 'auto',
         showUnderline: true,
         loop: false,
-        animation: 'easeOut'
+        animation: 'easeOut',
+        animationTime: 150
       }
       if (this.getAttribute('options')) Object.assign(this.options, JSON.parse(this.getAttribute('options')));
       this.animations = this.animations();
@@ -218,8 +218,7 @@
         };
         return;
       }
-      // 300 is time to change slide in ms
-      this.animate(this.options.content, 'scrollLeft', i * (this.width + 2 * this.margin), 300, this.options.animation);
+      this.animate(this.options.content, 'scrollLeft', i * (this.width + 2 * this.margin), this.options.animationTime, this.options.animation);
       removeExceptOne(this.options.tabs, 'active', i);
       removeExceptOne(this.options.tabs, 'prev', this.getTabNumber(i - 1));
       removeExceptOne(this.options.tabs, 'next', this.getTabNumber(i + 1));
@@ -294,21 +293,17 @@
     }
     setClickEvents() {
       let me = this;
-      if (this.options.la) {
-        this.options.la.$click = () => me.prev();
-      }
-      if (this.options.ra) {
-        this.options.ra.$click = () => me.next();
-      }
+      if (this.options.la) this.options.la.$click = () => me.prev();
+      if (this.options.ra) this.options.ra.$click = () => me.next();
     }
     setScrollEvent() {
-      let me = this,
-        isScrolling;
+      let me = this, isScrolling;
       me.options.content.onscroll = () => requestAnimationFrame(onScroll);
 
       function onScroll() {
-        const per = (me.options.content.scrollLeft % me.width) / me.width;
-        const t = Math.floor(me.options.content.scrollLeft / me.width);
+        const total = me.options.content.scrollLeft / me.width;
+        const per = total % 1;
+        const t = Math.floor(total);
         try {
           const left = me.options.menuProps[t].left * (1 - per) + (me.options.menuProps[t + 1] || {
             left: 0
@@ -322,7 +317,7 @@
         } catch (e) {}
         clearTimeout(isScrolling);
         isScrolling = setTimeout(function() {
-          if (per >= 0.50) {
+          if (per >= 0.5) {
             me.active = t + 1;
           } else {
             me.active = t;
@@ -352,10 +347,10 @@
       const diff = to - from;
       const step = 1 / Math.round(time / 16) * diff;
       const me = this;
-      let pos = 0,
-        raf, startTime = performance.now();
+      let pos = 0, raf, startTime;
 
       function frame(currentTime) {
+        startTime = startTime || currentTime;
         if (currentTime - startTime > time) {
           who[what] = to;
           return;

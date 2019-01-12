@@ -9,7 +9,7 @@ Elements for sifrr
 | [sifrr-tabs](./elements/sifrr/tabs.html) | Android like tabs in browser | [![Minified + Gzipped](https://img.badgesize.io/sifrr/sifrr-elements/master/dist/elements/sifrr/tabs.html?compression=gzip&maxAge=60)](./dist/elements/sifrr/tabs.html) |
 
 ## View examples
-Clone the repo and run `npm run example-server` and go to http://localhost:2222/examples.html
+Clone the repo and run `npm run example-server` and go to http://localhost:1111/examples.html
 
 ## Elements
 Copy contents of `dist/elements` to `elements` folder in your sifrr app. And use `Sifrr.Dom.load('<tag-name>')` to load that element like you do with any other sifrr element.

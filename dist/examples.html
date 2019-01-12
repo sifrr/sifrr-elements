@@ -1,14 +1,18 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0">
     <meta charset="utf-8">
-    <title></title>
+    <title>Sifrr Element Examples</title>
     <style media="screen">
       *:not(:defined) * {
         display: none;
       }
       [slot=tab] {
         border: 1px solid red;
+      }
+      html {
+        touch-action: manipulation;
       }
     </style>
   </head>
@@ -18,23 +22,55 @@
     <xmp>
       <sifrr-tabs>
         <li slot='heading'>Heading 1</li>
-        <li slot='heading'>Heading 2 - very longggggggg</li>
+        <li slot='heading'>Heading 2 - sdfsdfsdafsdf d sdf af </li>
+        <li slot='heading'>Heading 3 - sdf ssd fdsf sf </li>
+        <li slot='heading'>Heading 4 - vesdfdf d df dfds dsf dsf </li>
         <div slot='tab'>
-          Tab 1
+          <p>Tab 1</p>
+          <p>Tab 1</p>
+          <p>Tab 1</p>
+          <p>Tab 1</p>
+          <p>Tab 1</p>
+          <p>Tab 1</p>
+          <p>Tab 1</p>
         </div>
         <div slot='tab'>
-          Tab 2
+          <p>Tab 2</p>
+          <p>Tab 2</p>
+          <p>Tab 2</p>
+        </div>
+        <div slot='tab'>
+          <p>Tab 3</p>
+        </div>
+        <div slot='tab'>
+          <p>Tab 4</p>
         </div>
       </sifrr-tabs>
     </xmp>
     <sifrr-tabs>
       <li slot='heading'>Heading 1</li>
-      <li slot='heading'>Heading 2 - very longggggggg</li>
+      <li slot='heading'>Heading 2 - sdfsdfsdafsdf d sdf af </li>
+      <li slot='heading'>Heading 3 - sdf ssd fdsf sf </li>
+      <li slot='heading'>Heading 4 - vesdfdf d df dfds dsf dsf </li>
       <div slot='tab'>
-        Tab 1
+        <p>Tab 1</p>
+        <p>Tab 1</p>
+        <p>Tab 1</p>
+        <p>Tab 1</p>
+        <p>Tab 1</p>
+        <p>Tab 1</p>
+        <p>Tab 1</p>
       </div>
       <div slot='tab'>
-        Tab 2
+        <p>Tab 2</p>
+        <p>Tab 2</p>
+        <p>Tab 2</p>
+      </div>
+      <div slot='tab'>
+        <p>Tab 3</p>
+      </div>
+      <div slot='tab'>
+        <p>Tab 4</p>
       </div>
     </sifrr-tabs>
     <h2>Sifrr-Tabs without menu, with arrows</h2>
