@@ -297,7 +297,8 @@
       if (this.options.ra) this.options.ra.$click = () => me.next();
     }
     setScrollEvent() {
-      let me = this, isScrolling;
+      let me = this,
+        isScrolling;
       me.options.content.onscroll = () => requestAnimationFrame(onScroll);
 
       function onScroll() {
@@ -347,7 +348,8 @@
       const diff = to - from;
       const step = 1 / Math.round(time / 16) * diff;
       const me = this;
-      let pos = 0, raf, startTime;
+      let pos = 0,
+        raf, startTime;
 
       function frame(currentTime) {
         startTime = startTime || currentTime;
@@ -364,7 +366,8 @@
     animations() {
       return {
         linear: i => i,
-        easeOut: i => i * (2 - i),
+        easeOut: i => (--i) * i * i + 1,
+        easeIn: i => i * i * i,
         none: i => 1
       }
     }

@@ -215,7 +215,7 @@
       index = this.state.targets.indexOf(target);
       this.state.states[index] = [JSON.parse(JSON.stringify(target.state))];
       this.state.activeStates[index] = 0;
-      this.updateState();
+      this.update();
     }
     removeTarget(el) {
       const {
@@ -227,7 +227,7 @@
         this.state.queries.splice(index, 1);
         this.state.states.splice(index, 1);
         this.state.activeStates.splice(index, 1);
-        this.updateState();
+        this.update();
       }
     }
     addState(el, state) {
@@ -241,7 +241,7 @@
         if (newState !== JSON.stringify(this.state.states[index][active])) {
           this.state.states[index].splice(active + 1, 0, JSON.parse(newState));
           this.state.activeStates[index] = active + 1;
-          this.updateState();
+          this.update();
         }
       }
     }
@@ -257,7 +257,7 @@
         this.state.activeStates[index] -= 1;
         this.toState(index, this.state.activeStates[index]);
       }
-      this.updateState();
+      this.update();
     }
     commit(el) {
       const {
@@ -267,12 +267,12 @@
       const last_state = this.state.states[index][this.state.states[index].length - 1];
       this.state.states[index] = [last_state];
       this.state.activeStates[index] = 0;
-      this.updateState();
+      this.update();
     }
     commitAll() {
       const me = this;
       this.state.targets.forEach(t => me.commit(t));
-      this.updateState();
+      this.update();
     }
     toState(el, n) {
       const {
@@ -282,7 +282,7 @@
       const active = this.state.activeStates[index];
       this.state.activeStates[index] = n;
       target.state = this.state.states[index][n];
-      this.updateState();
+      this.update();
     }
     resetToFirstState(el) {
       const {
@@ -291,12 +291,12 @@
       } = this.getTarget(el);
       this.toState(target, 0, false);
       this.state.states[index] = [this.state.states[index][0]];
-      this.updateState();
+      this.update();
     }
     resetAllToFirstState() {
       const me = this;
       this.state.targets.forEach(t => me.resetToFirstState(t));
-      this.updateState();
+      this.update();
     }
     clear(target) {
       const {
@@ -304,12 +304,12 @@
       } = this.getTarget(target);
       this.state.activeStates[index] = -1;
       this.state.states[index] = [];
-      this.updateState();
+      this.update();
     }
     clearAll() {
       const me = this;
       this.state.targets.forEach(t => me.clear(t));
-      this.updateState();
+      this.update();
     }
     saveData() {
       const me = this;
