@@ -374,6 +374,5 @@
     queries: [],
     activeStates: []
   }
-  Sifrr.Dom.load('sifrr-tabs');
-  Sifrr.Dom.register(SifrrStater);
+  Sifrr.Dom.load('sifrr-tabs').then(() => Sifrr.Dom.register(SifrrStater));
 </script>
