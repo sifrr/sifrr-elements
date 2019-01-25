@@ -13,3 +13,4 @@ Sifrr.Dom.setup({
 Sifrr.Dom.Event.add('click')
 Sifrr.Dom.load('sifrr-stater');
 Sifrr.Dom.load('sifrr-tabs');
+Sifrr.Dom.load('sifrr-lazy-picture');

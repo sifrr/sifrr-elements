@@ -21,15 +21,15 @@
 "@sifrr/dom@file:../sifrr/packages/browser/sifrr-dom":
   version "0.0.2-alpha"
 
-"@sifrr/fetch@^0.0.1-alpha":
-  version "0.0.1-alpha"
-  resolved "https://registry.yarnpkg.com/@sifrr/fetch/-/fetch-0.0.1-alpha.tgz#a95b773685252445b20dfa76a07d9c9637620784"
-  integrity sha512-diuwPobtg6T+div4ITiL/y66JzSvEkGnoA4TVF4hvCmr/PjEh7YS3VZm2H4kwoR1D48PX2DjacxndUkQy2YyMg==
+"@sifrr/fetch@^0.0.2-alpha":
+  version "0.0.2-alpha"
+  resolved "https://registry.yarnpkg.com/@sifrr/fetch/-/fetch-0.0.2-alpha.tgz#97b0440d1c537ff44eee95abc17c58011fd06fd6"
+  integrity sha512-HM3khbDmNaIdEpjwG35mmDOL9Z7ZVg/Bac+gOMwK+1MYrk6FEex52X6uzwu2K/b3E2xCAwz0MMfE36awEuYd0Q==
 
-"@sifrr/storage@^0.0.1-alpha":
-  version "0.0.1-alpha"
-  resolved "https://registry.yarnpkg.com/@sifrr/storage/-/storage-0.0.1-alpha.tgz#f82a3b73cd89ab47ebadc6f63e3b3c0e2f0e81fa"
-  integrity sha512-iPX0QWCaqN+D1nI6XGfFD+qGNdSs/ktQj0R0/3DkCucfZGJziDrt01DLYi8yltd4keIWLZBdVreNy9B2PiCSIg==
+"@sifrr/storage@^0.0.2-alpha":
+  version "0.0.2-alpha"
+  resolved "https://registry.yarnpkg.com/@sifrr/storage/-/storage-0.0.2-alpha.tgz#f1bd11ecf261436420bd164e4fde8e8abaf037fb"
+  integrity sha512-emOA0BvpegroYdN8jnkkoE0qi5ixAbdgBqEDnX3k8YriK9rMrygJ0MDfnPPujmj4stvrZR4c0qwm5UBitf7Ddw==
 
 "@types/estree@0.0.39":
   version "0.0.39"

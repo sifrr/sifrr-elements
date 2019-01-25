@@ -1,7 +1,7 @@
 {
   "name": "@sifrr/elements",
   "description": "Sifrr elements.",
-  "licence": "MIT",
+  "license": "MIT",
   "scripts": {
     "test": "mocha --timeout 10000 test/**/*.js",
     "jtest": "MOCHA_FILE=../../../test-results/sifrr-route/results.xml mocha -R mocha-junit-reporter --timeout 10000 test/**/*.js",
@@ -26,8 +26,8 @@
   "homepage": "https://github.com/sifrr/sifrr-elements",
   "dependencies": {
     "@sifrr/dom": "file:../sifrr/packages/browser/sifrr-dom",
-    "@sifrr/fetch": "^0.0.1-alpha",
-    "@sifrr/storage": "^0.0.1-alpha"
+    "@sifrr/fetch": "^0.0.2-alpha",
+    "@sifrr/storage": "^0.0.2-alpha"
   },
   "devDependencies": {
     "babel-core": "^6.26.3",
