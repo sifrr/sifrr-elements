@@ -5,6 +5,25 @@
     <meta charset="utf-8">
     <title>Sifrr Element Examples</title>
     <style media="screen">
+      *:not(:defined)::before {
+        content: " ";
+        display: block !important;
+        width: 32px;
+        height: 32px;
+        margin: 1px;
+        border-radius: 50%;
+        border: 4px solid;
+        border-color: rgba(25,118,210,0.2) rgba(25,118,210,0.2) rgb(25,118,210) rgb(25,118,210,0.2);
+        animation: rotate 0.75s linear infinite;
+      }
+      @keyframes rotate {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
       *:not(:defined) * {
         display: none;
       }
@@ -25,6 +44,8 @@
   </head>
   <body>
     <h1>Sifrr Element Examples</h1>
+    <h2>Loading example</h2>
+    <loading-demo></loading-demo>
     <h2>Sifrr-Tabs with menu and content</h2>
     <xmp>
       <sifrr-tabs>
