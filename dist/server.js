@@ -1,8 +1,10 @@
 const connect = require('express'),
+  compression = require('compression'),
   serveStatic = require('serve-static'),
   path = require('path');
 
 const server = connect();
+server.use(compression());
 server.use(serveStatic(__dirname));
 
 if (process.argv[2]) server.listen(process.argv[2], () => console.log(`Listening on port ${process.argv[2]}`));
