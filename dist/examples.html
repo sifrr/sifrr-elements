@@ -14,6 +14,13 @@
       html {
         touch-action: manipulation;
       }
+      picture {
+        display: block;
+      }
+      picture img, picture source {
+        max-height: 100%;
+        max-width: 100%;
+      }
     </style>
   </head>
   <body>
@@ -263,7 +270,7 @@
         Tab 2
       </div>
     </sifrr-tabs>
-    <picture is="sifrr-lazy-picture">
+    <picture is="sifrr-lazy-picture" style="height: 300px;">
       <source media="(min-width: 800px)" data-srcset="https://pbs.twimg.com/profile_images/1057899591708753921/PSpUS-Hp_400x400.jpg">
       <img data-src="https://static.adweek.com/adweek.com-prod/wp-content/uploads/files/blogs/google-logo-hed-2014.jpg">
     </picture>

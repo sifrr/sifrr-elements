@@ -1,11 +1,17 @@
+function moveAttr(el, attr) {
+  if (!el.dataset[attr]) return;
+  el.setAttribute(attr, el.dataset[attr]);
+  el.removeAttribute(`data-${attr}`);
+}
+
 function loadPicture(pic) {
   if (pic.sifrrLazyLoaded) return false;
   pic.sifrrLazyLoaded = true;
   pic.$$('source', false).forEach((s) => {
-    if (s.dataset.srcset) s.setAttribute('srcset', s.dataset.srcset);
+    moveAttr(s, 'srcset');
   });
   const img = pic.$('img', false);
-  if (img.dataset.src) img.setAttribute('src', img.dataset.src);
+  moveAttr(img, 'src');
   return true;
 }
 
