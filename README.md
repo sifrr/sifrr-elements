@@ -80,14 +80,14 @@ Sifrr.Dom.load('sifrr-tabs');
 // Default options
 {
   // Better not change these unless you know what you are doing
-  menu: this.qs(".headings ul"),
-  content: this.qs(".content"),
-  tabcontainer: this.qs(".tabs"),
-  menus: this.qs('slot[name=heading]').assignedNodes(),
-  tabs: this.qs('slot[name=tab]').assignedNodes(),
-  la: this.qs(".arrow.l"),
-  ra: this.qs(".arrow.r"),
-  line: this.qs(".underline"),
+  menu: this.$(".headings ul"),
+  content: this.$(".content"),
+  tabcontainer: this.$(".tabs"),
+  menus: this.$('slot[name=heading]').assignedNodes(),
+  tabs: this.$('slot[name=tab]').assignedNodes(),
+  la: this.$(".arrow.l"),
+  ra: this.$(".arrow.r"),
+  line: this.$(".underline"),
   // You can change these
   num: 1, // Number of tabs to shown at once
   showArrows: false, // Show arrows or not
@@ -97,6 +97,7 @@ Sifrr.Dom.load('sifrr-tabs');
   step: 1, // Number of tabs to move when clicking arrow
   tabHeight: 'auto', // Tab height
   loop: false, // Loop when navigating using arrows
-  animation: 'easeOut' // allowed values: easeOut | linear | none
+  animation: 'easeOut', // allowed values: easeOut | linear | none
+  animationTime: 150 // Time for animation in ms
 }
 ```

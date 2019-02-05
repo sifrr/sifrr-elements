@@ -1,4 +1,4 @@
-const template = Sifrr.Dom.html`<style media="screen">
+const template = Sifrr.Dom.template`<style media="screen">
   :host {
     /* CSS for tabs container */
     line-height: 24px;

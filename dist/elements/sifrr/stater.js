@@ -1,4 +1,4 @@
-const template = Sifrr.Dom.html`<style>
+const template = Sifrr.Dom.template`<style>
   :host {
     position: fixed;
     right: 0;
