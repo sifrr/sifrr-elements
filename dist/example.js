@@ -8,7 +8,7 @@ const location = window.location.href.split('/');
 location.pop();
 
 Sifrr.Dom.setup({
-  baseUrl: location.join('/') + '/'
+  baseUrl: location.join('/')
 });
 Sifrr.Dom.Event.add('click')
 Sifrr.Dom.load('sifrr-stater');
