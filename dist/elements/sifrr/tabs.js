@@ -176,7 +176,8 @@ class SifrrTabs extends Sifrr.Dom.Element {
       showUnderline: true,
       loop: false,
       animation: 'easeOut',
-      animationTime: 150
+      animationTime: 150,
+      scrollBreakpoint: 0.2
     }
     if (this.getAttribute('options')) Object.assign(this.options, JSON.parse(this.getAttribute('options')));
     this.animations = this.animations();
@@ -299,12 +300,14 @@ class SifrrTabs extends Sifrr.Dom.Element {
   }
   setScrollEvent() {
     let me = this,
-      isScrolling;
+      isScrolling,
+      scrollPos = -1;
     me.options.content.onscroll = () => requestAnimationFrame(onScroll);
 
     function onScroll() {
       const total = me.options.content.scrollLeft / me.width;
       const per = total % 1;
+      if (scrollPos < 0) scrollPos = per;
       const t = Math.floor(total);
       try {
         const left = me.options.menuProps[t].left * (1 - per) + (me.options.menuProps[t + 1] || {
@@ -319,11 +322,14 @@ class SifrrTabs extends Sifrr.Dom.Element {
       } catch (e) {}
       clearTimeout(isScrolling);
       isScrolling = setTimeout(function() {
-        if (per >= 0.5) {
+        if (per - scrollPos < -me.options.scrollBreakpoint) {
+          me.active = t;
+        } else if (per - scrollPos > +me.options.scrollBreakpoint) {
           me.active = t + 1;
         } else {
-          me.active = t;
+          me.active = me.active;
         }
+        scrollPos = -1;
       }, 66);
     }
   }
