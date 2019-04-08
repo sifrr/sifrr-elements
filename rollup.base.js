@@ -6,6 +6,7 @@ const resolve = require('rollup-plugin-node-resolve');
 const commonjs = require('rollup-plugin-commonjs');
 const cleanup = require('rollup-plugin-cleanup');
 const postcss = require('rollup-plugin-postcss');
+const html = require('rollup-plugin-html');
 
 const external = [
   '@sifrr/dom',
@@ -43,7 +44,20 @@ function moduleConfig(name, root, min = false, isModule = false) {
       postcss({
         extensions: ['.css', '.scss', '.sass', '.less'],
         inject: false,
-        plugins: []
+        plugins: [
+          min ? require('cssnano')({
+            preset: 'default',
+          }) : false
+        ].filter(k => k)
+      }),
+      require('./utils/rollupsifrrplugin')(),
+      html({
+        htmlMinifierOptions: min ? {
+  				collapseWhitespace: true,
+  				collapseBooleanAttributes: true,
+  				conservativeCollapse: true,
+  				minifyJS: true
+			  } : {}
       })
     ]
   };

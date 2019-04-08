@@ -1,0 +1,59 @@
+<div class="container">
+  <div class="flex-column" id="sidemenu">
+    <div class="box">
+      <h1>Sifrr Showcase</h1>
+      <p id="loader"></p>
+      <input id="url" type="text" placeholder="Enter url here..." name="url" />
+      <button type="button" name="loadUrl" _click=${this.loadUrl}>Load from url</button>
+      <button type="button" name="saveFile" _click="${this.saveFile}">Save to File</button>
+      <input type="file" name="file" accept="application/json" _input="${this.loadFile}" />
+    </div>
+  </div>
+  <div class="flex-column" id="sidebar">
+    <div class="box">
+      <label for="style">Element CSS Styles</label>
+      <sifrr-code-editor lang='css' data-sifrr-bind="style" value="${this.state.style}"></sifrr-code-editor>
+    </div>
+    <div class="box">
+      <label for="elState">Element State Function</label>
+      <sifrr-code-editor id="elState" lang='js' data-sifrr-bind="elState" value="${this.state.elState}"></sifrr-code-editor>
+    </div>
+    <div class="box">
+      <label for="states">Showcase</label>
+      <input id="showcaseName" type="text" name="showcaseName" value="${this.state.name}" data-sifrr-bind="name">
+      <button type="button" name="createStyle" _click="${this.createNewShowcase}">Create new Showcase</button>
+      <button type="button" name="saveStyle" _click="${this.saveShowcase}">Save Showcase</button>
+      <p id="saver"></p>
+      <style media="screen">
+        #showcase${this.state.id} {
+          background: #5f616d;
+        }
+      </style>
+      <div id="showcases">
+        <ul data-sifrr-repeat="${this.allShowcases()}">
+          <li class="showcase" data-showcase-id="${this.state.id}" id="showcase${this.state.id}">${this.state.name}<span>X</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="flex-column" id="main">
+    <div class="box" id="element" data-sifrr-html="true">
+      ${this.state.code}
+    </div>
+    <div class="box" id="code">
+      <label for="elementName">Element Name</label>
+      <input type="text" name="elementName" placeholder="Enter element name here..." _input="${this.updateHtml}" value="${this.state.element}">
+      <label for="customUrl">Custom Url</label>
+      <input type="text" name="customUrl" placeholder="Enter element url here..." value="${this.state.elementUrl}" data-sifrr-bind="elementUrl">
+      <label for="elementName">Is JS File</label>
+      <select id="isjs" name="isjs" value="${this.state.isjs}" data-sifrr-bind="isjs">
+        <option value="true">true</option>
+        <option value="false">false</option>
+      </select>
+      <span id="error"></span>
+      <br>
+      <label for="htmlcode">HTML Code</label>
+      <sifrr-code-editor lang='html' data-sifrr-bind="code" value="${this.state.code}"></sifrr-code-editor>
+    </div>
+  </div>
+</div>

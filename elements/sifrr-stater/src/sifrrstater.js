@@ -1,6 +1,6 @@
 import SifrrDom from '@sifrr/dom'
 import SifrrStorage from '@sifrr/storage'
-import SifrrTabs from '../../sifrr-tabs/src/sifrrtabs'
+import '../../sifrr-tabs/src/sifrrtabs'
 import style from './style.scss'
 
 const template = SifrrDom.template`<style>

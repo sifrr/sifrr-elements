@@ -1,5 +1,5 @@
 {
-  "name": "@sifrr/stater",
+  "name": "@sifrr/showcase",
   "version": "0.0.4",
   "license": "MIT",
   "repository": {
@@ -12,9 +12,9 @@
   },
   "homepage": "https://github.com/sifrr/sifrr-elements",
   "private": true,
-  "main": "src/sifrrstater.js",
-  "module": "dist/sifrrstater.module.js",
-  "browser": "dist/sifrrstater.js",
+  "main": "src/sifrrshowcase.js",
+  "module": "dist/sifrrshowcase.module.js",
+  "browser": "dist/sifrrshowcase.js",
   "browserslist": [
     "chrome >= 55",
     "safari >= 10.1",
@@ -22,10 +22,10 @@
     "firefox >= 63"
   ],
   "scripts": {
-    "test": "rm -rf ../../.nyc_output; node ../../scripts/test/run.js ./elements/sifrr-stater",
+    "test": "rm -rf ../../.nyc_output; node ../../scripts/test/run.js ./elements/sifrr-showcase",
     "build": "../../node_modules/.bin/rollup -c",
     "test-build": "cd test/public && ../../node_modules/.bin/rollup -c",
-    "test-server": "node ../../scripts/test/run.js ./elements/sifrr-stater -s"
+    "test-server": "node ../../scripts/test/run.js ./elements/sifrr-showcase -s"
   },
   "files": [
     "bin",

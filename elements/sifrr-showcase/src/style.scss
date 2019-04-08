@@ -1,0 +1,97 @@
+* {
+  box-sizing: border-box;
+}
+h1, label, li {
+  font-family: Roboto, Ariel;
+}
+.container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-wrap: nowrap;
+  background-color: #3a3f5a;
+}
+#sidemenu {
+  width: 15%;
+  height: 100%;
+}
+#sidemenu > * {
+  height: 100%;
+}
+#sidebar {
+  width: 20%;
+  height: 100%;
+}
+#sidebar > * {
+  height: 33.33%;
+}
+#main {
+  width: 65%;
+  height: 100%;
+}
+.flex-column {
+  height: 100%;
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: column;
+}
+.box {
+  width: 100%;
+  overflow: scroll;
+  border: 1px solid #5f616d;
+}
+#element {
+  padding: 20px;
+  height: 70%;
+}
+#element > * {
+  /* ${this.state.style} */
+}
+#code {
+  height: 30%;
+}
+#code highlight-syntax {
+  height: calc(100% - 48px) !important;
+}
+h1 {
+  color: #cccccc;
+  text-align: center;
+}
+label, li {
+  color: #8f9cb3;
+  font-size: 16px;
+  line-height: 24px;
+  padding: 4px;
+}
+#error {
+  color: red;
+}
+highlight-syntax {
+  width: 100%;
+  height: calc(100% - 24px);
+  font-size: 14px;
+  padding: 4px;
+}
+ul {
+  padding: 8px;
+  margin: 0;
+}
+.showcase {
+  list-style-type: none;
+}
+.showcase span {
+  color: red;
+  float: right;
+}
+#saver, #loader {
+  color: green;
+  padding: 4px;
+  margin: 0;
+}
+button {
+  background: #cccccc;
+  border: 1px solid grey;
+  color: #3a3f5a;
+  font-size: 14px;
+  padding: 4px;
+}
