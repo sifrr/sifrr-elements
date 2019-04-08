@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+set -ex
+
+./scripts/release/config
+./scripts/yarn build
+./scripts/contributors
+
+# Add dist files not generated before
+git ls-files '*/dist/*.js*' | xargs git add
+git ls-files 'package.json' | xargs git add
+git ls-files 'rollup.config.js' | xargs git add
+(git commit -m "chore: add auto generated files" && git push && exit 1) || echo 'Files up to date'

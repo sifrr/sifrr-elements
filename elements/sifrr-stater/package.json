@@ -1,0 +1,35 @@
+{
+  "name": "@sifrr/stater",
+  "version": "0.0.1",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sifrr/sifrr-elements.git"
+  },
+  "author": "Sifrr",
+  "bugs": {
+    "url": "https://github.com/sifrr/sifrr-elements/issues"
+  },
+  "homepage": "https://github.com/sifrr/sifrr-elements",
+  "private": true,
+  "main": "src/sifrrstater.js",
+  "module": "dist/sifrrstater.module.js",
+  "browser": "dist/sifrrstater.js",
+  "browserslist": [
+    "chrome >= 55",
+    "safari >= 10.1",
+    "opera >= 42",
+    "firefox >= 63"
+  ],
+  "scripts": {
+    "test": "rm -rf ../../.nyc_output; node ../../scripts/test/run.js ./elements/sifrr-stater",
+    "build": "../../node_modules/.bin/rollup -c",
+    "test-build": "cd test/public && ../../node_modules/.bin/rollup -c",
+    "test-server": "node ../../scripts/test/run.js ./elements/sifrr-stater -s"
+  },
+  "files": [
+    "bin",
+    "dist",
+    "src"
+  ]
+}
