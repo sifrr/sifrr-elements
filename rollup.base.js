@@ -21,7 +21,7 @@ const footer = '/*! (c) @aadityataparia */';
 
 function moduleConfig(name, root, min = false, isModule = false) {
   const filename = name.toLowerCase();
-  const banner = `/*! ${name} v${version} - sifrr project | MIT licensed | https://github.com/sifrr/sifrr */`;
+  const banner = `/*! ${name} v${version} - sifrr project | MIT licensed | https://github.com/sifrr/sifrr-elements */`;
   const ret = {
     input: path.join(root, `./src/${filename}.js`),
     output: {

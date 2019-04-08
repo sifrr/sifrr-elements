@@ -1,4 +1,4 @@
-/*! SifrrElements v0.0.4 - sifrr project | MIT licensed | https://github.com/sifrr/sifrr */
+/*! SifrrElements v0.0.4 - sifrr project | MIT licensed | https://github.com/sifrr/sifrr-elements */
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@sifrr/dom'), require('@sifrr/storage')) :
   typeof define === 'function' && define.amd ? define(['exports', '@sifrr/dom', '@sifrr/storage'], factory) :
@@ -52,10 +52,6 @@
   SifrrLazyPicture.rootMargin = '0px 0px 200px 0px';
   if (window) SifrrDom.register(SifrrLazyPicture, {
     extends: 'picture'
-  });
-
-  const sifrrlazypicture = /*#__PURE__*/Object.freeze({
-    default: SifrrLazyPicture
   });
 
   function _taggedTemplateLiteral(strings, raw) {
@@ -306,10 +302,6 @@
   }
   if (window) SifrrDom.register(SifrrTabs);
 
-  const sifrrtabs = /*#__PURE__*/Object.freeze({
-    default: SifrrTabs
-  });
-
   var css$1 = ":host {\n  position: fixed;\n  right: 0;\n  top: 0;\n  bottom: 0;\n  height: 100%;\n  max-width: 100%;\n  width: 320px;\n  z-index: 1000;\n  background-color: rgba(0, 0, 0, 0.8);\n  transform: translate3d(100%, 0, 0);\n  transition: all 0.2s ease; }\n\n:host(.show) {\n  transform: translate3d(0, 0, 0); }\n\n* {\n  box-sizing: border-box; }\n\n#showHide {\n  position: fixed;\n  left: -30px;\n  top: 0;\n  bottom: 0;\n  width: 30px;\n  height: 30px;\n  margin-top: 5px;\n  background-color: blue;\n  z-index: 2; }\n\n.stateContainer {\n  padding-left: 10px;\n  margin-left: 10px;\n  border-left: 1px solid white;\n  position: relative; }\n\n.stateContainer.off {\n  opacity: 0.5; }\n\n.stateContainer .dotC {\n  position: absolute;\n  top: 0;\n  left: -10px;\n  width: 20px;\n  height: 100%;\n  cursor: pointer; }\n\n.stateContainer .dotC .dot {\n  position: absolute;\n  top: 50%;\n  left: 10px;\n  width: 10px;\n  height: 10px;\n  transform: translate3d(-50%, -50%, 0);\n  background-color: white;\n  border-radius: 50%; }\n\n.stateContainer .delete {\n  position: absolute;\n  top: 0;\n  right: 0;\n  padding: 4px;\n  background-color: rgba(0, 0, 0, 0.7);\n  color: white;\n  cursor: pointer; }\n\n.state {\n  white-space: pre-wrap;\n  max-height: 90px;\n  overflow: hidden;\n  background-color: rgba(255, 255, 255, 0.97);\n  padding: 5px;\n  margin-bottom: 5px;\n  position: relative;\n  cursor: pointer; }\n\n.state:hover::after {\n  content: '\\\\\\/';\n  position: absolute;\n  bottom: 0;\n  left: 0;\n  width: 100%;\n  background-color: rgba(0, 0, 0, 0.7);\n  text-align: center;\n  color: white; }\n\n.state.open {\n  max-height: none; }\n\n.state.open:hover::after {\n  content: '\\/\\\\'; }\n\n.key {\n  color: red; }\n\n.string {\n  color: green; }\n\n.number, .null, .boolean {\n  color: blue; }\n\nfooter {\n  position: absolute;\n  bottom: 0; }\n\ninput {\n  margin: 3px;\n  width: calc(100% - 6px);\n  padding: 3px; }\n\n.btn3 {\n  margin: 3px;\n  width: calc(33% - 8px);\n  padding: 3px;\n  background: white; }\n";
 
   function _templateObject$1() {
@@ -550,33 +542,9 @@
   };
   if (window) SifrrDom.register(SifrrStater);
 
-  const sifrrstater = /*#__PURE__*/Object.freeze({
-    default: SifrrStater
-  });
-
-  function getCjsExportFromNamespace (n) {
-  	return n && n['default'] || n;
-  }
-
-  const require$$0 = getCjsExportFromNamespace(sifrrlazypicture);
-
-  const require$$1 = getCjsExportFromNamespace(sifrrstater);
-
-  const require$$2 = getCjsExportFromNamespace(sifrrtabs);
-
-  var sifrrelements = {
-    SifrrLazyPicture: require$$0,
-    SifrrStater: require$$1,
-    SifrrTabs: require$$2
-  };
-  var sifrrelements_1 = sifrrelements.SifrrLazyPicture;
-  var sifrrelements_2 = sifrrelements.SifrrStater;
-  var sifrrelements_3 = sifrrelements.SifrrTabs;
-
-  exports.SifrrLazyPicture = sifrrelements_1;
-  exports.SifrrStater = sifrrelements_2;
-  exports.SifrrTabs = sifrrelements_3;
-  exports.default = sifrrelements;
+  exports.SifrrLazyPicture = SifrrLazyPicture;
+  exports.SifrrStater = SifrrStater;
+  exports.SifrrTabs = SifrrTabs;
 
   Object.defineProperty(exports, '__esModule', { value: true });
 

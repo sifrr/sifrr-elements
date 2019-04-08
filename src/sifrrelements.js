@@ -1,5 +1,3 @@
-module.exports = {
-  SifrrLazyPicture: require('../elements/sifrr-lazy-picture/src/sifrrlazypicture'),
-  SifrrStater: require('../elements/sifrr-stater/src/sifrrstater'),
-  SifrrTabs: require('../elements/sifrr-tabs/src/sifrrtabs')
-};
+export { default as SifrrLazyPicture } from '../elements/sifrr-lazy-picture/src/sifrrlazypicture';
+export { default as SifrrStater } from '../elements/sifrr-stater/src/sifrrstater';
+export { default as SifrrTabs } from '../elements/sifrr-tabs/src/sifrrtabs';
