@@ -15,6 +15,9 @@
   "bugs": {
     "url": "https://github.com/sifrr/sifrr-elements/issues"
   },
+  "main": "src/sifrrelements.js",
+  "module": "dist/sifrrelements.module.js",
+  "browser": "dist/sifrrelements.js",
   "homepage": "https://github.com/sifrr/sifrr-elements",
   "browserslist": [
     "chrome >= 55",

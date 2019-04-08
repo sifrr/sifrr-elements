@@ -9,4 +9,5 @@ loadDir(path.resolve('./elements'), (file) => {
   }
 }, 2);
 
+Array.prototype.push.apply(allConfigs, require('./rollup.base')('SifrrElements', __dirname, true));
 module.exports = allConfigs;

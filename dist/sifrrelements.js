@@ -1,9 +1,9 @@
-/*! SifrrLazyPicture v0.0.4 - sifrr project | MIT licensed | https://github.com/sifrr/sifrr */
+/*! SifrrElements v0.0.4 - sifrr project | MIT licensed | https://github.com/sifrr/sifrr */
 (function (global, factory) {
-  typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('@sifrr/dom')) :
-  typeof define === 'function' && define.amd ? define(['@sifrr/dom'], factory) :
-  (global = global || self, global.SifrrLazyPicture = factory(global.Sifrr.Dom));
-}(this, function (SifrrDom) { 'use strict';
+  typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@sifrr/dom')) :
+  typeof define === 'function' && define.amd ? define(['exports', '@sifrr/dom'], factory) :
+  (global = global || self, factory(global.SifrrElements = {}, global.Sifrr.Dom));
+}(this, function (exports, SifrrDom) { 'use strict';
 
   SifrrDom = SifrrDom && SifrrDom.hasOwnProperty('default') ? SifrrDom['default'] : SifrrDom;
 
@@ -53,8 +53,40 @@
     extends: 'picture'
   });
 
-  return SifrrLazyPicture;
+
+
+  const sifrrstater = /*#__PURE__*/Object.freeze({
+
+  });
+
+
+
+  const sifrrtabs = /*#__PURE__*/Object.freeze({
+
+  });
+
+  function getCjsExportFromNamespace (n) {
+  	return n && n['default'] || n;
+  }
+
+  const require$$2 = getCjsExportFromNamespace(sifrrtabs);
+
+  var sifrrelements = {
+    SifrrLazyPicture: SifrrLazyPicture,
+    SifrrStater: sifrrstater,
+    SifrrTabs: require$$2
+  };
+  var sifrrelements_1 = sifrrelements.SifrrLazyPicture;
+  var sifrrelements_2 = sifrrelements.SifrrStater;
+  var sifrrelements_3 = sifrrelements.SifrrTabs;
+
+  exports.SifrrLazyPicture = sifrrelements_1;
+  exports.SifrrStater = sifrrelements_2;
+  exports.SifrrTabs = sifrrelements_3;
+  exports.default = sifrrelements;
+
+  Object.defineProperty(exports, '__esModule', { value: true });
 
 }));
 /*! (c) @aadityataparia */
-//# sourceMappingURL=sifrrlazypicture.js.map
+//# sourceMappingURL=sifrrelements.js.map

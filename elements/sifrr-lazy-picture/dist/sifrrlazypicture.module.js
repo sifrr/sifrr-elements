@@ -1,4 +1,4 @@
-/*! SifrrLazyPicture v0.0.1 - sifrr project | MIT licensed | https://github.com/sifrr/sifrr */
+/*! SifrrLazyPicture v0.0.4 - sifrr project | MIT licensed | https://github.com/sifrr/sifrr */
 import SifrrDom from '@sifrr/dom';
 
 function moveAttr(el, attr) {
@@ -22,7 +22,7 @@ class SifrrLazyPicture extends Sifrr.Dom.Element.extends(HTMLPictureElement) {
   }
   static get observer() {
     this._observer = this._observer || new IntersectionObserver(this.onVisible, {
-      rootMargin: '0px 0px 200px 0px'
+      rootMargin: this.rootMargin
     });
     return this._observer;
   }
@@ -42,6 +42,7 @@ class SifrrLazyPicture extends Sifrr.Dom.Element.extends(HTMLPictureElement) {
     this.constructor.observer.unobserve(this);
   }
 }
+SifrrLazyPicture.rootMargin = '0px 0px 200px 0px';
 if (window) SifrrDom.register(SifrrLazyPicture, { extends: 'picture' });
 
 export default SifrrLazyPicture;
