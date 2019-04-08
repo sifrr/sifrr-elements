@@ -2,10 +2,261 @@
 import SifrrDom from '@sifrr/dom';
 import SifrrStorage from '@sifrr/storage';
 
-var css = ":host {\n  position: fixed;\n  right: 0;\n  top: 0;\n  bottom: 0;\n  height: 100%;\n  max-width: 100%;\n  width: 320px;\n  z-index: 1000;\n  background-color: rgba(0, 0, 0, 0.8);\n  transform: translate3d(100%, 0, 0);\n  transition: all 0.2s ease; }\n\n:host(.show) {\n  transform: translate3d(0, 0, 0); }\n\n* {\n  box-sizing: border-box; }\n\n#showHide {\n  position: fixed;\n  left: -30px;\n  top: 0;\n  bottom: 0;\n  width: 30px;\n  height: 30px;\n  margin-top: 5px;\n  background-color: blue;\n  z-index: 2; }\n\n.stateContainer {\n  padding-left: 10px;\n  margin-left: 10px;\n  border-left: 1px solid white;\n  position: relative; }\n\n.stateContainer.off {\n  opacity: 0.5; }\n\n.stateContainer .dotC {\n  position: absolute;\n  top: 0;\n  left: -10px;\n  width: 20px;\n  height: 100%;\n  cursor: pointer; }\n\n.stateContainer .dotC .dot {\n  position: absolute;\n  top: 50%;\n  left: 10px;\n  width: 10px;\n  height: 10px;\n  transform: translate3d(-50%, -50%, 0);\n  background-color: white;\n  border-radius: 50%; }\n\n.stateContainer .delete {\n  position: absolute;\n  top: 0;\n  right: 0;\n  padding: 4px;\n  background-color: rgba(0, 0, 0, 0.7);\n  color: white;\n  cursor: pointer; }\n\n.state {\n  white-space: pre-wrap;\n  max-height: 90px;\n  overflow: hidden;\n  background-color: rgba(255, 255, 255, 0.97);\n  padding: 5px;\n  margin-bottom: 5px;\n  position: relative;\n  cursor: pointer; }\n\n.state:hover::after {\n  content: '\\\\\\/';\n  position: absolute;\n  bottom: 0;\n  left: 0;\n  width: 100%;\n  background-color: rgba(0, 0, 0, 0.7);\n  text-align: center;\n  color: white; }\n\n.state.open {\n  max-height: none; }\n\n.state.open:hover::after {\n  content: '\\/\\\\'; }\n\n.key {\n  color: red; }\n\n.string {\n  color: green; }\n\n.number, .null, .boolean {\n  color: blue; }\n\nfooter {\n  position: absolute;\n  bottom: 0; }\n\ninput {\n  margin: 3px;\n  width: calc(100% - 6px);\n  padding: 3px; }\n\n.btn3 {\n  margin: 3px;\n  width: calc(33% - 8px);\n  padding: 3px;\n  background: white; }\n";
+var css = ":host {\n  /* CSS for tabs container */\n  line-height: 24px;\n  overflow: hidden;\n  width: 100%;\n  display: block;\n  position: relative;\n  border: 1px solid rgba(0, 0, 0, 0.1);\n  border-radius: 5px; }\n\n.headings {\n  /* CSS for heading bar */\n  width: 100%;\n  overflow-y: hidden;\n  overflow-x: auto;\n  position: relative;\n  background: #714cfe;\n  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.2); }\n\n.headings ul {\n  padding: 0 0 3px;\n  margin: 0;\n  font-size: 0; }\n\n/* CSS for heading text li */\n.headings *::slotted(li) {\n  font-size: 16px;\n  display: inline-block;\n  text-align: center;\n  padding: 8px;\n  text-decoration: none;\n  list-style: none;\n  color: white;\n  border-bottom: 2px solid transparent;\n  opacity: 0.9;\n  cursor: pointer;\n  box-sizing: border-box; }\n\n.headings *::slotted(li.active) {\n  opacity: 1; }\n\n.headings *::slotted(li:hover) {\n  opacity: 1; }\n\n/* CSS for line under active tab heading */\n.headings .underline {\n  position: absolute;\n  bottom: 0;\n  left: 0;\n  height: 3px;\n  background: white; }\n\n/* Arrows css */\n.arrow {\n  position: absolute;\n  z-index: 5;\n  top: 0;\n  bottom: 0;\n  width: 20px; }\n\n.arrow > * {\n  position: absolute;\n  width: 8px;\n  height: 8px;\n  margin: -6px 5px;\n  top: 50%;\n  border: solid white;\n  border-width: 0 3px 3px 0;\n  display: inline-block;\n  padding: 3px;\n  filter: drop-shadow(-1px -1px 3px #000); }\n\n.arrow.l {\n  left: 0; }\n\n.arrow.l > * {\n  left: 0;\n  transform: rotate(135deg); }\n\n.arrow.r {\n  right: 0; }\n\n.arrow.r > * {\n  right: 0;\n  transform: rotate(-45deg); }\n\n/* Tab container css */\n.content {\n  width: 100%;\n  height: 100%;\n  overflow-x: auto;\n  overflow-y: hidden;\n  margin: 0;\n  line-height: normal;\n  box-sizing: border-box; }\n\n.content .tabs {\n  min-height: 1px; }\n\n/* Tab element css */\n.content *::slotted([slot=\"tab\"]) {\n  float: left;\n  max-height: 100%;\n  width: 100%;\n  height: 100%;\n  overflow-x: hidden;\n  overflow-y: auto;\n  vertical-align: top;\n  padding: 8px;\n  box-sizing: border-box; }\n";
 
-const template = SifrrDom.template`<style>
+const template = SifrrDom.template`<style media="screen">
   ${css}
+</style>
+<div class="headings">
+  <ul>
+    <slot name="heading">
+    </slot>
+  </ul>
+  <div class="underline"></div>
+</div>
+<div class="content">
+  <div class="arrow l">
+    <span></span>
+  </div>
+  <div class="arrow r">
+    <span></span>
+  </div>
+  <div class="tabs">
+    <slot name="tab">
+    </slot>
+  </div>
+</div>`;
+function removeExceptOne(elems, classN, index) {
+  for (let j = 0; j < elems.length; j++) {
+    j !== index && elems[j] !== index ? elems[j].classList.remove(classN) : elems[j].classList.add(classN);
+  }
+}
+class SifrrTabs extends SifrrDom.Element {
+  static get template() {
+    return template;
+  }
+  onConnect() {
+    this.options = {
+      menu: this.$(".headings ul"),
+      content: this.$(".content"),
+      tabcontainer: this.$(".tabs"),
+      menus: this.$('slot[name=heading]').assignedNodes(),
+      tabs: this.$('slot[name=tab]').assignedNodes(),
+      la: this.$(".arrow.l"),
+      ra: this.$(".arrow.r"),
+      line: this.$(".underline"),
+      num: 1,
+      showArrows: false,
+      arrowMargin: 0,
+      showMenu: true,
+      step: 1,
+      tabHeight: 'auto',
+      showUnderline: true,
+      loop: false,
+      animation: 'easeOut',
+      animationTime: 150,
+      scrollBreakpoint: 0.2
+    };
+    if (this.getAttribute('options')) Object.assign(this.options, JSON.parse(this.getAttribute('options')));
+    this.animations = this.animations();
+    this.setWindowResizeEvent();
+    this.setClickEvents();
+    this.setSlotChangeEvent();
+    this.refresh();
+  }
+  refresh(params = {}) {
+    Object.assign(this.options, params);
+    if (!this.options.tabs || this.options.tabs.length < 1) return;
+    this.width = this.clientWidth / this.options.num;
+    this.margin = 0;
+    if (this.options.showArrows) {
+      this.width -= 2 * this.options.arrowMargin;
+      this.margin = this.options.arrowMargin;
+    }
+    this.setProps();
+    this.active = params.active || this.active || 0;
+  }
+  get active() {
+    return this.state ? this.state.active : 0;
+  }
+  set active(i) {
+    this.state = {
+      active: i
+    };
+  }
+  onStateChange() {
+    if (!this.options) return;
+    let i = this.state.active;
+    i = this.getTabNumber(i);
+    if (i + this.options.num - 1 == this.options.tabs.length) {
+      if (this.options.loop) i = 0;
+      else i = this.options.tabs.length - this.options.num;
+    }
+    if (i !== this.state.active) {
+      this.state = {
+        active: i
+      };
+      return;
+    }
+    this.animate(this.options.content, 'scrollLeft', i * (this.width + 2 * this.margin), this.options.animationTime, this.options.animation);
+    removeExceptOne(this.options.tabs, 'active', i);
+    removeExceptOne(this.options.tabs, 'prev', this.getTabNumber(i - 1));
+    removeExceptOne(this.options.tabs, 'next', this.getTabNumber(i + 1));
+    removeExceptOne(this.options.menus, 'active', i);
+    removeExceptOne(this.options.menus, 'prev', this.getTabNumber(i - 1));
+    removeExceptOne(this.options.menus, 'next', this.getTabNumber(i + 1));
+    if (this.options.showArrows) {
+      this.options.la.style.display = this.hasPrev() || this.options.loop ? "block" : "none";
+      this.options.ra.style.display = this.hasNext() || this.options.loop ? "block" : "none";
+    }
+  }
+  next() {
+    this.active = this.state.active + this.options.step;
+  }
+  hasNext() {
+    if (this.active === this.options.tabs.length - this.options.num) return false;
+    return true;
+  }
+  prev() {
+    this.active = this.state.active - this.options.step;
+  }
+  hasPrev() {
+    if (this.active === 0) return false;
+    return true;
+  }
+  getTabNumber(i) {
+    const l = this.options.tabs.length;
+    i = i < 0 ? i + l : i % l;
+    return i;
+  }
+  setProps() {
+    if (!this.options.showArrows) {
+      if (this.options.la) this.options.la.style.display = 'none';
+      if (this.options.ra) this.options.ra.style.display = 'none';
+    } else {
+      Array.from(this.options.tabs).forEach(e => e.style.margin = `0 ${this.margin}px`);
+    }
+    if (!this.options.showUnderline) {
+      if (this.options.line) this.options.line.style.display = 'none';
+    }
+    if (this.options.showMenu) {
+      this.setMenuProps();
+      this.options.line.style.width = this.options.menus[0].offsetWidth + 'px';
+    } else {
+      if (this.options.menu) this.options.menu.style.display = 'none';
+    }
+    this.setScrollEvent();
+    this.options.tabcontainer.style.width = this.options.tabs.length * (this.width + 2 * this.margin) + 'px';
+    this.options.tabcontainer.style.height = this.options.tabHeight;
+    Array.from(this.options.tabs).forEach(e => e.style.width = this.width + 'px');
+  }
+  setMenuProps() {
+    const me = this;
+    let left = 0;
+    this.options.menuProps = {};
+    Array.from(this.options.menus).forEach((elem, i) => {
+      this.options.menuProps[i] = {
+        width: elem.offsetWidth,
+        left: left
+      };
+      left += elem.offsetWidth;
+      elem._click = () => me.active = i;
+    });
+    const last = this.options.menuProps[this.options.menus.length - 1];
+    this.options.menu.style.width = last.left + last.width + 5 + 'px';
+    const active = this.options.menuProps[this.active];
+    if (active) {
+      me.options.line.style.left = active.left + 'px';
+      me.options.line.style.width = active.width + 'px';
+    }
+  }
+  setClickEvents() {
+    let me = this;
+    if (this.options.la) this.options.la._click = () => me.prev();
+    if (this.options.ra) this.options.ra._click = () => me.next();
+  }
+  setScrollEvent() {
+    let me = this,
+      isScrolling,
+      scrollPos = -1;
+    me.options.content.onscroll = () => requestAnimationFrame(onScroll);
+    function onScroll() {
+      const total = me.options.content.scrollLeft / me.width;
+      const per = total % 1;
+      if (scrollPos < 0) scrollPos = per;
+      const t = Math.floor(total);
+      try {
+        const left = me.options.menuProps[t].left * (1 - per) + (me.options.menuProps[t + 1] || {
+          left: 0
+        }).left * per;
+        const width = me.options.menuProps[t].width * (1 - per) + (me.options.menuProps[t + 1] || {
+          width: 0
+        }).width * per;
+        me.options.line.style.left = left + 'px';
+        me.options.line.style.width = width + 'px';
+        me.options.menu.parentElement.scrollLeft = left - (me.width - width) / 2;
+      } catch (e) {}
+      clearTimeout(isScrolling);
+      isScrolling = setTimeout(function() {
+        if (per - scrollPos < -me.options.scrollBreakpoint) {
+          me.active = t;
+        } else if (per - scrollPos > +me.options.scrollBreakpoint) {
+          me.active = t + 1;
+        } else {
+          me.active = me.active;
+        }
+        scrollPos = -1;
+      }, 66);
+    }
+  }
+  setWindowResizeEvent() {
+    const me = this;
+    window.addEventListener("resize", function() {
+      me.refresh();
+    });
+  }
+  setSlotChangeEvent() {
+    const me = this;
+    const fxn = () => {
+      me.options.menus = me.$$('slot')[0].assignedNodes();
+      me.options.tabs = me.$$('slot')[1].assignedNodes();
+      me.refresh();
+    };
+    this.$$('slot')[0].addEventListener('slotchange', fxn);
+    this.$$('slot')[1].addEventListener('slotchange', fxn);
+  }
+  animate(who, what, to, time, type = 'easeOut') {
+    const from = who[what];
+    const diff = to - from;
+    const me = this;
+    let startTime;
+    function frame(currentTime) {
+      startTime = startTime || currentTime;
+      if (currentTime - startTime > time) {
+        who[what] = to;
+        return;
+      }
+      let percent = (currentTime - startTime) / time;
+      who[what] = Math.round(me.animations[type].call(this, percent) * diff + from);
+      window.requestAnimationFrame(frame);
+    }
+    window.requestAnimationFrame(frame);
+  }
+  animations() {
+    return {
+      linear: i => i,
+      easeOut: i => (--i) * i * i + 1,
+      easeIn: i => i * i * i,
+      none: i => 1
+    }
+  }
+}
+if (window) SifrrDom.register(SifrrTabs);
+
+var css$1 = ":host {\n  position: fixed;\n  right: 0;\n  top: 0;\n  bottom: 0;\n  height: 100%;\n  max-width: 100%;\n  width: 320px;\n  z-index: 1000;\n  background-color: rgba(0, 0, 0, 0.8);\n  transform: translate3d(100%, 0, 0);\n  transition: all 0.2s ease; }\n\n:host(.show) {\n  transform: translate3d(0, 0, 0); }\n\n* {\n  box-sizing: border-box; }\n\n#showHide {\n  position: fixed;\n  left: -30px;\n  top: 0;\n  bottom: 0;\n  width: 30px;\n  height: 30px;\n  margin-top: 5px;\n  background-color: blue;\n  z-index: 2; }\n\n.stateContainer {\n  padding-left: 10px;\n  margin-left: 10px;\n  border-left: 1px solid white;\n  position: relative; }\n\n.stateContainer.off {\n  opacity: 0.5; }\n\n.stateContainer .dotC {\n  position: absolute;\n  top: 0;\n  left: -10px;\n  width: 20px;\n  height: 100%;\n  cursor: pointer; }\n\n.stateContainer .dotC .dot {\n  position: absolute;\n  top: 50%;\n  left: 10px;\n  width: 10px;\n  height: 10px;\n  transform: translate3d(-50%, -50%, 0);\n  background-color: white;\n  border-radius: 50%; }\n\n.stateContainer .delete {\n  position: absolute;\n  top: 0;\n  right: 0;\n  padding: 4px;\n  background-color: rgba(0, 0, 0, 0.7);\n  color: white;\n  cursor: pointer; }\n\n.state {\n  white-space: pre-wrap;\n  max-height: 90px;\n  overflow: hidden;\n  background-color: rgba(255, 255, 255, 0.97);\n  padding: 5px;\n  margin-bottom: 5px;\n  position: relative;\n  cursor: pointer; }\n\n.state:hover::after {\n  content: '\\\\\\/';\n  position: absolute;\n  bottom: 0;\n  left: 0;\n  width: 100%;\n  background-color: rgba(0, 0, 0, 0.7);\n  text-align: center;\n  color: white; }\n\n.state.open {\n  max-height: none; }\n\n.state.open:hover::after {\n  content: '\\/\\\\'; }\n\n.key {\n  color: red; }\n\n.string {\n  color: green; }\n\n.number, .null, .boolean {\n  color: blue; }\n\nfooter {\n  position: absolute;\n  bottom: 0; }\n\ninput {\n  margin: 3px;\n  width: calc(100% - 6px);\n  padding: 3px; }\n\n.btn3 {\n  margin: 3px;\n  width: calc(33% - 8px);\n  padding: 3px;\n  background: white; }\n";
+
+const template$1 = SifrrDom.template`<style>
+  ${css$1}
 </style>
 <div id="showHide" _click=\${this.showHide}></div>
 <sifrr-tabs options='{"tabHeight": "calc(100vh - 132px)"}' data-sifrr-html="true">
@@ -25,7 +276,7 @@ SifrrDom.Event.add('click');
 SifrrDom.Event.add('keyup');
 class SifrrStater extends SifrrDom.Element {
   static get template() {
-    return template;
+    return template$1;
   }
   onConnect() {
     let me = this;
