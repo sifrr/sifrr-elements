@@ -58,7 +58,7 @@
         showUnderline: true,
         loop: false,
         animation: 'easeOut',
-        animationTime: 150,
+        animationTime: 300,
         scrollBreakpoint: 0.2
       };
       if (this.getAttribute('options')) Object.assign(this.options, JSON.parse(this.getAttribute('options')));
