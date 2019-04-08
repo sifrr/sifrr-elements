@@ -1,5 +1,6 @@
 /*! SifrrElements v0.0.4 - sifrr project | MIT licensed | https://github.com/sifrr/sifrr */
 import SifrrDom from '@sifrr/dom';
+import SifrrStorage from '@sifrr/storage';
 
 function moveAttr(el, attr) {
   if (!el.dataset[attr]) return;
@@ -53,56 +54,56 @@ const sifrrtabs = /*#__PURE__*/Object.freeze({
 
 var css = ":host {\n  position: fixed;\n  right: 0;\n  top: 0;\n  bottom: 0;\n  height: 100%;\n  max-width: 100%;\n  width: 320px;\n  z-index: 1000;\n  background-color: rgba(0, 0, 0, 0.8);\n  transform: translate3d(100%, 0, 0);\n  transition: all 0.2s ease; }\n\n:host(.show) {\n  transform: translate3d(0, 0, 0); }\n\n* {\n  box-sizing: border-box; }\n\n#showHide {\n  position: fixed;\n  left: -30px;\n  top: 0;\n  bottom: 0;\n  width: 30px;\n  height: 30px;\n  margin-top: 5px;\n  background-color: blue;\n  z-index: 2; }\n\n.stateContainer {\n  padding-left: 10px;\n  margin-left: 10px;\n  border-left: 1px solid white;\n  position: relative; }\n\n.stateContainer.off {\n  opacity: 0.5; }\n\n.stateContainer .dotC {\n  position: absolute;\n  top: 0;\n  left: -10px;\n  width: 20px;\n  height: 100%;\n  cursor: pointer; }\n\n.stateContainer .dotC .dot {\n  position: absolute;\n  top: 50%;\n  left: 10px;\n  width: 10px;\n  height: 10px;\n  transform: translate3d(-50%, -50%, 0);\n  background-color: white;\n  border-radius: 50%; }\n\n.stateContainer .delete {\n  position: absolute;\n  top: 0;\n  right: 0;\n  padding: 4px;\n  background-color: rgba(0, 0, 0, 0.7);\n  color: white;\n  cursor: pointer; }\n\n.state {\n  white-space: pre-wrap;\n  max-height: 90px;\n  overflow: hidden;\n  background-color: rgba(255, 255, 255, 0.97);\n  padding: 5px;\n  margin-bottom: 5px;\n  position: relative;\n  cursor: pointer; }\n\n.state:hover::after {\n  content: '\\\\\\/';\n  position: absolute;\n  bottom: 0;\n  left: 0;\n  width: 100%;\n  background-color: rgba(0, 0, 0, 0.7);\n  text-align: center;\n  color: white; }\n\n.state.open {\n  max-height: none; }\n\n.state.open:hover::after {\n  content: '\\/\\\\'; }\n\n.key {\n  color: red; }\n\n.string {\n  color: green; }\n\n.number, .null, .boolean {\n  color: blue; }\n\nfooter {\n  position: absolute;\n  bottom: 0; }\n\ninput {\n  margin: 3px;\n  width: calc(100% - 6px);\n  padding: 3px; }\n\n.btn3 {\n  margin: 3px;\n  width: calc(33% - 8px);\n  padding: 3px;\n  background: white; }\n";
 
-const template = Sifrr.Dom.template`<style>
+const template = SifrrDom.template`<style>
   ${css}
 </style>
-<div id="showHide" $click={{this.showHide}}></div>
+<div id="showHide" _click=\${this.showHide}></div>
 <sifrr-tabs options='{"tabHeight": "calc(100vh - 132px)"}' data-sifrr-html="true">
-  {{ this.headingHtml() }}
-  {{ this.stateHtml() }}
+  \${ this.headingHtml() }
+  \${ this.stateHtml() }
 </sifrr-tabs>
 <footer>
-  <input $keyup={{this.addTargetOnEnter}} id="addTargetInput" type="text" name="addTargetInput" value="" placeholder="Enter css selector query of target">
-  <button $click={{this.addTarget}} class="btn3" type="button" name="addTargetButton">Add Taget</button>
-  <button $click={{this.commitAll}} class="btn3" type="button" name="commitAll">Commit All</button>
-  <button $click={{this.resetAllToFirstState}} class="btn3" type="button" name="resetAll">Reset All</button>
-  <button $click={{this.saveData}} class="btn3" type="button" name="saveData">Save Data</button>
-  <button $click={{this.loadData}} class="btn3" type="button" name="loadData">Load Data</button>
-  <button $click={{this.clearAll}} class="btn3" type="button" name="clearAll">Remove All</button>
+  <input _keyup=\${this.addTargetOnEnter} id="addTargetInput" type="text" name="addTargetInput" value="" placeholder="Enter css selector query of target">
+  <button _click=\${this.addTarget} class="btn3" type="button" name="addTargetButton">Add Taget</button>
+  <button _click=\${this.commitAll} class="btn3" type="button" name="commitAll">Commit All</button>
+  <button _click=\${this.resetAllToFirstState} class="btn3" type="button" name="resetAll">Reset All</button>
+  <button _click=\${this.saveData} class="btn3" type="button" name="saveData">Save Data</button>
+  <button _click=\${this.loadData} class="btn3" type="button" name="loadData">Load Data</button>
+  <button _click=\${this.clearAll} class="btn3" type="button" name="clearAll">Remove All</button>
 </footer>`;
-Sifrr.Dom.Event.add('click');
-Sifrr.Dom.Event.add('keyup');
-class SifrrStater extends Sifrr.Dom.Element {
+SifrrDom.Event.add('click');
+SifrrDom.Event.add('keyup');
+class SifrrStater extends SifrrDom.Element {
   static get template() {
     return template;
   }
   onConnect() {
     let me = this;
-    this.storage = new Sifrr.Storage({
+    this.storage = new SifrrStorage({
       name: window.location.href
     });
-    Sifrr.Dom.Event.addListener('click', '.state', function(e, el) {
+    SifrrDom.Event.addListener('click', '.state', function(e, el) {
       el.classList.contains('open') ? el.classList.remove('open') : el.classList.add('open');
     });
-    Sifrr.Dom.Event.addListener('click', '.dotC', function(e, target, el) {
+    SifrrDom.Event.addListener('click', '.dotC', function(e, target, el) {
       me.toState(parseInt(el.dataset.target), parseInt(el.dataset.stateIndex));
     });
-    Sifrr.Dom.Event.addListener('click', '.delete', function(e, el) {
+    SifrrDom.Event.addListener('click', '.delete', function(e, el) {
       me.deleteState(parseInt(el.dataset.target), parseInt(el.dataset.stateIndex));
     });
-    Sifrr.Dom.Event.addListener('click', '.commit', function(e, el) {
+    SifrrDom.Event.addListener('click', '.commit', function(e, el) {
       const i = parseInt(el.parentNode.dataset.target);
       me.commit(i);
     });
-    Sifrr.Dom.Event.addListener('click', '.reset', function(e, el) {
+    SifrrDom.Event.addListener('click', '.reset', function(e, el) {
       const i = parseInt(el.parentNode.dataset.target);
       me.resetToFirstState(i);
     });
-    Sifrr.Dom.Event.addListener('click', '.remove', function(e, el) {
+    SifrrDom.Event.addListener('click', '.remove', function(e, el) {
       const i = parseInt(el.parentNode.dataset.target);
       me.removeTarget(i);
     });
-    Sifrr.Dom.Element.onStateChange = function(target) {
+    SifrrDom.Element.onStateChange = function(target) {
       me.addState(target, target.state);
     };
   }
@@ -308,7 +309,7 @@ SifrrStater.defaultState = {
   queries: [],
   activeStates: []
 };
-if (window) SifrrDom.register(SifrrStater, { extends: 'picture' });
+if (window) SifrrDom.register(SifrrStater);
 
 const sifrrstater = /*#__PURE__*/Object.freeze({
   default: SifrrStater

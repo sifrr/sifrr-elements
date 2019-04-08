@@ -1,59 +1,60 @@
 import SifrrDom from '@sifrr/dom'
+import SifrrStorage from '@sifrr/storage'
 import SifrrTabs from '../../sifrr-tabs/src/sifrrtabs'
 import style from './style.scss'
 
-const template = Sifrr.Dom.template`<style>
+const template = SifrrDom.template`<style>
   ${style}
 </style>
-<div id="showHide" $click={{this.showHide}}></div>
+<div id="showHide" _click=\${this.showHide}></div>
 <sifrr-tabs options='{"tabHeight": "calc(100vh - 132px)"}' data-sifrr-html="true">
-  {{ this.headingHtml() }}
-  {{ this.stateHtml() }}
+  \${ this.headingHtml() }
+  \${ this.stateHtml() }
 </sifrr-tabs>
 <footer>
-  <input $keyup={{this.addTargetOnEnter}} id="addTargetInput" type="text" name="addTargetInput" value="" placeholder="Enter css selector query of target">
-  <button $click={{this.addTarget}} class="btn3" type="button" name="addTargetButton">Add Taget</button>
-  <button $click={{this.commitAll}} class="btn3" type="button" name="commitAll">Commit All</button>
-  <button $click={{this.resetAllToFirstState}} class="btn3" type="button" name="resetAll">Reset All</button>
-  <button $click={{this.saveData}} class="btn3" type="button" name="saveData">Save Data</button>
-  <button $click={{this.loadData}} class="btn3" type="button" name="loadData">Load Data</button>
-  <button $click={{this.clearAll}} class="btn3" type="button" name="clearAll">Remove All</button>
+  <input _keyup=\${this.addTargetOnEnter} id="addTargetInput" type="text" name="addTargetInput" value="" placeholder="Enter css selector query of target">
+  <button _click=\${this.addTarget} class="btn3" type="button" name="addTargetButton">Add Taget</button>
+  <button _click=\${this.commitAll} class="btn3" type="button" name="commitAll">Commit All</button>
+  <button _click=\${this.resetAllToFirstState} class="btn3" type="button" name="resetAll">Reset All</button>
+  <button _click=\${this.saveData} class="btn3" type="button" name="saveData">Save Data</button>
+  <button _click=\${this.loadData} class="btn3" type="button" name="loadData">Load Data</button>
+  <button _click=\${this.clearAll} class="btn3" type="button" name="clearAll">Remove All</button>
 </footer>`;
 
-Sifrr.Dom.Event.add('click');
-Sifrr.Dom.Event.add('keyup');
-class SifrrStater extends Sifrr.Dom.Element {
+SifrrDom.Event.add('click');
+SifrrDom.Event.add('keyup');
+class SifrrStater extends SifrrDom.Element {
   static get template() {
     return template;
   }
 
   onConnect() {
     let me = this;
-    this.storage = new Sifrr.Storage({
+    this.storage = new SifrrStorage({
       name: window.location.href
     });
-    Sifrr.Dom.Event.addListener('click', '.state', function(e, el) {
+    SifrrDom.Event.addListener('click', '.state', function(e, el) {
       el.classList.contains('open') ? el.classList.remove('open') : el.classList.add('open');
     });
-    Sifrr.Dom.Event.addListener('click', '.dotC', function(e, target, el) {
+    SifrrDom.Event.addListener('click', '.dotC', function(e, target, el) {
       me.toState(parseInt(el.dataset.target), parseInt(el.dataset.stateIndex));
     });
-    Sifrr.Dom.Event.addListener('click', '.delete', function(e, el) {
+    SifrrDom.Event.addListener('click', '.delete', function(e, el) {
       me.deleteState(parseInt(el.dataset.target), parseInt(el.dataset.stateIndex));
     });
-    Sifrr.Dom.Event.addListener('click', '.commit', function(e, el) {
+    SifrrDom.Event.addListener('click', '.commit', function(e, el) {
       const i = parseInt(el.parentNode.dataset.target);
       me.commit(i);
     });
-    Sifrr.Dom.Event.addListener('click', '.reset', function(e, el) {
+    SifrrDom.Event.addListener('click', '.reset', function(e, el) {
       const i = parseInt(el.parentNode.dataset.target);
       me.resetToFirstState(i);
     });
-    Sifrr.Dom.Event.addListener('click', '.remove', function(e, el) {
+    SifrrDom.Event.addListener('click', '.remove', function(e, el) {
       const i = parseInt(el.parentNode.dataset.target);
       me.removeTarget(i);
     });
-    Sifrr.Dom.Element.onStateChange = function(target) {
+    SifrrDom.Element.onStateChange = function(target) {
       me.addState(target, target.state);
     }
   }
@@ -279,6 +280,6 @@ SifrrStater.defaultState = {
   activeStates: []
 }
 
-if (window) SifrrDom.register(SifrrStater, { extends: 'picture' });
+if (window) SifrrDom.register(SifrrStater);
 
 export default SifrrStater;
