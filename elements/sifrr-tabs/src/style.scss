@@ -1,0 +1,126 @@
+:host {
+  /* CSS for tabs container */
+  line-height: 24px;
+  overflow: hidden;
+  width: 100%;
+  display: block;
+  position: relative;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+}
+
+.headings {
+  /* CSS for heading bar */
+  width: 100%;
+  overflow-y: hidden;
+  overflow-x: auto;
+  position: relative;
+  background: #714cfe;
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.2);
+}
+
+.headings ul {
+  padding: 0 0 3px;
+  margin: 0;
+  font-size: 0;
+}
+
+/* CSS for heading text li */
+.headings *::slotted(li) {
+  font-size: 16px;
+  display: inline-block;
+  text-align: center;
+  padding: 8px;
+  text-decoration: none;
+  list-style: none;
+  color: white;
+  border-bottom: 2px solid transparent;
+  opacity: 0.9;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
+.headings *::slotted(li.active) {
+  opacity: 1;
+}
+
+.headings *::slotted(li:hover) {
+  opacity: 1;
+}
+
+/* CSS for line under active tab heading */
+.headings .underline {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 3px;
+  background: white;
+}
+
+/* Arrows css */
+.arrow {
+  position: absolute;
+  z-index: 5;
+  top: 0;
+  bottom: 0;
+  width: 20px;
+}
+
+.arrow>* {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  margin: -6px 5px;
+  top: 50%;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  display: inline-block;
+  padding: 3px;
+  filter: drop-shadow(-1px -1px 3px #000);
+}
+
+.arrow.l {
+  left: 0;
+}
+
+.arrow.l>* {
+  left: 0;
+  transform: rotate(135deg);
+}
+
+.arrow.r {
+  right: 0;
+}
+
+.arrow.r>* {
+  right: 0;
+  transform: rotate(-45deg);
+}
+
+/* Tab container css */
+.content {
+  width: 100%;
+  height: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  margin: 0;
+  line-height: normal;
+  box-sizing: border-box;
+}
+
+.content .tabs {
+  min-height: 1px;
+}
+
+/* Tab element css */
+.content *::slotted([slot="tab"]) {
+  float: left;
+  max-height: 100%;
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  vertical-align: top;
+  padding: 8px;
+  box-sizing: border-box;
+}

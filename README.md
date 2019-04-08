@@ -1,23 +1,68 @@
 # [WIP] sifrr-elements
 
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fsifrr%2Fsifrr-elements.svg?type=small)](https://app.fossa.io/projects/git%2Bgithub.com%2Fsifrr%2Fsifrr-elements?ref=badge_small)
+   
+
 Elements for sifrr
 
 ## List of Elements:
 
 | Elements                                               | Description                                                                                        | Size                                                                                                                                                                          |
 | :----------------------------------------------------- | :------------------------------------------------------------------------------------------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [sifrr-stater](./elements/sifrr/stater.js)             | State checker for sifrr elements, save them to storage, replay state changes, travel to past state | [![Minified + Gzipped](https://img.badgesize.io/sifrr/sifrr-elements/master/dist/elements/sifrr/stater.js?compression=gzip&maxAge=60)](./dist/elements/sifrr/stater.js) [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fsifrr%2Fsifrr-elements.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fsifrr%2Fsifrr-elements?ref=badge_shield)
-    |
-| [sifrr-tabs](./elements/sifrr/tabs.js)                 | Android like tabs in browser                                                                       | [![Minified + Gzipped](https://img.badgesize.io/sifrr/sifrr-elements/master/dist/elements/sifrr/tabs.js?compression=gzip&maxAge=60)](./dist/elements/sifrr/tabs.js)         |
+| [sifrr-stater](./elements/sifrr/stater.js)             | State checker for sifrr elements, save them to storage, replay state changes, travel to past state | [![Minified + Gzipped](https://img.badgesize.io/sifrr/sifrr-elements/master/dist/elements/sifrr/stater.js?compression=gzip&maxAge=60)](./dist/elements/sifrr/stater.js)       |
+| [sifrr-tabs](./elements/sifrr/tabs.js)                 | Android like tabs in browser                                                                       | [![Minified + Gzipped](https://img.badgesize.io/sifrr/sifrr-elements/master/dist/elements/sifrr/tabs.js?compression=gzip&maxAge=60)](./dist/elements/sifrr/tabs.js)           |
 | [sifrr-lazy-picture](./elements/sifrr/lazy/picture.js) | Lazy loading images only when in view                                                              | [![Minified + Gzipped](https://img.badgesize.io/sifrr/sifrr-elements/master/dist/elements/sifrr/lazy/picture.js?compression=gzip&maxAge=60)](./dist/elements/sifrr/lazy/picture.js) |
 
 ## View examples
 
-Clone the repo and run `npm run example-server` and go to <http://localhost:1111/examples.html>
+### Packages that have tests have a working example of that package in `test/public` folder
 
-## Elements
+## Usage
 
-Copy contents of `dist/elements` to `elements` folder in your sifrr app. And use `Sifrr.Dom.load('<tag-name>')` to load that element like you do with any other sifrr element.
+### Using direct distribution file
+
+#### Script tag
+
+```html
+<script src="https://unpkg.com/@sifrr/elements@{version}/elements/element-name/dist/elementname.min.js"></script>
+// for v0.0.3, version = 0.0.3
+```
+
+#### Script Module tag
+
+```html
+<script src="https://unpkg.com/@sifrr/elements@{version}/elements/element-name/dist/elementname.min.js" type="module"></script>
+// for v0.0.3, version = 0.0.3
+```
+
+#### Sifrr.Dom.load
+
+```js
+Sifrr.Dom.load('element-name', { url: "https://unpkg.com/@sifrr/elements@{version}/elements/element-name/dist/elementname.min.js" })
+```
+
+### NPM module
+
+add `@sifrr/elements` package, `yarn add @sifrr/elements`
+
+require/import needed elements
+
+```js
+const { SifrrLazyPicture } = require('@sifrr/elements');
+//or
+import { SifrrLazyPicture } from '@sifrr/elements';
+
+// Register
+Sifrr.Dom.register(SifrrLazyPicture); // where Sifrr.Dom = require('@sifrr/dom')
+```
+
+## License
+
+sifrr-elements is [MIT Licensed](./LICENSE).
+
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fsifrr%2Fsifrr-elements.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fsifrr%2Fsifrr-elements?ref=badge_large)
+
+(c) [@aadityataparia](https://github.com/aadityataparia)
 
 ### sifrr-stater
 
