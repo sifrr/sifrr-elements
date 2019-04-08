@@ -12,12 +12,14 @@ ${html}`;
 SifrrDom.Event.add('click');
 
 const defaultShowcase = {
-  id: 0,
+  id: 1,
   name: 'new',
   element: 'sifrr-placeholder',
-  style: `display: block;
-background-color: white;
-margin: auto;`,
+  style: `#element > * {
+  display: block;
+  background-color: white;
+  margin: auto;
+}`,
   code: '<sifrr-placeholder>\n</sifrr-placeholder>',
   elState: 'return {\n\n}',
   isjs: 'true',
@@ -37,9 +39,11 @@ class SifrrShowcase extends SifrrDom.Element {
       this.$('#url').value = url;
       this.loadUrl();
     } else {
-      storage.select(['showcases', 'current']).then((res) => {
-        showcases.push(...res.showcases);
-        this.switchShowcase(res.current || 0);
+      storage.get(['showcases', 'current']).then((res) => {
+        if (Array.isArray(res.showcases) && res.showcases.length > 0) {
+          showcases.push(...res.showcases);
+        } else showcases.push(defaultShowcase);
+        this.switchShowcase(res.current || defaultShowcase.id);
       });
       this.$('#loader').textContent = 'loaded from storage!';
     }
@@ -81,9 +85,9 @@ class SifrrShowcase extends SifrrDom.Element {
     }, 1000);
   }
 
-  createNewShowcase() {
+  createNewVariant() {
     const i = showcases.length;
-    showcases[i] = Object.assign({}, defaultShowcase, { id: Math.max(...showcases.map(s => s.id)) + 1, name: this.$('#showcaseName').value });
+    showcases[i] = Object.assign({}, defaultShowcase, { id: Math.max(...showcases.map(s => s.id)) + 1, name: this.$('#variantName').value });
     this.switchShowcase(i);
   }
 
@@ -101,13 +105,12 @@ class SifrrShowcase extends SifrrDom.Element {
         Object.assign(s, this.state);
       }
     });
-    this.update();
-    return storage.insert('showcases', showcases);
+    return storage.set('showcases', showcases);
   }
 
   switchShowcase(id) {
     this.state = Object.assign({}, showcases.filter(s => s.id == id)[0] || showcases[0]);
-    storage.update('current', id);
+    storage.set('current', id);
   }
 
   loadUrl() {

@@ -2,9 +2,9 @@
 import SifrrDom from '@sifrr/dom';
 import SifrrStorage from '@sifrr/storage';
 
-var css = "* {\n  box-sizing: border-box; }\n\nh1, label, li {\n  font-family: Roboto, Ariel; }\n\n.container {\n  width: 100%;\n  height: 100%;\n  display: flex;\n  flex-wrap: nowrap;\n  background-color: #3a3f5a; }\n\n#sidemenu {\n  width: 15%;\n  height: 100%; }\n\n#sidemenu > * {\n  height: 100%; }\n\n#sidebar {\n  width: 20%;\n  height: 100%; }\n\n#sidebar > * {\n  height: 33.33%; }\n\n#main {\n  width: 65%;\n  height: 100%; }\n\n.flex-column {\n  height: 100%;\n  display: flex;\n  flex-wrap: nowrap;\n  flex-direction: column; }\n\n.box {\n  width: 100%;\n  overflow: scroll;\n  border: 1px solid #5f616d; }\n\n#element {\n  padding: 20px;\n  height: 70%; }\n\n#element > * {\n  ${this.state.style} }\n\n#code {\n  height: 30%; }\n\n#code highlight-syntax {\n  height: calc(100% - 48px) !important; }\n\nh1 {\n  color: #cccccc;\n  text-align: center; }\n\nlabel, li {\n  color: #8f9cb3;\n  font-size: 16px;\n  line-height: 24px;\n  padding: 4px; }\n\n#error {\n  color: red; }\n\nhighlight-syntax {\n  width: 100%;\n  height: calc(100% - 24px);\n  font-size: 14px;\n  padding: 4px; }\n\nul {\n  padding: 8px;\n  margin: 0; }\n\n.showcase {\n  list-style-type: none; }\n\n.showcase span {\n  color: red;\n  float: right; }\n\n#saver, #loader {\n  color: green;\n  padding: 4px;\n  margin: 0; }\n\nbutton {\n  background: #cccccc;\n  border: 1px solid grey;\n  color: #3a3f5a;\n  font-size: 14px;\n  padding: 4px; }\n";
+var css = "* {\n  box-sizing: border-box; }\n\nh1, label, li {\n  font-family: Roboto, Ariel; }\n\n.container {\n  width: 100%;\n  height: 100%;\n  display: flex;\n  flex-wrap: nowrap;\n  background-color: #3a3f5a; }\n\n#sidemenu {\n  width: 15%;\n  height: 100%; }\n\n#sidemenu > * {\n  height: 100%; }\n\n#sidebar {\n  width: 20%;\n  height: 100%; }\n\n#sidebar > * {\n  height: 33.33%; }\n\n#main {\n  width: 65%;\n  height: 100%; }\n\n.flex-column {\n  height: 100%;\n  display: flex;\n  flex-wrap: nowrap;\n  flex-direction: column; }\n\n.box {\n  width: 100%;\n  overflow: scroll;\n  border: 1px solid #5f616d; }\n\n#element {\n  padding: 20px;\n  height: 70%; }\n\n${this.state.style}\n#code {\n  height: 30%; }\n\n#code sifrr-code-editor {\n  height: calc(100% - 48px) !important; }\n\nh1 {\n  color: #cccccc;\n  text-align: center; }\n\nlabel, li {\n  color: #8f9cb3;\n  font-size: 16px;\n  line-height: 24px;\n  padding: 4px; }\n\n#error {\n  color: red; }\n\nsifrr-code-editor {\n  width: 100%;\n  height: calc(100% - 24px);\n  font-size: 14px;\n  padding: 4px; }\n\nul {\n  padding: 8px;\n  margin: 0; }\n\n.showcase {\n  list-style-type: none; }\n\n.showcase span {\n  color: red;\n  float: right; }\n\n#saver, #loader {\n  color: green;\n  padding: 4px;\n  margin: 0; }\n\nbutton {\n  background: #cccccc;\n  border: 1px solid grey;\n  color: #3a3f5a;\n  font-size: 14px;\n  padding: 4px; }\n";
 
-const html = "<div class=\"container\">\n  <div class=\"flex-column\" id=\"sidemenu\">\n    <div class=\"box\">\n      <h1>Sifrr Showcase</h1>\n      <p id=\"loader\"></p>\n      <input id=\"url\" type=\"text\" placeholder=\"Enter url here...\" name=\"url\">\n      <button type=\"button\" name=\"loadUrl\" _click=\"${this.loadUrl}\">Load from url</button>\n      <button type=\"button\" name=\"saveFile\" _click=\"${this.saveFile}\">Save to File</button>\n      <input type=\"file\" name=\"file\" accept=\"application/json\" _input=\"${this.loadFile}\">\n    </div>\n  </div>\n  <div class=\"flex-column\" id=\"sidebar\">\n    <div class=\"box\">\n      <label for=\"style\">Element CSS Styles</label>\n      <sifrr-code-editor lang=\"css\" data-sifrr-bind=\"style\" value=\"${this.state.style}\"></sifrr-code-editor>\n    </div>\n    <div class=\"box\">\n      <label for=\"elState\">Element State Function</label>\n      <sifrr-code-editor id=\"elState\" lang=\"js\" data-sifrr-bind=\"elState\" value=\"${this.state.elState}\"></sifrr-code-editor>\n    </div>\n    <div class=\"box\">\n      <label for=\"states\">Showcase</label>\n      <input id=\"showcaseName\" type=\"text\" name=\"showcaseName\" value=\"${this.state.name}\" data-sifrr-bind=\"name\">\n      <button type=\"button\" name=\"createStyle\" _click=\"${this.createNewShowcase}\">Create new Showcase</button>\n      <button type=\"button\" name=\"saveStyle\" _click=\"${this.saveShowcase}\">Save Showcase</button>\n      <p id=\"saver\"></p>\n      <style media=\"screen\">\n        #showcase${this.state.id} {\n          background: #5f616d;\n        }\n      </style>\n      <div id=\"showcases\">\n        <ul data-sifrr-repeat=\"${this.allShowcases()}\">\n          <li class=\"showcase\" data-showcase-id=\"${this.state.id}\" id=\"showcase${this.state.id}\">${this.state.name}<span>X</span></li>\n        </ul>\n      </div>\n    </div>\n  </div>\n  <div class=\"flex-column\" id=\"main\">\n    <div class=\"box\" id=\"element\" data-sifrr-html=\"true\">\n      ${this.state.code}\n    </div>\n    <div class=\"box\" id=\"code\">\n      <label for=\"elementName\">Element Name</label>\n      <input type=\"text\" name=\"elementName\" placeholder=\"Enter element name here...\" _input=\"${this.updateHtml}\" value=\"${this.state.element}\">\n      <label for=\"customUrl\">Custom Url</label>\n      <input type=\"text\" name=\"customUrl\" placeholder=\"Enter element url here...\" value=\"${this.state.elementUrl}\" data-sifrr-bind=\"elementUrl\">\n      <label for=\"elementName\">Is JS File</label>\n      <select id=\"isjs\" name=\"isjs\" value=\"${this.state.isjs}\" data-sifrr-bind=\"isjs\">\n        <option value=\"true\">true</option>\n        <option value=\"false\">false</option>\n      </select>\n      <span id=\"error\"></span>\n      <br>\n      <label for=\"htmlcode\">HTML Code</label>\n      <sifrr-code-editor lang=\"html\" data-sifrr-bind=\"code\" value=\"${this.state.code}\"></sifrr-code-editor>\n    </div>\n  </div>\n</div>";
+const html = "<div class=\"container\">\n  <div class=\"flex-column\" id=\"sidemenu\">\n    <div class=\"box\">\n      <h1>Sifrr Showcase</h1>\n      <p id=\"loader\"></p>\n      <input id=\"url\" type=\"text\" placeholder=\"Enter url here...\" name=\"url\">\n      <button type=\"button\" name=\"loadUrl\" _click=\"${this.loadUrl}\">Load from url</button>\n      <button type=\"button\" name=\"saveFile\" _click=\"${this.saveFile}\">Save to File</button>\n      <input type=\"file\" name=\"file\" accept=\"application/json\" _input=\"${this.loadFile}\">\n    </div>\n  </div>\n  <div class=\"flex-column\" id=\"sidebar\">\n    <div class=\"box\">\n      <label for=\"style\">Element CSS Styles</label>\n      <sifrr-code-editor lang=\"css\" data-sifrr-bind=\"style\" value=\"${this.state.style}\"></sifrr-code-editor>\n    </div>\n    <div class=\"box\">\n      <label for=\"elState\">Element State Function</label>\n      <sifrr-code-editor id=\"elState\" lang=\"js\" data-sifrr-bind=\"elState\" value=\"${this.state.elState}\"></sifrr-code-editor>\n    </div>\n    <div class=\"box\">\n      <label for=\"states\">Variants</label>\n      <input id=\"variantName\" type=\"text\" name=\"variantName\" value=\"${this.state.name}\" data-sifrr-bind=\"name\">\n      <button type=\"button\" name=\"createVariant\" _click=\"${this.createNewVariant}\">Create new variant</button>\n      <p id=\"saver\"></p>\n      <style media=\"screen\">\n        #showcase${this.state.id} {\n          background: #5f616d;\n        }\n      </style>\n      <div id=\"showcases\">\n        <ul data-sifrr-repeat=\"${this.allShowcases()}\">\n          <li class=\"showcase\" data-showcase-id=\"${this.state.id}\" id=\"showcase${this.state.id}\">${this.state.name}<span>X</span></li>\n        </ul>\n      </div>\n    </div>\n  </div>\n  <div class=\"flex-column\" id=\"main\">\n    <div class=\"box\" id=\"element\" data-sifrr-html=\"true\">\n      ${this.state.code}\n    </div>\n    <div class=\"box\" id=\"code\">\n      <label for=\"elementName\">Element Name</label>\n      <input type=\"text\" name=\"elementName\" placeholder=\"Enter element name here...\" _input=\"${this.updateHtml}\" value=\"${this.state.element}\">\n      <label for=\"customUrl\">Custom Url</label>\n      <input type=\"text\" name=\"customUrl\" placeholder=\"Enter element url here...\" value=\"${this.state.elementUrl}\" data-sifrr-bind=\"elementUrl\">\n      <label for=\"elementName\">Is JS File</label>\n      <select id=\"isjs\" name=\"isjs\" value=\"${this.state.isjs}\" data-sifrr-bind=\"isjs\">\n        <option value=\"true\">true</option>\n        <option value=\"false\">false</option>\n      </select>\n      <span id=\"error\"></span>\n      <br>\n      <label for=\"htmlcode\">HTML Code</label>\n      <sifrr-code-editor lang=\"html\" data-sifrr-bind=\"code\" value=\"${this.state.code}\"></sifrr-code-editor>\n    </div>\n  </div>\n</div>";
 
 var css$1 = ":host {\n  display: block;\n  position: relative; }\n\n* {\n  box-sizing: border-box; }\n\n.hljs {\n  width: 100%;\n  height: 100%;\n  font-family: Consolas,Liberation Mono,Courier,monospace;\n  font-size: 14px;\n  line-height: 18px;\n  padding: 8px;\n  margin: 0;\n  position: absolute;\n  white-space: pre-wrap;\n  top: 0;\n  left: 0; }\n\ntextarea {\n  background: transparent !important;\n  z-index: 2;\n  resize: none;\n  text-shadow: 0px 0px 0px rgba(0, 0, 0, 0);\n  border: none;\n  text-fill-color: transparent;\n  -webkit-text-fill-color: transparent; }\n\npre {\n  z-index: 1; }\n";
 const template = SifrrDom.template`
@@ -72,12 +72,14 @@ const template$1 = SifrrDom.template`<style media="screen">
 ${html}`;
 SifrrDom.Event.add('click');
 const defaultShowcase = {
-  id: 0,
+  id: 1,
   name: 'new',
   element: 'sifrr-placeholder',
-  style: `display: block;
-background-color: white;
-margin: auto;`,
+  style: `#element > * {
+  display: block;
+  background-color: white;
+  margin: auto;
+}`,
   code: '<sifrr-placeholder>\n</sifrr-placeholder>',
   elState: 'return {\n\n}',
   isjs: 'true',
@@ -95,9 +97,11 @@ class SifrrShowcase extends SifrrDom.Element {
       this.$('#url').value = url;
       this.loadUrl();
     } else {
-      storage.select(['showcases', 'current']).then((res) => {
-        showcases.push(...res.showcases);
-        this.switchShowcase(res.current || 0);
+      storage.get(['showcases', 'current']).then((res) => {
+        if (Array.isArray(res.showcases) && res.showcases.length > 0) {
+          showcases.push(...res.showcases);
+        } else showcases.push(defaultShowcase);
+        this.switchShowcase(res.current || defaultShowcase.id);
       });
       this.$('#loader').textContent = 'loaded from storage!';
     }
@@ -137,9 +141,9 @@ class SifrrShowcase extends SifrrDom.Element {
       });
     }, 1000);
   }
-  createNewShowcase() {
+  createNewVariant() {
     const i = showcases.length;
-    showcases[i] = Object.assign({}, defaultShowcase, { id: Math.max(...showcases.map(s => s.id)) + 1, name: this.$('#showcaseName').value });
+    showcases[i] = Object.assign({}, defaultShowcase, { id: Math.max(...showcases.map(s => s.id)) + 1, name: this.$('#variantName').value });
     this.switchShowcase(i);
   }
   deleteShowcase(id) {
@@ -155,12 +159,11 @@ class SifrrShowcase extends SifrrDom.Element {
         Object.assign(s, this.state);
       }
     });
-    this.update();
-    return storage.insert('showcases', showcases);
+    return storage.set('showcases', showcases);
   }
   switchShowcase(id) {
     this.state = Object.assign({}, showcases.filter(s => s.id == id)[0] || showcases[0]);
-    storage.update('current', id);
+    storage.set('current', id);
   }
   loadUrl() {
     const url = this.$('#url').value;

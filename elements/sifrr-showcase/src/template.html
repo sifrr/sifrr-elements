@@ -19,10 +19,9 @@
       <sifrr-code-editor id="elState" lang='js' data-sifrr-bind="elState" value="${this.state.elState}"></sifrr-code-editor>
     </div>
     <div class="box">
-      <label for="states">Showcase</label>
-      <input id="showcaseName" type="text" name="showcaseName" value="${this.state.name}" data-sifrr-bind="name">
-      <button type="button" name="createStyle" _click="${this.createNewShowcase}">Create new Showcase</button>
-      <button type="button" name="saveStyle" _click="${this.saveShowcase}">Save Showcase</button>
+      <label for="states">Variants</label>
+      <input id="variantName" type="text" name="variantName" value="${this.state.name}" data-sifrr-bind="name">
+      <button type="button" name="createVariant" _click="${this.createNewVariant}">Create new variant</button>
       <p id="saver"></p>
       <style media="screen">
         #showcase${this.state.id} {

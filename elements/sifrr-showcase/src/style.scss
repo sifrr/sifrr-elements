@@ -44,13 +44,11 @@ h1, label, li {
   padding: 20px;
   height: 70%;
 }
-#element > * {
-  /* ${this.state.style} */
-}
+/* ${this.state.style} */
 #code {
   height: 30%;
 }
-#code highlight-syntax {
+#code sifrr-code-editor {
   height: calc(100% - 48px) !important;
 }
 h1 {
@@ -66,7 +64,7 @@ label, li {
 #error {
   color: red;
 }
-highlight-syntax {
+sifrr-code-editor {
   width: 100%;
   height: calc(100% - 24px);
   font-size: 14px;
