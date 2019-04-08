@@ -8,7 +8,7 @@ module.exports = function () {
       const magicString = new MagicString(code);
       if (ext === 'css' || ext === 'scss' || ext === 'sass' || ext === 'sss') {
         let start, end, replacement, match;
-        const pattern = /\/\*(.+)\*\//g;
+        const pattern = /\/\* ?(\$\{.+\}) ?\*\//g;
         while (match = pattern.exec(code)) {
           start = match.index;
           end = start + match[0].length;

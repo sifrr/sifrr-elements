@@ -46,7 +46,7 @@ function moduleConfig(name, root, min = false, isModule = false) {
         inject: false,
         plugins: [
           min ? require('cssnano')({
-            preset: 'default',
+            preset: [ 'default', { discardComments: false } ],
           }) : false
         ].filter(k => k)
       }),
