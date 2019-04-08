@@ -41,7 +41,7 @@ function moduleConfig(name, root, min = false, isModule = false) {
       }),
       commonjs(),
       postcss({
-        extensions: ['.css', '.sass', '.less'],
+        extensions: ['.css', '.scss', '.sass', '.less'],
         inject: false,
         plugins: []
       })
