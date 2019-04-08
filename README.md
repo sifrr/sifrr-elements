@@ -6,7 +6,8 @@ Elements for sifrr
 
 | Elements                                               | Description                                                                                        | Size                                                                                                                                                                          |
 | :----------------------------------------------------- | :------------------------------------------------------------------------------------------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [sifrr-stater](./elements/sifrr/stater.js)             | State checker for sifrr elements, save them to storage, replay state changes, travel to past state | [![Minified + Gzipped](https://img.badgesize.io/sifrr/sifrr-elements/master/dist/elements/sifrr/stater.js?compression=gzip&maxAge=60)](./dist/elements/sifrr/stater.js)     |
+| [sifrr-stater](./elements/sifrr/stater.js)             | State checker for sifrr elements, save them to storage, replay state changes, travel to past state | [![Minified + Gzipped](https://img.badgesize.io/sifrr/sifrr-elements/master/dist/elements/sifrr/stater.js?compression=gzip&maxAge=60)](./dist/elements/sifrr/stater.js) [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fsifrr%2Fsifrr-elements.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fsifrr%2Fsifrr-elements?ref=badge_shield)
+    |
 | [sifrr-tabs](./elements/sifrr/tabs.js)                 | Android like tabs in browser                                                                       | [![Minified + Gzipped](https://img.badgesize.io/sifrr/sifrr-elements/master/dist/elements/sifrr/tabs.js?compression=gzip&maxAge=60)](./dist/elements/sifrr/tabs.js)         |
 | [sifrr-lazy-picture](./elements/sifrr/lazy/picture.js) | Lazy loading images only when in view                                                              | [![Minified + Gzipped](https://img.badgesize.io/sifrr/sifrr-elements/master/dist/elements/sifrr/lazy/picture.js?compression=gzip&maxAge=60)](./dist/elements/sifrr/lazy/picture.js) |
 
@@ -116,3 +117,7 @@ Sifrr.Dom.load('sifrr-tabs');
   animationTime: 150 // Time for animation in ms
 }
 ```
+
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fsifrr%2Fsifrr-elements.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fsifrr%2Fsifrr-elements?ref=badge_large)
