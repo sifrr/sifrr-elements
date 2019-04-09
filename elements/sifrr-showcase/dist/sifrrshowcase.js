@@ -54,7 +54,6 @@
         return data;
       }
       const template = SifrrDom.template(_templateObject(), css);
-      SifrrDom.Event.add('scroll');
       class SifrrCodeEditor extends SifrrDom.Element {
         static get template() {
           return template;
@@ -68,7 +67,7 @@
         onConnect() {
           fetch('https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js').then(resp => resp.text()).then(text => new Function(text)()).then(() => this.hljsLoaded());
           const txtarea = this.$('textarea');
-          this.$('textarea').addEventListener('keydown', e => {
+          txtarea.addEventListener('keydown', e => {
             let keyCode = e.keyCode || e.which;
             this.$('#highlight').style.height = this.$('textarea').height;
             if (keyCode == 9) {
@@ -81,6 +80,9 @@
               txtarea.selectionStart = txtarea.selectionEnd = start + tabOffset;
             }
           });
+          txtarea.onscroll = () => {
+            this.$('pre.hljs').scrollTop = txtarea.scrollTop;
+          };
         }
         input() {
           SifrrDom.Event.trigger(this, 'input');

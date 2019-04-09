@@ -38,7 +38,8 @@ function moduleConfig(name, root, min = false, isModule = false) {
     external: external,
     plugins: [
       resolve({
-        browser: !isModule
+        browser: !isModule,
+        mainFields: ['module', 'main']
       }),
       commonjs(),
       postcss({

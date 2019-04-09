@@ -13,7 +13,6 @@ const template = SifrrDom.template`
 </pre>
 <textarea class='hljs' _input="\${this.input}" _scroll="console.log(this)"></textarea>`;
 
-SifrrDom.Event.add('scroll');
 class SifrrCodeEditor extends SifrrDom.Element {
   static get template() {
     return template;
@@ -34,7 +33,7 @@ class SifrrCodeEditor extends SifrrDom.Element {
       .then(() => this.hljsLoaded());
 
     const txtarea = this.$('textarea');
-    this.$('textarea').addEventListener('keydown', (e) => {
+    txtarea.addEventListener('keydown', (e) => {
       let keyCode = e.keyCode || e.which;
       this.$('#highlight').style.height = this.$('textarea').height;
       if (keyCode == 9) {
@@ -52,6 +51,9 @@ class SifrrCodeEditor extends SifrrDom.Element {
         txtarea.selectionStart = txtarea.selectionEnd = start + tabOffset;
       }
     });
+    txtarea.onscroll = () => {
+      this.$('pre.hljs').scrollTop = txtarea.scrollTop;
+    };
   }
 
   input() {
