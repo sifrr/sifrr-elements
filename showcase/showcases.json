@@ -1,5 +1,5 @@
 {
-  "current": 0,
+  "current": 1,
   "showcases": [
     {
       "id": 1,
@@ -50,7 +50,7 @@
           "variantId": 1,
           "variantName": "with menu and content",
           "style": "#element > * {\n  background-color: white;\n  display: block;\n}",
-          "code": "<sifrr-tabs>\n        <li slot='heading'>Heading 2</li>\n        <li slot='heading'>Heading 2 - sdfsdfsdafsdf d sdf af </li>\n        <li slot='heading'>Heading 3 - sdf ssd fdsf sf </li>\n        <li slot='heading'>Heading 4 - vesdfdf d df dfds dsf dsf </li>\n        <div slot='tab'>\n          <p>Tab 1</p>\n          <p>Tab 1</p>\n          <p>Tab 1</p>\n          <p>Tab 1</p>\n          <p>Tab 1</p>\n          <p>Tab 1</p>\n        </div>\n        <div slot='tab'>\n          <p>Tab 2</p>\n          <p>Tab 2</p>\n          <p>Tab 2</p>\n        </div>\n        <div slot='tab'>\n          <p>Tab 3</p>\n        </div>\n        <div slot='tab'>\n          <p>Tab 4</p>\n        </div>\n      </sifrr-tabs>",
+          "code": "<sifrr-tabs>\n        <li slot='heading'>Heading 1</li>\n        <li slot='heading'>Heading 2 - sdfsdfsdafsdf d sdf af </li>\n        <li slot='heading'>Heading 3 - sdf ssd fdsf sf </li>\n        <li slot='heading'>Heading 4 - vesdfdf d df dfds dsf dsf </li>\n        <div slot='tab'>\n          <p>Tab 1</p>\n          <p>Tab 1</p>\n          <p>Tab 1</p>\n          <p>Tab 1</p>\n          <p>Tab 1</p>\n          <p>Tab 1</p>\n        </div>\n        <div slot='tab'>\n          <p>Tab 2</p>\n          <p>Tab 2</p>\n          <p>Tab 2</p>\n        </div>\n        <div slot='tab'>\n          <p>Tab 3</p>\n        </div>\n        <div slot='tab'>\n          <p>Tab 4</p>\n        </div>\n      </sifrr-tabs>",
           "elState": "return {\n\n}"
         },
         {
@@ -64,7 +64,7 @@
           "variantId": 3,
           "variantName": "without menu, with arrows, looped",
           "style": "#element > * {\n  background-color: white;\n  display: block;\n}",
-          "code": "<sifrr-tabs options='{ \"showMenu\": false, \"showArrows\": true, \"loop\": true }'>\n        <div slot='tab'>\n          Tab 1\n        </div>\n        <div slot='tab'>\n          Tab 2\n        </div>\n      </sifrr-tabs>",
+          "code": "<sifrr-tabs options='{ \"showMenu\": false, \"showArrows\": true, \"loop\": true }'>\n        <div slot='tab'>\n          Tab 1\n        </div>\n        <div slot='tab'>\n          Tab 2\n        </div>\n        <div slot='tab'>\n          Tab 3\n        </div>\n      </sifrr-tabs>",
           "elState": "return {\n\n}"
         },
         {
@@ -101,16 +101,23 @@
           "style": "#element > * {\n  background-color: white;\n  display: block;\n}",
           "code": "<sifrr-tabs options='{ \"showMenu\": false, \"showArrows\": true, \"arrowMargin\": 25 }'>\n        <div slot='tab'>\n          Tab 1\n        </div>\n        <div slot='tab'>\n          Tab 2\n        </div>\n      </sifrr-tabs>",
           "elState": "return {\n\n}"
+        },
+        {
+          "variantId": 9,
+          "variantName": "images carousel",
+          "style": "#element > * {\n  background-color: white;\n  display: block;\n}\n#element > * > img {\n  width: 100%;\n  height: 100%;\n}",
+          "code": "<sifrr-tabs options='{ \"showMenu\": false, \"showArrows\": true, \"tabHeight\": \"400px\" }'>\n  <img slot=\"tab\" src=\"https://static.adweek.com/adweek.com-prod/wp-content/uploads/files/blogs/google-logo-hed-2014.jpg\">\n  <img slot=\"tab\" src=\"https://static.adweek.com/adweek.com-prod/wp-content/uploads/files/blogs/google-logo-hed-2014.jpg\">\n  <img slot=\"tab\" src=\"https://static.adweek.com/adweek.com-prod/wp-content/uploads/files/blogs/google-logo-hed-2014.jpg\">\n  <img slot=\"tab\" src=\"https://static.adweek.com/adweek.com-prod/wp-content/uploads/files/blogs/google-logo-hed-2014.jpg\">\n</sifrr-tabs>",
+          "elState": "return {\n\n}"
         }
       ],
       "id": 1,
       "element": "sifrr-code-editor",
       "elementUrl": "",
       "isjs": true,
-      "variantName": "with menu and content",
-      "variantId": 1,
-      "style": "#element > * {\n  background-color: white;\n  display: block;\n}",
-      "code": "<sifrr-tabs>\n        <li slot='heading'>Heading 2</li>\n        <li slot='heading'>Heading 2 - sdfsdfsdafsdf d sdf af </li>\n        <li slot='heading'>Heading 3 - sdf ssd fdsf sf </li>\n        <li slot='heading'>Heading 4 - vesdfdf d df dfds dsf dsf </li>\n        <div slot='tab'>\n          <p>Tab 1</p>\n          <p>Tab 1</p>\n          <p>Tab 1</p>\n          <p>Tab 1</p>\n          <p>Tab 1</p>\n          <p>Tab 1</p>\n        </div>\n        <div slot='tab'>\n          <p>Tab 2</p>\n          <p>Tab 2</p>\n          <p>Tab 2</p>\n        </div>\n        <div slot='tab'>\n          <p>Tab 3</p>\n        </div>\n        <div slot='tab'>\n          <p>Tab 4</p>\n        </div>\n      </sifrr-tabs>",
+      "variantName": "images carousel",
+      "variantId": 9,
+      "style": "#element > * {\n  background-color: white;\n  display: block;\n}\n#element > * > img {\n  width: 100%;\n  height: 100%;\n}",
+      "code": "<sifrr-tabs options='{ \"showMenu\": false, \"showArrows\": true, \"tabHeight\": \"400px\" }'>\n  <img slot=\"tab\" src=\"https://static.adweek.com/adweek.com-prod/wp-content/uploads/files/blogs/google-logo-hed-2014.jpg\">\n  <img slot=\"tab\" src=\"https://static.adweek.com/adweek.com-prod/wp-content/uploads/files/blogs/google-logo-hed-2014.jpg\">\n  <img slot=\"tab\" src=\"https://static.adweek.com/adweek.com-prod/wp-content/uploads/files/blogs/google-logo-hed-2014.jpg\">\n  <img slot=\"tab\" src=\"https://static.adweek.com/adweek.com-prod/wp-content/uploads/files/blogs/google-logo-hed-2014.jpg\">\n</sifrr-tabs>",
       "elState": "return {\n\n}"
     },
     {
