@@ -22,25 +22,30 @@
   var css = ":host {\n  display: block;\n  position: relative; }\n\n* {\n  box-sizing: border-box; }\n\n.hljs {\n  width: 100%;\n  height: 100%;\n  font-family: Consolas,Liberation Mono,Courier,monospace;\n  font-size: 14px;\n  line-height: 18px;\n  padding: 8px;\n  margin: 0;\n  position: absolute;\n  white-space: pre-wrap;\n  top: 0;\n  left: 0; }\n\ntextarea {\n  z-index: 2;\n  resize: none;\n  border: none; }\n\ntextarea.loaded {\n  background: transparent !important;\n  text-shadow: 0px 0px 0px rgba(0, 0, 0, 0);\n  text-fill-color: transparent;\n  -webkit-text-fill-color: transparent; }\n\npre {\n  z-index: 1; }\n";
 
   function _templateObject() {
-    const data = _taggedTemplateLiteral(["\n<style media=\"screen\">\n  ", "\n</style>\n<link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/atom-one-dark.min.css\">\n<pre class='hljs'>\n  <code id=\"highight\" data-sifrr-html=\"true\">\n    ${this.htmlValue}\n  </code>\n</pre>\n<textarea class='hljs' _input=\"${this.input}\"></textarea>"], ["\n<style media=\"screen\">\n  ", "\n</style>\n<link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/atom-one-dark.min.css\">\n<pre class='hljs'>\n  <code id=\"highight\" data-sifrr-html=\"true\">\n    \\${this.htmlValue}\n  </code>\n</pre>\n<textarea class='hljs' _input=\"\\${this.input}\"></textarea>"]);
+    const data = _taggedTemplateLiteral(["\n<style media=\"screen\">\n  ", "\n</style>\n<link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/${this.theme}.min.css\">\n<pre class='hljs'>\n  <code id=\"highlight\" data-sifrr-html=\"true\">\n    ${this.htmlValue}\n  </code>\n</pre>\n<textarea class='hljs' _input=\"${this.input}\" _scroll=\"console.log(this)\"></textarea>"], ["\n<style media=\"screen\">\n  ", "\n</style>\n<link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/\\${this.theme}.min.css\">\n<pre class='hljs'>\n  <code id=\"highlight\" data-sifrr-html=\"true\">\n    \\${this.htmlValue}\n  </code>\n</pre>\n<textarea class='hljs' _input=\"\\${this.input}\" _scroll=\"console.log(this)\"></textarea>"]);
     _templateObject = function () {
       return data;
     };
     return data;
   }
   const template = SifrrDom.template(_templateObject(), css);
+  SifrrDom.Event.add('scroll');
   class SifrrCodeEditor extends SifrrDom.Element {
     static get template() {
       return template;
+    }
+    static observedAttrs() {
+      return ['value', 'theme'];
     }
     onAttributeChange() {
       this.update();
     }
     onConnect() {
-      fetch("https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js").then(resp => resp.text()).then(text => new Function(text)()).then(() => this.hljsLoaded());
+      fetch('https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js').then(resp => resp.text()).then(text => new Function(text)()).then(() => this.hljsLoaded());
       const txtarea = this.$('textarea');
       this.$('textarea').addEventListener('keydown', e => {
         let keyCode = e.keyCode || e.which;
+        this.$('#highlight').style.height = this.$('textarea').height;
         if (keyCode == 9) {
           e.preventDefault();
           const start = txtarea.selectionStart;
@@ -62,6 +67,13 @@
     }
     get htmlValue() {
       if (window.hljs) return hljs.highlight(this.lang, this.value).value;else return this.value.replace(/</g, '&lt;');
+    }
+    get theme() {
+      return this.getAttribute('theme') || 'atom-one-dark';
+    }
+    set theme(v) {
+      this.setAttribute('theme', v);
+      this.update();
     }
     get value() {
       return this.$('textarea').value;

@@ -56,10 +56,12 @@ class SifrrShowcase extends SifrrDom.Element {
       if (el.matches('.showcase span')) this.deleteShowcase(this.getChildIndex(el));
     });
     this.switchShowcase(0);
-    storage.get(['showcases', 'current']).then(v => {
+    storage.all().then(v => {
       this._loaded = true;
-      if (Array.isArray(v.showcases)) this.state = v;
-      this.switchShowcase(v.current);
+      if (Array.isArray(v.showcases)) {
+        this.state.showcases = v.showcases;
+        this.switchShowcase(v.current);
+      }
     });
   }
 

@@ -6,7 +6,7 @@
       "element": "sifrr-code-editor",
       "elementUrl": "",
       "isjs": true,
-      "variantName": "default - html",
+      "variantName": "themed",
       "variants": [
         {
           "variantId": 1,
@@ -28,11 +28,18 @@
           "style": "#element > * {\n  \n}",
           "code": "<sifrr-code-editor lang=\"css\"></sifrr-code-editor>",
           "elState": "this.value = `element {\n  color: black;\n}\n`;\nreturn {\n\n}"
+        },
+        {
+          "variantId": 5,
+          "variantName": "themed",
+          "style": "#element > * {\n\n}",
+          "code": "<sifrr-code-editor theme=\"a11y-light\"></sifrr-code-editor>",
+          "elState": "this.value = '<a>some test.. </a>';\nreturn {\n\n}"
         }
       ],
-      "variantId": 1,
-      "style": "#element > * {\n}",
-      "code": "<sifrr-code-editor></sifrr-code-editor>",
+      "variantId": 5,
+      "style": "#element > * {\n\n}",
+      "code": "<sifrr-code-editor theme=\"a11y-light\"></sifrr-code-editor>",
       "elState": "this.value = '<a>some test.. </a>';\nreturn {\n\n}",
       "name": "sifrr-code-editor"
     },
