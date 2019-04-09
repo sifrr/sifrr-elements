@@ -21,6 +21,7 @@
     });
     const img = pic.$('img', false);
     moveAttr(img, 'src');
+    moveAttr(img, 'srcset');
     return true;
   }
   class SifrrLazyPicture extends Sifrr.Dom.Element.extends(HTMLPictureElement) {
@@ -35,8 +36,9 @@
     }
     static onVisible(entries) {
       entries.forEach(entry => {
+        console.log(entries);
         if (entry.isIntersecting) {
-          SifrrLazyPicture.observer.unobserve(entry.target);
+          this.observer.unobserve(entry.target);
           loadPicture(entry.target);
         }
       });
@@ -567,7 +569,7 @@
           }
         }));
       }
-      var css = ":host {\n  display: block;\n  position: relative; }\n\n* {\n  box-sizing: border-box; }\n\n.hljs {\n  width: 100%;\n  height: 100%;\n  font-family: Consolas,Liberation Mono,Courier,monospace;\n  font-size: 14px;\n  line-height: 18px;\n  padding: 8px;\n  margin: 0;\n  position: absolute;\n  white-space: pre-wrap;\n  top: 0;\n  left: 0; }\n\ntextarea {\n  background: transparent !important;\n  z-index: 2;\n  resize: none;\n  text-shadow: 0px 0px 0px rgba(0, 0, 0, 0);\n  border: none;\n  text-fill-color: transparent;\n  -webkit-text-fill-color: transparent; }\n\npre {\n  z-index: 1; }\n";
+      var css = ":host {\n  display: block;\n  position: relative; }\n\n* {\n  box-sizing: border-box; }\n\n.hljs {\n  width: 100%;\n  height: 100%;\n  font-family: Consolas,Liberation Mono,Courier,monospace;\n  font-size: 14px;\n  line-height: 18px;\n  padding: 8px;\n  margin: 0;\n  position: absolute;\n  white-space: pre-wrap;\n  top: 0;\n  left: 0; }\n\ntextarea {\n  z-index: 2;\n  resize: none;\n  border: none; }\n\ntextarea.loaded {\n  background: transparent !important;\n  text-shadow: 0px 0px 0px rgba(0, 0, 0, 0);\n  text-fill-color: transparent;\n  -webkit-text-fill-color: transparent; }\n\npre {\n  z-index: 1; }\n";
       function _templateObject() {
         const data = _taggedTemplateLiteral(["\n<style media=\"screen\">\n  ", "\n</style>\n<link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/atom-one-dark.min.css\">\n<pre class='hljs'>\n  <code id=\"highight\" data-sifrr-html=\"true\">\n    ${this.htmlValue}\n  </code>\n</pre>\n<textarea class='hljs' _input=\"${this.input}\"></textarea>"], ["\n<style media=\"screen\">\n  ", "\n</style>\n<link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/atom-one-dark.min.css\">\n<pre class='hljs'>\n  <code id=\"highight\" data-sifrr-html=\"true\">\n    \\${this.htmlValue}\n  </code>\n</pre>\n<textarea class='hljs' _input=\"\\${this.input}\"></textarea>"]);
         _templateObject = function () {
@@ -576,7 +578,6 @@
         return data;
       }
       const template = SifrrDom.template(_templateObject(), css);
-      SifrrDom.Event.add('load');
       class SifrrCodeEditor extends SifrrDom.Element {
         static get template() {
           return template;
@@ -585,10 +586,7 @@
           this.update();
         }
         onConnect() {
-          const script = document.createElement('script');
-          script.src = "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js";
-          script.onLoad = this.update();
-          document.body.appendChild(script);
+          fetch("https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js").then(resp => resp.text()).then(text => new Function(text)()).then(() => this.hljsLoaded());
           const txtarea = this.$('textarea');
           this.$('textarea').addEventListener('keydown', e => {
             let keyCode = e.keyCode || e.which;
@@ -607,8 +605,12 @@
           SifrrDom.Event.trigger(this, 'input');
           this.update();
         }
+        hljsLoaded() {
+          this.$('textarea').classList.add('loaded');
+          this.update();
+        }
         get htmlValue() {
-          if (window.hljs) return hljs.highlight(this.lang, this.value).value;else return this.value;
+          if (window.hljs) return hljs.highlight(this.lang, this.value).value;else return this.value.replace(/</g, '&lt;');
         }
         get value() {
           return this.$('textarea').value;
@@ -792,7 +794,7 @@
   SifrrShowcase.defaultState = defaultShowcase;
   if (window) SifrrDom.register(SifrrShowcase);
 
-  var css$3 = ":host {\n  display: block;\n  position: relative; }\n\n* {\n  box-sizing: border-box; }\n\n.hljs {\n  width: 100%;\n  height: 100%;\n  font-family: Consolas,Liberation Mono,Courier,monospace;\n  font-size: 14px;\n  line-height: 18px;\n  padding: 8px;\n  margin: 0;\n  position: absolute;\n  white-space: pre-wrap;\n  top: 0;\n  left: 0; }\n\ntextarea {\n  background: transparent !important;\n  z-index: 2;\n  resize: none;\n  text-shadow: 0px 0px 0px rgba(0, 0, 0, 0);\n  border: none;\n  text-fill-color: transparent;\n  -webkit-text-fill-color: transparent; }\n\npre {\n  z-index: 1; }\n";
+  var css$3 = ":host {\n  display: block;\n  position: relative; }\n\n* {\n  box-sizing: border-box; }\n\n.hljs {\n  width: 100%;\n  height: 100%;\n  font-family: Consolas,Liberation Mono,Courier,monospace;\n  font-size: 14px;\n  line-height: 18px;\n  padding: 8px;\n  margin: 0;\n  position: absolute;\n  white-space: pre-wrap;\n  top: 0;\n  left: 0; }\n\ntextarea {\n  z-index: 2;\n  resize: none;\n  border: none; }\n\ntextarea.loaded {\n  background: transparent !important;\n  text-shadow: 0px 0px 0px rgba(0, 0, 0, 0);\n  text-fill-color: transparent;\n  -webkit-text-fill-color: transparent; }\n\npre {\n  z-index: 1; }\n";
 
   function _templateObject$3() {
     const data = _taggedTemplateLiteral(["\n<style media=\"screen\">\n  ", "\n</style>\n<link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/atom-one-dark.min.css\">\n<pre class='hljs'>\n  <code id=\"highight\" data-sifrr-html=\"true\">\n    ${this.htmlValue}\n  </code>\n</pre>\n<textarea class='hljs' _input=\"${this.input}\"></textarea>"], ["\n<style media=\"screen\">\n  ", "\n</style>\n<link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/atom-one-dark.min.css\">\n<pre class='hljs'>\n  <code id=\"highight\" data-sifrr-html=\"true\">\n    \\${this.htmlValue}\n  </code>\n</pre>\n<textarea class='hljs' _input=\"\\${this.input}\"></textarea>"]);
@@ -802,7 +804,6 @@
     return data;
   }
   const template$3 = SifrrDom.template(_templateObject$3(), css$3);
-  SifrrDom.Event.add('load');
   class SifrrCodeEditor extends SifrrDom.Element {
     static get template() {
       return template$3;
@@ -811,10 +812,7 @@
       this.update();
     }
     onConnect() {
-      const script = document.createElement('script');
-      script.src = "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js";
-      script.onLoad = this.update();
-      document.body.appendChild(script);
+      fetch("https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js").then(resp => resp.text()).then(text => new Function(text)()).then(() => this.hljsLoaded());
       const txtarea = this.$('textarea');
       this.$('textarea').addEventListener('keydown', e => {
         let keyCode = e.keyCode || e.which;
@@ -833,8 +831,12 @@
       SifrrDom.Event.trigger(this, 'input');
       this.update();
     }
+    hljsLoaded() {
+      this.$('textarea').classList.add('loaded');
+      this.update();
+    }
     get htmlValue() {
-      if (window.hljs) return hljs.highlight(this.lang, this.value).value;else return this.value;
+      if (window.hljs) return hljs.highlight(this.lang, this.value).value;else return this.value.replace(/</g, '&lt;');
     }
     get value() {
       return this.$('textarea').value;

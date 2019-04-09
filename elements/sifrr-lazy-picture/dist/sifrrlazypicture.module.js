@@ -14,6 +14,7 @@ function loadPicture(pic) {
   });
   const img = pic.$('img', false);
   moveAttr(img, 'src');
+  moveAttr(img, 'srcset');
   return true;
 }
 class SifrrLazyPicture extends Sifrr.Dom.Element.extends(HTMLPictureElement) {
@@ -28,8 +29,9 @@ class SifrrLazyPicture extends Sifrr.Dom.Element.extends(HTMLPictureElement) {
   }
   static onVisible(entries) {
     entries.forEach(entry => {
+      console.log(entries);
       if (entry.isIntersecting) {
-        SifrrLazyPicture.observer.unobserve(entry.target);
+        this.observer.unobserve(entry.target);
         loadPicture(entry.target);
       }
     });

@@ -19,11 +19,13 @@
   left: 0;
 }
 textarea {
-  background: transparent !important;
   z-index: 2;
   resize: none;
-  text-shadow: 0px 0px 0px rgba(0, 0, 0, 0);
   border: none;
+}
+textarea.loaded {
+  background: transparent !important;
+  text-shadow: 0px 0px 0px rgba(0, 0, 0, 0);
   text-fill-color: transparent;
   -webkit-text-fill-color: transparent;
 }

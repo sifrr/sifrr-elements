@@ -13,7 +13,6 @@ const template = SifrrDom.template`
 </pre>
 <textarea class='hljs' _input="\${this.input}"></textarea>`;
 
-SifrrDom.Event.add('load');
 class SifrrCodeEditor extends SifrrDom.Element {
   static get template() {
     return template;
@@ -24,10 +23,10 @@ class SifrrCodeEditor extends SifrrDom.Element {
   }
 
   onConnect() {
-    const script = document.createElement('script');
-    script.src = "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js";
-    script.onLoad = this.update();
-    document.body.appendChild(script);
+    fetch("https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js")
+      .then(resp => resp.text())
+      .then(text => new Function(text)())
+      .then(() => this.hljsLoaded());
 
     const txtarea = this.$('textarea');
     this.$('textarea').addEventListener('keydown', (e) => {
@@ -54,9 +53,14 @@ class SifrrCodeEditor extends SifrrDom.Element {
     this.update();
   }
 
+  hljsLoaded() {
+    this.$('textarea').classList.add('loaded');
+    this.update();
+  }
+
   get htmlValue() {
     if (window.hljs) return hljs.highlight(this.lang, this.value).value;
-    else return this.value;
+    else return this.value.replace(/</g, '&lt;');
   }
 
   get value() {
