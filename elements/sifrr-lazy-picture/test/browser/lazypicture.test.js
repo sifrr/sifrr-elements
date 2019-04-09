@@ -18,6 +18,8 @@ describe('sifrr-lazy-picture', () => {
   it('loads pictures on scroll', async () => {
     await page.$eval('picture', (el) => el.scrollIntoView());
 
+    await new Promise(res => setTimeout(res, 100));
+
     expect(await page.$eval('picture img', (el) => !!el.getAttribute('data-src'))).to.be.false;
     expect(await page.$eval('picture img', (el) => !!el.getAttribute('src'))).to.be.true;
 
