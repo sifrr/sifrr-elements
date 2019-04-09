@@ -1,137 +1,73 @@
 import SifrrDom from '@sifrr/dom';
 import SifrrStorage from '@sifrr/storage';
 import style from './style.scss';
-import html from './template.html';
-import '../../sifrr-code-editor';
+import './singleshowcase';
 
 const template = SifrrDom.template`<style media="screen">
   ${style}
 </style>
-${html}`;
+<div class="container">
+  <div class="flex-column" id="sidemenu">
+    <div class="box">
+      <h1>Sifrr Showcase</h1>
+      <p id="loader"></p>
+      <input id="url" type="text" placeholder="Enter url here..." name="url" />
+      <button type="button" name="loadUrl" _click=\${this.loadUrl}>Load from url</button>
+      <p id="urlStatus"></p>
+      <span class="button">
+        Upload File
+        <input type="file" name="file" accept="application/json" _input="\${this.loadFile}" />
+      </span>
+      <button type="button" name="saveFile" _click="\${this.saveFile}">Save to File</button>
+      <label for="showcases">Showcases</label>
+      <input id="showcaseName" type="text" name="showcases">
+      <button type="button" name="createVariant" _click="\${this.createShowcase}">Create new showcase</button>
+      <div data-sifrr-repeat="\${this.state.showcases}">
+        <li class="showcase" data-showcase-id="\${this.state.key}">\${this.state.name}<span>X</span></li>
+      </div>
+    </div>
+  </div>
+  <sifrr-single-showcase _update=\${this.saveShowcase}></sifrr-single-showcase>
+</div>`;
 
-SifrrDom.Event.add('click');
-
-const defaultShowcase = {
-  id: 1,
-  name: 'new',
-  element: 'sifrr-placeholder',
-  style: `#element > * {
-  display: block;
-  background-color: white;
-  margin: auto;
-}`,
-  code: '<sifrr-placeholder>\n</sifrr-placeholder>',
-  elState: 'return {\n\n}',
-  isjs: 'true',
-  elementUrl: ''
-};
-const storage = new SifrrStorage({ name: 'sifrr-showcase', version: 1 });
-const showcases = [];
+const storage = new SifrrStorage({ name: 'showcases', version: '1.0' });
 
 class SifrrShowcase extends SifrrDom.Element {
   static get template() {
     return template;
   }
 
-  static observedAttrs() {
-    return ['url'];
-  }
-
   onConnect() {
-    storage.get(['showcases', 'current']).then((res) => {
-      if (Array.isArray(res.showcases) && res.showcases.length > 0) {
-        showcases.push(...res.showcases);
-      } else showcases.push(defaultShowcase);
-      this.switchShowcase(res.current || defaultShowcase.id);
-    });
-    this.$('#loader').textContent = 'loaded from storage!';
-    SifrrDom.Event.addListener('click', '.showcase', (e, el) => {
-      if (el.matches('.showcase')) {
-        const id = el.dataset.showcaseId;
-        this.switchShowcase(id);
-      }
-    });
-    SifrrDom.Event.addListener('click', '.showcase span', (e, el) => {
-      const id = el.parentNode.dataset.showcaseId;
-      this.deleteShowcase(id);
+    this.switchShowcase(0);
+    storage.get(['showcases', 'current']).then(v => {
+      if (Array.isArray(v.showcases)) this.state = v;
     });
   }
 
-  onUpdate() {
-    if (this._element !== this.state.element || this._js !== this.state.isjs) {
-      SifrrDom.load(this.state.element, {
-        js: this.state.isjs == 'true',
-        url: this.state.elementUrl ? this.state.elementUrl : undefined
-      }).then(() => this.$('#error').innerText = '').catch(e => this.$('#error').innerText = e.message);
-      this._js = this.state.isjs;
-      this._element = this.state.element;
-    }
-    let state;
-    try {
-      state = new Function(this.$('#elState').value).call(this.element());
-    } catch (e) {}
-    if (state && this.element() && this.element().isSifrr && this.element().state !== state) {
-      this.element().state = state;
-    }
-    this.$('#saver').textContent = 'saving in storage...';
-    if (this._autoSaver) clearTimeout(this._autoSaver);
-    this._autoSaver = setTimeout(() => {
-      delete this._autoSaver;
-      this.saveShowcase().then(() => {
-        this.$('#saver').textContent = 'saved in storage!';
-      });
-    }, 1000);
+  createShowcase() {
+    const i = this.state.showcases.push({ name: this.$('#showcaseName').value });
+    this.switchShowcase(i - 1);
   }
 
-  onAttributeChange(name, _, value) {
-    if (name === 'url') this.url = value;
-  }
-
-  createNewVariant() {
-    const i = showcases.length;
-    showcases[i] = Object.assign({}, defaultShowcase, { id: Math.max(...showcases.map(s => s.id)) + 1, name: this.$('#variantName').value });
-    this.switchShowcase(i);
-  }
-
-  deleteShowcase(id) {
-    showcases.forEach((s, i) => {
-      if (s.id == id) showcases.splice(i, 1);
-    });
-    this.update();
+  switchShowcase(i) {
+    this.state = { current: i };
+    this.el.state = this.state.showcases[i];
   }
 
   saveShowcase() {
-    const i = this.state.id;
-    showcases.forEach(s => {
-      if (s.id == i) {
-        Object.assign(s, this.state);
-      }
-    });
-    return storage.set('showcases', showcases);
+    this.state.showcases[this.state.current] = this.el.state;
+    storage.set({ showcases: this.state.showcases, current: this.state.current });
+    this.update();
   }
 
-  switchShowcase(id) {
-    this.state = Object.assign({}, showcases.filter(s => s.id == id)[0] || showcases[0]);
-    storage.set('current', id);
-  }
-
-  set url(v) {
-    this._url = v;
-    if (this.getAttribute('url') !== v) this.setAttribute('url', v);
-    if (this.$('#url').value !== v) this.$('#url').value = v;
-    this.loadUrl();
-  }
-
-  get url() {
-    return this._url;
+  get el() {
+    return this.$('sifrr-single-showcase');
   }
 
   loadUrl() {
     this._url = this.$('#url').value;
     window.fetch(this._url).then((resp) => resp.json()).then(json => {
-      showcases.splice(0, showcases.length);
-      showcases.push(...json.showcases);
-      this.switchShowcase(json.current);
+      this.state = json;
       this.$('#loader').textContent = 'loaded from url!';
     }).catch((e) => {
       this.$('#urlStatus').textContent = e.message;
@@ -139,10 +75,7 @@ class SifrrShowcase extends SifrrDom.Element {
   }
 
   saveFile() {
-    const blob = new Blob([JSON.stringify({
-      current: this.state.id,
-      showcases: showcases
-    })], {
+    const blob = new Blob([JSON.stringify(this.state, null, 2)], {
       type: 'application/json'
     });
     const a = document.createElement('a');
@@ -156,29 +89,19 @@ class SifrrShowcase extends SifrrDom.Element {
     const fr = new FileReader();
     fr.onload = () => {
       const json = JSON.parse(fr.result);
-      showcases.splice(0, showcases.length);
-      showcases.push(...json.showcases);
-      this.switchShowcase(json.current);
+      this.state = json;
       this.$('#loader').textContent = 'loaded from file!';
     };
     fr.readAsText(file);
   }
-
-  updateHtml(e, el) {
-    const html = `<${el.value}></${el.value}>`;
-    this.state = { code: html, element: el.value };
-  }
-
-  element() {
-    return this.$('#element').firstElementChild;
-  }
-
-  allShowcases() {
-    return showcases;
-  }
 }
 
-SifrrShowcase.defaultState = defaultShowcase;
+SifrrShowcase.defaultState = {
+  current: 0,
+  showcases: [{
+    name: 'new'
+  }]
+};
 
 if (window) SifrrDom.register(SifrrShowcase);
 

@@ -1,16 +1,21 @@
 <div class="container">
-  <div class="flex-column" id="sidemenu">
-    <div class="box">
-      <h1>Sifrr Showcase</h1>
-      <p id="loader"></p>
-      <input id="url" type="text" placeholder="Enter url here..." name="url" />
-      <button type="button" name="loadUrl" _click=${this.loadUrl}>Load from url</button>
-      <p id="urlStatus"></p>
-      <button type="button" name="saveFile" _click="${this.saveFile}">Save to File</button>
-      <input type="file" name="file" accept="application/json" _input="${this.loadFile}" />
-    </div>
-  </div>
   <div class="flex-column" id="sidebar">
+    <div class="box">
+      <label for="states">Variants</label>
+      <input id="variantName" type="text" name="variantName" value="${this.state.variantName}" data-sifrr-bind="variantName">
+      <button type="button" name="createVariant" _click="${this.createNewVariant}">Create new variant</button>
+      <p id="saver"></p>
+      <style media="screen">
+        #variant${this.state.variantId} {
+          background: #5f616d;
+        }
+      </style>
+      <div id="showcases">
+        <ul data-sifrr-repeat="${this.state.variants}">
+          <li class="variant" data-variant-id="${this.state.variantId}" id="variant${this.state.variantId}">${this.state.variantName}<span>X</span></li>
+        </ul>
+      </div>
+    </div>
     <div class="box">
       <label for="style">Element CSS Styles</label>
       <sifrr-code-editor lang='css' data-sifrr-bind="style" value="${this.state.style}"></sifrr-code-editor>
@@ -18,22 +23,6 @@
     <div class="box">
       <label for="elState">Element State Function</label>
       <sifrr-code-editor id="elState" lang='js' data-sifrr-bind="elState" value="${this.state.elState}"></sifrr-code-editor>
-    </div>
-    <div class="box">
-      <label for="states">Variants</label>
-      <input id="variantName" type="text" name="variantName" value="${this.state.name}" data-sifrr-bind="name">
-      <button type="button" name="createVariant" _click="${this.createNewVariant}">Create new variant</button>
-      <p id="saver"></p>
-      <style media="screen">
-        #showcase${this.state.id} {
-          background: #5f616d;
-        }
-      </style>
-      <div id="showcases">
-        <ul data-sifrr-repeat="${this.allShowcases()}">
-          <li class="showcase" data-showcase-id="${this.state.id}" id="showcase${this.state.id}">${this.state.name}<span>X</span></li>
-        </ul>
-      </div>
     </div>
   </div>
   <div class="flex-column" id="main">
