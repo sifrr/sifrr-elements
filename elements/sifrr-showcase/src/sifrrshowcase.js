@@ -33,20 +33,18 @@ class SifrrShowcase extends SifrrDom.Element {
     return template;
   }
 
+  static observedAttrs() {
+    return ['url'];
+  }
+
   onConnect() {
-    let url;
-    if (url = (new URL(document.location)).searchParams.get('url')) {
-      this.$('#url').value = url;
-      this.loadUrl();
-    } else {
-      storage.get(['showcases', 'current']).then((res) => {
-        if (Array.isArray(res.showcases) && res.showcases.length > 0) {
-          showcases.push(...res.showcases);
-        } else showcases.push(defaultShowcase);
-        this.switchShowcase(res.current || defaultShowcase.id);
-      });
-      this.$('#loader').textContent = 'loaded from storage!';
-    }
+    storage.get(['showcases', 'current']).then((res) => {
+      if (Array.isArray(res.showcases) && res.showcases.length > 0) {
+        showcases.push(...res.showcases);
+      } else showcases.push(defaultShowcase);
+      this.switchShowcase(res.current || defaultShowcase.id);
+    });
+    this.$('#loader').textContent = 'loaded from storage!';
     SifrrDom.Event.addListener('click', '.showcase', (e, el) => {
       if (el.matches('.showcase')) {
         const id = el.dataset.showcaseId;
@@ -85,6 +83,10 @@ class SifrrShowcase extends SifrrDom.Element {
     }, 1000);
   }
 
+  onAttributeChange(name, _, value) {
+    if (name === 'url') this.url = value;
+  }
+
   createNewVariant() {
     const i = showcases.length;
     showcases[i] = Object.assign({}, defaultShowcase, { id: Math.max(...showcases.map(s => s.id)) + 1, name: this.$('#variantName').value });
@@ -113,13 +115,26 @@ class SifrrShowcase extends SifrrDom.Element {
     storage.set('current', id);
   }
 
+  set url(v) {
+    this._url = v;
+    if (this.getAttribute('url') !== v) this.setAttribute('url', v);
+    if (this.$('#url').value !== v) this.$('#url').value = v;
+    this.loadUrl();
+  }
+
+  get url() {
+    return this._url;
+  }
+
   loadUrl() {
-    const url = this.$('#url').value;
-    window.fetch(url).then((resp) => resp.json()).then(json => {
+    this._url = this.$('#url').value;
+    window.fetch(this._url).then((resp) => resp.json()).then(json => {
       showcases.splice(0, showcases.length);
       showcases.push(...json.showcases);
       this.switchShowcase(json.current);
       this.$('#loader').textContent = 'loaded from url!';
+    }).catch((e) => {
+      this.$('#urlStatus').textContent = e.message;
     });
   }
 
