@@ -779,12 +779,12 @@ const template$4 = SifrrDom.template`<style media="screen">
       <input id="showcaseName" type="text" name="showcase" _input=\${this.changeName}>
       <button type="button" name="createVariant" _click="\${this.createShowcase}">Create new showcase</button>
       <style>
-        #showcase\${this.state.current} {
+        .current {
           background: #5f616d;
         }
       </style>
       <div id="showcases" data-sifrr-repeat="\${this.state.showcases}">
-        <li class="showcase" data-showcase-id="\${this.state.key}">\${this.state.name}<span>X</span></li>
+        <li class="showcase" data-showcase-id="\${this.state.key}" draggable="true">\${this.state.name}<span>X</span></li>
       </div>
     </div>
   </div>
@@ -814,6 +814,20 @@ class SifrrShowcase extends SifrrDom.Element {
         this.switchShowcase(v.current);
       }
     });
+    if (window.Sortable) {
+      const me = this;
+      const sortable = new window.Sortable(this.$('#showcases'), {
+        draggable: 'li',
+        onEnd: (e) => {
+          const o = e.oldIndex, n = e.newIndex;
+          const old = me.state.showcases[o];
+          me.state.showcases[o] = me.state.showcases[n];
+          me.state.showcases[n] = old;
+          const current = me.$('#showcases .current');
+          me.switchShowcase(me.getChildIndex(current));
+        }
+      });
+    }
   }
   getChildIndex(el) {
     let i = 0;
@@ -830,10 +844,12 @@ class SifrrShowcase extends SifrrDom.Element {
     this.switchShowcase(i - 1);
   }
   switchShowcase(i) {
+    this.$('#showcases').children[this.state.current].classList.remove('current');
     if (!this.state.showcases[i]) i = this.state.showcases.length - 1;
     this.state = { current: i };
     this.el.state = this.state.showcases[i];
     this.$('#showcases').children[i].id = 'showcase' + i;
+    this.$('#showcases').children[i].classList.add('current');
   }
   saveShowcase() {
     delete this.el.state.name;

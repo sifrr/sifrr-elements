@@ -53,11 +53,11 @@ function moduleConfig(name, root, min = false, isModule = false) {
       require('./utils/rollupsifrrplugin')(),
       html({
         htmlMinifierOptions: min ? {
-  				collapseWhitespace: true,
-  				collapseBooleanAttributes: true,
-  				conservativeCollapse: true,
-  				minifyJS: true
-			  } : {}
+          collapseWhitespace: true,
+          collapseBooleanAttributes: true,
+          conservativeCollapse: true,
+          minifyJS: true
+        } : {}
       })
     ]
   };
