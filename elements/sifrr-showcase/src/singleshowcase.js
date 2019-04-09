@@ -1,7 +1,7 @@
 import SifrrDom from '@sifrr/dom';
 import style from './style.scss';
 import html from './template.html';
-import '../../sifrr-code-editor';
+import '../../sifrr-code-editor/src/sifrrcodeeditor';
 
 const template = SifrrDom.template`<style media="screen">
   ${style}

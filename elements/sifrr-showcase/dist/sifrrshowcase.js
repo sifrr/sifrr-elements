@@ -24,108 +24,85 @@
 
   const html = "<div class=\"container\">\n  <div class=\"flex-column\" id=\"sidebar\">\n    <div class=\"box\">\n      <h3>Variants</h3>\n      <input id=\"variantName\" type=\"text\" name=\"variantName\" value=\"${this.state.variantName}\" data-sifrr-bind=\"variantName\">\n      <button type=\"button\" name=\"createVariant\" _click=\"${this.createNewVariant}\">Create new variant</button>\n      <style media=\"screen\">\n        #variant${this.state.variantId} {\n          background: #5f616d;\n        }\n      </style>\n      <div id=\"showcases\">\n        <ul data-sifrr-repeat=\"${this.state.variants}\">\n          <li class=\"variant\" data-variant-id=\"${this.state.variantId}\" id=\"variant${this.state.variantId}\">${this.state.variantName}<span>X</span></li>\n        </ul>\n      </div>\n    </div>\n    <div class=\"box\">\n      <label for=\"style\">Element CSS Styles</label>\n      <sifrr-code-editor lang=\"css\" data-sifrr-bind=\"style\" value=\"${this.state.style}\"></sifrr-code-editor>\n    </div>\n    <div class=\"box\">\n      <label for=\"elState\">Element State Function</label>\n      <sifrr-code-editor id=\"elState\" lang=\"js\" data-sifrr-bind=\"elState\" value=\"${this.state.elState}\"></sifrr-code-editor>\n    </div>\n  </div>\n  <div class=\"flex-column\" id=\"main\">\n    <div class=\"box\" id=\"element\" data-sifrr-html=\"true\">\n      ${this.state.code}\n    </div>\n    <div class=\"box\" id=\"code\">\n      <label for=\"elementName\">Element Name</label>\n      <input type=\"text\" name=\"elementName\" placeholder=\"Enter element name here...\" _input=\"${this.updateHtml}\" value=\"${this.state.element}\">\n      <label for=\"customUrl\">Custom Url</label>\n      <input type=\"text\" name=\"customUrl\" placeholder=\"Enter element url here...\" value=\"${this.state.elementUrl}\" data-sifrr-bind=\"elementUrl\">\n      <label for=\"elementName\">Is JS File</label>\n      <select id=\"isjs\" name=\"isjs\" value=\"${this.state.isjs}\" data-sifrr-bind=\"isjs\">\n        <option value=\"true\">true</option>\n        <option value=\"false\">false</option>\n      </select>\n      <span id=\"error\"></span>\n      <br>\n      <label for=\"htmlcode\">HTML Code</label>\n      <sifrr-code-editor lang=\"html\" data-sifrr-bind=\"code\" value=\"${this.state.code}\"></sifrr-code-editor>\n    </div>\n  </div>\n</div>";
 
-  var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
-
-  function createCommonjsModule(fn, module) {
-  	return module = { exports: {} }, fn(module, module.exports), module.exports;
-  }
-
-  var sifrrcodeeditor = createCommonjsModule(function (module, exports) {
-    (function (global, factory) {
-      module.exports = factory(SifrrDom);
-    })(commonjsGlobal, function (SifrrDom) {
-      SifrrDom = SifrrDom && SifrrDom.hasOwnProperty('default') ? SifrrDom['default'] : SifrrDom;
-      function _taggedTemplateLiteral(strings, raw) {
-        if (!raw) {
-          raw = strings.slice(0);
-        }
-        return Object.freeze(Object.defineProperties(strings, {
-          raw: {
-            value: Object.freeze(raw)
-          }
-        }));
-      }
-      var css = ":host {\n  display: block;\n  position: relative; }\n\n* {\n  box-sizing: border-box; }\n\n.hljs {\n  width: 100%;\n  height: 100%;\n  font-family: Consolas,Liberation Mono,Courier,monospace;\n  font-size: 14px;\n  line-height: 18px;\n  padding: 8px;\n  margin: 0;\n  position: absolute;\n  white-space: pre-wrap;\n  top: 0;\n  left: 0; }\n\ntextarea {\n  z-index: 2;\n  resize: none;\n  border: none; }\n\ntextarea.loaded {\n  background: transparent !important;\n  text-shadow: 0px 0px 0px rgba(0, 0, 0, 0);\n  text-fill-color: transparent;\n  -webkit-text-fill-color: transparent; }\n\npre {\n  z-index: 1; }\n";
-      function _templateObject() {
-        const data = _taggedTemplateLiteral(["\n<style media=\"screen\">\n  ", "\n</style>\n<link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/${this.theme}.min.css\">\n<pre class='hljs'>\n  <code id=\"highlight\" data-sifrr-html=\"true\">\n    ${this.htmlValue}\n  </code>\n</pre>\n<textarea class='hljs' _input=\"${this.input}\" _scroll=\"console.log(this)\"></textarea>"], ["\n<style media=\"screen\">\n  ", "\n</style>\n<link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/\\${this.theme}.min.css\">\n<pre class='hljs'>\n  <code id=\"highlight\" data-sifrr-html=\"true\">\n    \\${this.htmlValue}\n  </code>\n</pre>\n<textarea class='hljs' _input=\"\\${this.input}\" _scroll=\"console.log(this)\"></textarea>"]);
-        _templateObject = function () {
-          return data;
-        };
-        return data;
-      }
-      const template = SifrrDom.template(_templateObject(), css);
-      class SifrrCodeEditor extends SifrrDom.Element {
-        static get template() {
-          return template;
-        }
-        static observedAttrs() {
-          return ['value', 'theme'];
-        }
-        onAttributeChange() {
-          this.update();
-        }
-        onConnect() {
-          fetch('https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js').then(resp => resp.text()).then(text => new Function(text)()).then(() => this.hljsLoaded());
-          const txtarea = this.$('textarea');
-          txtarea.addEventListener('keydown', e => {
-            let keyCode = e.keyCode || e.which;
-            this.$('#highlight').style.height = this.$('textarea').height;
-            if (keyCode == 9) {
-              e.preventDefault();
-              const start = txtarea.selectionStart;
-              const end = txtarea.selectionEnd;
-              const tabCharacter = '  ';
-              const tabOffset = 2;
-              txtarea.value = txtarea.value.substring(0, start) + tabCharacter + txtarea.value.substring(end);
-              txtarea.selectionStart = txtarea.selectionEnd = start + tabOffset;
-            }
-          });
-          txtarea.onscroll = () => {
-            this.$('pre.hljs').scrollTop = txtarea.scrollTop;
-          };
-        }
-        input() {
-          SifrrDom.Event.trigger(this, 'input');
-          this.update();
-        }
-        hljsLoaded() {
-          this.$('textarea').classList.add('loaded');
-          this.update();
-        }
-        get htmlValue() {
-          if (window.hljs) return window.hljs.highlight(this.lang, this.value).value;else return this.value.replace(/</g, '&lt;');
-        }
-        get theme() {
-          return this.getAttribute('theme') || 'atom-one-dark';
-        }
-        set theme(v) {
-          this.setAttribute('theme', v);
-          this.update();
-        }
-        get value() {
-          return this.$('textarea').value;
-        }
-        set value(v) {
-          this.$('textarea').value = v;
-          this.update();
-        }
-        get lang() {
-          return this.getAttribute('lang') || 'html';
-        }
-      }
-      SifrrDom.register(SifrrCodeEditor);
-      return SifrrCodeEditor;
-    });
-  });
+  var css$1 = ":host {\n  display: block;\n  position: relative; }\n\n* {\n  box-sizing: border-box; }\n\n.hljs {\n  width: 100%;\n  height: 100%;\n  font-family: Consolas,Liberation Mono,Courier,monospace;\n  font-size: 14px;\n  line-height: 18px;\n  padding: 8px;\n  margin: 0;\n  position: absolute;\n  white-space: pre-wrap;\n  top: 0;\n  left: 0; }\n\ntextarea {\n  z-index: 2;\n  resize: none;\n  border: none; }\n\ntextarea.loaded {\n  background: transparent !important;\n  text-shadow: 0px 0px 0px rgba(0, 0, 0, 0);\n  text-fill-color: transparent;\n  -webkit-text-fill-color: transparent; }\n\npre {\n  z-index: 1; }\n";
 
   function _templateObject() {
-    const data = _taggedTemplateLiteral(["<style media=\"screen\">\n  ", "\n</style>\n", ""]);
+    const data = _taggedTemplateLiteral(["\n<style media=\"screen\">\n  ", "\n</style>\n<link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/${this.theme}.min.css\">\n<pre class='hljs'>\n  <code id=\"highlight\" data-sifrr-html=\"true\">\n    ${this.htmlValue}\n  </code>\n</pre>\n<textarea class='hljs' _input=\"${this.input}\" _scroll=\"console.log(this)\"></textarea>"], ["\n<style media=\"screen\">\n  ", "\n</style>\n<link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/\\${this.theme}.min.css\">\n<pre class='hljs'>\n  <code id=\"highlight\" data-sifrr-html=\"true\">\n    \\${this.htmlValue}\n  </code>\n</pre>\n<textarea class='hljs' _input=\"\\${this.input}\" _scroll=\"console.log(this)\"></textarea>"]);
     _templateObject = function () {
       return data;
     };
     return data;
   }
-  const template = SifrrDom.template(_templateObject(), css, html);
+  const template = SifrrDom.template(_templateObject(), css$1);
+  class SifrrCodeEditor extends SifrrDom.Element {
+    static get template() {
+      return template;
+    }
+    static observedAttrs() {
+      return ['value', 'theme'];
+    }
+    onAttributeChange() {
+      this.update();
+    }
+    onConnect() {
+      fetch('https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js').then(resp => resp.text()).then(text => new Function(text)()).then(() => this.hljsLoaded());
+      const txtarea = this.$('textarea');
+      txtarea.addEventListener('keydown', e => {
+        let keyCode = e.keyCode || e.which;
+        this.$('#highlight').style.height = this.$('textarea').height;
+        if (keyCode == 9) {
+          e.preventDefault();
+          const start = txtarea.selectionStart;
+          const end = txtarea.selectionEnd;
+          const tabCharacter = '  ';
+          const tabOffset = 2;
+          txtarea.value = txtarea.value.substring(0, start) + tabCharacter + txtarea.value.substring(end);
+          txtarea.selectionStart = txtarea.selectionEnd = start + tabOffset;
+        }
+      });
+      txtarea.onscroll = () => {
+        this.$('pre.hljs').scrollTop = txtarea.scrollTop;
+      };
+    }
+    input() {
+      SifrrDom.Event.trigger(this, 'input');
+      this.update();
+    }
+    hljsLoaded() {
+      this.$('textarea').classList.add('loaded');
+      this.update();
+    }
+    get htmlValue() {
+      if (window.hljs) return window.hljs.highlight(this.lang, this.value).value;else return this.value.replace(/</g, '&lt;');
+    }
+    get theme() {
+      return this.getAttribute('theme') || 'atom-one-dark';
+    }
+    set theme(v) {
+      this.setAttribute('theme', v);
+      this.update();
+    }
+    get value() {
+      return this.$('textarea').value;
+    }
+    set value(v) {
+      this.$('textarea').value = v;
+      this.update();
+    }
+    get lang() {
+      return this.getAttribute('lang') || 'html';
+    }
+  }
+  SifrrDom.register(SifrrCodeEditor);
+
+  function _templateObject$1() {
+    const data = _taggedTemplateLiteral(["<style media=\"screen\">\n  ", "\n</style>\n", ""]);
+    _templateObject$1 = function () {
+      return data;
+    };
+    return data;
+  }
+  const template$1 = SifrrDom.template(_templateObject$1(), css, html);
   SifrrDom.Event.add('click');
   const defaultShowcase = {
     id: 1,
@@ -144,7 +121,7 @@
   };
   class SifrrSingleShowcase extends SifrrDom.Element {
     static get template() {
-      return template;
+      return template$1;
     }
     static observedAttrs() {
       return ['url'];
@@ -233,21 +210,21 @@
   SifrrSingleShowcase.defaultState = defaultShowcase;
   SifrrDom.register(SifrrSingleShowcase);
 
-  function _templateObject$1() {
+  function _templateObject$2() {
     const data = _taggedTemplateLiteral(["<style media=\"screen\">\n  ", "\n</style>\n<div class=\"container\">\n  <div class=\"flex-column\" id=\"sidemenu\">\n    <div class=\"box\">\n      <h1>Sifrr Showcase</h1>\n      <p id=\"loader\"></p>\n      <input id=\"url\" type=\"text\" placeholder=\"Enter url here...\" name=\"url\" />\n      <button type=\"button\" name=\"loadUrl\" _click=${this.loadUrl}>Load from url</button>\n      <p id=\"status\"></p>\n      <span class=\"button\">\n        Upload File\n        <input type=\"file\" name=\"file\" accept=\"application/json\" _input=\"${this.loadFile}\" />\n      </span>\n      <button type=\"button\" name=\"saveFile\" _click=\"${this.saveFile}\">Save to File</button>\n      <h3>Showcases</h3>\n      <input id=\"showcaseName\" type=\"text\" name=\"showcase\" _input=${this.changeName}>\n      <button type=\"button\" name=\"createVariant\" _click=\"${this.createShowcase}\">Create new showcase</button>\n      <style>\n        .current {\n          background: #5f616d;\n        }\n      </style>\n      <div id=\"showcases\" data-sifrr-repeat=\"${this.state.showcases}\">\n        <li class=\"showcase\" data-showcase-id=\"${this.state.key}\" draggable=\"true\">${this.state.name}<span>X</span></li>\n      </div>\n    </div>\n  </div>\n  <sifrr-single-showcase _update=${this.saveShowcase}></sifrr-single-showcase>\n</div>"], ["<style media=\"screen\">\n  ", "\n</style>\n<div class=\"container\">\n  <div class=\"flex-column\" id=\"sidemenu\">\n    <div class=\"box\">\n      <h1>Sifrr Showcase</h1>\n      <p id=\"loader\"></p>\n      <input id=\"url\" type=\"text\" placeholder=\"Enter url here...\" name=\"url\" />\n      <button type=\"button\" name=\"loadUrl\" _click=\\${this.loadUrl}>Load from url</button>\n      <p id=\"status\"></p>\n      <span class=\"button\">\n        Upload File\n        <input type=\"file\" name=\"file\" accept=\"application/json\" _input=\"\\${this.loadFile}\" />\n      </span>\n      <button type=\"button\" name=\"saveFile\" _click=\"\\${this.saveFile}\">Save to File</button>\n      <h3>Showcases</h3>\n      <input id=\"showcaseName\" type=\"text\" name=\"showcase\" _input=\\${this.changeName}>\n      <button type=\"button\" name=\"createVariant\" _click=\"\\${this.createShowcase}\">Create new showcase</button>\n      <style>\n        .current {\n          background: #5f616d;\n        }\n      </style>\n      <div id=\"showcases\" data-sifrr-repeat=\"\\${this.state.showcases}\">\n        <li class=\"showcase\" data-showcase-id=\"\\${this.state.key}\" draggable=\"true\">\\${this.state.name}<span>X</span></li>\n      </div>\n    </div>\n  </div>\n  <sifrr-single-showcase _update=\\${this.saveShowcase}></sifrr-single-showcase>\n</div>"]);
-    _templateObject$1 = function () {
+    _templateObject$2 = function () {
       return data;
     };
     return data;
   }
-  const template$1 = SifrrDom.template(_templateObject$1(), css);
+  const template$2 = SifrrDom.template(_templateObject$2(), css);
   const storage = new SifrrStorage({
     name: 'showcases',
     version: '1.0'
   });
   class SifrrShowcase extends SifrrDom.Element {
     static get template() {
-      return template$1;
+      return template$2;
     }
     static observedAttrs() {
       return ['url'];
@@ -270,7 +247,7 @@
       });
       if (window.Sortable) {
         const me = this;
-        const sortable = new window.Sortable(this.$('#showcases'), {
+        new window.Sortable(this.$('#showcases'), {
           draggable: 'li',
           onEnd: e => {
             const o = e.oldIndex,

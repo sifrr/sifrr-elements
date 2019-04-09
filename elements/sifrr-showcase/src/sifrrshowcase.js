@@ -65,7 +65,7 @@ class SifrrShowcase extends SifrrDom.Element {
     });
     if (window.Sortable) {
       const me = this;
-      const sortable = new window.Sortable(this.$('#showcases'), {
+      new window.Sortable(this.$('#showcases'), {
         draggable: 'li',
         onEnd: (e) => {
           const o = e.oldIndex, n = e.newIndex;
