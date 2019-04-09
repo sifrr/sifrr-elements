@@ -94,7 +94,7 @@
       if (i + this.options.num - 1 == this.options.tabs.length) {
         if (this.options.loop) i = 0;else i = this.options.tabs.length - this.options.num;
       }
-      if (i !== this.state.active) {
+      if (!isNaN(i) && i !== this.state.active) {
         this.state = {
           active: i
         };

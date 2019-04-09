@@ -1,7 +1,7 @@
 * {
   box-sizing: border-box;
 }
-h1, label, li, span, p {
+h1, h3, label, li, span, p {
   font-family: Roboto, Ariel;
 }
 .container {
@@ -61,7 +61,7 @@ sifrr-single-showcase {
 #code sifrr-code-editor {
   height: calc(100% - 48px) !important;
 }
-h1 {
+h1, h3 {
   color: #cccccc;
   text-align: center;
 }
@@ -71,7 +71,7 @@ label, li {
   line-height: 24px;
   padding: 4px;
 }
-#error, #urlStatus {
+#error, #status {
   color: red;
 }
 sifrr-code-editor {

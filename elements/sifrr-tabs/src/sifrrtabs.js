@@ -97,7 +97,7 @@ class SifrrTabs extends SifrrDom.Element {
       if (this.options.loop) i = 0;
       else i = this.options.tabs.length - this.options.num;
     }
-    if (i !== this.state.active) {
+    if (!isNaN(i) && i !== this.state.active) {
       this.state = {
         active: i
       };

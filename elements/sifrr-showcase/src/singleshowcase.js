@@ -77,7 +77,7 @@ class SifrrSingleShowcase extends SifrrDom.Element {
   }
 
   createNewVariant() {
-    const id = Math.max(...this.state.variants.map(s => s.variantId)) + 1;
+    const id = Math.max(...this.state.variants.map(s => s.variantId), 0) + 1;
     this.state.variants.push(Object.assign({}, {
       variantId: id,
       variantName: this.state.variantName,
@@ -115,17 +115,6 @@ class SifrrSingleShowcase extends SifrrDom.Element {
   switchVariant(id) {
     Object.assign(this.state, this.variant(id));
     this.update();
-  }
-
-  set url(v) {
-    this._url = v;
-    if (this.getAttribute('url') !== v) this.setAttribute('url', v);
-    if (this.$('#url').value !== v) this.$('#url').value = v;
-    this.loadUrl();
-  }
-
-  get url() {
-    return this._url;
   }
 
   updateHtml(e, el) {
