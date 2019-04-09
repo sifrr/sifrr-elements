@@ -29,10 +29,9 @@ class SifrrLazyPicture extends Sifrr.Dom.Element.extends(HTMLPictureElement) {
   }
   static onVisible(entries) {
     entries.forEach(entry => {
-      console.log(entries);
       if (entry.isIntersecting) {
-        this.observer.unobserve(entry.target);
         loadPicture(entry.target);
+        this.unobserve(entry.target);
       }
     });
   }

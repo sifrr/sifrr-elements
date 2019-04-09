@@ -34,8 +34,11 @@ class SifrrTabs extends SifrrDom.Element {
   static get template() {
     return template;
   }
+  static observedAttrs() {
+    return ['options'];
+  }
   onConnect() {
-    this.options = {
+    this._options = {
       menu: this.$(".headings ul"),
       content: this.$(".content"),
       tabcontainer: this.$(".tabs"),
@@ -56,15 +59,22 @@ class SifrrTabs extends SifrrDom.Element {
       animationTime: 300,
       scrollBreakpoint: 0.2
     };
-    if (this.getAttribute('options')) Object.assign(this.options, JSON.parse(this.getAttribute('options')));
+    this._attrOptions = {};
     this.animations = this.animations();
+    this.refresh();
     this.setWindowResizeEvent();
     this.setClickEvents();
     this.setSlotChangeEvent();
-    this.refresh();
+    this._connected = true;
   }
-  refresh(params = {}) {
-    Object.assign(this.options, params);
+  onAttributeChange(n, _, v) {
+    if (n === 'options') {
+      this._attrOptions = JSON.parse(v || '{}');
+      if (this._connected) this.refresh();
+    }
+  }
+  refresh() {
+    this.options = Object.assign({}, this._options, this._attrOptions);
     if (!this.options.tabs || this.options.tabs.length < 1) return;
     this.width = this.clientWidth / this.options.num;
     this.margin = 0;
@@ -73,7 +83,7 @@ class SifrrTabs extends SifrrDom.Element {
       this.margin = this.options.arrowMargin;
     }
     this.setProps();
-    this.active = params.active || this.active || 0;
+    this.active = this.active || 0;
   }
   get active() {
     return this.state ? this.state.active : 0;
@@ -83,7 +93,7 @@ class SifrrTabs extends SifrrDom.Element {
       active: i
     };
   }
-  onStateChange() {
+  beforeUpdate() {
     if (!this.options) return;
     let i = this.state.active;
     i = this.getTabNumber(i);
@@ -92,9 +102,7 @@ class SifrrTabs extends SifrrDom.Element {
       else i = this.options.tabs.length - this.options.num;
     }
     if (!isNaN(i) && i !== this.state.active) {
-      this.state = {
-        active: i
-      };
+      this.state.active = i;
       return;
     }
     this.animate(this.options.content, 'scrollLeft', i * (this.width + 2 * this.margin), this.options.animationTime, this.options.animation);
@@ -152,7 +160,7 @@ class SifrrTabs extends SifrrDom.Element {
   setMenuProps() {
     const me = this;
     let left = 0;
-    this.options.menuProps = {};
+    this.options.menuProps = [];
     Array.from(this.options.menus).forEach((elem, i) => {
       this.options.menuProps[i] = {
         width: elem.offsetWidth,

@@ -1,10 +1,9 @@
 <div class="container">
   <div class="flex-column" id="sidebar">
     <div class="box">
-      <label for="states">Variants</label>
+      <h3>Variants</h3>
       <input id="variantName" type="text" name="variantName" value="${this.state.variantName}" data-sifrr-bind="variantName">
       <button type="button" name="createVariant" _click="${this.createNewVariant}">Create new variant</button>
-      <p id="saver"></p>
       <style media="screen">
         #variant${this.state.variantId} {
           background: #5f616d;

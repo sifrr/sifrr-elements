@@ -57,9 +57,9 @@ class SifrrShowcase extends SifrrDom.Element {
     });
     this.switchShowcase(0);
     storage.get(['showcases', 'current']).then(v => {
+      this._loaded = true;
       if (Array.isArray(v.showcases)) this.state = v;
       this.switchShowcase(v.current);
-      this._loaded = true;
     });
   }
 
@@ -89,11 +89,11 @@ class SifrrShowcase extends SifrrDom.Element {
 
   saveShowcase() {
     delete this.el.state.name;
-    this.state.showcases[this.state.current] = Object.assign(this.state.showcases[this.state.current], this.el.state);
+    this.state.showcases[this.state.current] = Object.assign(this.state.showcases[this.state.current] || {}, this.el.state);
     if (this._loaded) {
       this.$('#status').textContent = 'saving locally!';
       if (this._timeout) clearTimeout(this._timeout);
-      setTimeout(() => {
+      this._timeout = setTimeout(() => {
         storage.set({ showcases: this.state.showcases, current: this.state.current }).then(() => {
           this.$('#status').textContent = 'saved locally!';
         });

@@ -30,10 +30,9 @@ class SifrrLazyPicture extends Sifrr.Dom.Element.extends(HTMLPictureElement) {
   }
   static onVisible(entries) {
     entries.forEach(entry => {
-      console.log(entries);
       if (entry.isIntersecting) {
-        this.observer.unobserve(entry.target);
         loadPicture(entry.target);
+        this.unobserve(entry.target);
       }
     });
   }
@@ -81,8 +80,11 @@ class SifrrTabs extends SifrrDom.Element {
   static get template() {
     return template;
   }
+  static observedAttrs() {
+    return ['options'];
+  }
   onConnect() {
-    this.options = {
+    this._options = {
       menu: this.$(".headings ul"),
       content: this.$(".content"),
       tabcontainer: this.$(".tabs"),
@@ -103,15 +105,22 @@ class SifrrTabs extends SifrrDom.Element {
       animationTime: 300,
       scrollBreakpoint: 0.2
     };
-    if (this.getAttribute('options')) Object.assign(this.options, JSON.parse(this.getAttribute('options')));
+    this._attrOptions = {};
     this.animations = this.animations();
+    this.refresh();
     this.setWindowResizeEvent();
     this.setClickEvents();
     this.setSlotChangeEvent();
-    this.refresh();
+    this._connected = true;
   }
-  refresh(params = {}) {
-    Object.assign(this.options, params);
+  onAttributeChange(n, _, v) {
+    if (n === 'options') {
+      this._attrOptions = JSON.parse(v || '{}');
+      if (this._connected) this.refresh();
+    }
+  }
+  refresh() {
+    this.options = Object.assign({}, this._options, this._attrOptions);
     if (!this.options.tabs || this.options.tabs.length < 1) return;
     this.width = this.clientWidth / this.options.num;
     this.margin = 0;
@@ -120,7 +129,7 @@ class SifrrTabs extends SifrrDom.Element {
       this.margin = this.options.arrowMargin;
     }
     this.setProps();
-    this.active = params.active || this.active || 0;
+    this.active = this.active || 0;
   }
   get active() {
     return this.state ? this.state.active : 0;
@@ -130,7 +139,7 @@ class SifrrTabs extends SifrrDom.Element {
       active: i
     };
   }
-  onStateChange() {
+  beforeUpdate() {
     if (!this.options) return;
     let i = this.state.active;
     i = this.getTabNumber(i);
@@ -139,9 +148,7 @@ class SifrrTabs extends SifrrDom.Element {
       else i = this.options.tabs.length - this.options.num;
     }
     if (!isNaN(i) && i !== this.state.active) {
-      this.state = {
-        active: i
-      };
+      this.state.active = i;
       return;
     }
     this.animate(this.options.content, 'scrollLeft', i * (this.width + 2 * this.margin), this.options.animationTime, this.options.animation);
@@ -199,7 +206,7 @@ class SifrrTabs extends SifrrDom.Element {
   setMenuProps() {
     const me = this;
     let left = 0;
-    this.options.menuProps = {};
+    this.options.menuProps = [];
     Array.from(this.options.menus).forEach((elem, i) => {
       this.options.menuProps[i] = {
         width: elem.offsetWidth,
@@ -560,7 +567,7 @@ if (window) SifrrDom.register(SifrrStater);
 
 var css$2 = "* {\n  box-sizing: border-box; }\n\nh1, h3, label, li, span, p {\n  font-family: Roboto, Ariel; }\n\n.container {\n  width: 100%;\n  height: 100%;\n  display: flex;\n  flex-wrap: nowrap;\n  background-color: #3a3f5a; }\n\n#sidemenu {\n  width: 15%;\n  height: 100%; }\n\n#sidemenu > * {\n  height: 100%; }\n\nsifrr-single-showcase {\n  width: 85%;\n  height: 100%;\n  display: block; }\n\n#sidebar {\n  width: 30%;\n  height: 100%; }\n\n#sidebar > * {\n  height: 33.33%; }\n\n#main {\n  width: 70%;\n  height: 100%; }\n\n.flex-column {\n  height: 100%;\n  display: flex;\n  flex-wrap: nowrap;\n  flex-direction: column; }\n\n.box {\n  width: 100%;\n  overflow: scroll;\n  border: 1px solid #5f616d; }\n\n#element {\n  padding: 20px;\n  height: 70%; }\n\n${this.state.style}\n#code {\n  height: 30%; }\n\n#code sifrr-code-editor {\n  height: calc(100% - 48px) !important; }\n\nh1, h3 {\n  color: #cccccc;\n  text-align: center; }\n\nlabel, li {\n  color: #8f9cb3;\n  font-size: 16px;\n  line-height: 24px;\n  padding: 4px; }\n\n#error, #status {\n  color: red; }\n\nsifrr-code-editor {\n  width: 100%;\n  height: calc(100% - 24px);\n  font-size: 14px;\n  padding: 4px; }\n\nul {\n  padding: 8px;\n  margin: 0; }\n\n.variant, .showcase {\n  list-style-type: none; }\n  .variant span, .showcase span {\n    color: red;\n    float: right; }\n\n#saver, #loader {\n  color: green;\n  padding: 4px;\n  margin: 0; }\n\nbutton, .button {\n  position: relative;\n  display: inline-block;\n  background: #cccccc;\n  border: 1px solid grey;\n  color: #3a3f5a;\n  font-size: 14px;\n  padding: 4px; }\n  button input, .button input {\n    position: absolute;\n    width: 100%;\n    height: 100%;\n    top: 0;\n    left: 0;\n    opacity: 0; }\n";
 
-const html = "<div class=\"container\">\n  <div class=\"flex-column\" id=\"sidebar\">\n    <div class=\"box\">\n      <label for=\"states\">Variants</label>\n      <input id=\"variantName\" type=\"text\" name=\"variantName\" value=\"${this.state.variantName}\" data-sifrr-bind=\"variantName\">\n      <button type=\"button\" name=\"createVariant\" _click=\"${this.createNewVariant}\">Create new variant</button>\n      <p id=\"saver\"></p>\n      <style media=\"screen\">\n        #variant${this.state.variantId} {\n          background: #5f616d;\n        }\n      </style>\n      <div id=\"showcases\">\n        <ul data-sifrr-repeat=\"${this.state.variants}\">\n          <li class=\"variant\" data-variant-id=\"${this.state.variantId}\" id=\"variant${this.state.variantId}\">${this.state.variantName}<span>X</span></li>\n        </ul>\n      </div>\n    </div>\n    <div class=\"box\">\n      <label for=\"style\">Element CSS Styles</label>\n      <sifrr-code-editor lang=\"css\" data-sifrr-bind=\"style\" value=\"${this.state.style}\"></sifrr-code-editor>\n    </div>\n    <div class=\"box\">\n      <label for=\"elState\">Element State Function</label>\n      <sifrr-code-editor id=\"elState\" lang=\"js\" data-sifrr-bind=\"elState\" value=\"${this.state.elState}\"></sifrr-code-editor>\n    </div>\n  </div>\n  <div class=\"flex-column\" id=\"main\">\n    <div class=\"box\" id=\"element\" data-sifrr-html=\"true\">\n      ${this.state.code}\n    </div>\n    <div class=\"box\" id=\"code\">\n      <label for=\"elementName\">Element Name</label>\n      <input type=\"text\" name=\"elementName\" placeholder=\"Enter element name here...\" _input=\"${this.updateHtml}\" value=\"${this.state.element}\">\n      <label for=\"customUrl\">Custom Url</label>\n      <input type=\"text\" name=\"customUrl\" placeholder=\"Enter element url here...\" value=\"${this.state.elementUrl}\" data-sifrr-bind=\"elementUrl\">\n      <label for=\"elementName\">Is JS File</label>\n      <select id=\"isjs\" name=\"isjs\" value=\"${this.state.isjs}\" data-sifrr-bind=\"isjs\">\n        <option value=\"true\">true</option>\n        <option value=\"false\">false</option>\n      </select>\n      <span id=\"error\"></span>\n      <br>\n      <label for=\"htmlcode\">HTML Code</label>\n      <sifrr-code-editor lang=\"html\" data-sifrr-bind=\"code\" value=\"${this.state.code}\"></sifrr-code-editor>\n    </div>\n  </div>\n</div>";
+const html = "<div class=\"container\">\n  <div class=\"flex-column\" id=\"sidebar\">\n    <div class=\"box\">\n      <h3>Variants</h3>\n      <input id=\"variantName\" type=\"text\" name=\"variantName\" value=\"${this.state.variantName}\" data-sifrr-bind=\"variantName\">\n      <button type=\"button\" name=\"createVariant\" _click=\"${this.createNewVariant}\">Create new variant</button>\n      <style media=\"screen\">\n        #variant${this.state.variantId} {\n          background: #5f616d;\n        }\n      </style>\n      <div id=\"showcases\">\n        <ul data-sifrr-repeat=\"${this.state.variants}\">\n          <li class=\"variant\" data-variant-id=\"${this.state.variantId}\" id=\"variant${this.state.variantId}\">${this.state.variantName}<span>X</span></li>\n        </ul>\n      </div>\n    </div>\n    <div class=\"box\">\n      <label for=\"style\">Element CSS Styles</label>\n      <sifrr-code-editor lang=\"css\" data-sifrr-bind=\"style\" value=\"${this.state.style}\"></sifrr-code-editor>\n    </div>\n    <div class=\"box\">\n      <label for=\"elState\">Element State Function</label>\n      <sifrr-code-editor id=\"elState\" lang=\"js\" data-sifrr-bind=\"elState\" value=\"${this.state.elState}\"></sifrr-code-editor>\n    </div>\n  </div>\n  <div class=\"flex-column\" id=\"main\">\n    <div class=\"box\" id=\"element\" data-sifrr-html=\"true\">\n      ${this.state.code}\n    </div>\n    <div class=\"box\" id=\"code\">\n      <label for=\"elementName\">Element Name</label>\n      <input type=\"text\" name=\"elementName\" placeholder=\"Enter element name here...\" _input=\"${this.updateHtml}\" value=\"${this.state.element}\">\n      <label for=\"customUrl\">Custom Url</label>\n      <input type=\"text\" name=\"customUrl\" placeholder=\"Enter element url here...\" value=\"${this.state.elementUrl}\" data-sifrr-bind=\"elementUrl\">\n      <label for=\"elementName\">Is JS File</label>\n      <select id=\"isjs\" name=\"isjs\" value=\"${this.state.isjs}\" data-sifrr-bind=\"isjs\">\n        <option value=\"true\">true</option>\n        <option value=\"false\">false</option>\n      </select>\n      <span id=\"error\"></span>\n      <br>\n      <label for=\"htmlcode\">HTML Code</label>\n      <sifrr-code-editor lang=\"html\" data-sifrr-bind=\"code\" value=\"${this.state.code}\"></sifrr-code-editor>\n    </div>\n  </div>\n</div>";
 
 var css$3 = ":host {\n  display: block;\n  position: relative; }\n\n* {\n  box-sizing: border-box; }\n\n.hljs {\n  width: 100%;\n  height: 100%;\n  font-family: Consolas,Liberation Mono,Courier,monospace;\n  font-size: 14px;\n  line-height: 18px;\n  padding: 8px;\n  margin: 0;\n  position: absolute;\n  white-space: pre-wrap;\n  top: 0;\n  left: 0; }\n\ntextarea {\n  z-index: 2;\n  resize: none;\n  border: none; }\n\ntextarea.loaded {\n  background: transparent !important;\n  text-shadow: 0px 0px 0px rgba(0, 0, 0, 0);\n  text-fill-color: transparent;\n  -webkit-text-fill-color: transparent; }\n\npre {\n  z-index: 1; }\n";
 const template$2 = SifrrDom.template`
@@ -789,9 +796,9 @@ class SifrrShowcase extends SifrrDom.Element {
     });
     this.switchShowcase(0);
     storage.get(['showcases', 'current']).then(v => {
+      this._loaded = true;
       if (Array.isArray(v.showcases)) this.state = v;
       this.switchShowcase(v.current);
-      this._loaded = true;
     });
   }
   getChildIndex(el) {
@@ -816,11 +823,11 @@ class SifrrShowcase extends SifrrDom.Element {
   }
   saveShowcase() {
     delete this.el.state.name;
-    this.state.showcases[this.state.current] = Object.assign(this.state.showcases[this.state.current], this.el.state);
+    this.state.showcases[this.state.current] = Object.assign(this.state.showcases[this.state.current] || {}, this.el.state);
     if (this._loaded) {
       this.$('#status').textContent = 'saving locally!';
       if (this._timeout) clearTimeout(this._timeout);
-      setTimeout(() => {
+      this._timeout = setTimeout(() => {
         storage.set({ showcases: this.state.showcases, current: this.state.current }).then(() => {
           this.$('#status').textContent = 'saved locally!';
         });

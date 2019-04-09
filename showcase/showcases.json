@@ -1,0 +1,131 @@
+{
+  "current": 0,
+  "showcases": [
+    {
+      "id": 1,
+      "element": "sifrr-code-editor",
+      "elementUrl": "",
+      "isjs": true,
+      "variantName": "default - html",
+      "variants": [
+        {
+          "variantId": 1,
+          "variantName": "default - html",
+          "style": "#element > * {\n}",
+          "code": "<sifrr-code-editor></sifrr-code-editor>",
+          "elState": "this.value = '<a>some test.. </a>';\nreturn {\n\n}"
+        },
+        {
+          "variantId": 3,
+          "variantName": "js",
+          "style": "#element > * {\n  \n}",
+          "code": "<sifrr-code-editor lang=\"js\"></sifrr-code-editor>",
+          "elState": "this.value = 'var a = \"some value\";';\nreturn {\n\n}"
+        },
+        {
+          "variantId": 4,
+          "variantName": "css",
+          "style": "#element > * {\n  \n}",
+          "code": "<sifrr-code-editor lang=\"css\"></sifrr-code-editor>",
+          "elState": "this.value = `element {\n  color: black;\n}\n`;\nreturn {\n\n}"
+        }
+      ],
+      "variantId": 1,
+      "style": "#element > * {\n}",
+      "code": "<sifrr-code-editor></sifrr-code-editor>",
+      "elState": "this.value = '<a>some test.. </a>';\nreturn {\n\n}",
+      "name": "sifrr-code-editor"
+    },
+    {
+      "name": "sifrr-tabs",
+      "variants": [
+        {
+          "variantId": 1,
+          "variantName": "with menu and content",
+          "style": "#element > * {\n  background-color: white;\n  display: block;\n}",
+          "code": "<sifrr-tabs>\n        <li slot='heading'>Heading 2</li>\n        <li slot='heading'>Heading 2 - sdfsdfsdafsdf d sdf af </li>\n        <li slot='heading'>Heading 3 - sdf ssd fdsf sf </li>\n        <li slot='heading'>Heading 4 - vesdfdf d df dfds dsf dsf </li>\n        <div slot='tab'>\n          <p>Tab 1</p>\n          <p>Tab 1</p>\n          <p>Tab 1</p>\n          <p>Tab 1</p>\n          <p>Tab 1</p>\n          <p>Tab 1</p>\n        </div>\n        <div slot='tab'>\n          <p>Tab 2</p>\n          <p>Tab 2</p>\n          <p>Tab 2</p>\n        </div>\n        <div slot='tab'>\n          <p>Tab 3</p>\n        </div>\n        <div slot='tab'>\n          <p>Tab 4</p>\n        </div>\n      </sifrr-tabs>",
+          "elState": "return {\n\n}"
+        },
+        {
+          "variantId": 2,
+          "variantName": "without menu, with arrows",
+          "style": "#element > * {\n  background-color: white;\n  display: block;\n}",
+          "code": "<sifrr-tabs options='{ \"showMenu\": false, \"showArrows\": true }'>\n        <div slot='tab'>\n          Tab 1\n        </div>\n        <div slot='tab'>\n          Tab 2\n        </div>\n      </sifrr-tabs>",
+          "elState": "return {\n\n}"
+        },
+        {
+          "variantId": 3,
+          "variantName": "without menu, with arrows, looped",
+          "style": "#element > * {\n  background-color: white;\n  display: block;\n}",
+          "code": "<sifrr-tabs options='{ \"showMenu\": false, \"showArrows\": true, \"loop\": true }'>\n        <div slot='tab'>\n          Tab 1\n        </div>\n        <div slot='tab'>\n          Tab 2\n        </div>\n      </sifrr-tabs>",
+          "elState": "return {\n\n}"
+        },
+        {
+          "variantId": 4,
+          "variantName": "with multiple tabs (integer) in view",
+          "style": "#element > * {\n  background-color: white;\n  display: block;\n}",
+          "code": "<sifrr-tabs options='{ \"showMenu\": false, \"showArrows\": true, \"num\": 3 }'>\n        <div slot='tab'>\n          Tab 1\n        </div>\n        <div slot='tab'>\n          Tab 2\n        </div>\n        <div slot='tab'>\n          Tab 3\n        </div>\n        <div slot='tab'>\n          Tab 4\n        </div>\n        <div slot='tab'>\n          Tab 5\n        </div>\n        <div slot='tab'>\n          Tab 6\n        </div>\n      </sifrr-tabs>\n",
+          "elState": "return {\n\n}"
+        },
+        {
+          "variantId": 5,
+          "variantName": "with multiple tabs in view, looped, and arrow steps more than 1",
+          "style": "#element > * {\n  background-color: white;\n  display: block;\n}",
+          "code": "<sifrr-tabs options='{ \"showMenu\": false, \"showArrows\": true, \"num\": 3, \"loop\": true, \"step\": 3 }'>\n        <div slot='tab'>\n          Tab 1\n        </div>\n        <div slot='tab'>\n          Tab 2\n        </div>\n        <div slot='tab'>\n          Tab 3\n        </div>\n        <div slot='tab'>\n          Tab 4\n        </div>\n        <div slot='tab'>\n          Tab 5\n        </div>\n        <div slot='tab'>\n          Tab 6\n        </div>\n      </sifrr-tabs>\n",
+          "elState": "return {\n\n}"
+        },
+        {
+          "variantId": 6,
+          "variantName": "with pre defined tab height",
+          "style": "#element > * {\n  background-color: white;\n  display: block;\n}",
+          "code": "<sifrr-tabs options='{ \"tabHeight\": \"100px\" }'>\n        <li slot='heading'>Heading 1</li>\n        <li slot='heading'>Heading 2</li>\n        <div slot='tab'>\n          Tab 1\n        </div>\n        <div slot='tab'>\n          Tab 2\n        </div>\n      </sifrr-tabs>",
+          "elState": "return {\n\n}"
+        },
+        {
+          "variantId": 7,
+          "variantName": "with no animation",
+          "style": "#element > * {\n  background-color: white;\n  display: block;\n}",
+          "code": "<sifrr-tabs options='{ \"animation\": \"none\" }'>\n        <li slot='heading'>Heading 1</li>\n        <li slot='heading'>Heading 2</li>\n        <div slot='tab'>\n          Tab 1\n        </div>\n        <div slot='tab'>\n          Tab 2\n        </div>\n      </sifrr-tabs>",
+          "elState": "return {\n\n}"
+        },
+        {
+          "variantId": 8,
+          "variantName": "with arrowMargins",
+          "style": "#element > * {\n  background-color: white;\n  display: block;\n}",
+          "code": "<sifrr-tabs options='{ \"showMenu\": false, \"showArrows\": true, \"arrowMargin\": 25 }'>\n        <div slot='tab'>\n          Tab 1\n        </div>\n        <div slot='tab'>\n          Tab 2\n        </div>\n      </sifrr-tabs>",
+          "elState": "return {\n\n}"
+        }
+      ],
+      "id": 1,
+      "element": "sifrr-code-editor",
+      "elementUrl": "",
+      "isjs": true,
+      "variantName": "with menu and content",
+      "variantId": 1,
+      "style": "#element > * {\n  background-color: white;\n  display: block;\n}",
+      "code": "<sifrr-tabs>\n        <li slot='heading'>Heading 2</li>\n        <li slot='heading'>Heading 2 - sdfsdfsdafsdf d sdf af </li>\n        <li slot='heading'>Heading 3 - sdf ssd fdsf sf </li>\n        <li slot='heading'>Heading 4 - vesdfdf d df dfds dsf dsf </li>\n        <div slot='tab'>\n          <p>Tab 1</p>\n          <p>Tab 1</p>\n          <p>Tab 1</p>\n          <p>Tab 1</p>\n          <p>Tab 1</p>\n          <p>Tab 1</p>\n        </div>\n        <div slot='tab'>\n          <p>Tab 2</p>\n          <p>Tab 2</p>\n          <p>Tab 2</p>\n        </div>\n        <div slot='tab'>\n          <p>Tab 3</p>\n        </div>\n        <div slot='tab'>\n          <p>Tab 4</p>\n        </div>\n      </sifrr-tabs>",
+      "elState": "return {\n\n}"
+    },
+    {
+      "name": "sifrr-lazy-picture",
+      "variants": [
+        {
+          "variantId": 1,
+          "variantName": "lazy loading",
+          "style": "#element > * {\n  background: white;\n  height: 200px;\n  width: 200px;\n  display: block;\n}\n#element > * img {\n  width: 100%;\n  height: 100%;\n}",
+          "code": "<div style=\"height: 1000px\"></div>\n<picture is=\"sifrr-lazy-picture\">\n      <source media=\"(min-width: 800px)\" data-srcset=\"https://pbs.twimg.com/profile_images/1057899591708753921/PSpUS-Hp_400x400.jpg\">\n      <img data-src=\"https://static.adweek.com/adweek.com-prod/wp-content/uploads/files/blogs/google-logo-hed-2014.jpg\">\n</picture>",
+          "elState": "return {\n\n}"
+        }
+      ],
+      "id": 1,
+      "element": "sifrr-code-editor",
+      "elementUrl": "",
+      "isjs": true,
+      "variantName": "lazy loading",
+      "variantId": 1,
+      "style": "#element > * {\n  background: white;\n  height: 200px;\n  width: 200px;\n  display: block;\n}\n#element > * img {\n  width: 100%;\n  height: 100%;\n}",
+      "code": "<div style=\"height: 1000px\"></div>\n<picture is=\"sifrr-lazy-picture\">\n      <source media=\"(min-width: 800px)\" data-srcset=\"https://pbs.twimg.com/profile_images/1057899591708753921/PSpUS-Hp_400x400.jpg\">\n      <img data-src=\"https://static.adweek.com/adweek.com-prod/wp-content/uploads/files/blogs/google-logo-hed-2014.jpg\">\n</picture>",
+      "elState": "return {\n\n}"
+    }
+  ]
+}
