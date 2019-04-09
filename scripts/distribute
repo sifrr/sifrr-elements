@@ -10,4 +10,5 @@ set -ex
 git ls-files '*/dist/*.js*' | xargs git add
 git ls-files 'package.json' | xargs git add
 git ls-files 'rollup.config.js' | xargs git add
+git ls-files 'misc/*' | xargs git add
 (git commit -m "chore: add auto generated files" && git push && exit 1) || echo 'Files up to date'
