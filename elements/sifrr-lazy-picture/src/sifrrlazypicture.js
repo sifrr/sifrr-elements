@@ -52,6 +52,6 @@ class SifrrLazyPicture extends Sifrr.Dom.Element.extends(HTMLPictureElement) {
 
 SifrrLazyPicture.rootMargin = '0px 0px 200px 0px';
 
-if (window) SifrrDom.register(SifrrLazyPicture, { extends: 'picture' });
+SifrrDom.register(SifrrLazyPicture, { extends: 'picture' });
 
 export default SifrrLazyPicture;

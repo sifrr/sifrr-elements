@@ -94,6 +94,6 @@ class SifrrCodeEditor extends SifrrDom.Element {
   }
 }
 
-if (window) SifrrDom.register(SifrrCodeEditor);
+SifrrDom.register(SifrrCodeEditor);
 
 export default SifrrCodeEditor;

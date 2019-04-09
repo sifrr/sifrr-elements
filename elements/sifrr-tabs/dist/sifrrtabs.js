@@ -255,7 +255,7 @@
   SifrrTabs.defaultState = {
     active: 0
   };
-  if (window) SifrrDom.register(SifrrTabs);
+  SifrrDom.register(SifrrTabs);
 
   return SifrrTabs;
 

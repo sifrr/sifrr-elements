@@ -1,7 +1,7 @@
-import SifrrDom from '@sifrr/dom'
-import SifrrStorage from '@sifrr/storage'
-import '../../sifrr-tabs/src/sifrrtabs'
-import style from './style.scss'
+import SifrrDom from '@sifrr/dom';
+import SifrrStorage from '@sifrr/storage';
+import '../../sifrr-tabs/src/sifrrtabs';
+import style from './style.scss';
 
 const template = SifrrDom.template`<style>
   ${style}
@@ -56,7 +56,7 @@ class SifrrStater extends SifrrDom.Element {
     });
     SifrrDom.Element.onStateChange = function(target) {
       me.addState(target, target.state);
-    }
+    };
   }
 
   showHide() {
@@ -92,11 +92,11 @@ class SifrrStater extends SifrrDom.Element {
     if (typeof query !== 'string') query = this.$('#addTargetInput').value;
     const target = window.document.querySelector(query);
     if (!target.isSifrr) {
-      console.log("Invalid Sifrr Element.", target);
+      window.console.log('Invalid Sifrr Element.', target);
       return false;
     }
     if (!target.state) {
-      console.log("Sifrr Element has no state.", target);
+      window.console.log('Sifrr Element has no state.', target);
       return false;
     }
     let index = this.state.targets.indexOf(target);
@@ -111,8 +111,7 @@ class SifrrStater extends SifrrDom.Element {
 
   removeTarget(el) {
     const {
-      index,
-      target
+      index
     } = this.getTarget(el);
     if (index > -1) {
       this.state.targets.splice(index, 1);
@@ -125,8 +124,7 @@ class SifrrStater extends SifrrDom.Element {
 
   addState(el, state) {
     const {
-      index,
-      target
+      index
     } = this.getTarget(el);
     if (index > -1) {
       const active = this.state.activeStates[index];
@@ -140,8 +138,7 @@ class SifrrStater extends SifrrDom.Element {
   }
   deleteState(el, stateN) {
     const {
-      index,
-      target
+      index
     } = this.getTarget(el);
     this.state.states[index].splice(stateN, 1);
     if (stateN < this.state.activeStates[index]) {
@@ -155,8 +152,7 @@ class SifrrStater extends SifrrDom.Element {
 
   commit(el) {
     const {
-      index,
-      target
+      index
     } = this.getTarget(el);
     const last_state = this.state.states[index][this.state.states[index].length - 1];
     this.state.states[index] = [last_state];
@@ -175,7 +171,6 @@ class SifrrStater extends SifrrDom.Element {
       index,
       target
     } = this.getTarget(el);
-    const active = this.state.activeStates[index];
     this.state.activeStates[index] = n;
     target.state = this.state.states[index][n];
     this.update();
@@ -219,7 +214,7 @@ class SifrrStater extends SifrrDom.Element {
         const data = {
           active: me.state.activeStates[i],
           states: me.state.states[i]
-        }
+        };
         me.storage.insert(q, data);
       });
     });
@@ -243,7 +238,7 @@ class SifrrStater extends SifrrDom.Element {
     let index;
     if (Number.isInteger(target)) {
       index = target;
-      target = this.state.targets[index]
+      target = this.state.targets[index];
     } else {
       index = this.state.targets.indexOf(target);
     }
@@ -256,8 +251,8 @@ class SifrrStater extends SifrrDom.Element {
   static prettyJSON(json) {
     json = JSON.stringify(json, null, 4);
     json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-    return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function(match) {
-      var cls = 'number';
+    return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+-]?\d+)?)/g, function(match) {
+      let cls = 'number';
       if (/:$/.test(match)) {
         cls = 'key';
         return '<span class="' + cls + '">' + match + '</span>';
@@ -278,8 +273,8 @@ SifrrStater.defaultState = {
   states: [],
   queries: [],
   activeStates: []
-}
+};
 
-if (window) SifrrDom.register(SifrrStater);
+SifrrDom.register(SifrrStater);
 
 export default SifrrStater;

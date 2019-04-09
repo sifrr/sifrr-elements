@@ -81,7 +81,7 @@ class SifrrCodeEditor extends SifrrDom.Element {
     return this.getAttribute('lang') || 'html';
   }
 }
-if (window) SifrrDom.register(SifrrCodeEditor);
+SifrrDom.register(SifrrCodeEditor);
 
 const template$1 = SifrrDom.template`<style media="screen">
   ${css}
@@ -196,7 +196,7 @@ class SifrrSingleShowcase extends SifrrDom.Element {
   }
 }
 SifrrSingleShowcase.defaultState = defaultShowcase;
-if (window) SifrrDom.register(SifrrSingleShowcase);
+SifrrDom.register(SifrrSingleShowcase);
 
 const template$2 = SifrrDom.template`<style media="screen">
   ${css}
@@ -354,7 +354,7 @@ SifrrShowcase.defaultState = {
     name: 'new'
   }]
 };
-if (window) SifrrDom.register(SifrrShowcase);
+SifrrDom.register(SifrrShowcase);
 
 export default SifrrShowcase;
 /*! (c) @aadityataparia */

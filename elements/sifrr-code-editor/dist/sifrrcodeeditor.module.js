@@ -77,7 +77,7 @@ class SifrrCodeEditor extends SifrrDom.Element {
     return this.getAttribute('lang') || 'html';
   }
 }
-if (window) SifrrDom.register(SifrrCodeEditor);
+SifrrDom.register(SifrrCodeEditor);
 
 export default SifrrCodeEditor;
 /*! (c) @aadityataparia */

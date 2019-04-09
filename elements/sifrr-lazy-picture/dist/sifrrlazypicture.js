@@ -50,7 +50,7 @@
     }
   }
   SifrrLazyPicture.rootMargin = '0px 0px 200px 0px';
-  if (window) SifrrDom.register(SifrrLazyPicture, {
+  SifrrDom.register(SifrrLazyPicture, {
     extends: 'picture'
   });
 

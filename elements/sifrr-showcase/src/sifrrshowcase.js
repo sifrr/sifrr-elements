@@ -178,6 +178,6 @@ SifrrShowcase.defaultState = {
   }]
 };
 
-if (window) SifrrDom.register(SifrrShowcase);
+SifrrDom.register(SifrrShowcase);
 
 export default SifrrShowcase;

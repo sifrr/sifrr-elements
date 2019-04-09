@@ -256,7 +256,7 @@
   SifrrTabs.defaultState = {
     active: 0
   };
-  if (window) SifrrDom.register(SifrrTabs);
+  SifrrDom.register(SifrrTabs);
 
   var css$1 = ":host {\n  position: fixed;\n  right: 0;\n  top: 0;\n  bottom: 0;\n  height: 100%;\n  max-width: 100%;\n  width: 320px;\n  z-index: 1000;\n  background-color: rgba(0, 0, 0, 0.8);\n  transform: translate3d(100%, 0, 0);\n  transition: all 0.2s ease; }\n\n:host(.show) {\n  transform: translate3d(0, 0, 0); }\n\n* {\n  box-sizing: border-box; }\n\n#showHide {\n  position: fixed;\n  left: -30px;\n  top: 0;\n  bottom: 0;\n  width: 30px;\n  height: 30px;\n  margin-top: 5px;\n  background-color: blue;\n  z-index: 2; }\n\n.stateContainer {\n  padding-left: 10px;\n  margin-left: 10px;\n  border-left: 1px solid white;\n  position: relative; }\n\n.stateContainer.off {\n  opacity: 0.5; }\n\n.stateContainer .dotC {\n  position: absolute;\n  top: 0;\n  left: -10px;\n  width: 20px;\n  height: 100%;\n  cursor: pointer; }\n\n.stateContainer .dotC .dot {\n  position: absolute;\n  top: 50%;\n  left: 10px;\n  width: 10px;\n  height: 10px;\n  transform: translate3d(-50%, -50%, 0);\n  background-color: white;\n  border-radius: 50%; }\n\n.stateContainer .delete {\n  position: absolute;\n  top: 0;\n  right: 0;\n  padding: 4px;\n  background-color: rgba(0, 0, 0, 0.7);\n  color: white;\n  cursor: pointer; }\n\n.state {\n  white-space: pre-wrap;\n  max-height: 90px;\n  overflow: hidden;\n  background-color: rgba(255, 255, 255, 0.97);\n  padding: 5px;\n  margin-bottom: 5px;\n  position: relative;\n  cursor: pointer; }\n\n.state:hover::after {\n  content: '\\\\\\/';\n  position: absolute;\n  bottom: 0;\n  left: 0;\n  width: 100%;\n  background-color: rgba(0, 0, 0, 0.7);\n  text-align: center;\n  color: white; }\n\n.state.open {\n  max-height: none; }\n\n.state.open:hover::after {\n  content: '\\/\\\\'; }\n\n.key {\n  color: red; }\n\n.string {\n  color: green; }\n\n.number, .null, .boolean {\n  color: blue; }\n\nfooter {\n  position: absolute;\n  bottom: 0; }\n\ninput {\n  margin: 3px;\n  width: calc(100% - 6px);\n  padding: 3px; }\n\n.btn3 {\n  margin: 3px;\n  width: calc(33% - 8px);\n  padding: 3px;\n  background: white; }\n";
 
@@ -323,11 +323,11 @@
       if (typeof query !== 'string') query = this.$('#addTargetInput').value;
       const target = window.document.querySelector(query);
       if (!target.isSifrr) {
-        console.log("Invalid Sifrr Element.", target);
+        window.console.log('Invalid Sifrr Element.', target);
         return false;
       }
       if (!target.state) {
-        console.log("Sifrr Element has no state.", target);
+        window.console.log('Sifrr Element has no state.', target);
         return false;
       }
       let index = this.state.targets.indexOf(target);
@@ -341,8 +341,7 @@
     }
     removeTarget(el) {
       const {
-        index,
-        target
+        index
       } = this.getTarget(el);
       if (index > -1) {
         this.state.targets.splice(index, 1);
@@ -354,8 +353,7 @@
     }
     addState(el, state) {
       const {
-        index,
-        target
+        index
       } = this.getTarget(el);
       if (index > -1) {
         const active = this.state.activeStates[index];
@@ -369,8 +367,7 @@
     }
     deleteState(el, stateN) {
       const {
-        index,
-        target
+        index
       } = this.getTarget(el);
       this.state.states[index].splice(stateN, 1);
       if (stateN < this.state.activeStates[index]) {
@@ -383,8 +380,7 @@
     }
     commit(el) {
       const {
-        index,
-        target
+        index
       } = this.getTarget(el);
       const last_state = this.state.states[index][this.state.states[index].length - 1];
       this.state.states[index] = [last_state];
@@ -401,7 +397,6 @@
         index,
         target
       } = this.getTarget(el);
-      const active = this.state.activeStates[index];
       this.state.activeStates[index] = n;
       target.state = this.state.states[index][n];
       this.update();
@@ -474,8 +469,8 @@
     static prettyJSON(json) {
       json = JSON.stringify(json, null, 4);
       json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-      return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function (match) {
-        var cls = 'number';
+      return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+-]?\d+)?)/g, function (match) {
+        let cls = 'number';
         if (/:$/.test(match)) {
           cls = 'key';
           return '<span class="' + cls + '">' + match + '</span>';
@@ -496,7 +491,7 @@
     queries: [],
     activeStates: []
   };
-  if (window) SifrrDom.register(SifrrStater);
+  SifrrDom.register(SifrrStater);
 
   return SifrrStater;
 

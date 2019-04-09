@@ -133,6 +133,6 @@ class SifrrSingleShowcase extends SifrrDom.Element {
 
 SifrrSingleShowcase.defaultState = defaultShowcase;
 
-if (window) SifrrDom.register(SifrrSingleShowcase);
+SifrrDom.register(SifrrSingleShowcase);
 
 export default SifrrSingleShowcase;

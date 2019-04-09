@@ -249,7 +249,7 @@ class SifrrTabs extends SifrrDom.Element {
   }
 }
 SifrrTabs.defaultState = { active: 0 };
-if (window) SifrrDom.register(SifrrTabs);
+SifrrDom.register(SifrrTabs);
 
 export default SifrrTabs;
 /*! (c) @aadityataparia */
