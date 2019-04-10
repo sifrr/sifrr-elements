@@ -68,6 +68,13 @@
           "elState": "return {\n\n}"
         },
         {
+          "variantId": 12,
+          "variantName": "arrow big area to clickk",
+          "style": "#element > * {\n  background-color: white;\n  display: block;\n}",
+          "code": "<sifrr-tabs options='{ \"showMenu\": false, \"showArrows\": true, \"arrowWidth\": \"30%\" }'>\n        <div slot='tab'>\n          Tab 1\n        </div>\n        <div slot='tab'>\n          Tab 2\n        </div>\n      </sifrr-tabs>",
+          "elState": "return {\n\n}"
+        },
+        {
           "variantId": 10,
           "variantName": "without menu, with arrows, arrow margin",
           "style": "#element > * {\n  background-color: white;\n  display: block;\n}",
@@ -128,10 +135,10 @@
       "element": "sifrr-code-editor",
       "elementUrl": "",
       "isjs": true,
-      "variantName": "images carousel",
-      "variantId": 9,
-      "style": "#element > * {\n  background-color: white;\n  display: block;\n}\n#element > * > img {\n  height: 100%;\n}",
-      "code": "<sifrr-tabs options='{ \"showMenu\": false, \"showArrows\": true, \"tabHeight\": \"400px\" }'>\n  <img slot=\"tab\" src=\"https://static.adweek.com/adweek.com-prod/wp-content/uploads/files/blogs/google-logo-hed-2014.jpg\">\n  <img slot=\"tab\" src=\"https://static.adweek.com/adweek.com-prod/wp-content/uploads/files/blogs/google-logo-hed-2014.jpg\">\n  <img slot=\"tab\" src=\"https://static.adweek.com/adweek.com-prod/wp-content/uploads/files/blogs/google-logo-hed-2014.jpg\">\n  <img slot=\"tab\" src=\"https://static.adweek.com/adweek.com-prod/wp-content/uploads/files/blogs/google-logo-hed-2014.jpg\">\n</sifrr-tabs>",
+      "variantName": "arrow big area to clickk",
+      "variantId": 12,
+      "style": "#element > * {\n  background-color: white;\n  display: block;\n}",
+      "code": "<sifrr-tabs options='{ \"showMenu\": false, \"showArrows\": true, \"arrowWidth\": \"30%\" }'>\n        <div slot='tab'>\n          Tab 1\n        </div>\n        <div slot='tab'>\n          Tab 2\n        </div>\n      </sifrr-tabs>",
       "elState": "return {\n\n}"
     },
     {
