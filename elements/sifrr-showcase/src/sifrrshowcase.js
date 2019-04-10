@@ -55,14 +55,8 @@ class SifrrShowcase extends SifrrDom.Element {
       if (el.matches('.showcase')) this.switchShowcase(this.getChildIndex(el));
       if (el.matches('.showcase span')) this.deleteShowcase(this.getChildIndex(el));
     });
+    this.loadUrl();
     this.switchShowcase(0);
-    storage.all().then(v => {
-      this._loaded = true;
-      if (Array.isArray(v.showcases)) {
-        this.state.showcases = v.showcases;
-        this.switchShowcase(v.current);
-      }
-    });
     if (window.Sortable) {
       const me = this;
       new window.Sortable(this.$('#showcases'), {
@@ -141,11 +135,20 @@ class SifrrShowcase extends SifrrDom.Element {
 
   loadUrl() {
     this._url = this.$('#url').value;
-    window.fetch(this._url).then((resp) => resp.json()).then(json => {
-      this.state = json;
+    window.fetch(this._url).then((resp) => resp.json()).then(v => {
+      this.state.showcases = v.showcases;
+      this.switchShowcase(v.current);
       this.$('#status').textContent = 'loaded from url!';
     }).catch((e) => {
       this.$('#status').textContent = e.message;
+      storage.all().then(v => {
+        this.$('#status').textContent = 'failed to load from url, loaded from storage!';
+        this._loaded = true;
+        if (Array.isArray(v.showcases)) {
+          this.state.showcases = v.showcases;
+          this.switchShowcase(v.current);
+        }
+      });
     });
   }
 

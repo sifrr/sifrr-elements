@@ -63,7 +63,7 @@ class SifrrSingleShowcase extends SifrrDom.Element {
     let state;
     try {
       state = new Function(this.$('#elState').value).call(this.element());
-    } catch (e) {}
+    } catch (e) {/**/}
     if (state && this.element() && this.element().isSifrr && this.element().state !== state) {
       this.element().state = state;
     }
