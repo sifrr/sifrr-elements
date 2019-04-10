@@ -1,7 +1,7 @@
 * {
   box-sizing: border-box;
 }
-h1, h3, label, li, span, p {
+.font {
   font-family: Roboto, Ariel;
 }
 .container {
@@ -39,6 +39,9 @@ sifrr-single-showcase {
 }
 
 // common
+.current {
+  background: #5f616d;
+}
 .flex-column {
   height: 100%;
   display: flex;

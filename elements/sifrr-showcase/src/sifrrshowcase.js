@@ -9,26 +9,21 @@ const template = SifrrDom.template`<style media="screen">
 <div class="container">
   <div class="flex-column" id="sidemenu">
     <div class="box">
-      <h1>Sifrr Showcase</h1>
-      <p id="loader"></p>
+      <h1 class="font">Sifrr Showcase</h1>
+      <p class="font" id="loader"></p>
       <input id="url" type="text" placeholder="Enter url here..." name="url" />
       <button type="button" name="loadUrl" _click=\${this.loadUrl}>Load from url</button>
-      <p id="status"></p>
-      <span class="button">
+      <p class="font" id="status"></p>
+      <span class="button font">
         Upload File
         <input type="file" name="file" accept="application/json" _input="\${this.loadFile}" />
       </span>
-      <button type="button" name="saveFile" _click="\${this.saveFile}">Save to File</button>
-      <h3>Showcases</h3>
+      <button class="font" type="button" name="saveFile" _click="\${this.saveFile}">Save to File</button>
+      <h3 class="font">Showcases</h3>
       <input id="showcaseName" type="text" name="showcase" _input=\${this.changeName} value=\${this.state.showcases[this.state.current].name}>
-      <button type="button" name="createVariant" _click="\${this.createShowcase}">Create new showcase</button>
-      <style>
-        .current {
-          background: #5f616d;
-        }
-      </style>
+      <button class="font" type="button" name="createVariant" _click="\${this.createShowcase}">Create new showcase</button>
       <div id="showcases" data-sifrr-repeat="\${this.state.showcases}">
-        <li class="showcase" data-showcase-id="\${this.state.key}" draggable="true">\${this.state.name}<span>X</span></li>
+        <li class="font showcase" data-showcase-id="\${this.state.key}" draggable="true">\${this.state.name}<span>X</span></li>
       </div>
     </div>
   </div>

@@ -4,6 +4,20 @@ import style from './style.scss';
 const template = SifrrDom.template`<style media="screen">
   ${style}
 </style>
+<style>
+  .tabs {
+    height: \${this.options ? this.options.tabHeight : 'auto'};
+    width: \${this.totalWidth + 'px'};
+  }
+  .headings {
+    display: \${this.headingDisplay};
+    background: \${this.options ? this.options.background : 'transparent'};
+  }
+  .content *::slotted([slot="tab"]) {
+    width: \${this.tabWidth + 'px'};
+    margin: 0 \${this.options ? this.options.arrowMargin + 'px' : 0};
+  }
+</style>
 <div class="headings">
   <ul>
     <slot name="heading">
@@ -76,18 +90,16 @@ class SifrrTabs extends SifrrDom.Element {
       loop: false,
       animation: 'easeOut',
       animationTime: 300,
-      scrollBreakpoint: 0.2
+      scrollBreakpoint: 0.2,
+      background: '#714cfe'
     }, this._attrOptions);
     if (!this.options.tabs || this.options.tabs.length < 1) return;
     this.usableWidth = this.clientWidth;
-    this.margin = 0;
     this.totalWidth = this.usableWidth / this.options.num * this.options.tabs.length;
-    if (this.options.showArrows) {
-      this.usableWidth -= 2 * this.options.arrowMargin;
-      this.margin = this.options.arrowMargin;
-    }
+    this.usableWidth -= 2 * this.options.arrowMargin;
     this.tabWidth = this.usableWidth / this.options.num;
     this.setProps();
+    this.update();
     this.active = this.active || 0;
   }
 
@@ -102,13 +114,10 @@ class SifrrTabs extends SifrrDom.Element {
     }
     if (!this.options.showUnderline) this.options.line.style.display = 'none';
     if (this.options.showMenu) {
-      this.options.menu.style.display = 'block';
-      this.setMenuProps();
+      this.headingDisplay = 'block';
       this.options.line.style.width = this.options.menus[0].offsetWidth + 'px';
-    } else this.options.menu.style.display = 'none';
-    this.options.tabcontainer.style.width = this.totalWidth + 'px';
-    this.options.tabcontainer.style.height = this.options.tabHeight;
-    Array.from(this.options.tabs).forEach(e => e.style.width = this.tabWidth + 'px');
+      this.setMenuProps();
+    } else this.headingDisplay = 'none';
   }
 
   setMenuProps() {
@@ -149,7 +158,7 @@ class SifrrTabs extends SifrrDom.Element {
       }).width * per;
       me.options.line.style.left = left + 'px';
       me.options.line.style.width = width + 'px';
-      me.options.menu.parentElement.scrollLeft = left - (me.width - width) / 2;
+      me.options.menu.parentElement.scrollLeft = left + (width - me.tabWidth) / 2;
       clearTimeout(isScrolling);
       isScrolling = setTimeout(function() {
         if (total - scrollPos < -me.options.scrollBreakpoint) {
@@ -201,7 +210,7 @@ class SifrrTabs extends SifrrDom.Element {
     let i = this.state.active;
     i = this.getTabNumber(i);
     if (!isNaN(i) && i !== this.state.active) return this.active = i;
-    this.animate(this.options.content, 'scrollLeft', i * (this.tabWidth + 2 * this.margin), this.options.animationTime, this.options.animation);
+    this.animate(this.options.content, 'scrollLeft', i * (this.tabWidth + 2 * this.options.arrowMargin), this.options.animationTime, this.options.animation);
     removeExceptOne(this.options.tabs, 'active', i);
     removeExceptOne(this.options.tabs, 'prev', this.getTabNumber(i - 1));
     removeExceptOne(this.options.tabs, 'next', this.getTabNumber(i + 1));
