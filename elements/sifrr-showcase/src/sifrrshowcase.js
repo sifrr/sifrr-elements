@@ -20,7 +20,7 @@ const template = SifrrDom.template`<style media="screen">
       </span>
       <button type="button" name="saveFile" _click="\${this.saveFile}">Save to File</button>
       <h3>Showcases</h3>
-      <input id="showcaseName" type="text" name="showcase" _input=\${this.changeName}>
+      <input id="showcaseName" type="text" name="showcase" _input=\${this.changeName} value=\${this.state.showcases[this.state.current].name}>
       <button type="button" name="createVariant" _click="\${this.createShowcase}">Create new showcase</button>
       <style>
         .current {
@@ -92,8 +92,8 @@ class SifrrShowcase extends SifrrDom.Element {
   }
 
   createShowcase() {
-    const i = this.state.showcases.push({ name: this.$('#showcaseName').value, variants: [] });
-    this.switchShowcase(i - 1);
+    this.state.showcases.splice(this.state.current, 0, { name: this.$('#showcaseName').value, variants: [] });
+    this.switchShowcase(this.state.current + 1);
   }
 
   switchShowcase(i) {

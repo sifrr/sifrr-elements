@@ -51,9 +51,6 @@ class SifrrSingleShowcase extends SifrrDom.Element {
 
   beforeUpdate() {
     this.saveVariant();
-  }
-
-  onUpdate() {
     if (this._element !== this.state.element || this._js !== this.state.isjs || this._url !== this.state.elementUrl) {
       SifrrDom.load(this.state.element, {
         js: this.state.isjs == 'true',
@@ -78,7 +75,8 @@ class SifrrSingleShowcase extends SifrrDom.Element {
 
   createNewVariant() {
     const id = Math.max(...this.state.variants.map(s => s.variantId), 0) + 1;
-    this.state.variants.push(Object.assign({}, {
+    const cid = this.state.variants.filter(v => v.variantId == this.state.variantId)[0].variantId;
+    this.state.variants.splice(cid, 0, Object.assign({}, {
       variantId: id,
       variantName: this.state.variantName,
       style: this.state.style,

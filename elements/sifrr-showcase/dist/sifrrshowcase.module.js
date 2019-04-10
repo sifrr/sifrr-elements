@@ -126,8 +126,6 @@ class SifrrSingleShowcase extends SifrrDom.Element {
   }
   beforeUpdate() {
     this.saveVariant();
-  }
-  onUpdate() {
     if (this._element !== this.state.element || this._js !== this.state.isjs || this._url !== this.state.elementUrl) {
       SifrrDom.load(this.state.element, {
         js: this.state.isjs == 'true',
@@ -150,7 +148,8 @@ class SifrrSingleShowcase extends SifrrDom.Element {
   }
   createNewVariant() {
     const id = Math.max(...this.state.variants.map(s => s.variantId), 0) + 1;
-    this.state.variants.push(Object.assign({}, {
+    const cid = this.state.variants.filter(v => v.variantId == this.state.variantId)[0].variantId;
+    this.state.variants.splice(cid, 0, Object.assign({}, {
       variantId: id,
       variantName: this.state.variantName,
       style: this.state.style,
@@ -216,7 +215,7 @@ const template$2 = SifrrDom.template`<style media="screen">
       </span>
       <button type="button" name="saveFile" _click="\${this.saveFile}">Save to File</button>
       <h3>Showcases</h3>
-      <input id="showcaseName" type="text" name="showcase" _input=\${this.changeName}>
+      <input id="showcaseName" type="text" name="showcase" _input=\${this.changeName} value=\${this.state.showcases[this.state.current].name}>
       <button type="button" name="createVariant" _click="\${this.createShowcase}">Create new showcase</button>
       <style>
         .current {
@@ -280,8 +279,8 @@ class SifrrShowcase extends SifrrDom.Element {
     else this.switchShowcase(this.state.current - 1);
   }
   createShowcase() {
-    const i = this.state.showcases.push({ name: this.$('#showcaseName').value, variants: [] });
-    this.switchShowcase(i - 1);
+    this.state.showcases.splice(this.state.current, 0, { name: this.$('#showcaseName').value, variants: [] });
+    this.switchShowcase(this.state.current + 1);
   }
   switchShowcase(i) {
     this.$('#showcases').children[this.state.current].classList.remove('current');
