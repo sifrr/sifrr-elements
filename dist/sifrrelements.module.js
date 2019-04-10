@@ -348,9 +348,6 @@ class SifrrStater extends SifrrDom.Element {
       const i = parseInt(el.parentNode.dataset.target);
       me.removeTarget(i);
     });
-    SifrrDom.Element.onStateChange = function(target) {
-      me.addState(target, target.state);
-    };
   }
   showHide() {
     this.classList.contains('show') ? this.classList.remove('show') : this.classList.add('show');
@@ -388,6 +385,11 @@ class SifrrStater extends SifrrDom.Element {
       window.console.log('Sifrr Element has no state.', target);
       return false;
     }
+    const old = target.onStateChange, me = this;
+    target.onStateChange = function() {
+      me.addState(this, this.state);
+      old();
+    };
     let index = this.state.targets.indexOf(target);
     if (index > -1) return;
     this.state.targets.push(target);
