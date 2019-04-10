@@ -49,7 +49,7 @@ class SifrrSingleShowcase extends SifrrDom.Element {
     });
   }
 
-  onUpdate() {
+  beforeUpdate() {
     this.saveVariant();
     if (this._element !== this.state.element || this._js !== this.state.isjs || this._url !== this.state.elementUrl) {
       SifrrDom.load(this.state.element, {
@@ -60,6 +60,9 @@ class SifrrSingleShowcase extends SifrrDom.Element {
       this._element = this.state.element;
       this._url = this.state.elementUrl;
     }
+  }
+
+  onUpdate() {
     let state;
     try {
       state = new Function(this.$('#elState').value).call(this.element());

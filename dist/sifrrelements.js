@@ -657,7 +657,7 @@
         if (el.matches('.variant span')) this.deleteVariant(el.parentNode.dataset.variantId);
       });
     }
-    onUpdate() {
+    beforeUpdate() {
       this.saveVariant();
       if (this._element !== this.state.element || this._js !== this.state.isjs || this._url !== this.state.elementUrl) {
         SifrrDom.load(this.state.element, {
@@ -668,6 +668,8 @@
         this._element = this.state.element;
         this._url = this.state.elementUrl;
       }
+    }
+    onUpdate() {
       let state;
       try {
         state = new Function(this.$('#elState').value).call(this.element());
@@ -887,8 +889,29 @@
   };
   SifrrDom.register(SifrrShowcase);
 
+  const template$5 = "<style media=\"screen\">\n  * {\n    box-sizing: border-box;\n  }\n\n  .circle {\n    position: relative;\n    border: 2px solid #666;\n    padding: 0;\n    margin: 0;\n    width: 100%;\n    height: 100%;\n    border-radius: 50%;\n  }\n\n  .left-half, .bar, .f50-bar {\n    position: absolute;\n    margin: 0;\n    padding: 0;\n    width: 100%;\n    height: 100%;\n    border-radius: 50%;\n    top: 0;\n    left: 0;\n  }\n\n  .left-half {\n    width: calc(100% + 4px);\n    height: calc(100% + 4px);\n    margin: -2px;\n    clip-path: polygon(50% 0, 100% 0%, 100% 100%, 50% 100%);\n  }\n\n  .circle.over50 .left-half {\n    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);\n  }\n\n  .bar {\n    clip-path: polygon(0 0, 50% 0, 50% 100%, 0 100%);\n    border: 2px solid #ffffff;\n  }\n\n  .circle.over50 .f50-bar {\n    clip-path: polygon(50% 0, 100% 0%, 100% 100%, 50% 100%);\n    border: 2px solid #ffffff;\n    box-sizing: border-box;\n  }\n\n  .circle:not(.over50) .f50-bar {\n    display: none\n  }\n\n  .circle .bar {\n    transform: rotate(${this.state.progress * 360 / 100}deg)\n  }\n</style>\n<div class=\"circle ${this.state.progress > 50 ? 'over50' : ''}\">\n  <div class=\"left-half\">\n    <div class=\"f50-bar\"></div>\n    <div class=\"bar\"></div>\n  </div>\n</div>\n";
+
+  class SifrrProgressRound extends Sifrr.Dom.Element {
+    static get template() {
+      return SifrrDom.template(template$5);
+    }
+    static observedAttrs() {
+      return ['progress'];
+    }
+    onAttributeChange(n, _, v) {
+      if (n === 'progress') this.state = {
+        [n]: v
+      };
+    }
+  }
+  SifrrProgressRound.defaultState = {
+    progress: 0
+  };
+  SifrrDom.register(SifrrProgressRound);
+
   exports.SifrrCodeEditor = SifrrCodeEditor;
   exports.SifrrLazyPicture = SifrrLazyPicture;
+  exports.SifrrProgressRound = SifrrProgressRound;
   exports.SifrrShowcase = SifrrShowcase;
   exports.SifrrStater = SifrrStater;
   exports.SifrrTabs = SifrrTabs;

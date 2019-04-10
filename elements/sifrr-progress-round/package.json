@@ -1,0 +1,35 @@
+{
+  "name": "@sifrr/progress-round",
+  "version": "0.0.4",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sifrr/sifrr-elements.git"
+  },
+  "author": "Sifrr",
+  "bugs": {
+    "url": "https://github.com/sifrr/sifrr-elements/issues"
+  },
+  "homepage": "https://github.com/sifrr/sifrr-elements",
+  "private": true,
+  "main": "src/sifrrprogressround.js",
+  "module": "dist/sifrrprogressround.module.js",
+  "browser": "dist/sifrrprogressround.js",
+  "browserslist": [
+    "chrome >= 55",
+    "safari >= 10.1",
+    "opera >= 42",
+    "firefox >= 63"
+  ],
+  "scripts": {
+    "test": "rm -rf ../../.nyc_output; node ../../scripts/test/run.js ./elements/sifrr-progress-round",
+    "build": "../../node_modules/.bin/rollup -c",
+    "test-build": "cd test/public && ../../node_modules/.bin/rollup -c",
+    "test-server": "node ../../scripts/test/run.js ./elements/sifrr-progress-round -s"
+  },
+  "files": [
+    "bin",
+    "dist",
+    "src"
+  ]
+}

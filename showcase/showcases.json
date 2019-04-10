@@ -1,12 +1,12 @@
 {
-  "current": 1,
+  "current": 0,
   "showcases": [
     {
       "id": 1,
       "element": "sifrr-code-editor",
       "elementUrl": "",
       "isjs": true,
-      "variantName": "themed",
+      "variantName": "default - html",
       "variants": [
         {
           "variantId": 1,
@@ -37,9 +37,9 @@
           "elState": "this.value = '<a>some test.. </a>';\nreturn {\n\n}"
         }
       ],
-      "variantId": 5,
-      "style": "#element > * {\n\n}",
-      "code": "<sifrr-code-editor theme=\"a11y-light\"></sifrr-code-editor>",
+      "variantId": 1,
+      "style": "#element > * {\n}",
+      "code": "<sifrr-code-editor></sifrr-code-editor>",
       "elState": "this.value = '<a>some test.. </a>';\nreturn {\n\n}",
       "name": "sifrr-code-editor"
     },
@@ -145,7 +145,6 @@
       "name": "sifrr-lazy-picture",
       "variants": [
         {
-          "variantId": 1,
           "variantName": "lazy loading",
           "style": "#element > * {\n  background: white;\n  height: 200px;\n  width: 200px;\n  display: block;\n}\n#element > * img {\n  width: 100%;\n  height: 100%;\n}",
           "code": "<div style=\"height: 1000px\"></div>\n<picture is=\"sifrr-lazy-picture\">\n      <source media=\"(min-width: 800px)\" data-srcset=\"https://pbs.twimg.com/profile_images/1057899591708753921/PSpUS-Hp_400x400.jpg\">\n      <img data-src=\"https://static.adweek.com/adweek.com-prod/wp-content/uploads/files/blogs/google-logo-hed-2014.jpg\">\n</picture>",
@@ -153,14 +152,42 @@
         }
       ],
       "id": 1,
-      "element": "sifrr-code-editor",
+      "element": "sifrr-progress-round",
       "elementUrl": "",
       "isjs": true,
       "variantName": "lazy loading",
-      "variantId": 1,
+      "variantId": 2,
       "style": "#element > * {\n  background: white;\n  height: 200px;\n  width: 200px;\n  display: block;\n}\n#element > * img {\n  width: 100%;\n  height: 100%;\n}",
       "code": "<div style=\"height: 1000px\"></div>\n<picture is=\"sifrr-lazy-picture\">\n      <source media=\"(min-width: 800px)\" data-srcset=\"https://pbs.twimg.com/profile_images/1057899591708753921/PSpUS-Hp_400x400.jpg\">\n      <img data-src=\"https://static.adweek.com/adweek.com-prod/wp-content/uploads/files/blogs/google-logo-hed-2014.jpg\">\n</picture>",
       "elState": "return {\n\n}"
+    },
+    {
+      "name": "sifrr-progress-round",
+      "variants": [
+        {
+          "variantId": 1,
+          "variantName": "state",
+          "style": "#element > * {\n  height: 200px;\n  width: 200px;\n  display: block;\n  margin: auto;\n}",
+          "code": "<sifrr-progress-round></sifrr-progress-round>",
+          "elState": "return {\n  progress: 40\n}"
+        },
+        {
+          "variantId": 2,
+          "variantName": "attribute",
+          "style": "#element > * {\n  height: 200px;\n  width: 200px;\n  display: block;\n  margin: auto;\n}",
+          "code": "<sifrr-progress-round progress=\"70\"></sifrr-progress-round>",
+          "elState": "return {\n\n}"
+        }
+      ],
+      "id": 1,
+      "element": "sifrr-progress-round",
+      "elementUrl": "",
+      "isjs": true,
+      "variantName": "state",
+      "variantId": 1,
+      "style": "#element > * {\n  height: 200px;\n  width: 200px;\n  display: block;\n  margin: auto;\n}",
+      "code": "<sifrr-progress-round></sifrr-progress-round>",
+      "elState": "return {\n  progress: 40\n}"
     }
   ]
 }
