@@ -376,7 +376,7 @@ class SifrrStater extends SifrrDom.Element {
   }
   addTarget(query) {
     if (typeof query !== 'string') query = this.$('#addTargetInput').value;
-    const target = window.document.querySelector(query);
+    let target = window.document.querySelector(query);
     if (!target.isSifrr) {
       window.console.log('Invalid Sifrr Element.', target);
       return false;
