@@ -2,7 +2,7 @@
 import SifrrDom from '@sifrr/dom';
 import SifrrStorage from '@sifrr/storage';
 
-var css = ":host {\n  /* CSS for tabs container */\n  line-height: 24px;\n  overflow: hidden;\n  width: 100%;\n  display: block;\n  position: relative;\n  border-radius: 5px; }\n\n.headings {\n  /* CSS for heading bar */\n  width: 100%;\n  overflow-y: hidden;\n  overflow-x: auto;\n  position: relative;\n  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.2); }\n\n.headings ul {\n  padding: 0 0 3px;\n  margin: 0;\n  font-size: 0; }\n\n/* CSS for heading text li */\n.headings *::slotted(li) {\n  font-size: 16px;\n  display: inline-block;\n  text-align: center;\n  padding: 8px;\n  text-decoration: none;\n  list-style: none;\n  color: white;\n  border-bottom: 2px solid transparent;\n  opacity: 0.9;\n  cursor: pointer;\n  box-sizing: border-box; }\n\n.headings *::slotted(li.active) {\n  opacity: 1; }\n\n.headings *::slotted(li:hover) {\n  opacity: 1; }\n\n/* CSS for line under active tab heading */\n.headings .underline {\n  position: absolute;\n  bottom: 0;\n  left: 0;\n  height: 3px;\n  background: white; }\n\n/* Arrows css */\n.arrow {\n  position: absolute;\n  z-index: 5;\n  top: 0;\n  bottom: 0;\n  width: 20px; }\n\n.arrow > * {\n  position: absolute;\n  width: 8px;\n  height: 8px;\n  margin: -6px 5px;\n  top: 50%;\n  border: solid white;\n  border-width: 0 3px 3px 0;\n  display: inline-block;\n  padding: 3px;\n  filter: drop-shadow(-1px -1px 3px #000); }\n\n.arrow.l {\n  left: 0; }\n\n.arrow.l > * {\n  left: 0;\n  transform: rotate(135deg); }\n\n.arrow.r {\n  right: 0; }\n\n.arrow.r > * {\n  right: 0;\n  transform: rotate(-45deg); }\n\n/* Tab container css */\n.content {\n  width: 100%;\n  height: 100%;\n  overflow-x: auto;\n  overflow-y: hidden;\n  margin: 0;\n  line-height: normal;\n  box-sizing: border-box; }\n\n.content .tabs {\n  min-height: 1px; }\n\n/* Tab element css */\n.content *::slotted([slot=\"tab\"]) {\n  float: left;\n  max-height: 100%;\n  height: 100%;\n  overflow-x: hidden;\n  overflow-y: auto;\n  vertical-align: top;\n  padding: 8px;\n  box-sizing: border-box; }\n";
+var css = ":host {\n  /* CSS for tabs container */\n  line-height: 24px;\n  overflow: hidden;\n  width: 100%;\n  display: block;\n  position: relative;\n  border-radius: 5px; }\n\n.headings {\n  /* CSS for heading bar */\n  width: 100%;\n  overflow-y: hidden;\n  overflow-x: auto;\n  position: relative;\n  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.2); }\n\n.headings ul {\n  padding: 0 0 3px;\n  margin: 0;\n  font-size: 0; }\n\n/* CSS for heading text li */\n.headings *::slotted(li) {\n  font-size: 16px;\n  display: inline-block;\n  text-align: center;\n  padding: 8px;\n  text-decoration: none;\n  list-style: none;\n  color: white;\n  border-bottom: 2px solid transparent;\n  opacity: 0.9;\n  cursor: pointer;\n  box-sizing: border-box; }\n\n.headings *::slotted(li.active) {\n  opacity: 1; }\n\n.headings *::slotted(li:hover) {\n  opacity: 1; }\n\n/* CSS for line under active tab heading */\n.headings .underline {\n  position: absolute;\n  bottom: 0;\n  left: 0;\n  height: 3px;\n  background: white; }\n\n/* Arrows css */\n.arrow {\n  position: absolute;\n  z-index: 5;\n  top: 0;\n  bottom: 0; }\n\n.arrow > * {\n  position: absolute;\n  width: 8px;\n  height: 8px;\n  margin: -6px 5px;\n  top: 50%;\n  border: solid white;\n  border-width: 0 3px 3px 0;\n  display: inline-block;\n  padding: 3px;\n  filter: drop-shadow(-1px -1px 3px #000); }\n\n.arrow.l {\n  left: 0;\n  cursor: w-resize; }\n\n.arrow.l > * {\n  left: 0;\n  transform: rotate(135deg); }\n\n.arrow.r {\n  right: 0;\n  cursor: e-resize; }\n\n.arrow.r > * {\n  right: 0;\n  transform: rotate(-45deg); }\n\n/* Tab container css */\n.content {\n  width: 100%;\n  height: 100%;\n  overflow-x: auto;\n  overflow-y: hidden;\n  margin: 0;\n  line-height: normal;\n  box-sizing: border-box; }\n\n.content .tabs {\n  min-height: 1px; }\n\n/* Tab element css */\n.content *::slotted([slot=\"tab\"]) {\n  float: left;\n  max-height: 100%;\n  height: 100%;\n  overflow-x: hidden;\n  overflow-y: auto;\n  vertical-align: top;\n  padding: 8px;\n  box-sizing: border-box; }\n";
 
 const template = SifrrDom.template`<style media="screen">
   ${css}
@@ -19,6 +19,9 @@ const template = SifrrDom.template`<style media="screen">
   .content *::slotted([slot="tab"]) {
     width: \${this.tabWidth + 'px'};
     margin: 0 \${this.options ? this.options.arrowMargin + 'px' : 0};
+  }
+  .arrow {
+    width: \${this.options ? this.options.arrowWidth : '20px'};
   }
 </style>
 <div class="headings">
@@ -79,6 +82,7 @@ class SifrrTabs extends SifrrDom.Element {
       num: 1,
       showArrows: false,
       arrowMargin: 0,
+      arrowWidth: '20px',
       showMenu: true,
       step: 1,
       tabHeight: 'auto',
@@ -137,20 +141,21 @@ class SifrrTabs extends SifrrDom.Element {
       scrollPos;
     me.options.content.onscroll = () => requestAnimationFrame(onScroll);
     function onScroll() {
-      if (!me.options.showMenu) return;
       scrollPos = me.active;
       const total = me.options.content.scrollLeft / me.clientWidth;
       const per = total % 1;
       const t = Math.floor(total);
-      const left = me.options.menuProps[t].left * (1 - per) + (me.options.menuProps[t + 1] || {
-        left: 0
-      }).left * per;
-      const width = me.options.menuProps[t].width * (1 - per) + (me.options.menuProps[t + 1] || {
-        width: 0
-      }).width * per;
-      me.options.line.style.left = left + 'px';
-      me.options.line.style.width = width + 'px';
-      me.options.menu.parentElement.scrollLeft = left + (width - me.tabWidth) / 2;
+      if (me.options.showMenu) {
+        const left = me.options.menuProps[t].left * (1 - per) + (me.options.menuProps[t + 1] || {
+          left: 0
+        }).left * per;
+        const width = me.options.menuProps[t].width * (1 - per) + (me.options.menuProps[t + 1] || {
+          width: 0
+        }).width * per;
+        me.options.line.style.left = left + 'px';
+        me.options.line.style.width = width + 'px';
+        me.options.menu.parentElement.scrollLeft = left + (width - me.tabWidth) / 2;
+      }
       clearTimeout(isScrolling);
       isScrolling = setTimeout(function() {
         if (total - scrollPos < -me.options.scrollBreakpoint) {

@@ -61,7 +61,6 @@
   z-index: 5;
   top: 0;
   bottom: 0;
-  width: 20px;
 }
 
 .arrow>* {
@@ -79,6 +78,7 @@
 
 .arrow.l {
   left: 0;
+  cursor: w-resize;
 }
 
 .arrow.l>* {
@@ -88,6 +88,7 @@
 
 .arrow.r {
   right: 0;
+  cursor: e-resize;
 }
 
 .arrow.r>* {

@@ -17,6 +17,9 @@ const template = SifrrDom.template`<style media="screen">
     width: \${this.tabWidth + 'px'};
     margin: 0 \${this.options ? this.options.arrowMargin + 'px' : 0};
   }
+  .arrow {
+    width: \${this.options ? this.options.arrowWidth : '20px'};
+  }
 </style>
 <div class="headings">
   <ul>
@@ -83,6 +86,7 @@ class SifrrTabs extends SifrrDom.Element {
       num: 1,
       showArrows: false,
       arrowMargin: 0,
+      arrowWidth: '20px',
       showMenu: true,
       step: 1,
       tabHeight: 'auto',
@@ -145,20 +149,21 @@ class SifrrTabs extends SifrrDom.Element {
     me.options.content.onscroll = () => requestAnimationFrame(onScroll);
 
     function onScroll() {
-      if (!me.options.showMenu) return;
       scrollPos = me.active;
       const total = me.options.content.scrollLeft / me.clientWidth;
       const per = total % 1;
       const t = Math.floor(total);
-      const left = me.options.menuProps[t].left * (1 - per) + (me.options.menuProps[t + 1] || {
-        left: 0
-      }).left * per;
-      const width = me.options.menuProps[t].width * (1 - per) + (me.options.menuProps[t + 1] || {
-        width: 0
-      }).width * per;
-      me.options.line.style.left = left + 'px';
-      me.options.line.style.width = width + 'px';
-      me.options.menu.parentElement.scrollLeft = left + (width - me.tabWidth) / 2;
+      if (me.options.showMenu) {
+        const left = me.options.menuProps[t].left * (1 - per) + (me.options.menuProps[t + 1] || {
+          left: 0
+        }).left * per;
+        const width = me.options.menuProps[t].width * (1 - per) + (me.options.menuProps[t + 1] || {
+          width: 0
+        }).width * per;
+        me.options.line.style.left = left + 'px';
+        me.options.line.style.width = width + 'px';
+        me.options.menu.parentElement.scrollLeft = left + (width - me.tabWidth) / 2;
+      }
       clearTimeout(isScrolling);
       isScrolling = setTimeout(function() {
         if (total - scrollPos < -me.options.scrollBreakpoint) {
