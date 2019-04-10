@@ -49,7 +49,7 @@ class SifrrSingleShowcase extends SifrrDom.Element {
     });
   }
 
-  beforeUpdate() {
+  onUpdate() {
     this.saveVariant();
     if (this._element !== this.state.element || this._js !== this.state.isjs || this._url !== this.state.elementUrl) {
       SifrrDom.load(this.state.element, {

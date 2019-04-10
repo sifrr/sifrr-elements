@@ -331,7 +331,7 @@
             me = this;
       target.onStateChange = function () {
         me.addState(this, this.state);
-        old();
+        old.call(this);
       };
       let index = this.state.targets.indexOf(target);
       if (index > -1) return;
@@ -439,7 +439,7 @@
             active: me.state.activeStates[i],
             states: me.state.states[i]
           };
-          me.storage.insert(q, data);
+          me.storage.set(q, data);
         });
       });
     }

@@ -91,12 +91,17 @@ class SifrrShowcase extends SifrrDom.Element {
   }
 
   switchShowcase(i) {
+    this.current = i;
     this.$('#showcases').children[this.state.current].classList.remove('current');
     if (!this.state.showcases[i]) i = this.state.showcases.length - 1;
     this.state = { current: i };
     this.el.state = this.state.showcases[i];
     this.$('#showcases').children[i].id = 'showcase' + i;
     this.$('#showcases').children[i].classList.add('current');
+  }
+
+  onStateChange() {
+    if (this.state.current !== this.current) this.switchShowcase(this.state.current);
   }
 
   saveShowcase() {

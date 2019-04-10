@@ -378,7 +378,7 @@
             me = this;
       target.onStateChange = function () {
         me.addState(this, this.state);
-        old();
+        old.call(this);
       };
       let index = this.state.targets.indexOf(target);
       if (index > -1) return;
@@ -486,7 +486,7 @@
             active: me.state.activeStates[i],
             states: me.state.states[i]
           };
-          me.storage.insert(q, data);
+          me.storage.set(q, data);
         });
       });
     }
@@ -550,7 +550,7 @@
   var css$3 = ":host {\n  display: block;\n  position: relative; }\n\n* {\n  box-sizing: border-box; }\n\n.hljs {\n  width: 100%;\n  height: 100%;\n  font-family: Consolas,Liberation Mono,Courier,monospace;\n  font-size: 14px;\n  line-height: 18px;\n  padding: 8px;\n  margin: 0;\n  position: absolute;\n  white-space: pre-wrap;\n  top: 0;\n  left: 0; }\n\ntextarea {\n  z-index: 2;\n  resize: none;\n  border: none; }\n\ntextarea.loaded {\n  background: transparent !important;\n  text-shadow: 0px 0px 0px rgba(0, 0, 0, 0);\n  text-fill-color: transparent;\n  -webkit-text-fill-color: transparent; }\n\npre {\n  z-index: 1; }\n";
 
   function _templateObject$2() {
-    const data = _taggedTemplateLiteral(["\n<style media=\"screen\">\n  ", "\n</style>\n<link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/${this.theme}.min.css\">\n<pre class='hljs'>\n  <code id=\"highlight\" data-sifrr-html=\"true\">\n    ${this.htmlValue}\n  </code>\n</pre>\n<textarea class='hljs' _input=\"${this.input}\" _scroll=\"console.log(this)\"></textarea>"], ["\n<style media=\"screen\">\n  ", "\n</style>\n<link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/\\${this.theme}.min.css\">\n<pre class='hljs'>\n  <code id=\"highlight\" data-sifrr-html=\"true\">\n    \\${this.htmlValue}\n  </code>\n</pre>\n<textarea class='hljs' _input=\"\\${this.input}\" _scroll=\"console.log(this)\"></textarea>"]);
+    const data = _taggedTemplateLiteral(["\n<style media=\"screen\">\n  ", "\n</style>\n<link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/${this.theme}.min.css\">\n<pre class='hljs'>\n  <code id=\"highlight\" data-sifrr-html=\"true\">\n    ${this.htmlValue}\n  </code>\n</pre>\n<textarea class='hljs' _input=\"${this.input}\"></textarea>"], ["\n<style media=\"screen\">\n  ", "\n</style>\n<link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/\\${this.theme}.min.css\">\n<pre class='hljs'>\n  <code id=\"highlight\" data-sifrr-html=\"true\">\n    \\${this.htmlValue}\n  </code>\n</pre>\n<textarea class='hljs' _input=\"\\${this.input}\"></textarea>"]);
     _templateObject$2 = function () {
       return data;
     };
@@ -660,7 +660,7 @@
         if (el.matches('.variant span')) this.deleteVariant(el.parentNode.dataset.variantId);
       });
     }
-    beforeUpdate() {
+    onUpdate() {
       this.saveVariant();
       if (this._element !== this.state.element || this._js !== this.state.isjs || this._url !== this.state.elementUrl) {
         SifrrDom.load(this.state.element, {
@@ -799,6 +799,7 @@
       this.switchShowcase(this.state.current + 1);
     }
     switchShowcase(i) {
+      this.current = i;
       this.$('#showcases').children[this.state.current].classList.remove('current');
       if (!this.state.showcases[i]) i = this.state.showcases.length - 1;
       this.state = {
@@ -807,6 +808,9 @@
       this.el.state = this.state.showcases[i];
       this.$('#showcases').children[i].id = 'showcase' + i;
       this.$('#showcases').children[i].classList.add('current');
+    }
+    onStateChange() {
+      if (this.state.current !== this.current) this.switchShowcase(this.state.current);
     }
     saveShowcase() {
       delete this.el.state.name;

@@ -18,7 +18,7 @@ const template = SifrrDom.template`
     \${this.htmlValue}
   </code>
 </pre>
-<textarea class='hljs' _input="\${this.input}" _scroll="console.log(this)"></textarea>`;
+<textarea class='hljs' _input="\${this.input}"></textarea>`;
 class SifrrCodeEditor extends SifrrDom.Element {
   static get template() {
     return template;
@@ -127,7 +127,7 @@ class SifrrSingleShowcase extends SifrrDom.Element {
       if (el.matches('.variant span')) this.deleteVariant(el.parentNode.dataset.variantId);
     });
   }
-  beforeUpdate() {
+  onUpdate() {
     this.saveVariant();
     if (this._element !== this.state.element || this._js !== this.state.isjs || this._url !== this.state.elementUrl) {
       SifrrDom.load(this.state.element, {
@@ -280,12 +280,16 @@ class SifrrShowcase extends SifrrDom.Element {
     this.switchShowcase(this.state.current + 1);
   }
   switchShowcase(i) {
+    this.current = i;
     this.$('#showcases').children[this.state.current].classList.remove('current');
     if (!this.state.showcases[i]) i = this.state.showcases.length - 1;
     this.state = { current: i };
     this.el.state = this.state.showcases[i];
     this.$('#showcases').children[i].id = 'showcase' + i;
     this.$('#showcases').children[i].classList.add('current');
+  }
+  onStateChange() {
+    if (this.state.current !== this.current) this.switchShowcase(this.state.current);
   }
   saveShowcase() {
     delete this.el.state.name;

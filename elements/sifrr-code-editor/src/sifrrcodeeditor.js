@@ -11,7 +11,7 @@ const template = SifrrDom.template`
     \${this.htmlValue}
   </code>
 </pre>
-<textarea class='hljs' _input="\${this.input}" _scroll="console.log(this)"></textarea>`;
+<textarea class='hljs' _input="\${this.input}"></textarea>`;
 
 class SifrrCodeEditor extends SifrrDom.Element {
   static get template() {
