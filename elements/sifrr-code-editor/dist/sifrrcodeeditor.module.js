@@ -21,14 +21,17 @@ class SifrrCodeEditor extends SifrrDom.Element {
   static observedAttrs() {
     return ['value', 'theme'];
   }
+  static hljs() {
+    this._hljs = this._hljs || fetch('https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js')
+      .then(resp => resp.text())
+      .then(text => new Function(text)());
+    return this._hljs;
+  }
   onAttributeChange() {
     this.update();
   }
   onConnect() {
-    fetch('https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js')
-      .then(resp => resp.text())
-      .then(text => new Function(text)())
-      .then(() => this.hljsLoaded());
+    this.constructor.hljs().then(() => this.hljsLoaded());
     const txtarea = this.$('textarea');
     txtarea.addEventListener('keydown', (e) => {
       let keyCode = e.keyCode || e.which;
