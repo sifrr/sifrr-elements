@@ -162,7 +162,7 @@
     }
     createNewVariant() {
       const id = Math.max(...this.state.variants.map(s => s.variantId), 0) + 1;
-      const cid = this.state.variants.filter(v => v.variantId == this.state.variantId)[0].variantId;
+      const cid = this.state.variants.findIndex(v => v.variantId == this.state.variantId) + 1 || 1;
       this.state.variants.splice(cid, 0, Object.assign({}, {
         variantId: id,
         variantName: this.state.variantName,
@@ -208,7 +208,7 @@
       return this.$('#element').firstElementChild;
     }
     variant(id) {
-      return this.state.variants.filter(s => s.variantId == id)[0] || this.state.variants[this.state.variants.length - 1];
+      return this.state.variants.find(s => s.variantId == id) || this.state.variants[this.state.variants.length - 1];
     }
   }
   SifrrSingleShowcase.defaultState = defaultShowcase;
