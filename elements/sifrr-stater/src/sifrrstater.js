@@ -31,7 +31,7 @@ class SifrrStater extends SifrrDom.Element {
   onConnect() {
     let me = this;
     this.storage = new SifrrStorage({
-      name: window.location.href
+      name: 'sifrr-stater' + window.location.href
     });
     SifrrDom.Event.addListener('click', '.state', function(e, el) {
       el.classList.contains('open') ? el.classList.remove('open') : el.classList.add('open');
@@ -224,7 +224,7 @@ class SifrrStater extends SifrrDom.Element {
 
   loadData() {
     const me = this;
-    this.storage.data().then((data) => {
+    this.storage.all().then((data) => {
       let i = 0;
       for (let q in data) {
         me.addTarget(q);
