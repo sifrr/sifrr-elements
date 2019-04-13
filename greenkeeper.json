@@ -1,0 +1,16 @@
+{
+  "groups": {
+    "default": {
+      "packages": [
+        "elements/sifrr-code-editor/package.json",
+        "elements/sifrr-lazy-img/package.json",
+        "elements/sifrr-lazy-picture/package.json",
+        "elements/sifrr-progress-round/package.json",
+        "elements/sifrr-showcase/package.json",
+        "elements/sifrr-stater/package.json",
+        "elements/sifrr-tabs/package.json",
+        "package.json"
+      ]
+    }
+  }
+}
