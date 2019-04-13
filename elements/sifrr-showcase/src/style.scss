@@ -63,11 +63,11 @@ sifrr-single-showcase {
 #code sifrr-code-editor {
   height: calc(100% - 48px) !important;
 }
-h1, h3 {
+.head {
   color: #cccccc;
   text-align: center;
 }
-label, li {
+.small {
   color: #8f9cb3;
   font-size: 16px;
   line-height: 24px;

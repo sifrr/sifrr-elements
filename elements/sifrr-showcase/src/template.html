@@ -1,7 +1,7 @@
 <div class="container">
   <div class="flex-column" id="sidebar">
     <div class="box">
-      <h3 class="font">Variants</h3>
+      <h3 class="font head">Variants</h3>
       <input id="variantName" type="text" name="variantName" value="${this.state.variantName}" data-sifrr-bind="variantName">
       <button class="font" type="button" name="createVariant" _click="${this.createNewVariant}">Create new variant</button>
       <style media="screen">
@@ -11,16 +11,16 @@
       </style>
       <div id="showcases">
         <div data-sifrr-repeat="${this.state.variants}">
-          <li class="font variant" data-variant-id="${this.state.variantId}" id="variant${this.state.variantId}">${this.state.variantName}<span>X</span></li>
+          <li class="font variant small" data-variant-id="${this.state.variantId}" id="variant${this.state.variantId}">${this.state.variantName}<span>X</span></li>
         </div>
       </div>
     </div>
     <div class="box">
-      <label class="font" for="style">Element CSS Styles</label>
+      <label class="font small" for="style">Element CSS Styles</label>
       <sifrr-code-editor lang='css' data-sifrr-bind="style" value="${this.state.style}"></sifrr-code-editor>
     </div>
     <div class="box">
-      <label class="font" for="elState">Element State Function</label>
+      <label class="font small" for="elState">Element State Function</label>
       <sifrr-code-editor id="elState" lang='js' data-sifrr-bind="elState" value="${this.state.elState}"></sifrr-code-editor>
     </div>
   </div>
@@ -29,18 +29,18 @@
       ${this.state.code}
     </div>
     <div class="box" id="code">
-      <label class="font" for="elementName">Element Name</label>
+      <label class="font small" for="elementName">Element Name</label>
       <input type="text" name="elementName" placeholder="Enter element name here..." _input="${this.updateHtml}" value="${this.state.element}">
-      <label class="font" for="customUrl">Custom Url</label>
+      <label class="font small" for="customUrl">Custom Url</label>
       <input type="text" name="customUrl" placeholder="Enter element url here..." value="${this.state.elementUrl}" data-sifrr-bind="elementUrl">
-      <label class="font" for="elementName">Is JS File</label>
+      <label class="font small" for="elementName">Is JS File</label>
       <select id="isjs" name="isjs" value="${this.state.isjs}" data-sifrr-bind="isjs">
         <option value="true">true</option>
         <option value="false">false</option>
       </select>
       <span class="font" id="error"></span>
       <br>
-      <label class="font" for="htmlcode">HTML Code</label>
+      <label class="font small" for="htmlcode">HTML Code</label>
       <sifrr-code-editor lang='html' data-sifrr-bind="code" value="${this.state.code}"></sifrr-code-editor>
     </div>
   </div>
