@@ -3,6 +3,7 @@
   <a href="https://github.com/sifrr/sifrr-elements/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square" alt="GitHub license" /></a>
   <a href="https://circleci.com/gh/sifrr/sifrr-elements"><img alt="CircleCI" src="https://img.shields.io/circleci/project/github/sifrr/sifrr-elements/master.svg?logo=circleci&style=flat-square" /></a>
   <a href="https://app.fossa.io/projects/git%2Bgithub.com%2Fsifrr%2Fsifrr-elements?ref=badge_small" alt="FOSSA Status"><img src="https://app.fossa.io/api/projects/git%2Bgithub.com%2Fsifrr%2Fsifrr-elements.svg?type=small"/></a>
+  <a href="https://coveralls.io/github/sifrr/sifrr-elements?branch=master"><img src="https://img.shields.io/coveralls/github/sifrr/sifrr-elements.svg?style=flat-square" alt="Coverage Status" /></a>
 </p>
 
 [sifrr-dom](https://github.com/sifrr/sifrr/tree/master/packages/browser/sifrr-dom) elements
