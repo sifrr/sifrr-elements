@@ -220,7 +220,7 @@
       let me = this,
           isScrolling,
           scrollPos;
-      me.options.content.onscroll = () => requestAnimationFrame(onScroll);
+      this.options.content.onscroll = () => requestAnimationFrame(onScroll);
       function onScroll() {
         scrollPos = me.active;
         const total = me.options.content.scrollLeft / me.tabWidth;

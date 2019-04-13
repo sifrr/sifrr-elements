@@ -4,6 +4,7 @@
   <a href="https://circleci.com/gh/sifrr/sifrr-elements"><img alt="CircleCI" src="https://img.shields.io/circleci/project/github/sifrr/sifrr-elements/master.svg?logo=circleci&style=flat-square" /></a>
   <a href="https://app.fossa.io/projects/git%2Bgithub.com%2Fsifrr%2Fsifrr-elements?ref=badge_small" alt="FOSSA Status"><img src="https://app.fossa.io/api/projects/git%2Bgithub.com%2Fsifrr%2Fsifrr-elements.svg?type=small"/></a>
   <a href="https://coveralls.io/github/sifrr/sifrr-elements?branch=master"><img src="https://img.shields.io/coveralls/github/sifrr/sifrr-elements.svg?style=flat-square" alt="Coverage Status" /></a>
+  <a href="https://greenkeeper.io/"><img src="https://badges.greenkeeper.io/sifrr/sifrr-elements.svg?style=flat-square" alt="Greenkeeper badge" /></a>
 </p>
 
 [sifrr-dom](https://github.com/sifrr/sifrr/tree/master/packages/browser/sifrr-dom) elements
@@ -69,6 +70,6 @@ import { SifrrLazyPicture } from '@sifrr/elements';
 
 sifrr-elements is [MIT Licensed](./LICENSE).
 
-[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fsifrr%2Fsifrr-elements.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fsifrr%2Fsifrr-elements?ref=badge_large) [![Greenkeeper badge](https://badges.greenkeeper.io/sifrr/sifrr-elements.svg)](https://greenkeeper.io/)
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fsifrr%2Fsifrr-elements.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fsifrr%2Fsifrr-elements?ref=badge_large)
 
 (c) [@aadityataparia](https://github.com/aadityataparia)
