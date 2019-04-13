@@ -6,6 +6,9 @@ import '../../sifrr-code-editor/src/sifrrcodeeditor';
 const template = SifrrDom.template`<style media="screen">
   ${style}
 </style>
+<style>
+\${this.state.style}
+</style>
 ${html}`;
 
 SifrrDom.Event.add('click');
@@ -51,6 +54,7 @@ class SifrrSingleShowcase extends SifrrDom.Element {
 
   beforeUpdate() {
     this.saveVariant();
+    if (!this.state.elemnt) return;
     if (this._element !== this.state.element || this._js !== this.state.isjs || this._url !== this.state.elementUrl) {
       SifrrDom.load(this.state.element, {
         js: this.state.isjs == 'true',
@@ -100,6 +104,7 @@ class SifrrSingleShowcase extends SifrrDom.Element {
   }
 
   saveVariant() {
+    if (!this.state.variants) this.state.variants = [];
     const id = this.state.variantId;
     this.state.variants.forEach(s => {
       if (s.variantId == id) {

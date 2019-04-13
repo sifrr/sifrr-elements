@@ -14,7 +14,10 @@
   }
   function loadPicture(img) {
     SifrrLazyImg.observer.unobserve(img);
+    img.beforeLoad();
     moveAttr(img, 'src');
+    moveAttr(img, 'srcset');
+    img.afterLoad();
     return true;
   }
   class SifrrLazyImg extends Sifrr.Dom.Element.extends(HTMLImageElement) {
@@ -41,6 +44,8 @@
     reload() {
       this.constructor.observer.observe(this);
     }
+    beforeLoad() {}
+    afterLoad() {}
     onDisconnect() {
       this.constructor.observer.unobserve(this);
     }

@@ -48,7 +48,7 @@ class SifrrShowcase extends SifrrDom.Element {
   onConnect() {
     Sifrr.Dom.Event.addListener('click', '.showcase', (e, el) => {
       if (el.matches('.showcase')) this.switchShowcase(this.getChildIndex(el));
-      if (el.matches('.showcase span')) this.deleteShowcase(this.getChildIndex(el));
+      if (el.matches('.showcase span')) this.deleteShowcase(this.getChildIndex(el.parentNode));
     });
     this.loadUrl();
     this.switchShowcase(0);
@@ -70,7 +70,7 @@ class SifrrShowcase extends SifrrDom.Element {
 
   getChildIndex(el) {
     let i = 0;
-    while((el = el.previousSibling) != null) i++;
+    while((el = el.previousElementSibling) != null) i++;
     return i;
   }
 
@@ -81,7 +81,11 @@ class SifrrShowcase extends SifrrDom.Element {
   }
 
   createShowcase() {
-    this.state.showcases.splice(this.state.current, 0, { name: this.$('#showcaseName').value, variants: [] });
+    this.state.showcases.splice(this.state.current + 1, 0, {
+      name: this.$('#showcaseName').value,
+      variants: [],
+      element: this.$('#showcaseName').value
+    });
     this.switchShowcase(this.state.current + 1);
   }
 
@@ -90,7 +94,8 @@ class SifrrShowcase extends SifrrDom.Element {
     this.$('#showcases').children[this.state.current].classList.remove('current');
     if (!this.state.showcases[i]) i = this.state.showcases.length - 1;
     this.state = { current: i };
-    this.el.state = this.state.showcases[i];
+    this.el._state = this.state.showcases[i];
+    this.el.update();
     this.$('#showcases').children[i].id = 'showcase' + i;
     this.$('#showcases').children[i].classList.add('current');
   }
@@ -100,8 +105,7 @@ class SifrrShowcase extends SifrrDom.Element {
   }
 
   saveShowcase() {
-    delete this.el.state.name;
-    this.state.showcases[this.state.current] = Object.assign(this.state.showcases[this.state.current] || {}, this.el.state);
+    this.state.showcases[this.state.current] = Object.assign(this.state.showcases[this.state.current] || {}, JSON.parse(JSON.stringify(this.el.state)));
     if (this._loaded) {
       this.$('#status').textContent = 'saving locally!';
       if (this._timeout) clearTimeout(this._timeout);
@@ -168,6 +172,7 @@ class SifrrShowcase extends SifrrDom.Element {
     fr.onload = () => {
       const json = JSON.parse(fr.result);
       this.state = json;
+      this.switchShowcase(json.current);
       this.$('#status').textContent = 'loaded from file!';
     };
     fr.readAsText(file);

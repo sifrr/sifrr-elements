@@ -10,6 +10,12 @@ class SifrrProgressRound extends Sifrr.Dom.Element {
   static observedAttrs() {
     return ['progress'];
   }
+  get progress() {
+    return this._state.progress;
+  }
+  set progress(v) {
+    return this.state = { progress: v };
+  }
   onAttributeChange(n, _, v) {
     if (n === 'progress') this.state = { [n]: v };
   }

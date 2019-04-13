@@ -20,7 +20,7 @@
     }));
   }
 
-  var css = "* {\n  box-sizing: border-box; }\n\n.font {\n  font-family: Roboto, Ariel; }\n\n.container {\n  width: 100%;\n  height: 100%;\n  display: flex;\n  flex-wrap: nowrap;\n  background-color: #3a3f5a; }\n\n#sidemenu {\n  width: 15%;\n  height: 100%; }\n\n#sidemenu > * {\n  height: 100%; }\n\nsifrr-single-showcase {\n  width: 85%;\n  height: 100%;\n  display: block; }\n\n#sidebar {\n  width: 30%;\n  height: 100%; }\n\n#sidebar > * {\n  height: 33.33%; }\n\n#main {\n  width: 70%;\n  height: 100%; }\n\n.current {\n  background: #5f616d; }\n\n.flex-column {\n  height: 100%;\n  display: flex;\n  flex-wrap: nowrap;\n  flex-direction: column; }\n\n.box {\n  width: 100%;\n  overflow: scroll;\n  border: 1px solid #5f616d; }\n\n#element {\n  padding: 20px;\n  height: 70%; }\n\n${this.state.style}\n#code {\n  height: 30%; }\n\n#code sifrr-code-editor {\n  height: calc(100% - 48px) !important; }\n\nh1, h3 {\n  color: #cccccc;\n  text-align: center; }\n\nlabel, li {\n  color: #8f9cb3;\n  font-size: 16px;\n  line-height: 24px;\n  padding: 4px; }\n\n#error, #status {\n  color: red; }\n\nsifrr-code-editor {\n  height: calc(100% - 24px); }\n\nul {\n  padding: 8px;\n  margin: 0; }\n\n.variant, .showcase {\n  list-style-type: none; }\n  .variant span, .showcase span {\n    color: red;\n    float: right; }\n\n#saver, #loader {\n  color: green;\n  padding: 4px;\n  margin: 0; }\n\nbutton, .button {\n  position: relative;\n  display: inline-block;\n  background: #cccccc;\n  border: 1px solid grey;\n  color: #3a3f5a;\n  font-size: 14px;\n  padding: 4px; }\n  button input, .button input {\n    position: absolute;\n    width: 100%;\n    height: 100%;\n    top: 0;\n    left: 0;\n    opacity: 0; }\n";
+  var css = "* {\n  box-sizing: border-box; }\n\n.font {\n  font-family: Roboto, Ariel; }\n\n.container {\n  width: 100%;\n  height: 100%;\n  display: flex;\n  flex-wrap: nowrap;\n  background-color: #3a3f5a; }\n\n#sidemenu {\n  width: 15%;\n  height: 100%; }\n\n#sidemenu > * {\n  height: 100%; }\n\nsifrr-single-showcase {\n  width: 85%;\n  height: 100%;\n  display: block; }\n\n#sidebar {\n  width: 30%;\n  height: 100%; }\n\n#sidebar > * {\n  height: 33.33%; }\n\n#main {\n  width: 70%;\n  height: 100%; }\n\n.current {\n  background: #5f616d; }\n\n.flex-column {\n  height: 100%;\n  display: flex;\n  flex-wrap: nowrap;\n  flex-direction: column; }\n\n.box {\n  width: 100%;\n  overflow: scroll;\n  border: 1px solid #5f616d; }\n\n#element {\n  padding: 20px;\n  height: 70%; }\n\n#code {\n  height: 30%; }\n\n#code sifrr-code-editor {\n  height: calc(100% - 48px) !important; }\n\nh1, h3 {\n  color: #cccccc;\n  text-align: center; }\n\nlabel, li {\n  color: #8f9cb3;\n  font-size: 16px;\n  line-height: 24px;\n  padding: 4px; }\n\n#error, #status {\n  color: red; }\n\nsifrr-code-editor {\n  height: calc(100% - 24px); }\n\nul {\n  padding: 8px;\n  margin: 0; }\n\n.variant, .showcase {\n  list-style-type: none; }\n  .variant span, .showcase span {\n    color: red;\n    float: right; }\n\n#saver, #loader {\n  color: green;\n  padding: 4px;\n  margin: 0; }\n\nbutton, .button {\n  position: relative;\n  display: inline-block;\n  background: #cccccc;\n  border: 1px solid grey;\n  color: #3a3f5a;\n  font-size: 14px;\n  padding: 4px; }\n  button input, .button input {\n    position: absolute;\n    width: 100%;\n    height: 100%;\n    top: 0;\n    left: 0;\n    opacity: 0; }\n";
 
   const html = "<div class=\"container\">\n  <div class=\"flex-column\" id=\"sidebar\">\n    <div class=\"box\">\n      <h3 class=\"font\">Variants</h3>\n      <input id=\"variantName\" type=\"text\" name=\"variantName\" value=\"${this.state.variantName}\" data-sifrr-bind=\"variantName\">\n      <button class=\"font\" type=\"button\" name=\"createVariant\" _click=\"${this.createNewVariant}\">Create new variant</button>\n      <style media=\"screen\">\n        #variant${this.state.variantId} {\n          background: #5f616d;\n        }\n      </style>\n      <div id=\"showcases\">\n        <div data-sifrr-repeat=\"${this.state.variants}\">\n          <li class=\"font variant\" data-variant-id=\"${this.state.variantId}\" id=\"variant${this.state.variantId}\">${this.state.variantName}<span>X</span></li>\n        </div>\n      </div>\n    </div>\n    <div class=\"box\">\n      <label class=\"font\" for=\"style\">Element CSS Styles</label>\n      <sifrr-code-editor lang=\"css\" data-sifrr-bind=\"style\" value=\"${this.state.style}\"></sifrr-code-editor>\n    </div>\n    <div class=\"box\">\n      <label class=\"font\" for=\"elState\">Element State Function</label>\n      <sifrr-code-editor id=\"elState\" lang=\"js\" data-sifrr-bind=\"elState\" value=\"${this.state.elState}\"></sifrr-code-editor>\n    </div>\n  </div>\n  <div class=\"flex-column\" id=\"main\">\n    <div class=\"box\" id=\"element\" data-sifrr-html=\"true\">\n      ${this.state.code}\n    </div>\n    <div class=\"box\" id=\"code\">\n      <label class=\"font\" for=\"elementName\">Element Name</label>\n      <input type=\"text\" name=\"elementName\" placeholder=\"Enter element name here...\" _input=\"${this.updateHtml}\" value=\"${this.state.element}\">\n      <label class=\"font\" for=\"customUrl\">Custom Url</label>\n      <input type=\"text\" name=\"customUrl\" placeholder=\"Enter element url here...\" value=\"${this.state.elementUrl}\" data-sifrr-bind=\"elementUrl\">\n      <label class=\"font\" for=\"elementName\">Is JS File</label>\n      <select id=\"isjs\" name=\"isjs\" value=\"${this.state.isjs}\" data-sifrr-bind=\"isjs\">\n        <option value=\"true\">true</option>\n        <option value=\"false\">false</option>\n      </select>\n      <span class=\"font\" id=\"error\"></span>\n      <br>\n      <label class=\"font\" for=\"htmlcode\">HTML Code</label>\n      <sifrr-code-editor lang=\"html\" data-sifrr-bind=\"code\" value=\"${this.state.code}\"></sifrr-code-editor>\n    </div>\n  </div>\n</div>";
 
@@ -100,7 +100,7 @@
   SifrrDom.register(SifrrCodeEditor);
 
   function _templateObject$1() {
-    const data = _taggedTemplateLiteral(["<style media=\"screen\">\n  ", "\n</style>\n", ""]);
+    const data = _taggedTemplateLiteral(["<style media=\"screen\">\n  ", "\n</style>\n<style>\n${this.state.style}\n</style>\n", ""], ["<style media=\"screen\">\n  ", "\n</style>\n<style>\n\\${this.state.style}\n</style>\n", ""]);
     _templateObject$1 = function () {
       return data;
     };
@@ -139,6 +139,7 @@
     }
     beforeUpdate() {
       this.saveVariant();
+      if (!this.state.elemnt) return;
       if (this._element !== this.state.element || this._js !== this.state.isjs || this._url !== this.state.elementUrl) {
         SifrrDom.load(this.state.element, {
           js: this.state.isjs == 'true',
@@ -183,6 +184,7 @@
       });
     }
     saveVariant() {
+      if (!this.state.variants) this.state.variants = [];
       const id = this.state.variantId;
       this.state.variants.forEach(s => {
         if (s.variantId == id) {
@@ -241,7 +243,7 @@
     onConnect() {
       Sifrr.Dom.Event.addListener('click', '.showcase', (e, el) => {
         if (el.matches('.showcase')) this.switchShowcase(this.getChildIndex(el));
-        if (el.matches('.showcase span')) this.deleteShowcase(this.getChildIndex(el));
+        if (el.matches('.showcase span')) this.deleteShowcase(this.getChildIndex(el.parentNode));
       });
       this.loadUrl();
       this.switchShowcase(0);
@@ -263,7 +265,7 @@
     }
     getChildIndex(el) {
       let i = 0;
-      while ((el = el.previousSibling) != null) i++;
+      while ((el = el.previousElementSibling) != null) i++;
       return i;
     }
     deleteShowcase(i) {
@@ -271,9 +273,10 @@
       if (i == this.state.current) this.switchShowcase(this.state.current);else this.switchShowcase(this.state.current - 1);
     }
     createShowcase() {
-      this.state.showcases.splice(this.state.current, 0, {
+      this.state.showcases.splice(this.state.current + 1, 0, {
         name: this.$('#showcaseName').value,
-        variants: []
+        variants: [],
+        element: this.$('#showcaseName').value
       });
       this.switchShowcase(this.state.current + 1);
     }
@@ -284,7 +287,8 @@
       this.state = {
         current: i
       };
-      this.el.state = this.state.showcases[i];
+      this.el._state = this.state.showcases[i];
+      this.el.update();
       this.$('#showcases').children[i].id = 'showcase' + i;
       this.$('#showcases').children[i].classList.add('current');
     }
@@ -292,8 +296,7 @@
       if (this.state.current !== this.current) this.switchShowcase(this.state.current);
     }
     saveShowcase() {
-      delete this.el.state.name;
-      this.state.showcases[this.state.current] = Object.assign(this.state.showcases[this.state.current] || {}, this.el.state);
+      this.state.showcases[this.state.current] = Object.assign(this.state.showcases[this.state.current] || {}, JSON.parse(JSON.stringify(this.el.state)));
       if (this._loaded) {
         this.$('#status').textContent = 'saving locally!';
         if (this._timeout) clearTimeout(this._timeout);
@@ -356,6 +359,7 @@
       fr.onload = () => {
         const json = JSON.parse(fr.result);
         this.state = json;
+        this.switchShowcase(json.current);
         this.$('#status').textContent = 'loaded from file!';
       };
       fr.readAsText(file);

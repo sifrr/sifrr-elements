@@ -8,12 +8,14 @@ function moveAttr(el, attr) {
 }
 function loadPicture(pic) {
   SifrrLazyPicture.observer.unobserve(pic);
+  pic.beforeLoad();
   pic.$$('source', false).forEach((s) => {
     moveAttr(s, 'srcset');
   });
   const img = pic.$('img', false);
   moveAttr(img, 'src');
   moveAttr(img, 'srcset');
+  pic.afterLoad();
   return true;
 }
 class SifrrLazyPicture extends Sifrr.Dom.Element.extends(HTMLPictureElement) {
@@ -40,6 +42,8 @@ class SifrrLazyPicture extends Sifrr.Dom.Element.extends(HTMLPictureElement) {
   reload() {
     this.constructor.observer.observe(this);
   }
+  beforeLoad() {}
+  afterLoad() {}
   onDisconnect() {
     this.constructor.observer.unobserve(this);
   }
