@@ -765,11 +765,6 @@
     mkdirp "^0.5.1"
     rimraf "^2.5.2"
 
-"@shopify/draggable@^1.0.0-beta.8":
-  version "1.0.0-beta.8"
-  resolved "https://registry.yarnpkg.com/@shopify/draggable/-/draggable-1.0.0-beta.8.tgz#2eb3c2f72298ce3e53fe16f34ab124cc495cd4fc"
-  integrity sha512-9IeBPQM93Ad4qFKUopwuTClzoST/1OId4MaSd/8FB5ScCL2tl25UaOGNR8E2hjiL7xK4LN5+I1Ews6amS7YAiA==
-
 "@sifrr/dom@^0.0.3":
   version "0.0.3"
   resolved "https://registry.yarnpkg.com/@sifrr/dom/-/dom-0.0.3.tgz#b1f2d1ce714fd10e5f43fe98d088f4a3f00f0b0b"
