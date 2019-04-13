@@ -7,8 +7,7 @@ function moveAttr(el, attr) {
 }
 
 function loadPicture(pic) {
-  if (pic.sifrrLazyLoaded) return false;
-  pic.sifrrLazyLoaded = true;
+  SifrrLazyPicture.observer.unobserve(pic);
   pic.$$('source', false).forEach((s) => {
     moveAttr(s, 'srcset');
   });
@@ -41,7 +40,10 @@ class SifrrLazyPicture extends Sifrr.Dom.Element.extends(HTMLPictureElement) {
   }
 
   onConnect() {
-    this.sifrrLazyLoaded = false;
+    this.reload();
+  }
+
+  reload() {
     this.constructor.observer.observe(this);
   }
 

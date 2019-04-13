@@ -1,4 +1,4 @@
-/*! SifrrLazyPicture v0.0.4 - sifrr project | MIT licensed | https://github.com/sifrr/sifrr-elements */
+/*! SifrrLazyImg v0.0.4 - sifrr project | MIT licensed | https://github.com/sifrr/sifrr-elements */
 import SifrrDom from '@sifrr/dom';
 
 function moveAttr(el, attr) {
@@ -6,17 +6,12 @@ function moveAttr(el, attr) {
   el.setAttribute(attr, el.dataset[attr]);
   el.removeAttribute(`data-${attr}`);
 }
-function loadPicture(pic) {
-  SifrrLazyPicture.observer.unobserve(pic);
-  pic.$$('source', false).forEach((s) => {
-    moveAttr(s, 'srcset');
-  });
-  const img = pic.$('img', false);
+function loadPicture(img) {
+  SifrrLazyImg.observer.unobserve(img);
   moveAttr(img, 'src');
-  moveAttr(img, 'srcset');
   return true;
 }
-class SifrrLazyPicture extends Sifrr.Dom.Element.extends(HTMLPictureElement) {
+class SifrrLazyImg extends Sifrr.Dom.Element.extends(HTMLImageElement) {
   static useShadowRoot() {
     return true;
   }
@@ -44,9 +39,9 @@ class SifrrLazyPicture extends Sifrr.Dom.Element.extends(HTMLPictureElement) {
     this.constructor.observer.unobserve(this);
   }
 }
-SifrrLazyPicture.rootMargin = '0px 0px 200px 0px';
-SifrrDom.register(SifrrLazyPicture, { extends: 'picture' });
+SifrrLazyImg.rootMargin = '0px 0px 200px 0px';
+SifrrDom.register(SifrrLazyImg, { extends: 'img' });
 
-export default SifrrLazyPicture;
+export default SifrrLazyImg;
 /*! (c) @aadityataparia */
-//# sourceMappingURL=sifrrlazypicture.module.js.map
+//# sourceMappingURL=sifrrlazyimg.module.js.map

@@ -28,9 +28,7 @@
   "scripts": {
     "test": "./scripts/test/runall",
     "build": "./node_modules/.bin/rollup -c",
-    "publish": "./scripts/yarn publish",
-    "benchmark": "node benchmark/runbenchmark.js",
-    "example-server": "cd ./dist && ../node_modules/.bin/rollup -c && node server.js 1111"
+    "publish": "./scripts/yarn publish"
   },
   "dependencies": {
     "@shopify/draggable": "^1.0.0-beta.8",

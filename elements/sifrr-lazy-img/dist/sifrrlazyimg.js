@@ -1,8 +1,8 @@
-/*! SifrrLazyPicture v0.0.4 - sifrr project | MIT licensed | https://github.com/sifrr/sifrr-elements */
+/*! SifrrLazyImg v0.0.4 - sifrr project | MIT licensed | https://github.com/sifrr/sifrr-elements */
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('@sifrr/dom')) :
   typeof define === 'function' && define.amd ? define(['@sifrr/dom'], factory) :
-  (global = global || self, global.SifrrLazyPicture = factory(global.Sifrr.Dom));
+  (global = global || self, global.SifrrLazyImg = factory(global.Sifrr.Dom));
 }(this, function (SifrrDom) { 'use strict';
 
   SifrrDom = SifrrDom && SifrrDom.hasOwnProperty('default') ? SifrrDom['default'] : SifrrDom;
@@ -12,17 +12,12 @@
     el.setAttribute(attr, el.dataset[attr]);
     el.removeAttribute("data-".concat(attr));
   }
-  function loadPicture(pic) {
-    SifrrLazyPicture.observer.unobserve(pic);
-    pic.$$('source', false).forEach(s => {
-      moveAttr(s, 'srcset');
-    });
-    const img = pic.$('img', false);
+  function loadPicture(img) {
+    SifrrLazyImg.observer.unobserve(img);
     moveAttr(img, 'src');
-    moveAttr(img, 'srcset');
     return true;
   }
-  class SifrrLazyPicture extends Sifrr.Dom.Element.extends(HTMLPictureElement) {
+  class SifrrLazyImg extends Sifrr.Dom.Element.extends(HTMLImageElement) {
     static useShadowRoot() {
       return true;
     }
@@ -50,13 +45,13 @@
       this.constructor.observer.unobserve(this);
     }
   }
-  SifrrLazyPicture.rootMargin = '0px 0px 200px 0px';
-  SifrrDom.register(SifrrLazyPicture, {
-    extends: 'picture'
+  SifrrLazyImg.rootMargin = '0px 0px 200px 0px';
+  SifrrDom.register(SifrrLazyImg, {
+    extends: 'img'
   });
 
-  return SifrrLazyPicture;
+  return SifrrLazyImg;
 
 }));
 /*! (c) @aadityataparia */
-//# sourceMappingURL=sifrrlazypicture.js.map
+//# sourceMappingURL=sifrrlazyimg.js.map

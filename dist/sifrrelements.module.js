@@ -7,18 +7,12 @@ function moveAttr(el, attr) {
   el.setAttribute(attr, el.dataset[attr]);
   el.removeAttribute(`data-${attr}`);
 }
-function loadPicture(pic) {
-  if (pic.sifrrLazyLoaded) return false;
-  pic.sifrrLazyLoaded = true;
-  pic.$$('source', false).forEach((s) => {
-    moveAttr(s, 'srcset');
-  });
-  const img = pic.$('img', false);
+function loadPicture(img) {
+  SifrrLazyImg.observer.unobserve(img);
   moveAttr(img, 'src');
-  moveAttr(img, 'srcset');
   return true;
 }
-class SifrrLazyPicture extends Sifrr.Dom.Element.extends(HTMLPictureElement) {
+class SifrrLazyImg extends Sifrr.Dom.Element.extends(HTMLImageElement) {
   static useShadowRoot() {
     return true;
   }
@@ -37,7 +31,55 @@ class SifrrLazyPicture extends Sifrr.Dom.Element.extends(HTMLPictureElement) {
     });
   }
   onConnect() {
-    this.sifrrLazyLoaded = false;
+    this.reload();
+  }
+  reload() {
+    this.constructor.observer.observe(this);
+  }
+  onDisconnect() {
+    this.constructor.observer.unobserve(this);
+  }
+}
+SifrrLazyImg.rootMargin = '0px 0px 200px 0px';
+SifrrDom.register(SifrrLazyImg, { extends: 'img' });
+
+function moveAttr$1(el, attr) {
+  if (!el.dataset[attr]) return;
+  el.setAttribute(attr, el.dataset[attr]);
+  el.removeAttribute(`data-${attr}`);
+}
+function loadPicture$1(pic) {
+  SifrrLazyPicture.observer.unobserve(pic);
+  pic.$$('source', false).forEach((s) => {
+    moveAttr$1(s, 'srcset');
+  });
+  const img = pic.$('img', false);
+  moveAttr$1(img, 'src');
+  moveAttr$1(img, 'srcset');
+  return true;
+}
+class SifrrLazyPicture extends Sifrr.Dom.Element.extends(HTMLPictureElement) {
+  static useShadowRoot() {
+    return true;
+  }
+  static get observer() {
+    this._observer = this._observer || new IntersectionObserver(this.onVisible, {
+      rootMargin: this.rootMargin
+    });
+    return this._observer;
+  }
+  static onVisible(entries) {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        loadPicture$1(entry.target);
+        this.unobserve(entry.target);
+      }
+    });
+  }
+  onConnect() {
+    this.reload();
+  }
+  reload() {
     this.constructor.observer.observe(this);
   }
   onDisconnect() {
@@ -944,6 +986,6 @@ class SifrrProgressRound extends Sifrr.Dom.Element {
 SifrrProgressRound.defaultState = { progress: 0 };
 SifrrDom.register(SifrrProgressRound);
 
-export { SifrrCodeEditor, SifrrLazyPicture, SifrrProgressRound, SifrrShowcase, SifrrStater, SifrrTabs };
+export { SifrrCodeEditor, SifrrLazyPicture, SifrrLazyImg as SifrrLazzyImg, SifrrProgressRound, SifrrShowcase, SifrrStater, SifrrTabs };
 /*! (c) @aadityataparia */
 //# sourceMappingURL=sifrrelements.module.js.map
