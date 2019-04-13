@@ -229,7 +229,7 @@
       me.options.content.onscroll = () => requestAnimationFrame(onScroll);
       function onScroll() {
         scrollPos = me.active;
-        const total = me.options.content.scrollLeft / me.clientWidth;
+        const total = me.options.content.scrollLeft / me.tabWidth;
         const per = total % 1;
         const t = Math.floor(total);
         if (me.options.showMenu) {
