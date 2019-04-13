@@ -31,9 +31,9 @@
     "publish": "./scripts/yarn publish"
   },
   "dependencies": {
-    "@sifrr/dom": "^0.0.3",
-    "@sifrr/fetch": "^0.0.3",
-    "@sifrr/storage": "^0.0.3"
+    "@sifrr/dom": "^0.0.4",
+    "@sifrr/fetch": "^0.0.4",
+    "@sifrr/storage": "^0.0.4"
   },
   "devDependencies": {
     "@babel/core": "^7.4.0",
