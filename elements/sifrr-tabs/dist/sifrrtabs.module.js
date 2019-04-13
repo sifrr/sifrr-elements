@@ -168,15 +168,7 @@ class SifrrTabs extends SifrrDom.Element {
     }
   }
   setWindowResizeEvent() {
-    window.addEventListener('resize', () => {
-      if (this._resizing) {
-        clearTimeout(this._resizing);
-      }
-      this._resizing = setTimeout(() => {
-        this._resizing = null;
-        this.refresh();
-      }, 66);
-    });
+    window.addEventListener('resize', () => requestAnimationFrame(this.refresh.bind(this)));
   }
   setSlotChangeEvent() {
     const me = this;

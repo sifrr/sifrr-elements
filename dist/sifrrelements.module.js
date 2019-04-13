@@ -259,15 +259,7 @@ class SifrrTabs extends SifrrDom.Element {
     }
   }
   setWindowResizeEvent() {
-    window.addEventListener('resize', () => {
-      if (this._resizing) {
-        clearTimeout(this._resizing);
-      }
-      this._resizing = setTimeout(() => {
-        this._resizing = null;
-        this.refresh();
-      }, 66);
-    });
+    window.addEventListener('resize', () => requestAnimationFrame(this.refresh.bind(this)));
   }
   setSlotChangeEvent() {
     const me = this;
@@ -914,6 +906,7 @@ class SifrrShowcase extends SifrrDom.Element {
       this.$('#status').textContent = 'saving locally!';
       if (this._timeout) clearTimeout(this._timeout);
       this._timeout = setTimeout(() => {
+        this._timeout = null;
         storage.set({ showcases: this.state.showcases, current: this.state.current }).then(() => {
           this.$('#status').textContent = 'saved locally!';
         });

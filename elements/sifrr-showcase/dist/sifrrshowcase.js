@@ -301,6 +301,7 @@
         this.$('#status').textContent = 'saving locally!';
         if (this._timeout) clearTimeout(this._timeout);
         this._timeout = setTimeout(() => {
+          this._timeout = null;
           storage.set({
             showcases: this.state.showcases,
             current: this.state.current
