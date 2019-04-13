@@ -69,6 +69,6 @@ import { SifrrLazyPicture } from '@sifrr/elements';
 
 sifrr-elements is [MIT Licensed](./LICENSE).
 
-[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fsifrr%2Fsifrr-elements.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fsifrr%2Fsifrr-elements?ref=badge_large)
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fsifrr%2Fsifrr-elements.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fsifrr%2Fsifrr-elements?ref=badge_large) [![Greenkeeper badge](https://badges.greenkeeper.io/sifrr/sifrr-elements.svg)](https://greenkeeper.io/)
 
 (c) [@aadityataparia](https://github.com/aadityataparia)
