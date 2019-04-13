@@ -40,19 +40,19 @@ if (fs.existsSync(nycReport)) {
 
   // Add Other files without coverage
   loadDir(path.join(__dirname, '../../elements'), (file) => {
-    if (file.match(/sifrr-[a-z]+\/src\/.*\.js$/)) {
+    if (file.match(/sifrr-[a-z-]+\/src\/.*\.js$/)) {
       if (!map.data[file]) {
-        const content = fs.readFileSync(file).toString();
-        instrumenter.instrumentSync(content, file);
+        // const content = fs.readFileSync(file).toString();
+        // instrumenter.instrumentSync(content, file);
         const emptyCov = {};
-        emptyCov[file] = instrumenter.fileCoverage;
+        // emptyCov[file] = instrumenter.fileCoverage;
         map.merge(emptyCov);
       }
     }
   });
 
   // Remove files that we don't need coverage
-  map.filter((file) => file.match(/sifrr-[a-z]+\/src\/.*\.js$/));
+  map.filter((file) => file.match(/sifrr-[a-z-]+\/src\/.*\.js$/));
 
   reporter.add('html');
   if (process.env.LCOV === 'true') reporter.add('lcov');

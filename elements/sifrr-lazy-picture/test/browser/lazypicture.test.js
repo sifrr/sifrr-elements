@@ -26,4 +26,8 @@ describe('sifrr-lazy-picture', () => {
     expect(await page.$eval('picture source', (el) => !!el.getAttribute('data-srcset'))).to.be.false;
     expect(await page.$eval('picture source', (el) => !!el.getAttribute('srcset'))).to.be.true;
   });
+
+  it('unobserve', async () => {
+    await page.$eval('picture', (el) => el.remove());
+  });
 });

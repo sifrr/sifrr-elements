@@ -21,9 +21,6 @@
     return true;
   }
   class SifrrLazyImg extends Sifrr.Dom.Element.extends(HTMLImageElement) {
-    static useShadowRoot() {
-      return true;
-    }
     static get observer() {
       this._observer = this._observer || new IntersectionObserver(this.onVisible, {
         rootMargin: this.rootMargin

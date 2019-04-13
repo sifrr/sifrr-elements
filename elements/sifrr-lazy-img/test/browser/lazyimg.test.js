@@ -20,4 +20,8 @@ describe('sifrr-lazy-picture', () => {
     expect(await page.$eval('img', (el) => !!el.getAttribute('data-src'))).to.be.false;
     expect(await page.$eval('img', (el) => !!el.getAttribute('src'))).to.be.true;
   });
+
+  it('unobserve', async () => {
+    await page.$eval('img', (el) => el.remove());
+  });
 });
