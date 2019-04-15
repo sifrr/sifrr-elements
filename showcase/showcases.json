@@ -1,14 +1,12 @@
 {
-  "current": 3,
-  "showcases": [
-    {
+  "current": 4,
+  "showcases": [{
       "id": 1,
       "element": "sifrr-code-editor",
       "elementUrl": "",
       "isjs": true,
       "variantName": "default - html",
-      "variants": [
-        {
+      "variants": [{
           "variantId": 1,
           "variantName": "default - html",
           "style": "#element > * {\n}",
@@ -45,16 +43,14 @@
     },
     {
       "name": "sifrr-lazy-picture",
-      "variants": [
-        {
-          "variantName": "lazy loading",
-          "style": "#element > * {\n  background: white;\n  height: 200px;\n  width: 200px;\n  display: block;\n}\n#element > * img {\n  width: 100%;\n  height: 100%;\n}",
-          "code": "<div style=\"height: 1000px\"></div>\n<picture is=\"sifrr-lazy-picture\">\n      <source media=\"(min-width: 800px)\" data-srcset=\"https://pbs.twimg.com/profile_images/1057899591708753921/PSpUS-Hp_400x400.jpg\">\n      <img data-src=\"https://static.adweek.com/adweek.com-prod/wp-content/uploads/files/blogs/google-logo-hed-2014.jpg\">\n</picture>",
-          "elState": "return {\n\n}"
-        }
-      ],
+      "variants": [{
+        "variantName": "lazy loading",
+        "style": "#element > * {\n  background: white;\n  height: 200px;\n  width: 200px;\n  display: block;\n}\n#element > * img {\n  width: 100%;\n  height: 100%;\n}",
+        "code": "<div style=\"height: 1000px\"></div>\n<picture is=\"sifrr-lazy-picture\">\n      <source media=\"(min-width: 800px)\" data-srcset=\"https://pbs.twimg.com/profile_images/1057899591708753921/PSpUS-Hp_400x400.jpg\">\n      <img data-src=\"https://static.adweek.com/adweek.com-prod/wp-content/uploads/files/blogs/google-logo-hed-2014.jpg\">\n</picture>",
+        "elState": "return {\n\n}"
+      }],
       "id": 1,
-      "element": "sifrr-progress-round",
+      "element": "sifrr-lazy-picture",
       "elementUrl": "",
       "isjs": true,
       "variantName": "lazy loading",
@@ -65,15 +61,13 @@
     },
     {
       "name": "sifrr-lazy-img",
-      "variants": [
-        {
-          "variantId": 1,
-          "style": "#element > * {\n  background: white;\n  height: 200px;\n  width: 200px;\n  display: block;\n}",
-          "variantName": "lazy loading",
-          "code": "<div style=\"height: 1000px\"></div>\n<img is=\"sifrr-lazy-img\" data-src=\"https://static.adweek.com/adweek.com-prod/wp-content/uploads/files/blogs/google-logo-hed-2014.jpg\">"
-        }
-      ],
-      "element": "sifrr-lazy-picture",
+      "variants": [{
+        "variantId": 1,
+        "style": "#element > * {\n  background: white;\n  height: 200px;\n  width: 200px;\n  display: block;\n}",
+        "variantName": "lazy loading",
+        "code": "<div style=\"height: 1000px\"></div>\n<img is=\"sifrr-lazy-img\" data-src=\"https://static.adweek.com/adweek.com-prod/wp-content/uploads/files/blogs/google-logo-hed-2014.jpg\">"
+      }],
+      "element": "sifrr-lazy-img",
       "style": "#element > * {\n  background: white;\n  height: 200px;\n  width: 200px;\n  display: block;\n}",
       "variantId": 1,
       "variantName": "lazy loading",
@@ -81,8 +75,7 @@
     },
     {
       "name": "sifrr-tabs",
-      "variants": [
-        {
+      "variants": [{
           "variantId": 1,
           "variantName": "with menu and content",
           "style": "#element > * {\n  background-color: white;\n  display: block;\n}",
@@ -168,7 +161,7 @@
         }
       ],
       "id": 1,
-      "element": "sifrr-code-editor",
+      "element": "sifrr-tabs",
       "elementUrl": "",
       "isjs": true,
       "variantName": "different menu color / border radius",
@@ -179,8 +172,7 @@
     },
     {
       "name": "sifrr-progress-round",
-      "variants": [
-        {
+      "variants": [{
           "variantId": 1,
           "variantName": "state",
           "style": "#element > * {\n  height: 200px;\n  width: 200px;\n  display: block;\n  margin: auto;\n}",
@@ -195,22 +187,29 @@
           "elState": "return {\n\n}"
         },
         {
+          "variantId": 4,
+          "variantName": "property",
+          "style": "#element > * {\n  height: 200px;\n  width: 200px;\n  display: block;\n  margin: auto;\n}",
+          "code": "<sifrr-progress-round></sifrr-progress-round>",
+          "elState": "this.progress = 35;\nreturn {\n\n}"
+        },
+        {
           "variantId": 3,
           "variantName": "with image progress",
           "style": "#element {\n  position: relative;\n}\n\n#element > * {\n  position: absolute;\n  height: 500px;\n  width: 500px;\n  display: block;\n}\n#element > sifrr-progress-round {\n  width: 50px;\n  height: 50px;\n  top: 250px;\n  left: 250px;\n}",
           "code": "<img is=\"sifrr-lazy-img\" data-src=\"https://fetch-progress.anthum.com/30kbps/images/sunrise-baseline.jpg\">\n<sifrr-progress-round progress=\"0\"></sifrr-progress-round>",
-          "elState": "this.reload();\nconst progress = this.nextElementSibling;\nconst src = this.dataset.src;\nthis.dataset.src = 'https://media1.tenor.com/images/fa6dc135745b95f5cb9125669f638349/tenor.gif?itemid=4920546';\nthis.beforeLoad = () => {\n  Sifrr.Fetch.get(src, {\n    onProgress: (p) => {\n      progress.progress = p;\n      if (p >= 100) progress.remove();\n    }\n  }).then(r => r.blob()).then(b => {\n    this.src = URL.createObjectURL(b);\n  })\n}"
+          "elState": "this.reload();\nconst progress = this.nextElementSibling;\nconst src = this.dataset.src;\nthis.dataset.src = '';\nthis.beforeLoad = () => {\n  Sifrr.Fetch.get(src, {\n    onProgress: (p) => {\n      progress.progress = p;\n      if (p >= 100) progress.remove();\n    }\n  }).then(r => r.blob()).then(b => {\n    this.src = URL.createObjectURL(b);\n  })\n}"
         }
       ],
       "id": 1,
       "element": "sifrr-progress-round",
       "elementUrl": "",
       "isjs": true,
-      "variantName": "with image progress",
-      "variantId": 3,
-      "style": "#element {\n  position: relative;\n}\n\n#element > * {\n  position: absolute;\n  height: 500px;\n  width: 500px;\n  display: block;\n}\n#element > sifrr-progress-round {\n  width: 50px;\n  height: 50px;\n  top: 250px;\n  left: 250px;\n}",
-      "code": "<img is=\"sifrr-lazy-img\" data-src=\"https://fetch-progress.anthum.com/30kbps/images/sunrise-baseline.jpg\">\n<sifrr-progress-round progress=\"0\"></sifrr-progress-round>",
-      "elState": "this.reload();\nconst progress = this.nextElementSibling;\nconst src = this.dataset.src;\nthis.dataset.src = 'https://media1.tenor.com/images/fa6dc135745b95f5cb9125669f638349/tenor.gif?itemid=4920546';\nthis.beforeLoad = () => {\n  Sifrr.Fetch.get(src, {\n    onProgress: (p) => {\n      progress.progress = p;\n      if (p >= 100) progress.remove();\n    }\n  }).then(r => r.blob()).then(b => {\n    this.src = URL.createObjectURL(b);\n  })\n}"
+      "variantName": "property",
+      "variantId": 4,
+      "style": "#element > * {\n  height: 200px;\n  width: 200px;\n  display: block;\n  margin: auto;\n}",
+      "code": "<sifrr-progress-round></sifrr-progress-round>",
+      "elState": "this.progress = 35;\nreturn {\n\n}"
     }
   ]
 }
