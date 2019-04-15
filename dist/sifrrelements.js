@@ -116,6 +116,74 @@
 
   var css = ":host {\n  /* CSS for tabs container */\n  line-height: 24px;\n  overflow: hidden;\n  width: 100%;\n  display: block;\n  position: relative; }\n\n.headings {\n  /* CSS for heading bar */\n  width: 100%;\n  overflow-y: hidden;\n  overflow-x: auto;\n  position: relative;\n  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.2); }\n\n.headings ul {\n  padding: 0 0 3px;\n  margin: 0;\n  font-size: 0; }\n\n/* CSS for heading text li */\n.headings *::slotted(li) {\n  font-size: 16px;\n  display: inline-block;\n  text-align: center;\n  padding: 8px;\n  text-decoration: none;\n  list-style: none;\n  color: white;\n  border-bottom: 2px solid transparent;\n  opacity: 0.9;\n  cursor: pointer;\n  box-sizing: border-box; }\n\n.headings *::slotted(li.active) {\n  opacity: 1; }\n\n.headings *::slotted(li:hover) {\n  opacity: 1; }\n\n/* CSS for line under active tab heading */\n.headings .underline {\n  position: absolute;\n  bottom: 0;\n  left: 0;\n  height: 3px;\n  background: white; }\n\n/* Arrows css */\n.arrow {\n  position: absolute;\n  z-index: 5;\n  top: 0;\n  bottom: 0; }\n\n.arrow > * {\n  position: absolute;\n  width: 8px;\n  height: 8px;\n  margin: -6px 5px;\n  top: 50%;\n  border: solid white;\n  border-width: 0 3px 3px 0;\n  display: inline-block;\n  padding: 3px;\n  filter: drop-shadow(-1px -1px 3px #000); }\n\n.arrow.l {\n  left: 0;\n  cursor: w-resize; }\n\n.arrow.l > * {\n  left: 0;\n  transform: rotate(135deg); }\n\n.arrow.r {\n  right: 0;\n  cursor: e-resize; }\n\n.arrow.r > * {\n  right: 0;\n  transform: rotate(-45deg); }\n\n/* Tab container css */\n.content {\n  width: 100%;\n  height: 100%;\n  overflow-x: auto;\n  overflow-y: hidden;\n  margin: 0;\n  line-height: normal;\n  box-sizing: border-box; }\n\n.content .tabs {\n  min-height: 1px; }\n\n/* Tab element css */\n.content *::slotted([slot=\"tab\"]) {\n  float: left;\n  max-height: 100%;\n  height: 100%;\n  overflow-x: hidden;\n  overflow-y: auto;\n  vertical-align: top;\n  padding: 8px;\n  box-sizing: border-box; }\n";
 
+  const animations = {
+    linear: [0, 0, 1, 1],
+    ease: [.25, .1, .25, 1],
+    easeIn: [.42, 0, 1, 1],
+    easeOut: [0, 0, .58, 1],
+    easeInOut: [.42, 0, .58, 1]
+  };
+  class Bezier {
+    constructor(args) {
+      this.setProps(...args);
+      return this.final.bind(this);
+    }
+    setProps(x1, y1, x2, y2) {
+      let props = {
+        x1: x1,
+        y1: y1,
+        x2: x2,
+        y2: y2,
+        A: (aA1, aA2) => 1.0 - 3.0 * aA2 + 3.0 * aA1,
+        B: (aA1, aA2) => 3.0 * aA2 - 6.0 * aA1,
+        C: aA1 => 3.0 * aA1,
+        CalcBezier: (aT, aA1, aA2) => ((this.A(aA1, aA2) * aT + this.B(aA1, aA2)) * aT + this.C(aA1)) * aT,
+        GetSlope: (aT, aA1, aA2) => 3.0 * this.A(aA1, aA2) * aT * aT + 2.0 * this.B(aA1, aA2) * aT + this.C(aA1)
+      };
+      Object.assign(this, props);
+    }
+    final(x) {
+      if (this.x1 == this.y1 && this.x2 == this.y2) return x;
+      return this.CalcBezier(this.GetTForX(x), this.y1, this.y2);
+    }
+    GetTForX(xx) {
+      let t = xx;
+      for (let i = 0; i < 4; ++i) {
+        let slope = this.GetSlope(t, this.x1, this.x2);
+        if (slope == 0.0) return t;
+        let x = this.CalcBezier(t, this.x1, this.x2) - xx;
+        t -= x / slope;
+      }
+      return t;
+    }
+  }
+  function animate(who, what, to, time = 300, {
+    preffix = false,
+    suffix = false,
+    type = 'ease'
+  } = {}) {
+    const f = who[what].toString();
+    const from = Number(f.slice(preffix ? preffix.length : 0, suffix ? -1 * suffix.length : f.length));
+    const diff = to - from;
+    const animeFxn = new Bezier(animate.types[type] || type);
+    let startTime;
+    return new Promise(res => {
+      function frame(currentTime) {
+        startTime = startTime || currentTime;
+        const percent = (currentTime - startTime) / time;
+        if (percent >= 1) {
+          who[what] = to;
+          return res();
+        }
+        who[what] = Math.round(animeFxn(percent) * diff + from);
+        window.requestAnimationFrame(frame);
+      }
+      window.requestAnimationFrame(frame);
+    });
+  }
+  animate.types = animations;
+  var animate_1 = animate;
+
   function _templateObject() {
     const data = _taggedTemplateLiteral(["<style media=\"screen\">\n  ", "\n</style>\n<style>\n  .tabs {\n    height: ${this.options ? this.options.tabHeight : 'auto'};\n    width: ${this.totalWidth + 'px'};\n  }\n  .headings {\n    display: ${this.headingDisplay};\n    background: ${this.options ? this.options.background : 'transparent'};\n  }\n  .content *::slotted([slot=\"tab\"]) {\n    width: ${this.tabWidth + 'px'};\n    margin: 0 ${this.options ? this.options.arrowMargin + 'px' : 0};\n  }\n  .arrow {\n    width: ${this.options ? this.options.arrowWidth : '20px'};\n  }\n</style>\n<div class=\"headings\">\n  <ul>\n    <slot name=\"heading\">\n    </slot>\n  </ul>\n  <div class=\"underline\"></div>\n</div>\n<div class=\"content\">\n  <div class=\"arrow l\" _click=${this.prev}>\n    <span></span>\n  </div>\n  <div class=\"arrow r\" _click=${this.next}>\n    <span></span>\n  </div>\n  <div class=\"tabs\">\n    <slot name=\"tab\">\n    </slot>\n  </div>\n</div>"], ["<style media=\"screen\">\n  ", "\n</style>\n<style>\n  .tabs {\n    height: \\${this.options ? this.options.tabHeight : 'auto'};\n    width: \\${this.totalWidth + 'px'};\n  }\n  .headings {\n    display: \\${this.headingDisplay};\n    background: \\${this.options ? this.options.background : 'transparent'};\n  }\n  .content *::slotted([slot=\"tab\"]) {\n    width: \\${this.tabWidth + 'px'};\n    margin: 0 \\${this.options ? this.options.arrowMargin + 'px' : 0};\n  }\n  .arrow {\n    width: \\${this.options ? this.options.arrowWidth : '20px'};\n  }\n</style>\n<div class=\"headings\">\n  <ul>\n    <slot name=\"heading\">\n    </slot>\n  </ul>\n  <div class=\"underline\"></div>\n</div>\n<div class=\"content\">\n  <div class=\"arrow l\" _click=\\${this.prev}>\n    <span></span>\n  </div>\n  <div class=\"arrow r\" _click=\\${this.next}>\n    <span></span>\n  </div>\n  <div class=\"tabs\">\n    <slot name=\"tab\">\n    </slot>\n  </div>\n</div>"]);
     _templateObject = function () {
@@ -169,7 +237,7 @@
         tabHeight: 'auto',
         showUnderline: true,
         loop: false,
-        animation: 'easeOut',
+        animation: 'ease',
         animationTime: 300,
         scrollBreakpoint: 0.2,
         background: '#714cfe'
@@ -275,7 +343,9 @@
       let i = this.state.active;
       i = this.getTabNumber(i);
       if (!isNaN(i) && i !== this.state.active) return this.active = i;
-      this.animate(this.options.content, 'scrollLeft', i * (this.tabWidth + 2 * this.options.arrowMargin), this.options.animationTime, this.options.animation);
+      animate_1(this.options.content, 'scrollLeft', i * (this.tabWidth + 2 * this.options.arrowMargin), this.options.animationTime, {
+        type: this.options.animation
+      });
       removeExceptOne(this.options.tabs, 'active', i);
       removeExceptOne(this.options.tabs, 'prev', this.getTabNumber(i - 1));
       removeExceptOne(this.options.tabs, 'next', this.getTabNumber(i + 1));
@@ -309,31 +379,6 @@
         i = this.options.loop ? 0 : l - num;
       }
       return i;
-    }
-    animate(who, what, to, time, type = 'easeOut') {
-      const from = who[what];
-      const diff = to - from;
-      const me = this;
-      let startTime;
-      function frame(currentTime) {
-        startTime = startTime || currentTime;
-        if (currentTime - startTime > time) {
-          who[what] = to;
-          return;
-        }
-        let percent = (currentTime - startTime) / time;
-        who[what] = Math.round(me.animations[type].call(this, percent) * diff + from);
-        window.requestAnimationFrame(frame);
-      }
-      window.requestAnimationFrame(frame);
-    }
-    get animations() {
-      return {
-        linear: i => i,
-        easeOut: i => --i * i * i + 1,
-        easeIn: i => i * i * i,
-        none: () => 1
-      };
     }
   }
   SifrrTabs.defaultState = {
@@ -968,6 +1013,7 @@
   exports.SifrrShowcase = SifrrShowcase;
   exports.SifrrStater = SifrrStater;
   exports.SifrrTabs = SifrrTabs;
+  exports.animate = animate_1;
 
   Object.defineProperty(exports, '__esModule', { value: true });
 

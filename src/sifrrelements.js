@@ -8,3 +8,4 @@ export { default as SifrrCodeEditor } from '../elements/sifrr-code-editor/src/si
 export { default as SifrrProgressRound } from '../elements/sifrr-progress-round/src/sifrrprogressround';
 
 // helpers
+export { default as animate } from '../helpers/animate';

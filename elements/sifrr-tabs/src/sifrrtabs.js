@@ -1,5 +1,6 @@
 import SifrrDom from '@sifrr/dom';
 import style from './style.scss';
+import animate from '../../../helpers/animate';
 
 const template = SifrrDom.template`<style media="screen">
   ${style}
@@ -92,7 +93,7 @@ class SifrrTabs extends SifrrDom.Element {
       tabHeight: 'auto',
       showUnderline: true,
       loop: false,
-      animation: 'easeOut',
+      animation: 'ease',
       animationTime: 300,
       scrollBreakpoint: 0.2,
       background: '#714cfe'
@@ -207,7 +208,7 @@ class SifrrTabs extends SifrrDom.Element {
     let i = this.state.active;
     i = this.getTabNumber(i);
     if (!isNaN(i) && i !== this.state.active) return this.active = i;
-    this.animate(this.options.content, 'scrollLeft', i * (this.tabWidth + 2 * this.options.arrowMargin), this.options.animationTime, this.options.animation);
+    animate(this.options.content, 'scrollLeft', i * (this.tabWidth + 2 * this.options.arrowMargin), this.options.animationTime, { type: this.options.animation });
     removeExceptOne(this.options.tabs, 'active', i);
     removeExceptOne(this.options.tabs, 'prev', this.getTabNumber(i - 1));
     removeExceptOne(this.options.tabs, 'next', this.getTabNumber(i + 1));
@@ -246,34 +247,6 @@ class SifrrTabs extends SifrrDom.Element {
       i = this.options.loop ? 0 : l - num;
     }
     return i;
-  }
-
-  animate(who, what, to, time, type = 'easeOut') {
-    const from = who[what];
-    const diff = to - from;
-    const me = this;
-    let startTime;
-
-    function frame(currentTime) {
-      startTime = startTime || currentTime;
-      if (currentTime - startTime > time) {
-        who[what] = to;
-        return;
-      }
-      let percent = (currentTime - startTime) / time;
-      who[what] = Math.round(me.animations[type].call(this, percent) * diff + from);
-      window.requestAnimationFrame(frame);
-    }
-    window.requestAnimationFrame(frame);
-  }
-
-  get animations() {
-    return {
-      linear: i => i,
-      easeOut: i => (--i) * i * i + 1,
-      easeIn: i => i * i * i,
-      none: () => 1
-    };
   }
 }
 
