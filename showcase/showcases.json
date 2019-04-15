@@ -1,5 +1,5 @@
 {
-  "current": 5,
+  "current": 4,
   "showcases": [
     {
       "id": 1,
@@ -142,7 +142,7 @@
           "variantId": 6,
           "variantName": "with pre defined tab height",
           "style": "#element > * {\n  background-color: white;\n  display: block;\n}",
-          "code": "<sifrr-tabs options='{ \"tabHeight\": \"100px\" }'>\n        <li slot='heading'>Heading 1</li>\n        <li slot='heading'>Heading 2</li>\n        <div slot='tab'>\n          Tab 1\n        </div>\n        <div slot='tab'>\n          Tab 2\n        </div>\n      </sifrr-tabs>",
+          "code": "<sifrr-tabs options='{ \"tabHeight\": \"100px\" }'>\n        <a slot='heading'>Heading 1</a>\n        <a slot='heading'>Heading 2</a>\n        <div slot='tab'>\n          Tab 1\n        </div>\n        <div slot='tab'>\n          Tab 2\n        </div>\n      </sifrr-tabs>",
           "elState": "return {\n\n}"
         },
         {
@@ -171,10 +171,10 @@
       "element": "sifrr-tabs",
       "elementUrl": "",
       "isjs": true,
-      "variantName": "without menu, with arrows",
-      "variantId": 2,
+      "variantName": "with pre defined tab height",
+      "variantId": 6,
       "style": "#element > * {\n  background-color: white;\n  display: block;\n}",
-      "code": "<sifrr-tabs options='{ \"showMenu\": false, \"showArrows\": true }'>\n        <div slot='tab'>\n          Tab 1\n        </div>\n        <div slot='tab'>\n          Tab 2\n        </div>\n      </sifrr-tabs>",
+      "code": "<sifrr-tabs options='{ \"tabHeight\": \"100px\" }'>\n        <a slot='heading'>Heading 1</a>\n        <a slot='heading'>Heading 2</a>\n        <div slot='tab'>\n          Tab 1\n        </div>\n        <div slot='tab'>\n          Tab 2\n        </div>\n      </sifrr-tabs>",
       "elState": "return {\n\n}"
     },
     {
@@ -204,20 +204,20 @@
         {
           "variantId": 3,
           "variantName": "with image progress",
-          "style": "#element {\n  position: relative;\n}\n\n#element > * {\n  position: absolute;\n  height: 500px;\n  width: 500px;\n  display: block;\n}\n#element > sifrr-progress-round {\n  width: 50px;\n  height: 50px;\n  top: 250px;\n  left: 250px;\n}",
-          "code": "<img is=\"sifrr-lazy-img\" data-src=\"https://fetch-progress.anthum.com/30kbps/images/sunrise-baseline.jpg\">\n<sifrr-progress-round progress=\"0\"></sifrr-progress-round>",
-          "elState": "this.reload();\nconst progress = this.nextElementSibling;\nconst src = this.dataset.src;\nthis.dataset.src = '';\nthis.beforeLoad = () => {\n  Sifrr.Fetch.get(src, {\n    onProgress: (p) => {\n      progress.progress = p;\n      if (p >= 100) progress.remove();\n    }\n  }).then(r => r.blob()).then(b => {\n    this.src = URL.createObjectURL(b);\n  })\n}"
+          "style": "#element div {\n  width: 500px;\n}\n\n.lazy {\n  position: relative;\n}\n\n.lazy > * {\n  position: absolute;\n  height: 500px;\n  width: 500px;\n  display: block;\n}\n.lazy > sifrr-progress-round {\n  width: 50px;\n  height: 50px;\n  top: 225px;\n  left: 225px;\n}",
+          "code": "<div style=\"height: 1000px; background: white;\">Scroll down</div>\n<div class=\"lazy\">\n  <img is=\"sifrr-lazy-img\" data-src=\"https://fetch-progress.anthum.com/30kbps/images/sunrise-baseline.jpg\">\n  <sifrr-progress-round progress=\"0\"></sifrr-progress-round>\n</div>",
+          "elState": "function lazyProgress(el) {\n  const progress = el.$('sifrr-progress-round');\n  const img = el.$('img');\n  img.reload()\n  const src = img.dataset.src;\n  img.dataset.src = '';\n  img.beforeLoad = () => {\n    Sifrr.Fetch.get(src, {\n      onProgress: (p) => {\n        progress.progress = p;\n        if (p >= 100) progress.remove();\n      }\n    }).then(r => r.blob()).then(b => {\n      img.src = URL.createObjectURL(b);\n    })\n  }\n}\n\nlazyProgress(this.parentNode.$('.lazy'));"
         }
       ],
       "id": 1,
       "element": "sifrr-progress-round",
       "elementUrl": "",
       "isjs": true,
-      "variantName": "property",
-      "variantId": 4,
-      "style": "#element > * {\n  height: 200px;\n  width: 200px;\n  display: block;\n  margin: auto;\n}",
-      "code": "<sifrr-progress-round></sifrr-progress-round>",
-      "elState": "this.progress = 35;\nreturn {\n\n}"
+      "variantName": "with image progress",
+      "variantId": 3,
+      "style": "#element div {\n  width: 500px;\n}\n\n.lazy {\n  position: relative;\n}\n\n.lazy > * {\n  position: absolute;\n  height: 500px;\n  width: 500px;\n  display: block;\n}\n.lazy > sifrr-progress-round {\n  width: 50px;\n  height: 50px;\n  top: 225px;\n  left: 225px;\n}",
+      "code": "<div style=\"height: 1000px; background: white;\">Scroll down</div>\n<div class=\"lazy\">\n  <img is=\"sifrr-lazy-img\" data-src=\"https://fetch-progress.anthum.com/30kbps/images/sunrise-baseline.jpg\">\n  <sifrr-progress-round progress=\"0\"></sifrr-progress-round>\n</div>",
+      "elState": "function lazyProgress(el) {\n  const progress = el.$('sifrr-progress-round');\n  const img = el.$('img');\n  img.reload()\n  const src = img.dataset.src;\n  img.dataset.src = '';\n  img.beforeLoad = () => {\n    Sifrr.Fetch.get(src, {\n      onProgress: (p) => {\n        progress.progress = p;\n        if (p >= 100) progress.remove();\n      }\n    }).then(r => r.blob()).then(b => {\n      img.src = URL.createObjectURL(b);\n    })\n  }\n}\n\nlazyProgress(this.parentNode.$('.lazy'));"
     },
     {
       "name": "sifrr-shimmer",

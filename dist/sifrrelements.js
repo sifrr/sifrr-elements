@@ -49,7 +49,7 @@
       this.constructor.observer.unobserve(this);
     }
   }
-  SifrrLazyImg.rootMargin = '0px 0px 200px 0px';
+  SifrrLazyImg.rootMargin = '0px 0px 50px 0px';
   SifrrDom.register(SifrrLazyImg, {
     extends: 'img'
   });
@@ -99,7 +99,7 @@
       this.constructor.observer.unobserve(this);
     }
   }
-  SifrrLazyPicture.rootMargin = '0px 0px 200px 0px';
+  SifrrLazyPicture.rootMargin = '0px 0px 50px 0px';
   SifrrDom.register(SifrrLazyPicture, {
     extends: 'picture'
   });
