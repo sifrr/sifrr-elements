@@ -23,7 +23,7 @@
 }
 
 /* CSS for heading text li */
-.headings *::slotted(li) {
+.headings *::slotted(*) {
   font-size: 16px;
   display: inline-block;
   text-align: center;
@@ -37,11 +37,11 @@
   box-sizing: border-box;
 }
 
-.headings *::slotted(li.active) {
+.headings *::slotted(*.active) {
   opacity: 1;
 }
 
-.headings *::slotted(li:hover) {
+.headings *::slotted(*:hover) {
   opacity: 1;
 }
 

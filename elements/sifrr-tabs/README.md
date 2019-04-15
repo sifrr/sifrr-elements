@@ -5,7 +5,7 @@
 
 ```html
 <sifrr-tabs options="<JSON String>">
-  <!-- Heading should be li and have slot='heading' -->
+  <!-- Headings should have slot='heading' -->
   <li slot='heading'>Heading 1</li>
   <li slot='heading'>Heading 2</li>
   <!-- Tabs should have slot='tab' -->
