@@ -13,6 +13,8 @@
     el.removeAttribute("data-".concat(attr));
   }
   function loadPicture(pic) {
+    if (pic._loaded) return;
+    pic._loaded = true;
     SifrrLazyPicture.observer.unobserve(pic);
     pic.beforeLoad();
     pic.$$('source', false).forEach(s => {
@@ -43,6 +45,7 @@
       this.reload();
     }
     reload() {
+      this._loaded = false;
       this.constructor.observer.observe(this);
     }
     beforeLoad() {}

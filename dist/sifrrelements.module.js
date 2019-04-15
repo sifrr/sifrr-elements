@@ -8,6 +8,8 @@ function moveAttr(el, attr) {
   el.removeAttribute(`data-${attr}`);
 }
 function loadPicture(img) {
+  if (img._loaded) return;
+  img._loaded = true;
   SifrrLazyImg.observer.unobserve(img);
   img.beforeLoad();
   moveAttr(img, 'src');
@@ -34,6 +36,7 @@ class SifrrLazyImg extends Sifrr.Dom.Element.extends(HTMLImageElement) {
     this.reload();
   }
   reload() {
+    this._loaded = false;
     this.constructor.observer.observe(this);
   }
   beforeLoad() {}
@@ -51,6 +54,8 @@ function moveAttr$1(el, attr) {
   el.removeAttribute(`data-${attr}`);
 }
 function loadPicture$1(pic) {
+  if (pic._loaded) return;
+  pic._loaded = true;
   SifrrLazyPicture.observer.unobserve(pic);
   pic.beforeLoad();
   pic.$$('source', false).forEach((s) => {
@@ -81,6 +86,7 @@ class SifrrLazyPicture extends Sifrr.Dom.Element.extends(HTMLPictureElement) {
     this.reload();
   }
   reload() {
+    this._loaded = false;
     this.constructor.observer.observe(this);
   }
   beforeLoad() {}
