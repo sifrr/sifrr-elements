@@ -2,7 +2,6 @@ import SifrrDom from '@sifrr/dom';
 
 import template from './template.html';
 
-//Sifrr Lazy Loading Picture
 class SifrrProgressRound extends Sifrr.Dom.Element {
   static get template() {
     return SifrrDom.template(template);

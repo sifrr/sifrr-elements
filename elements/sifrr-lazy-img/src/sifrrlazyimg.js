@@ -15,7 +15,6 @@ function loadPicture(img) {
   return true;
 }
 
-//Sifrr Lazy Loading Picture
 class SifrrLazyImg extends Sifrr.Dom.Element.extends(HTMLImageElement) {
   static get observer() {
     this._observer = this._observer || new IntersectionObserver(this.onVisible, {
