@@ -13,17 +13,12 @@
     el.removeAttribute("data-".concat(attr));
   }
   function loadPicture(pic) {
-    if (pic._loaded) return;
-    pic._loaded = true;
-    SifrrLazyPicture.observer.unobserve(pic);
-    pic.beforeLoad();
     pic.$$('source', false).forEach(s => {
       moveAttr(s, 'srcset');
     });
     const img = pic.$('img', false);
     moveAttr(img, 'src');
     moveAttr(img, 'srcset');
-    pic.afterLoad();
     return true;
   }
   class SifrrLazyPicture extends Sifrr.Dom.Element.extends(HTMLPictureElement) {
@@ -35,9 +30,12 @@
     }
     static onVisible(entries) {
       entries.forEach(entry => {
-        if (entry.isIntersecting) {
+        if (entry.isIntersecting && !entry.target._loaded) {
+          entry.target._loaded = true;
+          entry.target.beforeLoad();
           loadPicture(entry.target);
           this.unobserve(entry.target);
+          entry.target.afterLoad();
         }
       });
     }
