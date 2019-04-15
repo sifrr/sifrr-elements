@@ -45,8 +45,10 @@ class Bezier {
 }
 
 function animate(who, what, to, time = 300, { preffix = false, suffix = false, type = 'ease' } = {}) {
-  const f = who[what].toString();
-  const from = Number(f.slice(preffix ? preffix.length : 0, suffix ? -1 * suffix.length : f.length));
+  let from = who[what].toString(), toBefore = to;
+  to = to.toString();
+  from = Number(from.slice(preffix ? preffix.length : 0, suffix ? -1 * suffix.length : from.length));
+  to = Number(to.slice(preffix ? preffix.length : 0, suffix ? -1 * suffix.length : to.length));
   const diff = to - from;
   const animeFxn = new Bezier(animate.types[type] || type);
   let startTime;
@@ -56,10 +58,12 @@ function animate(who, what, to, time = 300, { preffix = false, suffix = false, t
       startTime = startTime || currentTime;
       const percent = (currentTime - startTime) / time;
       if (percent >= 1) {
-        who[what] = to;
+        who[what] = toBefore;
         return res();
       }
-      who[what] = Math.round(animeFxn(percent) * diff + from);
+      let next = animeFxn(percent) * diff + from;
+      if (!suffix && !preffix) who[what] = next;
+      else who[what] = (preffix ? preffix : '') + next + (suffix ? suffix : '');
       window.requestAnimationFrame(frame);
     }
     window.requestAnimationFrame(frame);

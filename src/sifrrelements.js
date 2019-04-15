@@ -9,3 +9,5 @@ export { default as SifrrProgressRound } from '../elements/sifrr-progress-round/
 
 // helpers
 export { default as animate } from '../helpers/animate';
+// import animate from '../helpers/animate';
+// window.animate = animate;
