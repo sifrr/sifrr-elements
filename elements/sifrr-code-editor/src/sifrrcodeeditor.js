@@ -53,6 +53,8 @@ class SifrrCodeEditor extends SifrrDom.Element {
 
         // put caret at right position again
         txtarea.selectionStart = txtarea.selectionEnd = start + tabOffset;
+
+        this.update();
       }
     });
     txtarea.onscroll = () => {

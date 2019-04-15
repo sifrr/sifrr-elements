@@ -44,6 +44,7 @@ class SifrrCodeEditor extends SifrrDom.Element {
         const tabOffset = 2;
         txtarea.value = txtarea.value.substring(0, start) + tabCharacter + txtarea.value.substring(end);
         txtarea.selectionStart = txtarea.selectionEnd = start + tabOffset;
+        this.update();
       }
     });
     txtarea.onscroll = () => {

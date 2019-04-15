@@ -49,6 +49,7 @@ class SifrrCodeEditor extends SifrrDom.Element {
         const tabOffset = 2;
         txtarea.value = txtarea.value.substring(0, start) + tabCharacter + txtarea.value.substring(end);
         txtarea.selectionStart = txtarea.selectionEnd = start + tabOffset;
+        this.update();
       }
     });
     txtarea.onscroll = () => {
@@ -161,9 +162,9 @@ class SifrrSingleShowcase extends SifrrDom.Element {
     this.state.variants.splice(cid, 0, Object.assign({}, {
       variantId: id,
       variantName: this.state.variantName,
-      style: this.state.style,
-      code: this.state.code,
-      elState: this.state.elState
+      style: this.state.style || '',
+      code: this.state.code || '',
+      elState: this.state.elState || ''
     }));
     this.switchVariant(id);
   }

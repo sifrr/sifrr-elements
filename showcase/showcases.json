@@ -1,12 +1,14 @@
 {
-  "current": 4,
-  "showcases": [{
+  "current": 5,
+  "showcases": [
+    {
       "id": 1,
       "element": "sifrr-code-editor",
       "elementUrl": "",
       "isjs": true,
       "variantName": "default - html",
-      "variants": [{
+      "variants": [
+        {
           "variantId": 1,
           "variantName": "default - html",
           "style": "#element > * {\n}",
@@ -43,12 +45,14 @@
     },
     {
       "name": "sifrr-lazy-picture",
-      "variants": [{
-        "variantName": "lazy loading",
-        "style": "#element > * {\n  background: white;\n  height: 200px;\n  width: 200px;\n  display: block;\n}\n#element > * img {\n  width: 100%;\n  height: 100%;\n}",
-        "code": "<div style=\"height: 1000px\"></div>\n<picture is=\"sifrr-lazy-picture\">\n      <source media=\"(min-width: 800px)\" data-srcset=\"https://pbs.twimg.com/profile_images/1057899591708753921/PSpUS-Hp_400x400.jpg\">\n      <img data-src=\"https://static.adweek.com/adweek.com-prod/wp-content/uploads/files/blogs/google-logo-hed-2014.jpg\">\n</picture>",
-        "elState": "return {\n\n}"
-      }],
+      "variants": [
+        {
+          "variantName": "lazy loading",
+          "style": "#element > * {\n  background: white;\n  height: 200px;\n  width: 200px;\n  display: block;\n}\n#element > * img {\n  width: 100%;\n  height: 100%;\n}",
+          "code": "<div style=\"height: 1000px\"></div>\n<picture is=\"sifrr-lazy-picture\">\n      <source media=\"(min-width: 800px)\" data-srcset=\"https://pbs.twimg.com/profile_images/1057899591708753921/PSpUS-Hp_400x400.jpg\">\n      <img data-src=\"https://static.adweek.com/adweek.com-prod/wp-content/uploads/files/blogs/google-logo-hed-2014.jpg\">\n</picture>",
+          "elState": "return {\n\n}"
+        }
+      ],
       "id": 1,
       "element": "sifrr-lazy-picture",
       "elementUrl": "",
@@ -61,12 +65,14 @@
     },
     {
       "name": "sifrr-lazy-img",
-      "variants": [{
-        "variantId": 1,
-        "style": "#element > * {\n  background: white;\n  height: 200px;\n  width: 200px;\n  display: block;\n}",
-        "variantName": "lazy loading",
-        "code": "<div style=\"height: 1000px\"></div>\n<img is=\"sifrr-lazy-img\" data-src=\"https://static.adweek.com/adweek.com-prod/wp-content/uploads/files/blogs/google-logo-hed-2014.jpg\">"
-      }],
+      "variants": [
+        {
+          "variantId": 1,
+          "style": "#element > * {\n  background: white;\n  height: 200px;\n  width: 200px;\n  display: block;\n}",
+          "variantName": "lazy loading",
+          "code": "<div style=\"height: 1000px\"></div>\n<img is=\"sifrr-lazy-img\" data-src=\"https://static.adweek.com/adweek.com-prod/wp-content/uploads/files/blogs/google-logo-hed-2014.jpg\">"
+        }
+      ],
       "element": "sifrr-lazy-img",
       "style": "#element > * {\n  background: white;\n  height: 200px;\n  width: 200px;\n  display: block;\n}",
       "variantId": 1,
@@ -75,7 +81,8 @@
     },
     {
       "name": "sifrr-tabs",
-      "variants": [{
+      "variants": [
+        {
           "variantId": 1,
           "variantName": "with menu and content",
           "style": "#element > * {\n  background-color: white;\n  display: block;\n}",
@@ -164,15 +171,16 @@
       "element": "sifrr-tabs",
       "elementUrl": "",
       "isjs": true,
-      "variantName": "different menu color / border radius",
-      "variantId": 11,
-      "style": "#element > * {\n  background-color: white;\n  display: block;\n  border-radius: 5px;\n}",
-      "code": "<sifrr-tabs options='{ \"background\": \"black\" }'>\n        <li slot='heading'>Heading 1</li>\n        <li slot='heading'>Heading 2 - sdfsdfsdafsdf d sdf af </li>\n        <li slot='heading'>Heading 3 - sdf ssd fdsf sf </li>\n        <li slot='heading'>Heading 4 - vesdfdf d df dfds dsf dsf </li>\n        <div slot='tab'>\n          <p>Tab 1</p>\n          <p>Tab 1</p>\n          <p>Tab 1</p>\n          <p>Tab 1</p>\n          <p>Tab 1</p>\n          <p>Tab 1</p>\n        </div>\n        <div slot='tab'>\n          <p>Tab 2</p>\n          <p>Tab 2</p>\n          <p>Tab 2</p>\n        </div>\n        <div slot='tab'>\n          <p>Tab 3</p>\n        </div>\n        <div slot='tab'>\n          <p>Tab 4</p>\n        </div>\n      </sifrr-tabs>",
+      "variantName": "without menu, with arrows",
+      "variantId": 2,
+      "style": "#element > * {\n  background-color: white;\n  display: block;\n}",
+      "code": "<sifrr-tabs options='{ \"showMenu\": false, \"showArrows\": true }'>\n        <div slot='tab'>\n          Tab 1\n        </div>\n        <div slot='tab'>\n          Tab 2\n        </div>\n      </sifrr-tabs>",
       "elState": "return {\n\n}"
     },
     {
       "name": "sifrr-progress-round",
-      "variants": [{
+      "variants": [
+        {
           "variantId": 1,
           "variantName": "state",
           "style": "#element > * {\n  height: 200px;\n  width: 200px;\n  display: block;\n  margin: auto;\n}",
@@ -210,6 +218,38 @@
       "style": "#element > * {\n  height: 200px;\n  width: 200px;\n  display: block;\n  margin: auto;\n}",
       "code": "<sifrr-progress-round></sifrr-progress-round>",
       "elState": "this.progress = 35;\nreturn {\n\n}"
+    },
+    {
+      "name": "sifrr-shimmer",
+      "variants": [
+        {
+          "variantId": 1,
+          "variantName": "normal",
+          "code": "<sifrr-shimmer></sifrr-shimmer>",
+          "style": "#element > * {\n  height: 50px;\n  width: 250px;\n}",
+          "elState": "return {\n\n}"
+        },
+        {
+          "variantId": 2,
+          "variantName": "profile",
+          "style": "#element > div {\n  position: relative;\n  width: 100%;\n  height: 100%;\n}\n#element sifrr-shimmer {\n  position: absolute;\n}\n\n#element #pic {\n  height: 150px;\n  width: 150px;\n  left: 0;\n  top: 0;\n}\n\n#element #name {\n  height: 30px;\n  width: 200px;\n  left: 166px;\n  top: 0;\n}\n\n#element #name2 {\n  height: 16px;\n  width: 200px;\n  left: 166px;\n  top: 38px;\n}\n\n#element #des {\n  height: 84px;\n  width: 200px;\n  left: 166px;\n  top: 66px;\n}",
+          "code": "<div>\n<sifrr-shimmer id=\"pic\"></sifrr-shimmer>\n<sifrr-shimmer id=\"name\"></sifrr-shimmer>\n<sifrr-shimmer id=\"name2\"></sifrr-shimmer>\n<sifrr-shimmer id=\"des\"></sifrr-shimmer>\n</div>",
+          "elState": "return {\n\n}"
+        },
+        {
+          "variantId": 3,
+          "variantName": "loading sifrr element",
+          "style": "#element sifrr-random, sifrr-shimmer {\n  width: 300px;\n  height: 100px;\n}\n",
+          "code": "<sifrr-loading>\n  <sifrr-shimmer></sifrr-shimmer>\n</sifrr-loading>",
+          "elState": "// when element is registered shimmer will disappear, refresh to load again\nsetTimeout(() => {\n  Sifrr.Dom.register(class SifrrLoading extends Sifrr.Dom.Element {\n  static get template() {\n    return Sifrr.Dom.template('<p></p>')\n  }\n})\n}, 3000);\nreturn {\n\n}"
+        }
+      ],
+      "element": "sifrr-shimmer",
+      "code": "<div>\n<sifrr-shimmer id=\"pic\"></sifrr-shimmer>\n<sifrr-shimmer id=\"name\"></sifrr-shimmer>\n<sifrr-shimmer id=\"name2\"></sifrr-shimmer>\n<sifrr-shimmer id=\"des\"></sifrr-shimmer>\n</div>",
+      "variantName": "profile",
+      "variantId": 2,
+      "style": "#element > div {\n  position: relative;\n  width: 100%;\n  height: 100%;\n}\n#element sifrr-shimmer {\n  position: absolute;\n}\n\n#element #pic {\n  height: 150px;\n  width: 150px;\n  left: 0;\n  top: 0;\n}\n\n#element #name {\n  height: 30px;\n  width: 200px;\n  left: 166px;\n  top: 0;\n}\n\n#element #name2 {\n  height: 16px;\n  width: 200px;\n  left: 166px;\n  top: 38px;\n}\n\n#element #des {\n  height: 84px;\n  width: 200px;\n  left: 166px;\n  top: 66px;\n}",
+      "elState": "return {\n\n}"
     }
   ]
 }
