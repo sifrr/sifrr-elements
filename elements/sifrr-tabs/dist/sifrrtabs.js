@@ -91,7 +91,6 @@
     });
   }
   animate.types = animations;
-  var animate_1 = animate;
 
   function _templateObject() {
     const data = _taggedTemplateLiteral(["<style media=\"screen\">\n  ", "\n</style>\n<style>\n  .tabs {\n    height: ${this.options ? this.options.tabHeight : 'auto'};\n    width: ${this.totalWidth + 'px'};\n  }\n  .headings {\n    display: ${this.headingDisplay};\n    background: ${this.options ? this.options.background : 'transparent'};\n  }\n  .content *::slotted([slot=\"tab\"]) {\n    width: ${this.tabWidth + 'px'};\n    margin: 0 ${this.options ? this.options.arrowMargin + 'px' : 0};\n  }\n  .arrow {\n    width: ${this.options ? this.options.arrowWidth : '20px'};\n  }\n</style>\n<div class=\"headings\">\n  <ul>\n    <slot name=\"heading\">\n    </slot>\n  </ul>\n  <div class=\"underline\"></div>\n</div>\n<div class=\"content\">\n  <div class=\"arrow l\" _click=${this.prev}>\n    <span></span>\n  </div>\n  <div class=\"arrow r\" _click=${this.next}>\n    <span></span>\n  </div>\n  <div class=\"tabs\">\n    <slot name=\"tab\">\n    </slot>\n  </div>\n</div>"], ["<style media=\"screen\">\n  ", "\n</style>\n<style>\n  .tabs {\n    height: \\${this.options ? this.options.tabHeight : 'auto'};\n    width: \\${this.totalWidth + 'px'};\n  }\n  .headings {\n    display: \\${this.headingDisplay};\n    background: \\${this.options ? this.options.background : 'transparent'};\n  }\n  .content *::slotted([slot=\"tab\"]) {\n    width: \\${this.tabWidth + 'px'};\n    margin: 0 \\${this.options ? this.options.arrowMargin + 'px' : 0};\n  }\n  .arrow {\n    width: \\${this.options ? this.options.arrowWidth : '20px'};\n  }\n</style>\n<div class=\"headings\">\n  <ul>\n    <slot name=\"heading\">\n    </slot>\n  </ul>\n  <div class=\"underline\"></div>\n</div>\n<div class=\"content\">\n  <div class=\"arrow l\" _click=\\${this.prev}>\n    <span></span>\n  </div>\n  <div class=\"arrow r\" _click=\\${this.next}>\n    <span></span>\n  </div>\n  <div class=\"tabs\">\n    <slot name=\"tab\">\n    </slot>\n  </div>\n</div>"]);
@@ -252,7 +251,7 @@
       let i = this.state.active;
       i = this.getTabNumber(i);
       if (!isNaN(i) && i !== this.state.active) return this.active = i;
-      animate_1(this.options.content, 'scrollLeft', i * (this.tabWidth + 2 * this.options.arrowMargin), this.options.animationTime, {
+      animate(this.options.content, 'scrollLeft', i * (this.tabWidth + 2 * this.options.arrowMargin), this.options.animationTime, {
         type: this.options.animation
       });
       removeExceptOne(this.options.tabs, 'active', i);

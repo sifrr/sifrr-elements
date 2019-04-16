@@ -66,6 +66,37 @@ import { SifrrLazyPicture } from '@sifrr/elements';
 // Elements are auto registering, so they will be registered when file is loaded
 ```
 
+## Helper Libraries
+
+### `animate`
+
+Animate anything or everything using requestAnimationFrame with promise based API.
+
+**Note**: Since it uses requestAnimationFrame, actual time taken to animate can vary +-1 frame (~17ms)
+
+```js
+const { animate } = require('@sifrr/elements');
+
+animate(object, property, to, time, { preffix: '', suffix: '', type: 'ease' })
+```
+
+-   `object` - object whose property you want to animate
+-   `property` - property of the object you want
+-   `to` - final value including preffix and suffix
+-   `preffix` - preffix to add to the numerical value
+-   `suffix` - suffix to add to numerical value
+-   `type` - type of animation (available: \['linear', 'ease', 'easeIn', 'easeOut', 'easeInOut'])
+
+You can add more types using bezier function values:
+
+```js
+animate.types[name] = [.42, 0, .58, 1]; // bezier array
+```
+
+Or you can directly give bezier array to animate function in type.
+
+examples in showcase.
+
 ## License
 
 sifrr-elements is [MIT Licensed](./LICENSE).

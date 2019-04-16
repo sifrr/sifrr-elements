@@ -72,4 +72,4 @@ function animate(who, what, to, time = 300, { preffix = false, suffix = false, t
 
 animate.types = animations;
 
-module.exports = animate;
+export default animate;

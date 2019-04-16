@@ -70,7 +70,6 @@ function animate(who, what, to, time = 300, { preffix = false, suffix = false, t
   });
 }
 animate.types = animations;
-var animate_1 = animate;
 
 const template = SifrrDom.template`<style media="screen">
   ${css}
@@ -262,7 +261,7 @@ class SifrrTabs extends SifrrDom.Element {
     let i = this.state.active;
     i = this.getTabNumber(i);
     if (!isNaN(i) && i !== this.state.active) return this.active = i;
-    animate_1(this.options.content, 'scrollLeft', i * (this.tabWidth + 2 * this.options.arrowMargin), this.options.animationTime, { type: this.options.animation });
+    animate(this.options.content, 'scrollLeft', i * (this.tabWidth + 2 * this.options.arrowMargin), this.options.animationTime, { type: this.options.animation });
     removeExceptOne(this.options.tabs, 'active', i);
     removeExceptOne(this.options.tabs, 'prev', this.getTabNumber(i - 1));
     removeExceptOne(this.options.tabs, 'next', this.getTabNumber(i + 1));
