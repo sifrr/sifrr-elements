@@ -44,11 +44,15 @@ class Bezier {
     return t;
   }
 }
-function animate(who, what, to, time = 300, { preffix = false, suffix = false, type = 'ease' } = {}) {
-  let from = who[what].toString(), toBefore = to;
-  to = to.toString();
-  from = Number(from.slice(preffix ? preffix.length : 0, suffix ? -1 * suffix.length : from.length));
-  to = Number(to.slice(preffix ? preffix.length : 0, suffix ? -1 * suffix.length : to.length));
+function animate(who, what, to, time = 300, { type = 'ease' } = {}) {
+  let from, toBefore = to, preffix = false, suffix = false;
+  if (typeof to === 'string') {
+    [preffix, to, suffix] = to.split(/(\d+)(.*)?/).filter(s => s);
+    [, from, ] = who[what].split(/(\d+)(.*)?/).filter(s => s);
+    from = Number(from), to = Number(to);
+  } else {
+    from = who[what];
+  }
   const diff = to - from;
   const animeFxn = new Bezier(animate.types[type] || type);
   let startTime;

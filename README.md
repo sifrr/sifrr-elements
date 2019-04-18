@@ -77,15 +77,14 @@ Animate anything or everything using requestAnimationFrame with promise based AP
 ```js
 const { animate } = require('@sifrr/elements');
 
-animate(object, property, to, time, { preffix: '', suffix: '', type: 'ease' })
+animate(object, property, to, time, { type: 'ease', from })
 ```
 
 -   `object` - object whose property you want to animate
 -   `property` - property of the object you want
--   `to` - final value including preffix and suffix
--   `preffix` - preffix to add to the numerical value
--   `suffix` - suffix to add to numerical value
--   `type` - type of animation (available: \['linear', 'ease', 'easeIn', 'easeOut', 'easeInOut'])
+-   `to` - final value
+-   `type` - type of animation (pre added: \['linear', 'ease', 'easeIn', 'easeOut', 'easeInOut'])
+-   `from` - optional, if not specified it will be taken as object[property]
 
 You can add more types using bezier function values:
 
@@ -94,6 +93,13 @@ animate.types[name] = [.42, 0, .58, 1]; // bezier array
 ```
 
 Or you can directly give bezier array to animate function in type.
+
+#### Format
+
+Property's current/from value and to value should be of same format.
+
+-   Number
+-   String with same preffix, suffix and number in between
 
 examples in showcase.
 
