@@ -70,14 +70,26 @@ import { SifrrLazyPicture } from '@sifrr/elements';
 
 ### `animate`
 
-Animate anything or everything using requestAnimationFrame with promise based API.
+~1kb library to Animate anything or everything using requestAnimationFrame with promise based API.
 
 **Note**: Since it uses requestAnimationFrame, actual time taken to animate can vary +-1 frame (~17ms)
 
 ```js
-const { animate } = require('@sifrr/elements');
+const { Anime } = require('@sifrr/elements');
 
-animate(object, property, to, time, { type: 'ease', from })
+Anime.animate(object, property, to, time, { type: 'ease', from, onUpdate })
+Anime.animateAll({
+  target: 'multable object',
+  targets: 'array of objects',
+  to: {
+    prop1: 'to1',
+    prop2: 'to2',
+    porp3: ['from3', 'to3']
+  },
+  time: 300,
+  type: 'ease',
+  onUpdate: 'function to invoke on update'
+})
 ```
 
 -   `object` - object whose property you want to animate
@@ -85,11 +97,12 @@ animate(object, property, to, time, { type: 'ease', from })
 -   `to` - final value
 -   `type` - type of animation (pre added: \['linear', 'ease', 'easeIn', 'easeOut', 'easeInOut'])
 -   `from` - optional, if not specified it will be taken as object[property]
+-   `onUpdate` - this function will be called on update with arguments `object`, `property`, `currentValue`
 
 You can add more types using bezier function values:
 
 ```js
-animate.types[name] = [.42, 0, .58, 1]; // bezier array
+Anime.types[name] = [.42, 0, .58, 1]; // bezier array
 ```
 
 Or you can directly give bezier array to animate function in type.
