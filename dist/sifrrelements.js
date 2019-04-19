@@ -118,7 +118,7 @@
 
   var css = ":host {\n  /* CSS for tabs container */\n  line-height: 24px;\n  overflow: hidden;\n  width: 100%;\n  display: block;\n  position: relative; }\n\n.headings {\n  /* CSS for heading bar */\n  width: 100%;\n  overflow-y: hidden;\n  overflow-x: auto;\n  position: relative;\n  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.2); }\n\n.headings ul {\n  padding: 0 0 3px;\n  margin: 0;\n  font-size: 0; }\n\n/* CSS for heading text li */\n.headings *::slotted(*) {\n  font-size: 16px;\n  display: inline-block;\n  text-align: center;\n  padding: 8px;\n  text-decoration: none;\n  list-style: none;\n  color: white;\n  border-bottom: 2px solid transparent;\n  opacity: 0.9;\n  cursor: pointer;\n  box-sizing: border-box; }\n\n.headings *::slotted(*.active) {\n  opacity: 1; }\n\n.headings *::slotted(*:hover) {\n  opacity: 1; }\n\n/* CSS for line under active tab heading */\n.headings .underline {\n  position: absolute;\n  bottom: 0;\n  left: 0;\n  height: 3px;\n  background: white; }\n\n/* Arrows css */\n.arrow {\n  position: absolute;\n  z-index: 5;\n  top: 0;\n  bottom: 0; }\n\n.arrow > * {\n  position: absolute;\n  width: 8px;\n  height: 8px;\n  margin: -6px 5px;\n  top: 50%;\n  border: solid white;\n  border-width: 0 3px 3px 0;\n  display: inline-block;\n  padding: 3px;\n  filter: drop-shadow(-1px -1px 3px #000); }\n\n.arrow.l {\n  left: 0;\n  cursor: w-resize; }\n\n.arrow.l > * {\n  left: 0;\n  transform: rotate(135deg); }\n\n.arrow.r {\n  right: 0;\n  cursor: e-resize; }\n\n.arrow.r > * {\n  right: 0;\n  transform: rotate(-45deg); }\n\n/* Tab container css */\n.content {\n  width: 100%;\n  height: 100%;\n  overflow-x: auto;\n  overflow-y: hidden;\n  margin: 0;\n  line-height: normal;\n  box-sizing: border-box; }\n\n.content .tabs {\n  min-height: 1px; }\n\n/* Tab element css */\n.content *::slotted([slot=\"tab\"]) {\n  float: left;\n  max-height: 100%;\n  height: 100%;\n  overflow-x: hidden;\n  overflow-y: auto;\n  vertical-align: top;\n  padding: 8px;\n  box-sizing: border-box; }\n";
 
-  const animations = {
+  const types = {
     linear: [0, 0, 1, 1],
     ease: [.25, .1, .25, 1],
     easeIn: [.42, 0, 1, 1],
@@ -161,20 +161,21 @@
   }
   function animate(who, what, to, time = 300, {
     type = 'ease',
-    from
+    from,
+    onUpdate = () => {}
   } = {}) {
     let toBefore = to,
         preffix = false,
         suffix = false;
     if (typeof to === 'string') {
-      [preffix, to, suffix] = to.split(/(\d+)(.*)?/).filter(s => s);
-      [, from] = (from || who[what]).split(/(\d+)(.*)?/).filter(s => s);
+      [preffix, to, suffix] = to.split(/(\d+)(.*)?/);
+      [, from] = (from || who[what]).split(/(\d+)(.*)?/);
       from = Number(from), to = Number(to);
     } else {
       from = who[what];
     }
     const diff = to - from;
-    const animeFxn = new Bezier(animate.types[type] || type);
+    const animeFxn = new Bezier(types[type] || type);
     let startTime;
     return new Promise(res => {
       function frame(currentTime) {
@@ -186,12 +187,42 @@
         }
         let next = animeFxn(percent) * diff + from;
         if (!suffix && !preffix) who[what] = next;else who[what] = (preffix ? preffix : '') + next + (suffix ? suffix : '');
+        onUpdate(who, what, who[what]);
         window.requestAnimationFrame(frame);
       }
       window.requestAnimationFrame(frame);
     });
   }
-  animate.types = animations;
+  function animateAll({
+    targets,
+    target,
+    to,
+    time = 300,
+    type = 'ease',
+    onUpdate = () => {}
+  } = {}) {
+    targets = Array.from(targets) || [target];
+    function iterate(target, props) {
+      for (let prop in props) {
+        let from, final;
+        if (Array.isArray(props[prop])) [from, final] = props[prop];else final = props[prop];
+        animate(target, prop, final, time, {
+          type,
+          from,
+          onUpdate
+        });
+      }
+    }
+    targets.forEach(target => {
+      iterate(target, to);
+    });
+  }
+  animate.types = types;
+  const Anime = {
+    animate,
+    animateAll,
+    types
+  };
 
   function _templateObject() {
     const data = _taggedTemplateLiteral(["<style media=\"screen\">\n  ", "\n</style>\n<style>\n  .tabs {\n    height: ${this.options ? this.options.tabHeight : 'auto'};\n    width: ${this.totalWidth + 'px'};\n  }\n  .headings {\n    display: ${this.headingDisplay};\n    background: ${this.options ? this.options.background : 'transparent'};\n  }\n  .content *::slotted([slot=\"tab\"]) {\n    width: ${this.tabWidth + 'px'};\n    margin: 0 ${this.options ? this.options.arrowMargin + 'px' : 0};\n  }\n  .arrow {\n    width: ${this.options ? this.options.arrowWidth : '20px'};\n  }\n</style>\n<div class=\"headings\">\n  <ul>\n    <slot name=\"heading\">\n    </slot>\n  </ul>\n  <div class=\"underline\"></div>\n</div>\n<div class=\"content\">\n  <div class=\"arrow l\" _click=${this.prev}>\n    <span></span>\n  </div>\n  <div class=\"arrow r\" _click=${this.next}>\n    <span></span>\n  </div>\n  <div class=\"tabs\">\n    <slot name=\"tab\">\n    </slot>\n  </div>\n</div>"], ["<style media=\"screen\">\n  ", "\n</style>\n<style>\n  .tabs {\n    height: \\${this.options ? this.options.tabHeight : 'auto'};\n    width: \\${this.totalWidth + 'px'};\n  }\n  .headings {\n    display: \\${this.headingDisplay};\n    background: \\${this.options ? this.options.background : 'transparent'};\n  }\n  .content *::slotted([slot=\"tab\"]) {\n    width: \\${this.tabWidth + 'px'};\n    margin: 0 \\${this.options ? this.options.arrowMargin + 'px' : 0};\n  }\n  .arrow {\n    width: \\${this.options ? this.options.arrowWidth : '20px'};\n  }\n</style>\n<div class=\"headings\">\n  <ul>\n    <slot name=\"heading\">\n    </slot>\n  </ul>\n  <div class=\"underline\"></div>\n</div>\n<div class=\"content\">\n  <div class=\"arrow l\" _click=\\${this.prev}>\n    <span></span>\n  </div>\n  <div class=\"arrow r\" _click=\\${this.next}>\n    <span></span>\n  </div>\n  <div class=\"tabs\">\n    <slot name=\"tab\">\n    </slot>\n  </div>\n</div>"]);
@@ -637,7 +668,7 @@
 
   const html = "<div class=\"container\">\n  <div class=\"flex-column\" id=\"sidebar\">\n    <div class=\"box\">\n      <h3 class=\"font head\">Variants</h3>\n      <input id=\"variantName\" type=\"text\" name=\"variantName\" value=\"${this.state.variantName}\" data-sifrr-bind=\"variantName\">\n      <button class=\"font\" type=\"button\" name=\"createVariant\" _click=\"${this.createNewVariant}\">Create new variant</button>\n      <style media=\"screen\">\n        #variant${this.state.variantId} {\n          background: #5f616d;\n        }\n      </style>\n      <div id=\"showcases\">\n        <div data-sifrr-repeat=\"${this.state.variants}\">\n          <li class=\"font variant small\" data-variant-id=\"${this.state.variantId}\" id=\"variant${this.state.variantId}\">${this.state.variantName}<span>X</span></li>\n        </div>\n      </div>\n    </div>\n    <div class=\"box\">\n      <label class=\"font small\" for=\"style\">Element CSS Styles</label>\n      <sifrr-code-editor lang=\"css\" data-sifrr-bind=\"style\" value=\"${this.state.style}\"></sifrr-code-editor>\n    </div>\n    <div class=\"box\">\n      <label class=\"font small\" for=\"elState\">Element State Function</label>\n      <sifrr-code-editor id=\"elState\" lang=\"js\" data-sifrr-bind=\"elState\" value=\"${this.state.elState}\"></sifrr-code-editor>\n    </div>\n  </div>\n  <div class=\"flex-column\" id=\"main\">\n    <div class=\"box\" id=\"element\" data-sifrr-html=\"true\">\n      ${this.state.code}\n    </div>\n    <div class=\"box\" id=\"code\">\n      <label class=\"font small\" for=\"elementName\">Element Name</label>\n      <input type=\"text\" name=\"elementName\" placeholder=\"Enter element name here...\" _input=\"${this.updateHtml}\" value=\"${this.state.element}\">\n      <label class=\"font small\" for=\"customUrl\">Custom Url</label>\n      <input type=\"text\" name=\"customUrl\" placeholder=\"Enter element url here...\" value=\"${this.state.elementUrl}\" data-sifrr-bind=\"elementUrl\">\n      <label class=\"font small\" for=\"elementName\">Is JS File</label>\n      <select id=\"isjs\" name=\"isjs\" value=\"${this.state.isjs}\" data-sifrr-bind=\"isjs\">\n        <option value=\"true\">true</option>\n        <option value=\"false\">false</option>\n      </select>\n      <span class=\"font\" id=\"error\"></span>\n      <br>\n      <label class=\"font small\" for=\"htmlcode\">HTML Code</label>\n      <sifrr-code-editor lang=\"html\" data-sifrr-bind=\"code\" value=\"${this.state.code}\"></sifrr-code-editor>\n    </div>\n  </div>\n</div>";
 
-  var css$3 = ":host {\n  display: block;\n  position: relative; }\n\n* {\n  box-sizing: border-box; }\n\n.hljs {\n  width: 100%;\n  height: 100%;\n  font-family: Consolas,Liberation Mono,Courier,monospace;\n  font-size: 14px;\n  line-height: 18px;\n  padding: 8px;\n  margin: 0;\n  position: absolute;\n  white-space: pre-wrap;\n  top: 0;\n  left: 0; }\n\ntextarea {\n  z-index: 2;\n  resize: none;\n  border: none; }\n\ntextarea.loaded {\n  background: transparent !important;\n  text-shadow: 0px 0px 0px rgba(0, 0, 0, 0);\n  text-fill-color: transparent;\n  -webkit-text-fill-color: transparent; }\n\npre {\n  z-index: 1; }\n";
+  var css$3 = ":host {\n  display: block;\n  position: relative; }\n\n* {\n  box-sizing: border-box; }\n\npre, code {\n  width: 100%;\n  display: block; }\n\n.hljs {\n  width: 100%;\n  height: 100%;\n  font-family: Consolas,Liberation Mono,Courier,monospace;\n  font-size: 14px;\n  line-height: 18px;\n  padding: 8px;\n  margin: 0;\n  position: absolute;\n  white-space: pre-wrap;\n  top: 0;\n  left: 0; }\n\n.hljs * {\n  word-break: break-word; }\n\ntextarea {\n  z-index: 2;\n  resize: none;\n  border: none; }\n\ntextarea.loaded {\n  background: transparent !important;\n  text-shadow: 0px 0px 0px rgba(0, 0, 0, 0);\n  text-fill-color: transparent;\n  -webkit-text-fill-color: transparent; }\n\npre {\n  z-index: 1; }\n";
 
   function _templateObject$2() {
     const data = _taggedTemplateLiteral(["\n<style media=\"screen\">\n  ", "\n</style>\n<link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/${this.theme}.min.css\">\n<pre class='hljs'>\n  <code id=\"highlight\" data-sifrr-html=\"true\">\n    ${this.htmlValue}\n  </code>\n</pre>\n<textarea class='hljs' _input=\"${this.input}\"></textarea>"], ["\n<style media=\"screen\">\n  ", "\n</style>\n<link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/\\${this.theme}.min.css\">\n<pre class='hljs'>\n  <code id=\"highlight\" data-sifrr-html=\"true\">\n    \\${this.htmlValue}\n  </code>\n</pre>\n<textarea class='hljs' _input=\"\\${this.input}\"></textarea>"]);
@@ -769,6 +800,7 @@
       try {
         state = new Function(this.$('#elState').value).call(this.element());
       } catch (e) {
+        window.console.warn(e);
       }
       if (state && this.element() && this.element().isSifrr && this.element().state !== state) {
         this.element().state = state;
@@ -1025,8 +1057,9 @@
   }
   SifrrDom.register(SifrrShimmer);
 
-  if (window && window.Sifrr) Sifrr.animate = animate;
+  if (window && window.Sifrr) Sifrr.Anime = Anime;
 
+  exports.Anime = Anime;
   exports.SifrrCodeEditor = SifrrCodeEditor;
   exports.SifrrLazyPicture = SifrrLazyPicture;
   exports.SifrrLazzyImg = SifrrLazyImg;
@@ -1035,7 +1068,6 @@
   exports.SifrrShowcase = SifrrShowcase;
   exports.SifrrStater = SifrrStater;
   exports.SifrrTabs = SifrrTabs;
-  exports.animate = animate;
 
   Object.defineProperty(exports, '__esModule', { value: true });
 

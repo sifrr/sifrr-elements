@@ -1,4 +1,4 @@
-const animations = {
+const types = {
   linear: [0, 0, 1, 1],
   ease: [.25, .1, .25, 1],
   easeIn: [.42, 0, 1, 1],
@@ -44,17 +44,17 @@ class Bezier {
   }
 }
 
-function animate(who, what, to, time = 300, { type = 'ease', from } = {}) {
+function animate(who, what, to, time = 300, { type = 'ease', from, onUpdate = () => {} } = {}) {
   let toBefore = to, preffix = false, suffix = false;
   if (typeof to === 'string') {
-    [preffix, to, suffix] = to.split(/(\d+)(.*)?/).filter(s => s);
-    [, from, ] = (from || who[what]).split(/(\d+)(.*)?/).filter(s => s);
+    [preffix, to, suffix] = to.split(/(\d+)(.*)?/);
+    [, from, ] = (from || who[what]).split(/(\d+)(.*)?/);
     from = Number(from), to = Number(to);
   } else {
     from = who[what];
   }
   const diff = to - from;
-  const animeFxn = new Bezier(animate.types[type] || type);
+  const animeFxn = new Bezier(types[type] || type);
   let startTime;
 
   return new Promise(res => {
@@ -68,12 +68,44 @@ function animate(who, what, to, time = 300, { type = 'ease', from } = {}) {
       let next = animeFxn(percent) * diff + from;
       if (!suffix && !preffix) who[what] = next;
       else who[what] = (preffix ? preffix : '') + next + (suffix ? suffix : '');
+      onUpdate(who, what, who[what]);
       window.requestAnimationFrame(frame);
     }
     window.requestAnimationFrame(frame);
   });
 }
 
-animate.types = animations;
+function animateAll({
+  targets,
+  target,
+  to,
+  time = 300,
+  type = 'ease',
+  onUpdate = () => {}
+} = {}) {
+  targets = Array.from(targets) || [target];
+  function iterate(target, props) {
+    for (let prop in props) {
+      let from, final;
+      if (Array.isArray(props[prop])) [from, final] = props[prop];
+      else final = props[prop];
+      animate(target, prop, final, time, { type, from, onUpdate });
+    }
+  }
+  targets.forEach(target => {
+    iterate(target, to);
+  });
+}
 
-export default animate;
+animate.types = types;
+
+export default {
+  animate,
+  animateAll,
+  types
+};
+export {
+  animate,
+  animateAll,
+  types
+};

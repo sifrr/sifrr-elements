@@ -3,7 +3,7 @@ import SifrrDom from '@sifrr/dom';
 
 var css = ":host {\n  /* CSS for tabs container */\n  line-height: 24px;\n  overflow: hidden;\n  width: 100%;\n  display: block;\n  position: relative; }\n\n.headings {\n  /* CSS for heading bar */\n  width: 100%;\n  overflow-y: hidden;\n  overflow-x: auto;\n  position: relative;\n  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.2); }\n\n.headings ul {\n  padding: 0 0 3px;\n  margin: 0;\n  font-size: 0; }\n\n/* CSS for heading text li */\n.headings *::slotted(*) {\n  font-size: 16px;\n  display: inline-block;\n  text-align: center;\n  padding: 8px;\n  text-decoration: none;\n  list-style: none;\n  color: white;\n  border-bottom: 2px solid transparent;\n  opacity: 0.9;\n  cursor: pointer;\n  box-sizing: border-box; }\n\n.headings *::slotted(*.active) {\n  opacity: 1; }\n\n.headings *::slotted(*:hover) {\n  opacity: 1; }\n\n/* CSS for line under active tab heading */\n.headings .underline {\n  position: absolute;\n  bottom: 0;\n  left: 0;\n  height: 3px;\n  background: white; }\n\n/* Arrows css */\n.arrow {\n  position: absolute;\n  z-index: 5;\n  top: 0;\n  bottom: 0; }\n\n.arrow > * {\n  position: absolute;\n  width: 8px;\n  height: 8px;\n  margin: -6px 5px;\n  top: 50%;\n  border: solid white;\n  border-width: 0 3px 3px 0;\n  display: inline-block;\n  padding: 3px;\n  filter: drop-shadow(-1px -1px 3px #000); }\n\n.arrow.l {\n  left: 0;\n  cursor: w-resize; }\n\n.arrow.l > * {\n  left: 0;\n  transform: rotate(135deg); }\n\n.arrow.r {\n  right: 0;\n  cursor: e-resize; }\n\n.arrow.r > * {\n  right: 0;\n  transform: rotate(-45deg); }\n\n/* Tab container css */\n.content {\n  width: 100%;\n  height: 100%;\n  overflow-x: auto;\n  overflow-y: hidden;\n  margin: 0;\n  line-height: normal;\n  box-sizing: border-box; }\n\n.content .tabs {\n  min-height: 1px; }\n\n/* Tab element css */\n.content *::slotted([slot=\"tab\"]) {\n  float: left;\n  max-height: 100%;\n  height: 100%;\n  overflow-x: hidden;\n  overflow-y: auto;\n  vertical-align: top;\n  padding: 8px;\n  box-sizing: border-box; }\n";
 
-const animations = {
+const types = {
   linear: [0, 0, 1, 1],
   ease: [.25, .1, .25, 1],
   easeIn: [.42, 0, 1, 1],
@@ -44,17 +44,17 @@ class Bezier {
     return t;
   }
 }
-function animate(who, what, to, time = 300, { type = 'ease', from } = {}) {
+function animate(who, what, to, time = 300, { type = 'ease', from, onUpdate = () => {} } = {}) {
   let toBefore = to, preffix = false, suffix = false;
   if (typeof to === 'string') {
-    [preffix, to, suffix] = to.split(/(\d+)(.*)?/).filter(s => s);
-    [, from, ] = (from || who[what]).split(/(\d+)(.*)?/).filter(s => s);
+    [preffix, to, suffix] = to.split(/(\d+)(.*)?/);
+    [, from, ] = (from || who[what]).split(/(\d+)(.*)?/);
     from = Number(from), to = Number(to);
   } else {
     from = who[what];
   }
   const diff = to - from;
-  const animeFxn = new Bezier(animate.types[type] || type);
+  const animeFxn = new Bezier(types[type] || type);
   let startTime;
   return new Promise(res => {
     function frame(currentTime) {
@@ -67,12 +67,13 @@ function animate(who, what, to, time = 300, { type = 'ease', from } = {}) {
       let next = animeFxn(percent) * diff + from;
       if (!suffix && !preffix) who[what] = next;
       else who[what] = (preffix ? preffix : '') + next + (suffix ? suffix : '');
+      onUpdate(who, what, who[what]);
       window.requestAnimationFrame(frame);
     }
     window.requestAnimationFrame(frame);
   });
 }
-animate.types = animations;
+animate.types = types;
 
 const template = SifrrDom.template`<style media="screen">
   ${css}

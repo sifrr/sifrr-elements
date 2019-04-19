@@ -258,7 +258,7 @@
           "variantId": 1,
           "style": "#element > p {\n  padding: 10px;\n  background: white;\n}",
           "code": "<p>preffix 0 suffix</p>",
-          "elState": "// this = first element in given html\nSifrr.animate(this, 'textContent', 'preffix 100 suffix', 1000, {\n  preffix: 'preffix ',\n  suffix: ' suffix'\n});",
+          "elState": "// this = first element in given html\nSifrr.Anime.animate(this, 'textContent', 'preffix 100 suffix', 1000, {\n  preffix: 'preffix ',\n  suffix: ' suffix'\n});",
           "variantName": "animate text content"
         },
         {
@@ -266,22 +266,29 @@
           "variantName": "animate style",
           "style": "#element > div {\n  padding: 10px;\n  background: white;\n  width: 60px;\n}",
           "code": "<div style=\"transform: translate(0px, 0px)\">move</div>",
-          "elState": "// this = first element in given html\nSifrr.animate(this.style, 'transform', 'translate(100px, 0px)', 300, {\n  preffix: 'translate(',\n  suffix: 'px, 0px)',\n  type: 'easeOut'\n});"
+          "elState": "// this = first element in given html\nSifrr.Anime.animate(this.style, 'transform', 'translate(100px, 0px)', 300, {\n  preffix: 'translate(',\n  suffix: 'px, 0px)',\n  type: 'easeOut'\n});"
         },
         {
           "variantId": 3,
           "variantName": "promise based",
           "style": "#element > * {\n  padding: 10px;\n  background: white;\n  width: 60px;\n}",
-          "code": "<div style=\"transform: translate(0px, 0px)\">move</div>\n<p></p>",
-          "elState": "// this = first element in given html\nSifrr.animate(this.style, 'transform', 'translate(100px, 0px)', 300, {\n  preffix: 'translate(',\n  suffix: 'px, 0px)',\n  type: 'easeOut'\n}).then(() => {\n  this.nextElementSibling.textContent ='moved';\n});"
+          "code": "<div style=\"transform: translate(50px, 0px);\">move</div>\n<p></p>",
+          "elState": "// this = first element in given html\nSifrr.Anime.animate(this.style, 'transform', 'translate(100px, 0px)', 1000, {\n  preffix: 'translate(',\n  suffix: 'px, 0px)',\n  type: 'easeOut'\n}).then(() => {\n  this.nextElementSibling.textContent ='moved';\n});"
+        },
+        {
+          "variantId": 4,
+          "variantName": "multiple",
+          "style": "#element > * {\n  padding: 10px;\n  background: white;\n  width: 60px;\n}",
+          "code": "<div style=\"transform: translate(50px, 0px); width: 100px;\">move</div>\n<p style=\"transform: translate(50px, 0px); width: 100px;\"></p>",
+          "elState": "// this = first element in given html\nconst elements = Array.from(this.parentNode.children);\n\nSifrr.Anime.animateAll({\n  targets: elements.map(e => e.style),\n  to: {\n    transform: 'translate(100px, 0px)',\n    width: '300px'\n  }\n});\n\n"
         }
       ],
       "element": "sifrr-shimmer",
-      "code": "<div style=\"transform: translate(0px, 0px)\">move</div>\n<p></p>",
-      "variantId": 3,
-      "variantName": "promise based",
-      "style": "#element > * {\n  padding: 10px;\n  background: white;\n  width: 60px;\n}",
-      "elState": "// this = first element in given html\nSifrr.animate(this.style, 'transform', 'translate(100px, 0px)', 300, {\n  preffix: 'translate(',\n  suffix: 'px, 0px)',\n  type: 'easeOut'\n}).then(() => {\n  this.nextElementSibling.textContent ='moved';\n});"
+      "code": "<p>preffix 0 suffix</p>",
+      "variantId": 1,
+      "variantName": "animate text content",
+      "style": "#element > p {\n  padding: 10px;\n  background: white;\n}",
+      "elState": "// this = first element in given html\nSifrr.Anime.animate(this, 'textContent', 'preffix 100 suffix', 1000, {\n  preffix: 'preffix ',\n  suffix: ' suffix'\n});"
     }
   ]
 }

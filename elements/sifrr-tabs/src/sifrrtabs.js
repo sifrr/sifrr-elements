@@ -1,6 +1,6 @@
 import SifrrDom from '@sifrr/dom';
 import style from './style.scss';
-import animate from '../../../helpers/animate';
+import { animate } from '../../../helpers/animate';
 
 const template = SifrrDom.template`<style media="screen">
   ${style}

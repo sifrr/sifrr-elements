@@ -9,7 +9,7 @@ export { default as SifrrProgressRound } from '../elements/sifrr-progress-round/
 export { default as SifrrShimmer } from '../elements/sifrr-shimmer/src/sifrrshimmer';
 
 // helpers
-export { default as animate } from '../helpers/animate';
-import animate from '../helpers/animate';
-if (window && window.Sifrr) Sifrr.animate = animate;
+export { default as Anime } from '../helpers/animate';
+import Anime from '../helpers/animate';
+if (window && window.Sifrr) Sifrr.Anime = Anime;
 // window.animate = animate;
