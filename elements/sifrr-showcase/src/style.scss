@@ -83,11 +83,17 @@ ul {
   padding: 8px;
   margin: 0;
 }
+#variants {
+  height: calc(100% - 86px);
+  overflow-y: scroll;
+}
 .variant, .showcase {
   list-style-type: none;
+  border-bottom: 1px solid #5f616d; 
   span {
     color: red;
     float: right;
+    margin-right: 10px;
   }
 }
 #saver, #loader {

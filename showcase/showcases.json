@@ -1,5 +1,5 @@
 {
-  "current": 3,
+  "current": 4,
   "showcases": [
     {
       "id": 1,
@@ -85,84 +85,84 @@
         {
           "variantId": 1,
           "variantName": "with menu and content",
-          "style": "#element > * {\n  background-color: white;\n  display: block;\n}",
+          "style": "#element > * {\n  background-color: white;\n}",
           "code": "<sifrr-tabs>\n        <li slot='heading'>Heading 1</li>\n        <li slot='heading'>Heading 2 - sdfsdfsdafsdf d sdf af </li>\n        <li slot='heading'>Heading 3 - sdf ssd fdsf sf </li>\n        <li slot='heading'>Heading 4 - vesdfdf d df dfds dsf dsf </li>\n        <div slot='tab'>\n          <p>Tab 1</p>\n          <p>Tab 1</p>\n          <p>Tab 1</p>\n          <p>Tab 1</p>\n          <p>Tab 1</p>\n          <p>Tab 1</p>\n        </div>\n        <div slot='tab'>\n          <p>Tab 2</p>\n          <p>Tab 2</p>\n          <p>Tab 2</p>\n        </div>\n        <div slot='tab'>\n          <p>Tab 3</p>\n        </div>\n        <div slot='tab'>\n          <p>Tab 4</p>\n        </div>\n      </sifrr-tabs>",
           "elState": "return {\n\n}"
         },
         {
           "variantId": 11,
           "variantName": "different menu color / border radius",
-          "style": "#element > * {\n  background-color: white;\n  display: block;\n  border-radius: 5px;\n}",
+          "style": "#element > * {\n  background-color: white;\n  border-radius: 5px;\n}",
           "code": "<sifrr-tabs options='{ \"background\": \"black\" }'>\n        <li slot='heading'>Heading 1</li>\n        <li slot='heading'>Heading 2 - sdfsdfsdafsdf d sdf af </li>\n        <li slot='heading'>Heading 3 - sdf ssd fdsf sf </li>\n        <li slot='heading'>Heading 4 - vesdfdf d df dfds dsf dsf </li>\n        <div slot='tab'>\n          <p>Tab 1</p>\n          <p>Tab 1</p>\n          <p>Tab 1</p>\n          <p>Tab 1</p>\n          <p>Tab 1</p>\n          <p>Tab 1</p>\n        </div>\n        <div slot='tab'>\n          <p>Tab 2</p>\n          <p>Tab 2</p>\n          <p>Tab 2</p>\n        </div>\n        <div slot='tab'>\n          <p>Tab 3</p>\n        </div>\n        <div slot='tab'>\n          <p>Tab 4</p>\n        </div>\n      </sifrr-tabs>",
           "elState": "return {\n\n}"
         },
         {
           "variantId": 2,
           "variantName": "without menu, with arrows",
-          "style": "#element > * {\n  background-color: white;\n  display: block;\n}",
+          "style": "#element > * {\n  background-color: white;\n}",
           "code": "<sifrr-tabs options='{ \"showMenu\": false, \"showArrows\": true }'>\n        <div slot='tab'>\n          Tab 1\n        </div>\n        <div slot='tab'>\n          Tab 2\n        </div>\n      </sifrr-tabs>",
           "elState": "return {\n\n}"
         },
         {
           "variantId": 12,
           "variantName": "arrow big area to clickk",
-          "style": "#element > * {\n  background-color: white;\n  display: block;\n}",
+          "style": "#element > * {\n  background-color: white;\n}",
           "code": "<sifrr-tabs options='{ \"showMenu\": false, \"showArrows\": true, \"arrowWidth\": \"30%\" }'>\n        <div slot='tab'>\n          Tab 1\n        </div>\n        <div slot='tab'>\n          Tab 2\n        </div>\n      </sifrr-tabs>",
           "elState": "return {\n\n}"
         },
         {
           "variantId": 10,
           "variantName": "without menu, with arrows, arrow margin",
-          "style": "#element > * {\n  background-color: white;\n  display: block;\n}",
+          "style": "#element > * {\n  background-color: white;\n}",
           "code": "<sifrr-tabs options='{ \"showMenu\": false, \"showArrows\": true, \"arrowMargin\": 20 }'>\n        <div slot='tab'>\n          Tab 1\n        </div>\n        <div slot='tab'>\n          Tab 2\n        </div>\n      </sifrr-tabs>",
           "elState": "return {\n\n}"
         },
         {
           "variantId": 3,
           "variantName": "without menu, with arrows, looped",
-          "style": "#element > * {\n  background-color: white;\n  display: block;\n}",
+          "style": "#element > * {\n  background-color: white;\n}",
           "code": "<sifrr-tabs options='{ \"showMenu\": false, \"showArrows\": true, \"loop\": true }'>\n        <div slot='tab'>\n          Tab 1\n        </div>\n        <div slot='tab'>\n          Tab 2\n        </div>\n        <div slot='tab'>\n          Tab 3\n        </div>\n      </sifrr-tabs>",
           "elState": "return {\n\n}"
         },
         {
           "variantId": 4,
           "variantName": "with multiple tabs (integer) in view",
-          "style": "#element > * {\n  background-color: white;\n  display: block;\n}",
+          "style": "#element > * {\n  background-color: white;\n}",
           "code": "<sifrr-tabs options='{ \"showMenu\": false, \"showArrows\": true, \"num\": 3 }'>\n        <div slot='tab'>\n          Tab 1\n        </div>\n        <div slot='tab'>\n          Tab 2\n        </div>\n        <div slot='tab'>\n          Tab 3\n        </div>\n        <div slot='tab'>\n          Tab 4\n        </div>\n        <div slot='tab'>\n          Tab 5\n        </div>\n        <div slot='tab'>\n          Tab 6\n        </div>\n      </sifrr-tabs>\n",
           "elState": "return {\n\n}"
         },
         {
           "variantId": 5,
           "variantName": "with multiple tabs in view, looped, and arrow steps more than 1",
-          "style": "#element > * {\n  background-color: white;\n  display: block;\n}",
+          "style": "#element > * {\n  background-color: white;\n}",
           "code": "<sifrr-tabs options='{ \"showMenu\": false, \"showArrows\": true, \"num\": 3, \"loop\": true, \"step\": 3 }'>\n        <div slot='tab'>\n          Tab 1\n        </div>\n        <div slot='tab'>\n          Tab 2\n        </div>\n        <div slot='tab'>\n          Tab 3\n        </div>\n        <div slot='tab'>\n          Tab 4\n        </div>\n        <div slot='tab'>\n          Tab 5\n        </div>\n        <div slot='tab'>\n          Tab 6\n        </div>\n      </sifrr-tabs>\n",
           "elState": "return {\n\n}"
         },
         {
           "variantId": 6,
           "variantName": "with pre defined tab height",
-          "style": "#element > * {\n  background-color: white;\n  display: block;\n}",
+          "style": "#element > * {\n  background-color: white;\n}",
           "code": "<sifrr-tabs options='{ \"tabHeight\": \"100px\" }'>\n        <a slot='heading'>Heading 1</a>\n        <a slot='heading'>Heading 2</a>\n        <div slot='tab'>\n          Tab 1\n        </div>\n        <div slot='tab'>\n          Tab 2\n        </div>\n      </sifrr-tabs>",
           "elState": "return {\n\n}"
         },
         {
           "variantId": 7,
           "variantName": "with no animation",
-          "style": "#element > * {\n  background-color: white;\n  display: block;\n}",
+          "style": "#element > * {\n  background-color: white;\n}",
           "code": "<sifrr-tabs options='{ \"animation\": \"none\" }'>\n        <li slot='heading'>Heading 1</li>\n        <li slot='heading'>Heading 2</li>\n        <div slot='tab'>\n          Tab 1\n        </div>\n        <div slot='tab'>\n          Tab 2\n        </div>\n      </sifrr-tabs>",
           "elState": "return {\n\n}"
         },
         {
           "variantId": 8,
           "variantName": "with arrowMargins",
-          "style": "#element > * {\n  background-color: white;\n  display: block;\n}",
+          "style": "#element > * {\n  background-color: white;\n}",
           "code": "<sifrr-tabs options='{ \"showMenu\": false, \"showArrows\": true, \"arrowMargin\": 25 }'>\n        <div slot='tab'>\n          Tab 1\n        </div>\n        <div slot='tab'>\n          Tab 2\n        </div>\n      </sifrr-tabs>",
           "elState": "return {\n\n}"
         },
         {
           "variantId": 9,
           "variantName": "images carousel",
-          "style": "#element > * {\n  background-color: white;\n  display: block;\n}\n#element > * > img {\n  height: 100%;\n}",
+          "style": "#element > * {\n  background-color: white;\n}\n#element > * > img {\n  height: 100%;\n}",
           "code": "<sifrr-tabs options='{ \"showMenu\": false, \"showArrows\": true, \"tabHeight\": \"400px\" }'>\n  <img slot=\"tab\" src=\"https://static.adweek.com/adweek.com-prod/wp-content/uploads/files/blogs/google-logo-hed-2014.jpg\">\n  <img slot=\"tab\" src=\"https://static.adweek.com/adweek.com-prod/wp-content/uploads/files/blogs/google-logo-hed-2014.jpg\">\n  <img slot=\"tab\" src=\"https://static.adweek.com/adweek.com-prod/wp-content/uploads/files/blogs/google-logo-hed-2014.jpg\">\n  <img slot=\"tab\" src=\"https://static.adweek.com/adweek.com-prod/wp-content/uploads/files/blogs/google-logo-hed-2014.jpg\">\n</sifrr-tabs>",
           "elState": "return {\n\n}"
         }
@@ -171,10 +171,10 @@
       "element": "sifrr-tabs",
       "elementUrl": "",
       "isjs": true,
-      "variantName": "with menu and content",
-      "variantId": 1,
-      "style": "#element > * {\n  background-color: white;\n  display: block;\n}",
-      "code": "<sifrr-tabs>\n        <li slot='heading'>Heading 1</li>\n        <li slot='heading'>Heading 2 - sdfsdfsdafsdf d sdf af </li>\n        <li slot='heading'>Heading 3 - sdf ssd fdsf sf </li>\n        <li slot='heading'>Heading 4 - vesdfdf d df dfds dsf dsf </li>\n        <div slot='tab'>\n          <p>Tab 1</p>\n          <p>Tab 1</p>\n          <p>Tab 1</p>\n          <p>Tab 1</p>\n          <p>Tab 1</p>\n          <p>Tab 1</p>\n        </div>\n        <div slot='tab'>\n          <p>Tab 2</p>\n          <p>Tab 2</p>\n          <p>Tab 2</p>\n        </div>\n        <div slot='tab'>\n          <p>Tab 3</p>\n        </div>\n        <div slot='tab'>\n          <p>Tab 4</p>\n        </div>\n      </sifrr-tabs>",
+      "variantName": "images carousel",
+      "variantId": 9,
+      "style": "#element > * {\n  background-color: white;\n}\n#element > * > img {\n  height: 100%;\n}",
+      "code": "<sifrr-tabs options='{ \"showMenu\": false, \"showArrows\": true, \"tabHeight\": \"400px\" }'>\n  <img slot=\"tab\" src=\"https://static.adweek.com/adweek.com-prod/wp-content/uploads/files/blogs/google-logo-hed-2014.jpg\">\n  <img slot=\"tab\" src=\"https://static.adweek.com/adweek.com-prod/wp-content/uploads/files/blogs/google-logo-hed-2014.jpg\">\n  <img slot=\"tab\" src=\"https://static.adweek.com/adweek.com-prod/wp-content/uploads/files/blogs/google-logo-hed-2014.jpg\">\n  <img slot=\"tab\" src=\"https://static.adweek.com/adweek.com-prod/wp-content/uploads/files/blogs/google-logo-hed-2014.jpg\">\n</sifrr-tabs>",
       "elState": "return {\n\n}"
     },
     {
