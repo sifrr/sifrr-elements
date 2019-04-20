@@ -765,21 +765,6 @@
     mkdirp "^0.5.1"
     rimraf "^2.5.2"
 
-"@sifrr/dom@^0.0.4":
-  version "0.0.4"
-  resolved "https://registry.yarnpkg.com/@sifrr/dom/-/dom-0.0.4.tgz#1118a18e003d240be40353d7618f79b316bd9a67"
-  integrity sha512-LnJgiJSeVcOyivL5UUTPJtaQeM9wiLBFiCX7hCMl4JfkoYJojXTZB8pd0I/lvK/SLdQWtxdSLaMvOm3FgCXeJQ==
-
-"@sifrr/fetch@^0.0.4":
-  version "0.0.4"
-  resolved "https://registry.yarnpkg.com/@sifrr/fetch/-/fetch-0.0.4.tgz#5eaa5f8cc830b2de077b289040cbab54f712e883"
-  integrity sha512-S2nxFqiEf0mP89y0LPBrGhfQjYZpKneCxbiqimnx8O7kvEDtWvYVUkh0PPJN9IrH2MEpwQQ0FzTennd62rqFng==
-
-"@sifrr/storage@^0.0.4":
-  version "0.0.4"
-  resolved "https://registry.yarnpkg.com/@sifrr/storage/-/storage-0.0.4.tgz#8e5ad11363b8d9a0cbc93bcb00f1331689a55d48"
-  integrity sha512-b5umDGD0Mi3a40Rjx6tEAQMrFProb/iFlt+x0/T2FsA12wfoSwrbneL37N7AXKl3d6/lhBO9+J9Ed6cgf/kHTA==
-
 "@sinonjs/commons@^1", "@sinonjs/commons@^1.0.2", "@sinonjs/commons@^1.4.0":
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/@sinonjs/commons/-/commons-1.4.0.tgz#7b3ec2d96af481d7a0321252e7b1c94724ec5a78"
