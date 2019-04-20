@@ -208,7 +208,14 @@ class SifrrTabs extends SifrrDom.Element {
     let i = this.state.active;
     i = this.getTabNumber(i);
     if (!isNaN(i) && i !== this.state.active) return this.active = i;
-    animate(this.options.content, 'scrollLeft', i * (this.tabWidth + 2 * this.options.arrowMargin), this.options.animationTime, { type: this.options.animation });
+    animate({
+      target: this.options.content,
+      to: {
+        scrollLeft: i * (this.tabWidth + 2 * this.options.arrowMargin)
+      },
+      time: this.options.animationTime,
+      type: this.options.animation
+    });
     removeExceptOne(this.options.tabs, 'active', i);
     removeExceptOne(this.options.tabs, 'prev', this.getTabNumber(i - 1));
     removeExceptOne(this.options.tabs, 'next', this.getTabNumber(i + 1));

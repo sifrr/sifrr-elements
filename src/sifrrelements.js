@@ -10,6 +10,10 @@ export { default as SifrrShimmer } from '../elements/sifrr-shimmer/src/sifrrshim
 
 // helpers
 export { default as Anime } from '../helpers/animate';
-import Anime from '../helpers/animate';
-if (window && window.Sifrr) Sifrr.Anime = Anime;
+export { animate as animate } from '../helpers/animate';
+import { animate, types } from '../helpers/animate';
+if (window && window.Sifrr) {
+  Sifrr.animate = animate;
+  Sifrr.animate.types = types;
+}
 // window.animate = animate;

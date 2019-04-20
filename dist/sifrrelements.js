@@ -159,10 +159,11 @@
       return t;
     }
   }
-  function animate(who, what, to, time = 300, {
+  function animateOne(who, what, to, time = 300, {
     type = 'ease',
     from,
-    onUpdate = () => {}
+    onUpdate = () => {},
+    round = false
   } = {}) {
     let toBefore = to,
         preffix = false,
@@ -186,6 +187,7 @@
           return res();
         }
         let next = animeFxn(percent) * diff + from;
+        if (round) next = Math.round(next);
         if (!suffix && !preffix) who[what] = next;else who[what] = (preffix ? preffix : '') + next + (suffix ? suffix : '');
         onUpdate(who, what, who[what]);
         window.requestAnimationFrame(frame);
@@ -193,35 +195,40 @@
       window.requestAnimationFrame(frame);
     });
   }
-  function animateAll({
+  function animate({
     targets,
     target,
     to,
-    time = 300,
-    type = 'ease',
-    onUpdate = () => {}
+    time,
+    type,
+    onUpdate,
+    round
   } = {}) {
-    targets = Array.from(targets) || [target];
+    targets = targets ? Array.from(targets) : [target];
     function iterate(target, props) {
+      const promises = [];
       for (let prop in props) {
         let from, final;
         if (Array.isArray(props[prop])) [from, final] = props[prop];else final = props[prop];
-        animate(target, prop, final, time, {
+        promises.push(animateOne(target, prop, final, time, {
           type,
           from,
-          onUpdate
-        });
+          onUpdate,
+          round
+        }));
       }
+      return Promise.all(promises);
     }
-    targets.forEach(target => {
-      iterate(target, to);
-    });
+    return Promise.all(targets.map(target => iterate(target, to)));
   }
   animate.types = types;
-  const Anime = {
+  function wait(time = 0) {
+    return new Promise(res => setTimeout(res, time));
+  }
+  const animate$1 = {
     animate,
-    animateAll,
-    types
+    types,
+    wait
   };
 
   function _templateObject() {
@@ -383,7 +390,12 @@
       let i = this.state.active;
       i = this.getTabNumber(i);
       if (!isNaN(i) && i !== this.state.active) return this.active = i;
-      animate(this.options.content, 'scrollLeft', i * (this.tabWidth + 2 * this.options.arrowMargin), this.options.animationTime, {
+      animate({
+        target: this.options.content,
+        to: {
+          scrollLeft: i * (this.tabWidth + 2 * this.options.arrowMargin)
+        },
+        time: this.options.animationTime,
         type: this.options.animation
       });
       removeExceptOne(this.options.tabs, 'active', i);
@@ -1057,9 +1069,12 @@
   }
   SifrrDom.register(SifrrShimmer);
 
-  if (window && window.Sifrr) Sifrr.Anime = Anime;
+  if (window && window.Sifrr) {
+    Sifrr.animate = animate;
+    Sifrr.animate.types = types;
+  }
 
-  exports.Anime = Anime;
+  exports.Anime = animate$1;
   exports.SifrrCodeEditor = SifrrCodeEditor;
   exports.SifrrLazyPicture = SifrrLazyPicture;
   exports.SifrrLazzyImg = SifrrLazyImg;
@@ -1068,6 +1083,7 @@
   exports.SifrrShowcase = SifrrShowcase;
   exports.SifrrStater = SifrrStater;
   exports.SifrrTabs = SifrrTabs;
+  exports.animate = animate;
 
   Object.defineProperty(exports, '__esModule', { value: true });
 

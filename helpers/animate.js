@@ -44,7 +44,7 @@ class Bezier {
   }
 }
 
-function animate(who, what, to, time = 300, { type = 'ease', from, onUpdate = () => {} } = {}) {
+function animateOne(who, what, to, time = 300, { type = 'ease', from, onUpdate = () => {}, round = false } = {}) {
   let toBefore = to, preffix = false, suffix = false;
   if (typeof to === 'string') {
     [preffix, to, suffix] = to.split(/(\d+)(.*)?/);
@@ -66,6 +66,7 @@ function animate(who, what, to, time = 300, { type = 'ease', from, onUpdate = ()
         return res();
       }
       let next = animeFxn(percent) * diff + from;
+      if (round) next = Math.round(next);
       if (!suffix && !preffix) who[what] = next;
       else who[what] = (preffix ? preffix : '') + next + (suffix ? suffix : '');
       onUpdate(who, what, who[what]);
@@ -75,37 +76,42 @@ function animate(who, what, to, time = 300, { type = 'ease', from, onUpdate = ()
   });
 }
 
-function animateAll({
+function animate({
   targets,
   target,
   to,
-  time = 300,
-  type = 'ease',
-  onUpdate = () => {}
+  time,
+  type,
+  onUpdate,
+  round
 } = {}) {
-  targets = Array.from(targets) || [target];
+  targets = targets ? Array.from(targets) : [target];
   function iterate(target, props) {
+    const promises = [];
     for (let prop in props) {
       let from, final;
       if (Array.isArray(props[prop])) [from, final] = props[prop];
       else final = props[prop];
-      animate(target, prop, final, time, { type, from, onUpdate });
+      promises.push(animateOne(target, prop, final, time, { type, from, onUpdate, round }));
     }
+    return Promise.all(promises);
   }
-  targets.forEach(target => {
-    iterate(target, to);
-  });
+  return Promise.all(targets.map(target => iterate(target, to)));
 }
 
 animate.types = types;
 
+function wait(time = 0) {
+  return new Promise(res => setTimeout(res, time));
+}
+
 export default {
   animate,
-  animateAll,
-  types
+  types,
+  wait
 };
 export {
   animate,
-  animateAll,
-  types
+  types,
+  wait
 };

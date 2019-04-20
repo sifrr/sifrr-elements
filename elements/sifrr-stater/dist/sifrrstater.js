@@ -63,10 +63,11 @@
       return t;
     }
   }
-  function animate(who, what, to, time = 300, {
+  function animateOne(who, what, to, time = 300, {
     type = 'ease',
     from,
-    onUpdate = () => {}
+    onUpdate = () => {},
+    round = false
   } = {}) {
     let toBefore = to,
         preffix = false,
@@ -90,12 +91,39 @@
           return res();
         }
         let next = animeFxn(percent) * diff + from;
+        if (round) next = Math.round(next);
         if (!suffix && !preffix) who[what] = next;else who[what] = (preffix ? preffix : '') + next + (suffix ? suffix : '');
         onUpdate(who, what, who[what]);
         window.requestAnimationFrame(frame);
       }
       window.requestAnimationFrame(frame);
     });
+  }
+  function animate({
+    targets,
+    target,
+    to,
+    time,
+    type,
+    onUpdate,
+    round
+  } = {}) {
+    targets = targets ? Array.from(targets) : [target];
+    function iterate(target, props) {
+      const promises = [];
+      for (let prop in props) {
+        let from, final;
+        if (Array.isArray(props[prop])) [from, final] = props[prop];else final = props[prop];
+        promises.push(animateOne(target, prop, final, time, {
+          type,
+          from,
+          onUpdate,
+          round
+        }));
+      }
+      return Promise.all(promises);
+    }
+    return Promise.all(targets.map(target => iterate(target, to)));
   }
   animate.types = types;
 
@@ -258,7 +286,12 @@
       let i = this.state.active;
       i = this.getTabNumber(i);
       if (!isNaN(i) && i !== this.state.active) return this.active = i;
-      animate(this.options.content, 'scrollLeft', i * (this.tabWidth + 2 * this.options.arrowMargin), this.options.animationTime, {
+      animate({
+        target: this.options.content,
+        to: {
+          scrollLeft: i * (this.tabWidth + 2 * this.options.arrowMargin)
+        },
+        time: this.options.animationTime,
         type: this.options.animation
       });
       removeExceptOne(this.options.tabs, 'active', i);

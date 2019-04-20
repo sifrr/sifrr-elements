@@ -1,5 +1,5 @@
 {
-  "current": 6,
+  "current": 3,
   "showcases": [
     {
       "id": 1,
@@ -171,10 +171,10 @@
       "element": "sifrr-tabs",
       "elementUrl": "",
       "isjs": true,
-      "variantName": "with pre defined tab height",
-      "variantId": 6,
+      "variantName": "with menu and content",
+      "variantId": 1,
       "style": "#element > * {\n  background-color: white;\n  display: block;\n}",
-      "code": "<sifrr-tabs options='{ \"tabHeight\": \"100px\" }'>\n        <a slot='heading'>Heading 1</a>\n        <a slot='heading'>Heading 2</a>\n        <div slot='tab'>\n          Tab 1\n        </div>\n        <div slot='tab'>\n          Tab 2\n        </div>\n      </sifrr-tabs>",
+      "code": "<sifrr-tabs>\n        <li slot='heading'>Heading 1</li>\n        <li slot='heading'>Heading 2 - sdfsdfsdafsdf d sdf af </li>\n        <li slot='heading'>Heading 3 - sdf ssd fdsf sf </li>\n        <li slot='heading'>Heading 4 - vesdfdf d df dfds dsf dsf </li>\n        <div slot='tab'>\n          <p>Tab 1</p>\n          <p>Tab 1</p>\n          <p>Tab 1</p>\n          <p>Tab 1</p>\n          <p>Tab 1</p>\n          <p>Tab 1</p>\n        </div>\n        <div slot='tab'>\n          <p>Tab 2</p>\n          <p>Tab 2</p>\n          <p>Tab 2</p>\n        </div>\n        <div slot='tab'>\n          <p>Tab 3</p>\n        </div>\n        <div slot='tab'>\n          <p>Tab 4</p>\n        </div>\n      </sifrr-tabs>",
       "elState": "return {\n\n}"
     },
     {
@@ -258,7 +258,7 @@
           "variantId": 1,
           "style": "#element > p {\n  padding: 10px;\n  background: white;\n}",
           "code": "<p>preffix 0 suffix</p>",
-          "elState": "// this = first element in given html\nSifrr.Anime.animate(this, 'textContent', 'preffix 100 suffix', 1000, {\n  preffix: 'preffix ',\n  suffix: ' suffix'\n});",
+          "elState": "// this = first element in given html\nSifrr.animate({\n  target: this, \n  to: {\n    textContent: 'preffix 100 suffix'\n  },\n  time: 1000,\n  round: true\n});",
           "variantName": "animate text content"
         },
         {
@@ -266,29 +266,29 @@
           "variantName": "animate style",
           "style": "#element > div {\n  padding: 10px;\n  background: white;\n  width: 60px;\n}",
           "code": "<div style=\"transform: translate(0px, 0px)\">move</div>",
-          "elState": "// this = first element in given html\nSifrr.Anime.animate(this.style, 'transform', 'translate(100px, 0px)', 300, {\n  preffix: 'translate(',\n  suffix: 'px, 0px)',\n  type: 'easeOut'\n});"
+          "elState": "// this = first element in given html\nSifrr.animate({\n  target: this.style, \n  to: {\n    transform: 'translate(100px, 0px)'\n  },\n  time: 300,\n  type: 'easeOut',\n  round: true\n});"
         },
         {
           "variantId": 3,
           "variantName": "promise based",
           "style": "#element > * {\n  padding: 10px;\n  background: white;\n  width: 60px;\n}",
           "code": "<div style=\"transform: translate(50px, 0px);\">move</div>\n<p></p>",
-          "elState": "// this = first element in given html\nSifrr.Anime.animate(this.style, 'transform', 'translate(100px, 0px)', 1000, {\n  preffix: 'translate(',\n  suffix: 'px, 0px)',\n  type: 'easeOut'\n}).then(() => {\n  this.nextElementSibling.textContent ='moved';\n});"
+          "elState": "// this = first element in given html\n// this = first element in given html\nSifrr.animate({\n  target: this.style, \n  to: {\n    transform: 'translate(100px, 0px)'\n  },\n  time: 300,\n  type: 'easeOut',\n  round: true\n}).then(() => {\n  this.nextElementSibling.textContent ='moved';\n});"
         },
         {
           "variantId": 4,
           "variantName": "multiple",
           "style": "#element > * {\n  padding: 10px;\n  background: white;\n  width: 60px;\n}",
           "code": "<div style=\"transform: translate(50px, 0px); width: 100px;\">move</div>\n<p style=\"transform: translate(50px, 0px); width: 100px;\"></p>",
-          "elState": "// this = first element in given html\nconst elements = Array.from(this.parentNode.children);\n\nSifrr.Anime.animateAll({\n  targets: elements.map(e => e.style),\n  to: {\n    transform: 'translate(100px, 0px)',\n    width: '300px'\n  }\n});\n\n"
+          "elState": "// this = first element in given html\nconst elements = Array.from(this.parentNode.children);\n\nSifrr.animate({\n  targets: elements.map(e => e.style),\n  to: {\n    transform: 'translate(100px, 0px)',\n    width: '300px'\n  }\n});\n\n"
         }
       ],
       "element": "sifrr-shimmer",
-      "code": "<p>preffix 0 suffix</p>",
-      "variantId": 1,
-      "variantName": "animate text content",
-      "style": "#element > p {\n  padding: 10px;\n  background: white;\n}",
-      "elState": "// this = first element in given html\nSifrr.Anime.animate(this, 'textContent', 'preffix 100 suffix', 1000, {\n  preffix: 'preffix ',\n  suffix: ' suffix'\n});"
+      "code": "<div style=\"transform: translate(50px, 0px); width: 100px;\">move</div>\n<p style=\"transform: translate(50px, 0px); width: 100px;\"></p>",
+      "variantId": 4,
+      "variantName": "multiple",
+      "style": "#element > * {\n  padding: 10px;\n  background: white;\n  width: 60px;\n}",
+      "elState": "// this = first element in given html\nconst elements = Array.from(this.parentNode.children);\n\nSifrr.animate({\n  targets: elements.map(e => e.style),\n  to: {\n    transform: 'translate(100px, 0px)',\n    width: '300px'\n  }\n});\n\n"
     }
   ]
 }

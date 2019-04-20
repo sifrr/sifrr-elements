@@ -137,7 +137,7 @@ class Bezier {
     return t;
   }
 }
-function animate(who, what, to, time = 300, { type = 'ease', from, onUpdate = () => {} } = {}) {
+function animateOne(who, what, to, time = 300, { type = 'ease', from, onUpdate = () => {}, round = false } = {}) {
   let toBefore = to, preffix = false, suffix = false;
   if (typeof to === 'string') {
     [preffix, to, suffix] = to.split(/(\d+)(.*)?/);
@@ -158,6 +158,7 @@ function animate(who, what, to, time = 300, { type = 'ease', from, onUpdate = ()
         return res();
       }
       let next = animeFxn(percent) * diff + from;
+      if (round) next = Math.round(next);
       if (!suffix && !preffix) who[what] = next;
       else who[what] = (preffix ? preffix : '') + next + (suffix ? suffix : '');
       onUpdate(who, what, who[what]);
@@ -166,32 +167,36 @@ function animate(who, what, to, time = 300, { type = 'ease', from, onUpdate = ()
     window.requestAnimationFrame(frame);
   });
 }
-function animateAll({
+function animate({
   targets,
   target,
   to,
-  time = 300,
-  type = 'ease',
-  onUpdate = () => {}
+  time,
+  type,
+  onUpdate,
+  round
 } = {}) {
-  targets = Array.from(targets) || [target];
+  targets = targets ? Array.from(targets) : [target];
   function iterate(target, props) {
+    const promises = [];
     for (let prop in props) {
       let from, final;
       if (Array.isArray(props[prop])) [from, final] = props[prop];
       else final = props[prop];
-      animate(target, prop, final, time, { type, from, onUpdate });
+      promises.push(animateOne(target, prop, final, time, { type, from, onUpdate, round }));
     }
+    return Promise.all(promises);
   }
-  targets.forEach(target => {
-    iterate(target, to);
-  });
+  return Promise.all(targets.map(target => iterate(target, to)));
 }
 animate.types = types;
-const Anime = {
+function wait(time = 0) {
+  return new Promise(res => setTimeout(res, time));
+}
+const animate$1 = {
   animate,
-  animateAll,
-  types
+  types,
+  wait
 };
 
 const template = SifrrDom.template`<style media="screen">
@@ -384,7 +389,14 @@ class SifrrTabs extends SifrrDom.Element {
     let i = this.state.active;
     i = this.getTabNumber(i);
     if (!isNaN(i) && i !== this.state.active) return this.active = i;
-    animate(this.options.content, 'scrollLeft', i * (this.tabWidth + 2 * this.options.arrowMargin), this.options.animationTime, { type: this.options.animation });
+    animate({
+      target: this.options.content,
+      to: {
+        scrollLeft: i * (this.tabWidth + 2 * this.options.arrowMargin)
+      },
+      time: this.options.animationTime,
+      type: this.options.animation
+    });
     removeExceptOne(this.options.tabs, 'active', i);
     removeExceptOne(this.options.tabs, 'prev', this.getTabNumber(i - 1));
     removeExceptOne(this.options.tabs, 'next', this.getTabNumber(i + 1));
@@ -1083,8 +1095,11 @@ class SifrrShimmer extends Sifrr.Dom.Element {
 }
 SifrrDom.register(SifrrShimmer);
 
-if (window && window.Sifrr) Sifrr.Anime = Anime;
+if (window && window.Sifrr) {
+  Sifrr.animate = animate;
+  Sifrr.animate.types = types;
+}
 
-export { Anime, SifrrCodeEditor, SifrrLazyPicture, SifrrLazyImg as SifrrLazzyImg, SifrrProgressRound, SifrrShimmer, SifrrShowcase, SifrrStater, SifrrTabs };
+export { animate$1 as Anime, SifrrCodeEditor, SifrrLazyPicture, SifrrLazyImg as SifrrLazzyImg, SifrrProgressRound, SifrrShimmer, SifrrShowcase, SifrrStater, SifrrTabs, animate };
 /*! (c) @aadityataparia */
 //# sourceMappingURL=sifrrelements.module.js.map
