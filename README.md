@@ -77,8 +77,7 @@ import { SifrrLazyPicture } from '@sifrr/elements';
 ```js
 const { Anime } = require('@sifrr/elements');
 
-Anime.animate(object, property, to, time, { type: 'ease', from, onUpdate })
-Anime.animateAll({
+Anime.animate({
   target: 'multable object',
   targets: 'array of objects',
   to: {
@@ -88,15 +87,18 @@ Anime.animateAll({
   },
   time: 300,
   type: 'ease',
+  round: false,
   onUpdate: 'function to invoke on update'
+}).then(() => {
+  // do something after animation is complete
 })
 ```
 
--   `object` - object whose property you want to animate
--   `property` - property of the object you want
--   `to` - final value
+-   `target(s)` - object(s) whose properties you want to animate
+-   `to` - properties with final values to want to animate to
+-   `time` - time taken to animate
 -   `type` - type of animation (pre added: \['linear', 'ease', 'easeIn', 'easeOut', 'easeInOut'])
--   `from` - optional, if not specified it will be taken as object[property]
+-   `round` - round animated values or not
 -   `onUpdate` - this function will be called on update with arguments `object`, `property`, `currentValue`
 
 You can add more types using bezier function values:
@@ -113,6 +115,7 @@ Property's current/from value and to value should be of same format.
 
 -   Number
 -   String with same preffix, suffix and number in between
+-   [WIP] string with multiple numbers to animate
 
 examples in showcase.
 
