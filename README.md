@@ -83,8 +83,10 @@ animate({
   to: { // exmaple
     prop1: 'to1',
     prop2: 'to2',
-    porp3: ['from3', 'to3']
-    // [WIP] Multi level properties
+    porp3: ['from3', 'to3'],
+    style: { // multi level properties example
+      width: '100px'
+    }
   },
   time: 300,
   type: 'ease',

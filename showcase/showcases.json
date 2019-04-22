@@ -6,7 +6,7 @@
       "element": "sifrr-code-editor",
       "elementUrl": "",
       "isjs": true,
-      "variantName": "themed",
+      "variantName": "css",
       "variants": [
         {
           "variantId": 1,
@@ -37,10 +37,10 @@
           "elState": "this.value = '<a>some test.. </a>';\nreturn {\n\n}"
         }
       ],
-      "variantId": 5,
-      "style": "#element > * {\n\n}",
-      "code": "<sifrr-code-editor theme=\"a11y-light\"></sifrr-code-editor>",
-      "elState": "this.value = '<a>some test.. </a>';\nreturn {\n\n}",
+      "variantId": 4,
+      "style": "#element > * {\n  \n}",
+      "code": "<sifrr-code-editor lang=\"css\"></sifrr-code-editor>",
+      "elState": "this.value = `element {\n  color: black;\n}\n`;\nreturn {\n\n}",
       "name": "sifrr-code-editor"
     },
     {
@@ -149,7 +149,7 @@
           "variantId": 7,
           "variantName": "with no animation",
           "style": "#element > * {\n  background-color: white;\n}",
-          "code": "<sifrr-tabs options='{ \"animation\": \"none\" }'>\n        <li slot='heading'>Heading 1</li>\n        <li slot='heading'>Heading 2</li>\n        <div slot='tab'>\n          Tab 1\n        </div>\n        <div slot='tab'>\n          Tab 2\n        </div>\n      </sifrr-tabs>",
+          "code": "<sifrr-tabs options='{ \"animation\": \"none\", \"time\": 0 }'>\n        <li slot='heading'>Heading 1</li>\n        <li slot='heading'>Heading 2</li>\n        <div slot='tab'>\n          Tab 1\n        </div>\n        <div slot='tab'>\n          Tab 2\n        </div>\n      </sifrr-tabs>",
           "elState": "return {\n\n}"
         },
         {
@@ -171,10 +171,10 @@
       "element": "sifrr-tabs",
       "elementUrl": "",
       "isjs": true,
-      "variantName": "with menu and content",
-      "variantId": 1,
+      "variantName": "with pre defined tab height",
+      "variantId": 6,
       "style": "#element > * {\n  background-color: white;\n}",
-      "code": "<sifrr-tabs>\n        <li slot='heading'>Heading 1</li>\n        <li slot='heading'>Heading 2 - sdfsdfsdafsdf d sdf af </li>\n        <li slot='heading'>Heading 3 - sdf ssd fdsf sf </li>\n        <li slot='heading'>Heading 4 - vesdfdf d df dfds dsf dsf </li>\n        <div slot='tab'>\n          <p>Tab 1</p>\n          <p>Tab 1</p>\n          <p>Tab 1</p>\n          <p>Tab 1</p>\n          <p>Tab 1</p>\n          <p>Tab 1</p>\n        </div>\n        <div slot='tab'>\n          <p>Tab 2</p>\n          <p>Tab 2</p>\n          <p>Tab 2</p>\n        </div>\n        <div slot='tab'>\n          <p>Tab 3</p>\n        </div>\n        <div slot='tab'>\n          <p>Tab 4</p>\n        </div>\n      </sifrr-tabs>",
+      "code": "<sifrr-tabs options='{ \"tabHeight\": \"100px\" }'>\n        <a slot='heading'>Heading 1</a>\n        <a slot='heading'>Heading 2</a>\n        <div slot='tab'>\n          Tab 1\n        </div>\n        <div slot='tab'>\n          Tab 2\n        </div>\n      </sifrr-tabs>",
       "elState": "return {\n\n}"
     },
     {
@@ -266,7 +266,7 @@
           "variantName": "animate style",
           "style": "#element > div {\n  padding: 10px;\n  background: white;\n  width: 60px;\n}",
           "code": "<div style=\"transform: translate(0px, 0px)\">move</div>",
-          "elState": "// this = first element in given html\nSifrr.animate({\n  target: this.style, \n  to: {\n    transform: 'translate(100px, 0px)'\n  },\n  time: 300,\n  type: 'easeOut'\n});"
+          "elState": "// this = first element in given html\nSifrr.animate({\n  target: this,\n  to: {\n    style: {\n      transform: 'translate(100px, 0px)'\n    }\n  },\n  time: 300,\n  type: 'easeOut'\n});"
         },
         {
           "variantId": 3,
@@ -280,7 +280,7 @@
           "variantName": "multiple",
           "style": "#element > * {\n  padding: 10px;\n  background: white;\n  width: 60px;\n}",
           "code": "<div style=\"transform: translate(50px, 0px); width: 100px;\">move</div>\n<p style=\"transform: translate(50px, 0px); width: 100px;\"></p>",
-          "elState": "// this = first element in given html\nconst elements = Array.from(this.parentNode.children);\n\nSifrr.animate({\n  targets: elements.map(e => e.style),\n  to: {\n    transform: 'translate(100px, 50px)',\n    width: '300px'}\n});\n\n"
+          "elState": "// this = first element in given html\nconst elements = Array.from(this.parentNode.children);\n\nSifrr.animate({\n  targets: elements,\n  to: {\n    style: {\n      transform: 'translate(100px, 50px)',\n      width: '300px'\n    }\n  }\n});\n\n"
         },
         {
           "variantId": 5,
@@ -291,11 +291,11 @@
         }
       ],
       "element": "sifrr-shimmer",
-      "code": "<p></p>",
-      "variantId": 1,
-      "variantName": "animate text content",
-      "style": "#element > p {\n  padding: 10px;\n  background: white;\n}",
-      "elState": "// this = first element in given html\nSifrr.animate({\n  target: this, \n  to: {\n    textContent: ['a 0 b 25 c 100', 'a 10 b 125 c 1017']\n  },\n  time: 1000,\n  round: true\n});"
+      "code": "<div style=\"transform: translate(50px, 0px); width: 100px;\">move</div>\n<p style=\"transform: translate(50px, 0px); width: 100px;\"></p>",
+      "variantId": 4,
+      "variantName": "multiple",
+      "style": "#element > * {\n  padding: 10px;\n  background: white;\n  width: 60px;\n}",
+      "elState": "// this = first element in given html\nconst elements = Array.from(this.parentNode.children);\n\nSifrr.animate({\n  targets: elements,\n  to: {\n    style: {\n      transform: 'translate(100px, 50px)',\n      width: '300px'\n    }\n  }\n});\n\n"
     }
   ]
 }

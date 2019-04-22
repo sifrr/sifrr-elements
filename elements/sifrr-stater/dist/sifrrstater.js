@@ -30,8 +30,7 @@
     easeInOut: [.42, 0, .58, 1]
   },
         beziers = {},
-        digitRgx = /(\d+)/,
-        noop = () => {};
+        digitRgx = /(\d+)/;
   class Bezier {
     constructor(args) {
       const key = args.join('_');
@@ -77,7 +76,7 @@
     to,
     time = 300,
     type = 'ease',
-    onUpdate = noop,
+    onUpdate,
     round = false
   } = {}) {
     const toSplit = to.toString().split(digitRgx),
@@ -86,6 +85,7 @@
           fromNums = [],
           diffs = [];
     const fromSplit = (from || target[prop] || '').toString().split(digitRgx);
+    const onUp = typeof onUpdate === 'function';
     for (let i = 0; i < l; i++) {
       const n = Number(toSplit[i]);
       if (isNaN(n) || !toSplit[i]) raw.push(toSplit[i]);else {
@@ -112,7 +112,7 @@
           raw
         }, ...next);
         target[prop] = Number(val) || val;
-        onUpdate(target, prop, val);
+        if (onUp) onUpdate(target, prop, val);
         window.requestAnimationFrame(frame);
       }
       window.requestAnimationFrame(frame);
@@ -133,16 +133,20 @@
       for (let prop in props) {
         let from, final;
         if (Array.isArray(props[prop])) [from, final] = props[prop];else final = props[prop];
-        promises.push(animateOne({
-          target,
-          prop,
-          to: final,
-          time,
-          type,
-          from,
-          onUpdate,
-          round
-        }));
+        if (typeof props[prop] === 'object' && !Array.isArray(props[prop])) {
+          promises.push(iterate(target[prop], props[prop]));
+        } else {
+          promises.push(animateOne({
+            target,
+            prop,
+            to: final,
+            time,
+            type,
+            from,
+            onUpdate,
+            round
+          }));
+        }
       }
       return Promise.all(promises);
     }
