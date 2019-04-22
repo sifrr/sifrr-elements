@@ -9,7 +9,8 @@
   },
   "keywords": [
     "sifrr",
-    "elements"
+    "elements",
+    "sifrr-dom"
   ],
   "author": "Sifrr",
   "bugs": {

@@ -321,7 +321,7 @@
           scrollLeft: i * (this.tabWidth + 2 * this.options.arrowMargin)
         },
         time: this.options.animationTime,
-        type: this.options.animation
+        type: this.options.animation === 'none' ? () => 1 : this.options.animation
       });
       removeExceptOne(this.options.tabs, 'active', i);
       removeExceptOne(this.options.tabs, 'prev', this.getTabNumber(i - 1));

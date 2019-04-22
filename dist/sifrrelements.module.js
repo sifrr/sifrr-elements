@@ -421,7 +421,7 @@ class SifrrTabs extends SifrrDom.Element {
         scrollLeft: i * (this.tabWidth + 2 * this.options.arrowMargin)
       },
       time: this.options.animationTime,
-      type: this.options.animation
+      type: this.options.animation === 'none' ? () => 1 : this.options.animation
     });
     removeExceptOne(this.options.tabs, 'active', i);
     removeExceptOne(this.options.tabs, 'prev', this.getTabNumber(i - 1));
@@ -1090,7 +1090,7 @@ SifrrShowcase.defaultState = {
 };
 SifrrDom.register(SifrrShowcase);
 
-const template$5 = "<style media=\"screen\">\n  * {\n    box-sizing: border-box;\n  }\n\n  .circle {\n    position: relative;\n    border: 2px solid #666;\n    padding: 0;\n    margin: 0;\n    width: 100%;\n    height: 100%;\n    border-radius: 50%;\n  }\n\n  .left-half, .bar, .f50-bar {\n    position: absolute;\n    margin: 0;\n    padding: 0;\n    width: 100%;\n    height: 100%;\n    border-radius: 50%;\n    top: 0;\n    left: 0;\n  }\n\n  .left-half {\n    width: calc(100% + 4px);\n    height: calc(100% + 4px);\n    margin: -2px;\n    clip-path: polygon(50% 0, 100% 0%, 100% 100%, 50% 100%);\n  }\n\n  .circle.over50 .left-half {\n    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);\n  }\n\n  .bar {\n    clip-path: polygon(0 0, 50% 0, 50% 100%, 0 100%);\n    border: 2px solid #ffffff;\n  }\n\n  .circle.over50 .f50-bar {\n    clip-path: polygon(50% 0, 100% 0%, 100% 100%, 50% 100%);\n    border: 2px solid #ffffff;\n    box-sizing: border-box;\n  }\n\n  .circle:not(.over50) .f50-bar {\n    display: none\n  }\n\n  .circle .bar {\n    transform: rotate(${this.state.progress * 360 / 100}deg)\n  }\n</style>\n<div class=\"circle ${this.state.progress > 50 ? 'over50' : ''}\">\n  <div class=\"left-half\">\n    <div class=\"f50-bar\"></div>\n    <div class=\"bar\"></div>\n  </div>\n</div>\n";
+const template$5 = "<style media=\"screen\">\n  * {\n    box-sizing: border-box;\n  }\n\n  .circle {\n    position: relative;\n    border: 2px solid rgba(255, 255, 255, 0.6);\n    padding: 0;\n    margin: 0;\n    width: 100%;\n    height: 100%;\n    border-radius: 50%;\n  }\n\n  .left-half, .bar, .f50-bar {\n    position: absolute;\n    margin: 0;\n    padding: 0;\n    width: 100%;\n    height: 100%;\n    border-radius: 50%;\n    top: 0;\n    left: 0;\n  }\n\n  .left-half {\n    width: calc(100% + 4px);\n    height: calc(100% + 4px);\n    margin: -2px;\n    clip-path: polygon(50% 0, 100% 0%, 100% 100%, 50% 100%);\n  }\n\n  .circle.over50 .left-half {\n    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);\n  }\n\n  .bar {\n    clip-path: polygon(0 0, 50% 0, 50% 100%, 0 100%);\n    border: 2px solid #ffffff;\n  }\n\n  .circle.over50 .f50-bar {\n    clip-path: polygon(50% 0, 100% 0%, 100% 100%, 50% 100%);\n    border: 2px solid #ffffff;\n    box-sizing: border-box;\n  }\n\n  .circle:not(.over50) .f50-bar {\n    display: none\n  }\n\n  .circle .bar {\n    transform: rotate(${this.state.progress * 360 / 100}deg)\n  }\n</style>\n<div class=\"circle ${this.state.progress > 50 ? 'over50' : ''}\">\n  <div class=\"left-half\">\n    <div class=\"f50-bar\"></div>\n    <div class=\"bar\"></div>\n  </div>\n</div>\n";
 
 class SifrrProgressRound extends Sifrr.Dom.Element {
   static get template() {

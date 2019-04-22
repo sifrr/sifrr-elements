@@ -84,6 +84,7 @@ animate({
     prop1: 'to1',
     prop2: 'to2',
     porp3: ['from3', 'to3']
+    // [WIP] Multi level properties
   },
   time: 300,
   type: 'ease',
