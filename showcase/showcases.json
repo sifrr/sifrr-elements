@@ -1,5 +1,5 @@
 {
-  "current": 4,
+  "current": 6,
   "showcases": [
     {
       "id": 1,
@@ -257,8 +257,8 @@
         {
           "variantId": 1,
           "style": "#element > p {\n  padding: 10px;\n  background: white;\n}",
-          "code": "<p>preffix 0 suffix</p>",
-          "elState": "// this = first element in given html\nSifrr.animate({\n  target: this, \n  to: {\n    textContent: 'preffix 100 suffix'\n  },\n  time: 1000,\n  round: true\n});",
+          "code": "<p></p>",
+          "elState": "// this = first element in given html\nSifrr.animate({\n  target: this, \n  to: {\n    textContent: ['a 0 b 25 c 100', 'a 10 b 125 c 1017']\n  },\n  time: 1000,\n  round: true\n});",
           "variantName": "animate text content"
         },
         {
@@ -280,15 +280,15 @@
           "variantName": "multiple",
           "style": "#element > * {\n  padding: 10px;\n  background: white;\n  width: 60px;\n}",
           "code": "<div style=\"transform: translate(50px, 0px); width: 100px;\">move</div>\n<p style=\"transform: translate(50px, 0px); width: 100px;\"></p>",
-          "elState": "// this = first element in given html\nconst elements = Array.from(this.parentNode.children);\n\nSifrr.animate({\n  targets: elements.map(e => e.style),\n  to: {\n    transform: 'translate(100px, 0px)',\n    width: '300px'\n  }\n});\n\n"
+          "elState": "// this = first element in given html\nconst elements = Array.from(this.parentNode.children);\n\nSifrr.animate({\n  targets: elements.map(e => e.style),\n  to: {\n    transform: 'translate(100px, 50px)',\n    width: '300px'}\n});\n\n"
         }
       ],
       "element": "sifrr-shimmer",
-      "code": "<div style=\"transform: translate(50px, 0px); width: 100px;\">move</div>\n<p style=\"transform: translate(50px, 0px); width: 100px;\"></p>",
-      "variantId": 4,
-      "variantName": "multiple",
-      "style": "#element > * {\n  padding: 10px;\n  background: white;\n  width: 60px;\n}",
-      "elState": "// this = first element in given html\nconst elements = Array.from(this.parentNode.children);\n\nSifrr.animate({\n  targets: elements.map(e => e.style),\n  to: {\n    transform: 'translate(100px, 0px)',\n    width: '300px'\n  }\n});\n\n"
+      "code": "<p></p>",
+      "variantId": 1,
+      "variantName": "animate text content",
+      "style": "#element > p {\n  padding: 10px;\n  background: white;\n}",
+      "elState": "// this = first element in given html\nSifrr.animate({\n  target: this, \n  to: {\n    textContent: ['a 0 b 25 c 100', 'a 10 b 125 c 1017']\n  },\n  time: 1000,\n  round: true\n});"
     }
   ]
 }

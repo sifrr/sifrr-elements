@@ -114,8 +114,7 @@ Or you can directly give bezier array to animate function in type.
 Property's current/from value and to value should be of same format.
 
 -   Number
--   String with same preffix, suffix and number in between
--   [WIP] string with multiple numbers to animate
+-   string with multiple numbers to animate
 
 examples in showcase.
 

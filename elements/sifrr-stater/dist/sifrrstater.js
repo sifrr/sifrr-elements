@@ -28,11 +28,18 @@
     easeIn: [.42, 0, 1, 1],
     easeOut: [0, 0, .58, 1],
     easeInOut: [.42, 0, .58, 1]
-  };
+  },
+        beziers = {},
+        digitRgx = /(\d+)/,
+        noop = () => {};
   class Bezier {
     constructor(args) {
-      this.setProps(...args);
-      return this.final.bind(this);
+      const key = args.join('_');
+      if (!beziers[key]) {
+        this.setProps(...args);
+        beziers[key] = this.final.bind(this);
+      }
+      return beziers[key];
     }
     setProps(x1, y1, x2, y2) {
       let props = {
@@ -63,37 +70,49 @@
       return t;
     }
   }
-  function animateOne(who, what, to, time = 300, {
-    type = 'ease',
+  function animateOne({
+    target,
+    prop,
     from,
-    onUpdate = () => {},
+    to,
+    time = 300,
+    type = 'ease',
+    onUpdate = noop,
     round = false
   } = {}) {
-    let toBefore = to,
-        preffix = false,
-        suffix = false;
-    if (typeof to === 'string') {
-      [preffix, to, suffix] = to.split(/(\d+)(.*)?/);
-      [, from] = (from || who[what]).split(/(\d+)(.*)?/);
-      from = Number(from), to = Number(to);
-    } else {
-      from = who[what];
+    const toSplit = to.toString().split(digitRgx),
+          l = toSplit.length,
+          raw = [],
+          fromNums = [],
+          diffs = [];
+    const fromSplit = (from || target[prop] || '').toString().split(digitRgx);
+    for (let i = 0; i < l; i++) {
+      const n = Number(toSplit[i]);
+      if (isNaN(n) || !toSplit[i]) raw.push(toSplit[i]);else {
+        fromNums.push(Number(fromSplit[i]));
+        diffs.push(n - (Number(fromSplit[i]) || 0));
+      }
     }
-    const diff = to - from;
-    const animeFxn = new Bezier(types[type] || type);
-    let startTime;
+    const bezier = new Bezier(types[type] || type);
     return new Promise(res => {
+      let startTime;
       function frame(currentTime) {
         startTime = startTime || currentTime;
-        const percent = (currentTime - startTime) / time;
+        const percent = (currentTime - startTime) / time,
+              bper = bezier(percent);
         if (percent >= 1) {
-          who[what] = toBefore;
+          target[prop] = to;
           return res();
         }
-        let next = animeFxn(percent) * diff + from;
-        if (round) next = Math.round(next);
-        if (!suffix && !preffix) who[what] = next;else who[what] = (preffix ? preffix : '') + next + (suffix ? suffix : '');
-        onUpdate(who, what, who[what]);
+        const next = diffs.map((d, i) => {
+          if (round) return Math.round(bper * d + (fromNums[i] || 0));
+          return bper * d + (fromNums[i] || 0);
+        });
+        const val = String.raw({
+          raw
+        }, ...next);
+        target[prop] = Number(val) || val;
+        onUpdate(target, prop, val);
         window.requestAnimationFrame(frame);
       }
       window.requestAnimationFrame(frame);
@@ -114,7 +133,11 @@
       for (let prop in props) {
         let from, final;
         if (Array.isArray(props[prop])) [from, final] = props[prop];else final = props[prop];
-        promises.push(animateOne(target, prop, final, time, {
+        promises.push(animateOne({
+          target,
+          prop,
+          to: final,
+          time,
           type,
           from,
           onUpdate,
