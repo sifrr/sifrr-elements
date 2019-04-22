@@ -193,11 +193,6 @@ animate.types = types;
 function wait(time = 0) {
   return new Promise(res => setTimeout(res, time));
 }
-const animate$1 = {
-  animate,
-  types,
-  wait
-};
 
 const template = SifrrDom.template`<style media="screen">
   ${css}
@@ -1095,11 +1090,8 @@ class SifrrShimmer extends Sifrr.Dom.Element {
 }
 SifrrDom.register(SifrrShimmer);
 
-if (window && window.Sifrr) {
-  Sifrr.animate = animate;
-  Sifrr.animate.types = types;
-}
+if (window && window.Sifrr) Sifrr.animate = animate;
 
-export { animate$1 as Anime, SifrrCodeEditor, SifrrLazyPicture, SifrrLazyImg as SifrrLazzyImg, SifrrProgressRound, SifrrShimmer, SifrrShowcase, SifrrStater, SifrrTabs, animate };
+export { SifrrCodeEditor, SifrrLazyPicture, SifrrLazyImg as SifrrLazzyImg, SifrrProgressRound, SifrrShimmer, SifrrShowcase, SifrrStater, SifrrTabs, animate, wait };
 /*! (c) @aadityataparia */
 //# sourceMappingURL=sifrrelements.module.js.map

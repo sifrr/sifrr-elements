@@ -225,11 +225,6 @@
   function wait(time = 0) {
     return new Promise(res => setTimeout(res, time));
   }
-  const animate$1 = {
-    animate,
-    types,
-    wait
-  };
 
   function _templateObject() {
     const data = _taggedTemplateLiteral(["<style media=\"screen\">\n  ", "\n</style>\n<style>\n  .tabs {\n    height: ${this.options ? this.options.tabHeight : 'auto'};\n    width: ${this.totalWidth + 'px'};\n  }\n  .headings {\n    display: ${this.headingDisplay};\n    background: ${this.options ? this.options.background : 'transparent'};\n  }\n  .content *::slotted([slot=\"tab\"]) {\n    width: ${this.tabWidth + 'px'};\n    margin: 0 ${this.options ? this.options.arrowMargin + 'px' : 0};\n  }\n  .arrow {\n    width: ${this.options ? this.options.arrowWidth : '20px'};\n  }\n</style>\n<div class=\"headings\">\n  <ul>\n    <slot name=\"heading\">\n    </slot>\n  </ul>\n  <div class=\"underline\"></div>\n</div>\n<div class=\"content\">\n  <div class=\"arrow l\" _click=${this.prev}>\n    <span></span>\n  </div>\n  <div class=\"arrow r\" _click=${this.next}>\n    <span></span>\n  </div>\n  <div class=\"tabs\">\n    <slot name=\"tab\">\n    </slot>\n  </div>\n</div>"], ["<style media=\"screen\">\n  ", "\n</style>\n<style>\n  .tabs {\n    height: \\${this.options ? this.options.tabHeight : 'auto'};\n    width: \\${this.totalWidth + 'px'};\n  }\n  .headings {\n    display: \\${this.headingDisplay};\n    background: \\${this.options ? this.options.background : 'transparent'};\n  }\n  .content *::slotted([slot=\"tab\"]) {\n    width: \\${this.tabWidth + 'px'};\n    margin: 0 \\${this.options ? this.options.arrowMargin + 'px' : 0};\n  }\n  .arrow {\n    width: \\${this.options ? this.options.arrowWidth : '20px'};\n  }\n</style>\n<div class=\"headings\">\n  <ul>\n    <slot name=\"heading\">\n    </slot>\n  </ul>\n  <div class=\"underline\"></div>\n</div>\n<div class=\"content\">\n  <div class=\"arrow l\" _click=\\${this.prev}>\n    <span></span>\n  </div>\n  <div class=\"arrow r\" _click=\\${this.next}>\n    <span></span>\n  </div>\n  <div class=\"tabs\">\n    <slot name=\"tab\">\n    </slot>\n  </div>\n</div>"]);
@@ -1069,12 +1064,8 @@
   }
   SifrrDom.register(SifrrShimmer);
 
-  if (window && window.Sifrr) {
-    Sifrr.animate = animate;
-    Sifrr.animate.types = types;
-  }
+  if (window && window.Sifrr) Sifrr.animate = animate;
 
-  exports.Anime = animate$1;
   exports.SifrrCodeEditor = SifrrCodeEditor;
   exports.SifrrLazyPicture = SifrrLazyPicture;
   exports.SifrrLazzyImg = SifrrLazyImg;
@@ -1084,6 +1075,7 @@
   exports.SifrrStater = SifrrStater;
   exports.SifrrTabs = SifrrTabs;
   exports.animate = animate;
+  exports.wait = wait;
 
   Object.defineProperty(exports, '__esModule', { value: true });
 

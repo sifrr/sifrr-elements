@@ -9,11 +9,8 @@ export { default as SifrrProgressRound } from '../elements/sifrr-progress-round/
 export { default as SifrrShimmer } from '../elements/sifrr-shimmer/src/sifrrshimmer';
 
 // helpers
-export { default as Anime } from '../helpers/animate';
 export { animate as animate } from '../helpers/animate';
-import { animate, types } from '../helpers/animate';
-if (window && window.Sifrr) {
-  Sifrr.animate = animate;
-  Sifrr.animate.types = types;
-}
+export { wait as wait } from '../helpers/animate';
+import { animate } from '../helpers/animate';
+if (window && window.Sifrr) Sifrr.animate = animate;
 // window.animate = animate;

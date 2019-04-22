@@ -75,9 +75,9 @@ import { SifrrLazyPicture } from '@sifrr/elements';
 **Note**: Since it uses requestAnimationFrame, actual time taken to animate can vary +-1 frame (~17ms)
 
 ```js
-const { Anime } = require('@sifrr/elements');
+const { animate } = require('@sifrr/elements');
 
-Anime.animate({
+animate({
   target: 'multable object',
   targets: 'array of objects',
   to: {
@@ -104,7 +104,7 @@ Anime.animate({
 You can add more types using bezier function values:
 
 ```js
-Anime.types[name] = [.42, 0, .58, 1]; // bezier array
+animate.types[name] = [.42, 0, .58, 1]; // bezier array
 ```
 
 Or you can directly give bezier array to animate function in type.
