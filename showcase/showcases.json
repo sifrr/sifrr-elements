@@ -6,7 +6,7 @@
       "element": "sifrr-code-editor",
       "elementUrl": "",
       "isjs": true,
-      "variantName": "default - html",
+      "variantName": "themed",
       "variants": [
         {
           "variantId": 1,
@@ -37,9 +37,9 @@
           "elState": "this.value = '<a>some test.. </a>';\nreturn {\n\n}"
         }
       ],
-      "variantId": 1,
-      "style": "#element > * {\n}",
-      "code": "<sifrr-code-editor></sifrr-code-editor>",
+      "variantId": 5,
+      "style": "#element > * {\n\n}",
+      "code": "<sifrr-code-editor theme=\"a11y-light\"></sifrr-code-editor>",
       "elState": "this.value = '<a>some test.. </a>';\nreturn {\n\n}",
       "name": "sifrr-code-editor"
     },
@@ -171,10 +171,10 @@
       "element": "sifrr-tabs",
       "elementUrl": "",
       "isjs": true,
-      "variantName": "images carousel",
-      "variantId": 9,
-      "style": "#element > * {\n  background-color: white;\n}\n#element > * > img {\n  height: 100%;\n}",
-      "code": "<sifrr-tabs options='{ \"showMenu\": false, \"showArrows\": true, \"tabHeight\": \"400px\" }'>\n  <img slot=\"tab\" src=\"https://static.adweek.com/adweek.com-prod/wp-content/uploads/files/blogs/google-logo-hed-2014.jpg\">\n  <img slot=\"tab\" src=\"https://static.adweek.com/adweek.com-prod/wp-content/uploads/files/blogs/google-logo-hed-2014.jpg\">\n  <img slot=\"tab\" src=\"https://static.adweek.com/adweek.com-prod/wp-content/uploads/files/blogs/google-logo-hed-2014.jpg\">\n  <img slot=\"tab\" src=\"https://static.adweek.com/adweek.com-prod/wp-content/uploads/files/blogs/google-logo-hed-2014.jpg\">\n</sifrr-tabs>",
+      "variantName": "with menu and content",
+      "variantId": 1,
+      "style": "#element > * {\n  background-color: white;\n}",
+      "code": "<sifrr-tabs>\n        <li slot='heading'>Heading 1</li>\n        <li slot='heading'>Heading 2 - sdfsdfsdafsdf d sdf af </li>\n        <li slot='heading'>Heading 3 - sdf ssd fdsf sf </li>\n        <li slot='heading'>Heading 4 - vesdfdf d df dfds dsf dsf </li>\n        <div slot='tab'>\n          <p>Tab 1</p>\n          <p>Tab 1</p>\n          <p>Tab 1</p>\n          <p>Tab 1</p>\n          <p>Tab 1</p>\n          <p>Tab 1</p>\n        </div>\n        <div slot='tab'>\n          <p>Tab 2</p>\n          <p>Tab 2</p>\n          <p>Tab 2</p>\n        </div>\n        <div slot='tab'>\n          <p>Tab 3</p>\n        </div>\n        <div slot='tab'>\n          <p>Tab 4</p>\n        </div>\n      </sifrr-tabs>",
       "elState": "return {\n\n}"
     },
     {
@@ -245,11 +245,11 @@
         }
       ],
       "element": "sifrr-shimmer",
-      "code": "<div>\n<sifrr-shimmer id=\"pic\"></sifrr-shimmer>\n<sifrr-shimmer id=\"name\"></sifrr-shimmer>\n<sifrr-shimmer id=\"name2\"></sifrr-shimmer>\n<sifrr-shimmer id=\"des\"></sifrr-shimmer>\n</div>",
-      "variantName": "profile",
-      "variantId": 2,
-      "style": "#element > div {\n  position: relative;\n  width: 100%;\n  height: 100%;\n}\n#element sifrr-shimmer {\n  position: absolute;\n}\n\n#element #pic {\n  height: 150px;\n  width: 150px;\n  left: 0;\n  top: 0;\n}\n\n#element #name {\n  height: 30px;\n  width: 200px;\n  left: 166px;\n  top: 0;\n}\n\n#element #name2 {\n  height: 16px;\n  width: 200px;\n  left: 166px;\n  top: 38px;\n}\n\n#element #des {\n  height: 84px;\n  width: 200px;\n  left: 166px;\n  top: 66px;\n}",
-      "elState": "return {\n\n}"
+      "code": "<sifrr-loading>\n  <sifrr-shimmer></sifrr-shimmer>\n</sifrr-loading>",
+      "variantName": "loading sifrr element",
+      "variantId": 3,
+      "style": "#element sifrr-random, sifrr-shimmer {\n  width: 300px;\n  height: 100px;\n}\n",
+      "elState": "// when element is registered shimmer will disappear, refresh to load again\nsetTimeout(() => {\n  Sifrr.Dom.register(class SifrrLoading extends Sifrr.Dom.Element {\n  static get template() {\n    return Sifrr.Dom.template('<p></p>')\n  }\n})\n}, 3000);\nreturn {\n\n}"
     },
     {
       "name": "animate",
@@ -281,14 +281,21 @@
           "style": "#element > * {\n  padding: 10px;\n  background: white;\n  width: 60px;\n}",
           "code": "<div style=\"transform: translate(50px, 0px); width: 100px;\">move</div>\n<p style=\"transform: translate(50px, 0px); width: 100px;\"></p>",
           "elState": "// this = first element in given html\nconst elements = Array.from(this.parentNode.children);\n\nSifrr.animate({\n  targets: elements.map(e => e.style),\n  to: {\n    transform: 'translate(100px, 50px)',\n    width: '300px'}\n});\n\n"
+        },
+        {
+          "variantId": 5,
+          "variantName": "custom cubic function",
+          "style": "#element > * {\n  padding: 10px;\n  background: white;\n  width: 60px;\n}",
+          "code": "<div>0</div>",
+          "elState": "// this = first element in given html\nSifrr.animate({\n  target: this,\n  to: {\n    textContent: '100'\n  },\n  type: (x) => x * x * x,\n  time: 1000,\n  round: true\n});\n"
         }
       ],
       "element": "sifrr-shimmer",
-      "code": "<p></p>",
-      "variantId": 1,
-      "variantName": "animate text content",
-      "style": "#element > p {\n  padding: 10px;\n  background: white;\n}",
-      "elState": "// this = first element in given html\nSifrr.animate({\n  target: this, \n  to: {\n    textContent: ['a 0 b 25 c 100', 'a 10 b 125 c 1017']\n  },\n  time: 1000,\n  round: true\n});"
+      "code": "<div>0</div>",
+      "variantId": 5,
+      "variantName": "custom cubic function",
+      "style": "#element > * {\n  padding: 10px;\n  background: white;\n  width: 60px;\n}",
+      "elState": "// this = first element in given html\nSifrr.animate({\n  target: this,\n  to: {\n    textContent: '100'\n  },\n  type: (x) => x * x * x,\n  time: 1000,\n  round: true\n});\n"
     }
   ]
 }

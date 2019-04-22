@@ -164,12 +164,12 @@ function animateOne({
       diffs.push(n - (Number(fromSplit[i]) || 0));
     }
   }
-  const bezier = new Bezier(types[type] || type);
+  type = typeof type === 'function' ? type : new Bezier(types[type] || type);
   return new Promise(res => {
     let startTime;
     function frame(currentTime) {
       startTime = startTime || currentTime;
-      const percent = (currentTime - startTime) / time, bper = bezier(percent);
+      const percent = (currentTime - startTime) / time, bper = type(percent);
       if (percent >= 1) {
         target[prop] = to;
         return res();
@@ -221,6 +221,9 @@ animate.types = types;
 function wait(time = 0) {
   return new Promise(res => setTimeout(res, time));
 }
+const Sifrr$1 = window.Sifrr || ( window.Sifrr = {} );
+Sifrr$1.animate = animate;
+Sifrr$1.wait = wait;
 
 const template = SifrrDom.template`<style media="screen">
   ${css}
@@ -1117,8 +1120,6 @@ class SifrrShimmer extends Sifrr.Dom.Element {
   }
 }
 SifrrDom.register(SifrrShimmer);
-
-if (window && window.Sifrr) Sifrr.animate = animate;
 
 export { SifrrCodeEditor, SifrrLazyPicture, SifrrLazyImg as SifrrLazzyImg, SifrrProgressRound, SifrrShimmer, SifrrShowcase, SifrrStater, SifrrTabs, animate, wait };
 /*! (c) @aadityataparia */

@@ -11,6 +11,3 @@ export { default as SifrrShimmer } from '../elements/sifrr-shimmer/src/sifrrshim
 // helpers
 export { animate as animate } from '../helpers/animate';
 export { wait as wait } from '../helpers/animate';
-import { animate } from '../helpers/animate';
-if (window && window.Sifrr) Sifrr.animate = animate;
-// window.animate = animate;
