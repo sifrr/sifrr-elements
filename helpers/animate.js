@@ -6,8 +6,7 @@ const types = {
     easeInOut: [.42, 0, .58, 1]
   },
   beziers = {},
-  digitRgx = /(\d+)/,
-  noop = () => {};
+  digitRgx = /(\d+)/;
 
 class Bezier {
   constructor(args){

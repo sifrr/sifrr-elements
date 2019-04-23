@@ -70,12 +70,12 @@ import { SifrrLazyPicture } from '@sifrr/elements';
 
 ### `animate`
 
-~1kb library to Animate anything or everything using requestAnimationFrame with promise based API.
+~1kb library to Animate any properties of mutable objects using requestAnimationFrame with promise based API.
 
 **Note**: Since it uses requestAnimationFrame, actual time taken to animate can vary +-1 frame (~17ms)
 
 ```js
-const { animate } = require('@sifrr/elements');
+const { animate, wait } = require('@sifrr/elements');
 
 animate({
   target: ,
@@ -94,6 +94,11 @@ animate({
   onUpdate: () => {}
 }).then(() => {
   // do something after animation is complete
+})
+
+// animate after waiting for 1 second
+wait(1000 /* in ms */).then(() => {
+  animate({...});
 })
 ```
 

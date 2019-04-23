@@ -279,8 +279,8 @@
           "variantId": 4,
           "variantName": "multiple",
           "style": "#element > * {\n  padding: 10px;\n  background: white;\n  width: 60px;\n}",
-          "code": "<div style=\"transform: translate(50px, 0px); width: 100px;\">move</div>\n<p style=\"transform: translate(50px, 0px); width: 100px;\"></p>",
-          "elState": "// this = first element in given html\nconst elements = Array.from(this.parentNode.children);\n\nSifrr.animate({\n  targets: elements,\n  to: {\n    style: {\n      transform: 'translate(100px, 50px)',\n      width: '300px'\n    }\n  }\n});\n\n"
+          "code": "<div style=\"transform: translate(0px, 0px); width: 100px;\">move</div>\n<p style=\"transform: translate(50px, 0px); width: 100px;\"></p>",
+          "elState": "// this = first element in given html\nconst elements = Array.from(this.parentNode.children);\n\nSifrr.wait(1000).then(() => { // wait for 1 sec\nSifrr.animate({\n  targets: elements,\n  to: {\n    style: {\n      transform: 'translate(100px, 50px)',\n      width: '300px'\n    }\n  }\n});\n});\n\n"
         },
         {
           "variantId": 5,
@@ -291,11 +291,11 @@
         }
       ],
       "element": "sifrr-shimmer",
-      "code": "<div style=\"transform: translate(50px, 0px); width: 100px;\">move</div>\n<p style=\"transform: translate(50px, 0px); width: 100px;\"></p>",
+      "code": "<div style=\"transform: translate(0px, 0px); width: 100px;\">move</div>\n<p style=\"transform: translate(50px, 0px); width: 100px;\"></p>",
       "variantId": 4,
       "variantName": "multiple",
       "style": "#element > * {\n  padding: 10px;\n  background: white;\n  width: 60px;\n}",
-      "elState": "// this = first element in given html\nconst elements = Array.from(this.parentNode.children);\n\nSifrr.animate({\n  targets: elements,\n  to: {\n    style: {\n      transform: 'translate(100px, 50px)',\n      width: '300px'\n    }\n  }\n});\n\n"
+      "elState": "// this = first element in given html\nconst elements = Array.from(this.parentNode.children);\n\nSifrr.wait(1000).then(() => { // wait for 1 sec\nSifrr.animate({\n  targets: elements,\n  to: {\n    style: {\n      transform: 'translate(100px, 50px)',\n      width: '300px'\n    }\n  }\n});\n});\n\n"
     }
   ]
 }
