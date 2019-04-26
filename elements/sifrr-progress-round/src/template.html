@@ -37,12 +37,12 @@
 
   .bar {
     clip-path: polygon(0 0, 50% 0, 50% 100%, 0 100%);
-    border: 2px solid #ffffff;
+    border: 2px solid ${this.hasAttribute('dark') ? '#000000' : '#ffffff'};
   }
 
   .circle.over50 .f50-bar {
     clip-path: polygon(50% 0, 100% 0%, 100% 100%, 50% 100%);
-    border: 2px solid #ffffff;
+    border: 2px solid ${this.hasAttribute('dark') ? '#000000' : '#ffffff'};
     box-sizing: border-box;
   }
 

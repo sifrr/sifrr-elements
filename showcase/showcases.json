@@ -1,5 +1,5 @@
 {
-  "current": 6,
+  "current": 4,
   "showcases": [
     {
       "id": 1,
@@ -196,17 +196,17 @@
         },
         {
           "variantId": 4,
-          "variantName": "property",
+          "variantName": "property, dark theme",
           "style": "#element > * {\n  height: 200px;\n  width: 200px;\n  display: block;\n  margin: auto;\n}",
-          "code": "<sifrr-progress-round></sifrr-progress-round>",
+          "code": "<sifrr-progress-round dark></sifrr-progress-round>",
           "elState": "this.progress = 35;\nreturn {\n\n}"
         },
         {
           "variantId": 3,
           "variantName": "with image progress",
           "style": "#element div {\n  width: 500px;\n  background-color: white;\n}\n\n#element .lazy {\n  position: relative;\n  height: 500px;\n  background-color: black;\n}\n\n.lazy > * {\n  position: absolute;\n  height: 500px;\n  width: 500px;\n  display: block;\n}\n.lazy > sifrr-progress-round {\n  width: 50px;\n  height: 50px;\n  top: 225px;\n  left: 225px;\n}",
-          "code": "<div style=\"height: 1000px; background: white;\">Scroll down</div>\n<div class=\"lazy\">\n  <img is=\"sifrr-lazy-img\" data-src=\"https://fetch-progress.anthum.com/30kbps/images/sunrise-baseline.jpg\">\n  <sifrr-progress-round progress=\"0\"></sifrr-progress-round>\n</div>\n<div id=\"speed\">speed in kbps</div>\n",
-          "elState": "const speedEl = this.parentNode.$('#speed').firstChild;\nfunction lazyProgress(el) {\n  const progress = el.$('sifrr-progress-round');\n  const img = el.$('img');\n  img.reload()\n  const src = img.dataset.src;\n  img.dataset.src = '';\n  img.beforeLoad = () => {\n    Sifrr.Fetch.get(src, {\n      onProgress: (p, speed) => {\n        progress.progress = p;\n        if (speed) speedEl.data = Math.round(speed) + ' kbps'; \n        if (p >= 100) {\n          speedEl.data = '0 kbps';\n          progress.remove();\n        }\n      }\n    }).then(r => r.blob()).then(b => {\n      img.src = URL.createObjectURL(b);\n    })\n  }\n}\n\nlazyProgress(this.parentNode.$('.lazy'));"
+          "code": "<div style=\"height: 1000px; background: white;\">Scroll down</div>\n<div class=\"lazy\">\n  <sifrr-shimmer></sifrr-shimmer>\n  <img is=\"sifrr-lazy-img\" data-src=\"https://fetch-progress.anthum.com/30kbps/images/sunrise-baseline.jpg\">\n  <sifrr-progress-round progress=\"0\" dark></sifrr-progress-round>\n</div>\n<div id=\"speed\">speed in kbps</div>\n",
+          "elState": "const speedEl = this.parentNode.$('#speed').firstChild;\nfunction lazyProgress(el) {\n  const progress = el.$('sifrr-progress-round');\n  const img = el.$('img');\n  img.reload()\n  const src = img.dataset.src;\n  img.dataset.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==';\n  img.beforeLoad = () => {\n    Sifrr.Fetch.get(src, {\n      onProgress: (p, speed) => {\n        progress.progress = p;\n        if (speed) speedEl.data = Math.round(speed) + ' kbps'; \n        if (p >= 100) {\n          speedEl.data = '';\n          progress.remove();\n        }\n      }\n    }).then(r => r.blob()).then(b => {\n      img.src = URL.createObjectURL(b);\n    })\n  }\n}\n\nlazyProgress(this.parentNode.$('.lazy'));"
         }
       ],
       "id": 1,
@@ -216,8 +216,8 @@
       "variantName": "with image progress",
       "variantId": 3,
       "style": "#element div {\n  width: 500px;\n  background-color: white;\n}\n\n#element .lazy {\n  position: relative;\n  height: 500px;\n  background-color: black;\n}\n\n.lazy > * {\n  position: absolute;\n  height: 500px;\n  width: 500px;\n  display: block;\n}\n.lazy > sifrr-progress-round {\n  width: 50px;\n  height: 50px;\n  top: 225px;\n  left: 225px;\n}",
-      "code": "<div style=\"height: 1000px; background: white;\">Scroll down</div>\n<div class=\"lazy\">\n  <img is=\"sifrr-lazy-img\" data-src=\"https://fetch-progress.anthum.com/30kbps/images/sunrise-baseline.jpg\">\n  <sifrr-progress-round progress=\"0\"></sifrr-progress-round>\n</div>\n<div id=\"speed\">speed in kbps</div>\n",
-      "elState": "const speedEl = this.parentNode.$('#speed').firstChild;\nfunction lazyProgress(el) {\n  const progress = el.$('sifrr-progress-round');\n  const img = el.$('img');\n  img.reload()\n  const src = img.dataset.src;\n  img.dataset.src = '';\n  img.beforeLoad = () => {\n    Sifrr.Fetch.get(src, {\n      onProgress: (p, speed) => {\n        progress.progress = p;\n        if (speed) speedEl.data = Math.round(speed) + ' kbps'; \n        if (p >= 100) {\n          speedEl.data = '0 kbps';\n          progress.remove();\n        }\n      }\n    }).then(r => r.blob()).then(b => {\n      img.src = URL.createObjectURL(b);\n    })\n  }\n}\n\nlazyProgress(this.parentNode.$('.lazy'));"
+      "code": "<div style=\"height: 1000px; background: white;\">Scroll down</div>\n<div class=\"lazy\">\n  <sifrr-shimmer></sifrr-shimmer>\n  <img is=\"sifrr-lazy-img\" data-src=\"https://fetch-progress.anthum.com/30kbps/images/sunrise-baseline.jpg\">\n  <sifrr-progress-round progress=\"0\" dark></sifrr-progress-round>\n</div>\n<div id=\"speed\">speed in kbps</div>\n",
+      "elState": "const speedEl = this.parentNode.$('#speed').firstChild;\nfunction lazyProgress(el) {\n  const progress = el.$('sifrr-progress-round');\n  const img = el.$('img');\n  img.reload()\n  const src = img.dataset.src;\n  img.dataset.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==';\n  img.beforeLoad = () => {\n    Sifrr.Fetch.get(src, {\n      onProgress: (p, speed) => {\n        progress.progress = p;\n        if (speed) speedEl.data = Math.round(speed) + ' kbps'; \n        if (p >= 100) {\n          speedEl.data = '';\n          progress.remove();\n        }\n      }\n    }).then(r => r.blob()).then(b => {\n      img.src = URL.createObjectURL(b);\n    })\n  }\n}\n\nlazyProgress(this.parentNode.$('.lazy'));"
     },
     {
       "name": "sifrr-shimmer",
@@ -245,11 +245,11 @@
         }
       ],
       "element": "sifrr-shimmer",
-      "code": "<sifrr-loading>\n  <sifrr-shimmer></sifrr-shimmer>\n</sifrr-loading>",
-      "variantName": "loading sifrr element",
-      "variantId": 3,
-      "style": "#element sifrr-random, sifrr-shimmer {\n  width: 300px;\n  height: 100px;\n}\n",
-      "elState": "// when element is registered shimmer will disappear, refresh to load again\nsetTimeout(() => {\n  Sifrr.Dom.register(class SifrrLoading extends Sifrr.Dom.Element {\n  static get template() {\n    return Sifrr.Dom.template('<p></p>')\n  }\n})\n}, 3000);\nreturn {\n\n}"
+      "code": "<div>\n<sifrr-shimmer id=\"pic\"></sifrr-shimmer>\n<sifrr-shimmer id=\"name\"></sifrr-shimmer>\n<sifrr-shimmer id=\"name2\"></sifrr-shimmer>\n<sifrr-shimmer id=\"des\"></sifrr-shimmer>\n</div>",
+      "variantName": "profile",
+      "variantId": 2,
+      "style": "#element > div {\n  position: relative;\n  width: 100%;\n  height: 100%;\n}\n#element sifrr-shimmer {\n  position: absolute;\n}\n\n#element #pic {\n  height: 150px;\n  width: 150px;\n  left: 0;\n  top: 0;\n}\n\n#element #name {\n  height: 30px;\n  width: 200px;\n  left: 166px;\n  top: 0;\n}\n\n#element #name2 {\n  height: 16px;\n  width: 200px;\n  left: 166px;\n  top: 38px;\n}\n\n#element #des {\n  height: 84px;\n  width: 200px;\n  left: 166px;\n  top: 66px;\n}",
+      "elState": "return {\n\n}"
     },
     {
       "name": "animate",
