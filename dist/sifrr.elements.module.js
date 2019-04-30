@@ -1,4 +1,4 @@
-/*! SifrrElements v0.0.4 - sifrr project | MIT licensed | https://github.com/sifrr/sifrr-elements */
+/*! Sifrr.Elements v0.0.4 - sifrr project | MIT licensed | https://github.com/sifrr/sifrr-elements */
 import SifrrDom from '@sifrr/dom';
 import SifrrStorage from '@sifrr/storage';
 
@@ -1127,4 +1127,4 @@ SifrrDom.register(SifrrShimmer);
 
 export { SifrrCodeEditor, SifrrLazyPicture, SifrrLazyImg as SifrrLazzyImg, SifrrProgressRound, SifrrShimmer, SifrrShowcase, SifrrStater, SifrrTabs, animate, wait };
 /*! (c) @aadityataparia */
-//# sourceMappingURL=sifrrelements.module.js.map
+//# sourceMappingURL=sifrr.elements.module.js.map

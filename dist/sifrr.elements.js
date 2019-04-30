@@ -1,8 +1,8 @@
-/*! SifrrElements v0.0.4 - sifrr project | MIT licensed | https://github.com/sifrr/sifrr-elements */
+/*! Sifrr.Elements v0.0.4 - sifrr project | MIT licensed | https://github.com/sifrr/sifrr-elements */
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@sifrr/dom'), require('@sifrr/storage')) :
   typeof define === 'function' && define.amd ? define(['exports', '@sifrr/dom', '@sifrr/storage'], factory) :
-  (global = global || self, factory(global.SifrrElements = {}, global.Sifrr.Dom, global.Sifrr.Storage));
+  (global = global || self, factory((global.Sifrr = global.Sifrr || {}, global.Sifrr.Elements = {}), global.Sifrr.Dom, global.Sifrr.Storage));
 }(this, function (exports, SifrrDom, SifrrStorage) { 'use strict';
 
   SifrrDom = SifrrDom && SifrrDom.hasOwnProperty('default') ? SifrrDom['default'] : SifrrDom;
@@ -1109,4 +1109,4 @@
 
 }));
 /*! (c) @aadityataparia */
-//# sourceMappingURL=sifrrelements.js.map
+//# sourceMappingURL=sifrr.elements.js.map
