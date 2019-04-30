@@ -3,7 +3,6 @@
 
 ### Bug Fixes
 
-* **sifrr-showcase:** load from db only if url fails ([7ec24cc](https://github.com/sifrr/sifrr-elements/commit/7ec24cc))
 * **sifrr-stater:** update syntax to 0.0.4 ([2bde5a4](https://github.com/sifrr/sifrr-elements/commit/2bde5a4))
 * **sifrr-tabs:** fix multiple tabs scroll bug ([ccaf0e0](https://github.com/sifrr/sifrr-elements/commit/ccaf0e0))
 * use this instead of target in statechange ([b18b73d](https://github.com/sifrr/sifrr-elements/commit/b18b73d))
@@ -18,23 +17,13 @@
 * **animate:** support multi-level properties ([eb90d70](https://github.com/sifrr/sifrr-elements/commit/eb90d70))
 * **animate:** support multiple numbers in a string ([af4b0e6](https://github.com/sifrr/sifrr-elements/commit/af4b0e6))
 * **animate:** take from as optional argument ([fc278a8](https://github.com/sifrr/sifrr-elements/commit/fc278a8))
-* **sifrr-code-editor:** add theme option ([6465e6a](https://github.com/sifrr/sifrr-elements/commit/6465e6a))
-* **sifrr-code-editor:** make code scroll with textarea ([1005cf9](https://github.com/sifrr/sifrr-elements/commit/1005cf9))
-* **sifrr-code-editor:** make sure to update after hljs is loaded ([f2e4bdd](https://github.com/sifrr/sifrr-elements/commit/f2e4bdd))
-* **sifrr-progress-round:** add dark theme ([a6989f5](https://github.com/sifrr/sifrr-elements/commit/a6989f5))
-* **sifrr-showcase:** separate showcases and variants ([2a3a1e6](https://github.com/sifrr/sifrr-elements/commit/2a3a1e6))
 * **sifrr-tabs:** any type of heading works ([f27a0ea](https://github.com/sifrr/sifrr-elements/commit/f27a0ea))
-* add sifrr-lazy-img ([8030526](https://github.com/sifrr/sifrr-elements/commit/8030526))
-* add sifrr-progress-round ([727c9f4](https://github.com/sifrr/sifrr-elements/commit/727c9f4))
-* add sifrr-shimmer ([b90bd72](https://github.com/sifrr/sifrr-elements/commit/b90bd72))
 * add/extract animate helper ([5ddf6b6](https://github.com/sifrr/sifrr-elements/commit/5ddf6b6))
 * **sifrr-showcase:** add multi showcase capability ([9377419](https://github.com/sifrr/sifrr-elements/commit/9377419))
-* **sifrr-showcase:** make showcase list draggable ([5bc0a2d](https://github.com/sifrr/sifrr-elements/commit/5bc0a2d))
 * **sifrr-stater:** add function element cap ([b186dc5](https://github.com/sifrr/sifrr-elements/commit/b186dc5))
 * **sifrr-tabs:** add option to change arrow click width ([761a5cd](https://github.com/sifrr/sifrr-elements/commit/761a5cd))
 * **sifrr-tabs:** throttle resize event ([e360310](https://github.com/sifrr/sifrr-elements/commit/e360310))
 * add code-highlighter and showcase ([ad24fde](https://github.com/sifrr/sifrr-elements/commit/ad24fde))
-* add sifrr-lazy-picure ([79b5649](https://github.com/sifrr/sifrr-elements/commit/79b5649))
 * add sifrr-stater ([ccfa0ce](https://github.com/sifrr/sifrr-elements/commit/ccfa0ce))
 * add sifrr-tabs ([f2a8844](https://github.com/sifrr/sifrr-elements/commit/f2a8844))
 
