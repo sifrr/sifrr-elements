@@ -79,5 +79,8 @@
     "rollup-plugin-postcss": "^2.0.3",
     "rollup-plugin-terser": "^4.0.4",
     "sinon": "^7.2.4"
+  },
+  "dependencies": {
+    "@sifrr/animate": "^0.0.1"
   }
 }

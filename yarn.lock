@@ -765,6 +765,11 @@
     mkdirp "^0.5.1"
     rimraf "^2.5.2"
 
+"@sifrr/animate@^0.0.1":
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/@sifrr/animate/-/animate-0.0.1.tgz#142109c48d65aeef15dd53b10b39f8ec9997fe6b"
+  integrity sha512-mF/hAQ6kTsZtAeXy/lS3DZGhaFKIYJNweN7ANDQ9BbiAhVXnkuEllNI31bKe5Wrx9G2abfPkiszoMIDYTujqfw==
+
 "@sinonjs/commons@^1", "@sinonjs/commons@^1.0.2", "@sinonjs/commons@^1.4.0":
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/@sinonjs/commons/-/commons-1.4.0.tgz#7b3ec2d96af481d7a0321252e7b1c94724ec5a78"
