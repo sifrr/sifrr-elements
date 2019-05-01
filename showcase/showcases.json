@@ -1,5 +1,5 @@
 {
-  "current": 5,
+  "current": 6,
   "showcases": [
     {
       "id": 1,
@@ -250,6 +250,24 @@
       "variantId": 2,
       "style": "#element > div {\n  position: relative;\n  width: 100%;\n  height: 100%;\n}\n#element sifrr-shimmer {\n  position: absolute;\n}\n\n#element #pic {\n  height: 150px;\n  width: 150px;\n  left: 0;\n  top: 0;\n}\n\n#element #name {\n  height: 30px;\n  width: 200px;\n  left: 166px;\n  top: 0;\n}\n\n#element #name2 {\n  height: 16px;\n  width: 200px;\n  left: 166px;\n  top: 38px;\n}\n\n#element #des {\n  height: 84px;\n  width: 200px;\n  left: 166px;\n  top: 66px;\n}",
       "elState": "return {\n\n}"
+    },
+    {
+      "name": "sifrr-include",
+      "variants": [
+        {
+          "variantId": 1,
+          "style": "",
+          "code": "<sifrr-include url=\"./random.html\"></sifrr-include>",
+          "elState": "",
+          "variantName": "html"
+        }
+      ],
+      "element": "sifrr-include",
+      "variantId": 1,
+      "variantName": "html",
+      "style": "",
+      "code": "<sifrr-include url=\"./random.html\"></sifrr-include>",
+      "elState": ""
     }
   ]
 }

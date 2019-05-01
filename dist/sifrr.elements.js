@@ -18,7 +18,7 @@
     moveAttr(img, 'srcset');
     return true;
   }
-  class SifrrLazyImg extends Sifrr.Dom.Element.extends(HTMLImageElement) {
+  class SifrrLazyImg extends SifrrDom.Element.extends(HTMLImageElement) {
     static get observer() {
       this._observer = this._observer || new IntersectionObserver(this.onVisible, {
         rootMargin: this.rootMargin
@@ -68,7 +68,7 @@
     moveAttr$1(img, 'srcset');
     return true;
   }
-  class SifrrLazyPicture extends Sifrr.Dom.Element.extends(HTMLPictureElement) {
+  class SifrrLazyPicture extends SifrrDom.Element.extends(HTMLPictureElement) {
     static get observer() {
       this._observer = this._observer || new IntersectionObserver(this.onVisible, {
         rootMargin: this.rootMargin
@@ -822,7 +822,7 @@
     }
     onConnect() {
       this.switchVariant();
-      Sifrr.Dom.Event.addListener('click', '.variant', (e, el) => {
+      SifrrDom.Event.addListener('click', '.variant', (e, el) => {
         if (el.matches('.variant')) this.switchVariant(el.dataset.variantId);
         if (el.matches('.variant span')) this.deleteVariant(el.parentNode.dataset.variantId);
       });
@@ -932,7 +932,7 @@
       if (n === 'url') this.url = value;
     }
     onConnect() {
-      Sifrr.Dom.Event.addListener('click', '.showcase', (e, el) => {
+      SifrrDom.Event.addListener('click', '.showcase', (e, el) => {
         if (el.matches('.showcase')) this.switchShowcase(this.getChildIndex(el));
         if (el.matches('.showcase span')) this.deleteShowcase(this.getChildIndex(el.parentNode));
       });
@@ -1067,7 +1067,7 @@
 
   const template$5 = "<style media=\"screen\">\n  * {\n    box-sizing: border-box;\n  }\n\n  .circle {\n    position: relative;\n    border: 2px solid rgba(255, 255, 255, 0.6);\n    padding: 0;\n    margin: 0;\n    width: 100%;\n    height: 100%;\n    border-radius: 50%;\n  }\n\n  .left-half, .bar, .f50-bar {\n    position: absolute;\n    margin: 0;\n    padding: 0;\n    width: 100%;\n    height: 100%;\n    border-radius: 50%;\n    top: 0;\n    left: 0;\n  }\n\n  .left-half {\n    width: calc(100% + 4px);\n    height: calc(100% + 4px);\n    margin: -2px;\n    clip-path: polygon(50% 0, 100% 0%, 100% 100%, 50% 100%);\n  }\n\n  .circle.over50 .left-half {\n    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);\n  }\n\n  .bar {\n    clip-path: polygon(0 0, 50% 0, 50% 100%, 0 100%);\n    border: 2px solid ${this.hasAttribute('dark') ? '#000000' : '#ffffff'};\n  }\n\n  .circle.over50 .f50-bar {\n    clip-path: polygon(50% 0, 100% 0%, 100% 100%, 50% 100%);\n    border: 2px solid ${this.hasAttribute('dark') ? '#000000' : '#ffffff'};\n    box-sizing: border-box;\n  }\n\n  .circle:not(.over50) .f50-bar {\n    display: none\n  }\n\n  .circle .bar {\n    transform: rotate(${this.state.progress * 360 / 100}deg)\n  }\n</style>\n<div class=\"circle ${this.state.progress > 50 ? 'over50' : ''}\">\n  <div class=\"left-half\">\n    <div class=\"f50-bar\"></div>\n    <div class=\"bar\"></div>\n  </div>\n</div>\n";
 
-  class SifrrProgressRound extends Sifrr.Dom.Element {
+  class SifrrProgressRound extends SifrrDom.Element {
     static get template() {
       return SifrrDom.template(template$5);
     }
@@ -1095,14 +1095,38 @@
 
   const template$6 = "<style media=\"screen\">\n  :host {\n    background: #f3f3f3;\n    background-image: linear-gradient(to right, #f3f3f3 0%, #e8e8e8 30%, #f6f7f8 60%, #f3f3f3 100%);\n    background-repeat: no-repeat;\n    display: inline-block;\n    animation: placeHolderShimmer 1s linear 0s infinite normal forwards;\n  }\n  @keyframes placeHolderShimmer{\n    0% { background-position: -${this.offsetWidth}px 0 }\n    100% { background-position: ${this.offsetWidth}px 0 }\n  }\n</style>\n";
 
-  class SifrrShimmer extends Sifrr.Dom.Element {
+  class SifrrShimmer extends SifrrDom.Element {
     static get template() {
       return SifrrDom.template(template$6);
     }
   }
   SifrrDom.register(SifrrShimmer);
 
+  class SifrrInclude extends SifrrDom.Element {
+    static syncedAttrs() {
+      return ['url', 'type'];
+    }
+    onConnect() {
+      let preffix = '',
+          suffix = '';
+      if (this.type === 'js') {
+        preffix = '<script>';
+        suffix = '</script>';
+      } else if (this.type === 'css') {
+        preffix = '<style>';
+        suffix = '</style>';
+      }
+      if (this.url) {
+        fetch(this.url).then(r => r.text()).then(text => {
+          this.innerHTML = preffix + text + suffix;
+        });
+      }
+    }
+  }
+  SifrrDom.register(SifrrInclude);
+
   exports.SifrrCodeEditor = SifrrCodeEditor;
+  exports.SifrrInclude = SifrrInclude;
   exports.SifrrLazyPicture = SifrrLazyPicture;
   exports.SifrrLazzyImg = SifrrLazyImg;
   exports.SifrrProgressRound = SifrrProgressRound;

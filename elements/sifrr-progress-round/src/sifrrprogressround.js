@@ -2,7 +2,7 @@ import SifrrDom from '@sifrr/dom';
 
 import template from './template.html';
 
-class SifrrProgressRound extends Sifrr.Dom.Element {
+class SifrrProgressRound extends SifrrDom.Element {
   static get template() {
     return SifrrDom.template(template);
   }

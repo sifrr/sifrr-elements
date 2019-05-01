@@ -21,7 +21,7 @@
     moveAttr(img, 'srcset');
     return true;
   }
-  class SifrrLazyPicture extends Sifrr.Dom.Element.extends(HTMLPictureElement) {
+  class SifrrLazyPicture extends SifrrDom.Element.extends(HTMLPictureElement) {
     static get observer() {
       this._observer = this._observer || new IntersectionObserver(this.onVisible, {
         rootMargin: this.rootMargin

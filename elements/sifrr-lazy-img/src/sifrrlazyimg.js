@@ -12,7 +12,7 @@ function loadPicture(img) {
   return true;
 }
 
-class SifrrLazyImg extends Sifrr.Dom.Element.extends(HTMLImageElement) {
+class SifrrLazyImg extends SifrrDom.Element.extends(HTMLImageElement) {
   static get observer() {
     this._observer = this._observer || new IntersectionObserver(this.onVisible, {
       rootMargin: this.rootMargin

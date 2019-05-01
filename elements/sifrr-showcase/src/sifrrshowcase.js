@@ -46,7 +46,7 @@ class SifrrShowcase extends SifrrDom.Element {
   }
 
   onConnect() {
-    Sifrr.Dom.Event.addListener('click', '.showcase', (e, el) => {
+    SifrrDom.Event.addListener('click', '.showcase', (e, el) => {
       if (el.matches('.showcase')) this.switchShowcase(this.getChildIndex(el));
       if (el.matches('.showcase span')) this.deleteShowcase(this.getChildIndex(el.parentNode));
     });

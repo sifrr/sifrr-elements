@@ -46,7 +46,7 @@ class SifrrSingleShowcase extends SifrrDom.Element {
 
   onConnect() {
     this.switchVariant();
-    Sifrr.Dom.Event.addListener('click', '.variant', (e, el) => {
+    SifrrDom.Event.addListener('click', '.variant', (e, el) => {
       if (el.matches('.variant')) this.switchVariant(el.dataset.variantId);
       if (el.matches('.variant span')) this.deleteVariant(el.parentNode.dataset.variantId);
     });

@@ -133,7 +133,7 @@
     }
     onConnect() {
       this.switchVariant();
-      Sifrr.Dom.Event.addListener('click', '.variant', (e, el) => {
+      SifrrDom.Event.addListener('click', '.variant', (e, el) => {
         if (el.matches('.variant')) this.switchVariant(el.dataset.variantId);
         if (el.matches('.variant span')) this.deleteVariant(el.parentNode.dataset.variantId);
       });
@@ -243,7 +243,7 @@
       if (n === 'url') this.url = value;
     }
     onConnect() {
-      Sifrr.Dom.Event.addListener('click', '.showcase', (e, el) => {
+      SifrrDom.Event.addListener('click', '.showcase', (e, el) => {
         if (el.matches('.showcase')) this.switchShowcase(this.getChildIndex(el));
         if (el.matches('.showcase span')) this.deleteShowcase(this.getChildIndex(el.parentNode));
       });
