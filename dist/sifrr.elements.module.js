@@ -780,7 +780,7 @@ class SifrrCodeEditor extends SifrrDom.Element {
     this.update();
   }
   get htmlValue() {
-    if (window.hljs) return window.hljs.highlight(this.lang, this.value).value;
+    if (window.hljs) return window.hljs.highlight(this.lang, this.value.replace(/\n$/, '\n\n')).value;
     else return this.value.replace(/</g, '&lt;');
   }
   get theme() {

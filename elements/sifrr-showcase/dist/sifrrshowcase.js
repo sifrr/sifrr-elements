@@ -78,7 +78,7 @@
       this.update();
     }
     get htmlValue() {
-      if (window.hljs) return window.hljs.highlight(this.lang, this.value).value;else return this.value.replace(/</g, '&lt;');
+      if (window.hljs) return window.hljs.highlight(this.lang, this.value.replace(/\n$/, '\n\n')).value;else return this.value.replace(/</g, '&lt;');
     }
     get theme() {
       return this.getAttribute('theme') || 'atom-one-dark';
