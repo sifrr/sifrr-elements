@@ -24,4 +24,4 @@ You can get value of editor by property also: `element.value`
 
 `theme` attribute: highlight.js theme to use for syntax highlighting. default: atom-dark-one
 
-[supported themes](https://github.com/highlightjs/highlight.js/tree/master/src/styles)
+[supported themes](https://github.com/highlightjs/highlight.js/tree/9.15.6/src/styles)
