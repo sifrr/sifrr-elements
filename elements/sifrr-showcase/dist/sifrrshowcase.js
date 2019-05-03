@@ -152,6 +152,9 @@
       }
     }
     onUpdate() {
+      window.requestAnimationFrame(this.runStateFunction.bind(this));
+    }
+    runStateFunction() {
       let state;
       try {
         state = new Function(this.$('#elState').value).call(this.element());
