@@ -1113,6 +1113,8 @@
   }
   SifrrDom.register(SifrrInclude);
 
+  window.LazyLoader = lazyloader;
+
   exports.LazyLoader = lazyloader;
   exports.SifrrCodeEditor = SifrrCodeEditor;
   exports.SifrrInclude = SifrrInclude;

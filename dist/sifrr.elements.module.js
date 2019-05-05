@@ -1129,6 +1129,8 @@ class SifrrInclude extends SifrrDom.Element {
 }
 SifrrDom.register(SifrrInclude);
 
+window.LazyLoader = lazyloader;
+
 export { lazyloader as LazyLoader, SifrrCodeEditor, SifrrInclude, SifrrLazyPicture, SifrrLazyImg as SifrrLazzyImg, SifrrProgressRound, SifrrShimmer, SifrrShowcase, SifrrStater, SifrrTabs };
 /*! (c) @aadityataparia */
 //# sourceMappingURL=sifrr.elements.module.js.map

@@ -11,3 +11,5 @@ export { default as SifrrInclude } from '../elements/sifrr-include/src/sifrrincl
 
 // helpers
 export { default as LazyLoader } from '../helpers/lazyloader';
+import LazyLoader from '../helpers/lazyloader';
+window.LazyLoader = LazyLoader;
