@@ -1,23 +1,15 @@
 <style media="screen">
   :host {
     display: inline-block;
+    position: relative;
   }
 
-  * {
+  :host * {
     box-sizing: border-box;
   }
 
-  .circle {
-    position: relative;
-    border: 2px solid rgba(255, 255, 255, 0.6);
-    padding: 0;
-    margin: 0;
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-  }
-
-  .left-half, .bar, .f50-bar {
+  /* absolute positioning */
+  .circle, .bar {
     position: absolute;
     margin: 0;
     padding: 0;
@@ -28,39 +20,52 @@
     left: 0;
   }
 
-  .left-half {
-    width: calc(100% + 4px);
-    height: calc(100% + 4px);
-    margin: -2px;
-    clip-path: polygon(50% 0, 100% 0%, 100% 100%, 50% 100%);
+  /* borders */
+  .back.circle {
+    border: 2px solid rgba(255, 255, 255, 0.6);
   }
 
-  .circle.over50 .left-half {
-    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+  .bar, .over50 .bar.right {
+    border: 2px solid ${this.hasAttribute('dark') ? '#000000' : '#ffffff'};
   }
 
-  .bar {
+  /* clipping */
+  .front.circle {
+    /* right half */
+    clip-path: polygon(50% 0, 101% 0%, 100% 100%, 50% 100%);
+  }
+
+  .front.circle.over50 {
+    /* full */
+    clip-path: polygon(0 0, 101% 0, 100% 100%, 0 100%);
+  }
+
+  .bar.left {
+    /* left half */
     clip-path: polygon(0 0, 50% 0, 50% 100%, 0 100%);
-    border: 2px solid ${this.hasAttribute('dark') ? '#000000' : '#ffffff'};
   }
 
-  .circle.over50 .f50-bar {
-    clip-path: polygon(50% 0, 100% 0%, 100% 100%, 50% 100%);
-    border: 2px solid ${this.hasAttribute('dark') ? '#000000' : '#ffffff'};
-    box-sizing: border-box;
+  .over50 .bar.right {
+    /* right half */
+    clip-path: polygon(50% 0, 101% 0%, 100% 100%, 50% 100%);
   }
 
-  .circle:not(.over50) .f50-bar {
-    display: none
-  }
-
-  .circle .bar {
+  /* progress */
+  .bar.left {
     transform: rotate(${this.state.progress * 360 / 100}deg)
   }
+
+  .bar.right {
+    display: none;
+  }
+
+  .over50 .bar.right {
+    display: block;
+  }
 </style>
-<div class="circle ${this.state.progress > 50 ? 'over50' : ''}">
-  <div class="left-half">
-    <div class="f50-bar"></div>
-    <div class="bar"></div>
-  </div>
+<div class="circle back">
+</div>
+<div class="circle front ${this.state.progress > 50 ? 'over50' : ''}">
+  <div class="bar right"></div>
+  <div class="bar left"></div>
 </div>
