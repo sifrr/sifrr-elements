@@ -7,31 +7,41 @@ function moveAttr(el, attr) {
   el.removeAttribute(`data-${attr}`);
 }
 function loadPicture(pic) {
-  pic.$$('source', false).forEach((s) => {
-    moveAttr(s, 'srcset');
-  });
-  const img = pic.$('img', false);
-  moveAttr(img, 'src');
-  moveAttr(img, 'srcset');
+  if (pic.tagName === 'PICTURE') {
+    pic.querySelectorAll('source').forEach((s) => {
+      moveAttr(s, 'src');
+      moveAttr(s, 'srcset');
+    });
+    pic = pic.querySelector('img');
+  } else if (pic.tagName !== 'IMG') {
+    throw Error('LazyLoader only supports `picture` or `img` element. Given: ', pic);
+  }
+  moveAttr(pic, 'src');
+  moveAttr(pic, 'srcset');
   return true;
 }
+function onVisible(entries) {
+  entries.forEach(entry => {
+    if (entry.isIntersecting && !entry.target._loaded) {
+      entry.target._loaded = true;
+      if (entry.target.beforeLoad) entry.target.beforeLoad();
+      loadPicture(entry.target);
+      this.unobserve(entry.target);
+      if (entry.target.afterLoad) entry.target.afterLoad();
+    }
+  });
+}
+class LazyLoader extends window.IntersectionObserver {
+  constructor(rootMargin = '0px 0px 0px 0px') {
+    super(onVisible, { rootMargin });
+  }
+}
+var lazyloader = LazyLoader;
+
 class SifrrLazyPicture extends SifrrDom.Element.extends(HTMLPictureElement) {
   static get observer() {
-    this._observer = this._observer || new IntersectionObserver(this.onVisible, {
-      rootMargin: this.rootMargin
-    });
+    this._observer = this._observer || new lazyloader(this.rootMargin);
     return this._observer;
-  }
-  static onVisible(entries) {
-    entries.forEach(entry => {
-      if (entry.isIntersecting && !entry.target._loaded) {
-        entry.target._loaded = true;
-        entry.target.beforeLoad();
-        loadPicture(entry.target);
-        this.unobserve(entry.target);
-        entry.target.afterLoad();
-      }
-    });
   }
   onConnect() {
     this.reload();
@@ -40,8 +50,6 @@ class SifrrLazyPicture extends SifrrDom.Element.extends(HTMLPictureElement) {
     this._loaded = false;
     this.constructor.observer.observe(this);
   }
-  beforeLoad() {}
-  afterLoad() {}
   onDisconnect() {
     this.constructor.observer.unobserve(this);
   }

@@ -8,3 +8,6 @@ export { default as SifrrCodeEditor } from '../elements/sifrr-code-editor/src/si
 export { default as SifrrProgressRound } from '../elements/sifrr-progress-round/src/sifrrprogressround';
 export { default as SifrrShimmer } from '../elements/sifrr-shimmer/src/sifrrshimmer';
 export { default as SifrrInclude } from '../elements/sifrr-include/src/sifrrinclude';
+
+// helpers
+export { default as LazyLoader } from '../helpers/lazyloader';

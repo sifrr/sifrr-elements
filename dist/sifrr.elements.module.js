@@ -7,38 +7,49 @@ function moveAttr(el, attr) {
   el.setAttribute(attr, el.dataset[attr]);
   el.removeAttribute(`data-${attr}`);
 }
-function loadPicture(img) {
-  moveAttr(img, 'src');
-  moveAttr(img, 'srcset');
+function loadPicture(pic) {
+  if (pic.tagName === 'PICTURE') {
+    pic.querySelectorAll('source').forEach((s) => {
+      moveAttr(s, 'src');
+      moveAttr(s, 'srcset');
+    });
+    pic = pic.querySelector('img');
+  } else if (pic.tagName !== 'IMG') {
+    throw Error('LazyLoader only supports `picture` or `img` element. Given: ', pic);
+  }
+  moveAttr(pic, 'src');
+  moveAttr(pic, 'srcset');
   return true;
 }
+function onVisible(entries) {
+  entries.forEach(entry => {
+    if (entry.isIntersecting && !entry.target._loaded) {
+      entry.target._loaded = true;
+      if (entry.target.beforeLoad) entry.target.beforeLoad();
+      loadPicture(entry.target);
+      this.unobserve(entry.target);
+      if (entry.target.afterLoad) entry.target.afterLoad();
+    }
+  });
+}
+class LazyLoader extends window.IntersectionObserver {
+  constructor(rootMargin = '0px 0px 0px 0px') {
+    super(onVisible, { rootMargin });
+  }
+}
+var lazyloader = LazyLoader;
+
 class SifrrLazyImg extends SifrrDom.Element.extends(HTMLImageElement) {
   static get observer() {
-    this._observer = this._observer || new IntersectionObserver(this.onVisible, {
-      rootMargin: this.rootMargin
-    });
+    this._observer = this._observer || new lazyloader(this.rootMargin);
     return this._observer;
-  }
-  static onVisible(entries) {
-    entries.forEach(entry => {
-      if (entry.isIntersecting && !entry.target._loaded) {
-        entry.target._loaded = true;
-        entry.target.beforeLoad();
-        loadPicture(entry.target);
-        this.unobserve(entry.target);
-        entry.target.afterLoad();
-      }
-    });
   }
   onConnect() {
     this.reload();
   }
   reload() {
-    this._loaded = false;
     this.constructor.observer.observe(this);
   }
-  beforeLoad() {}
-  afterLoad() {}
   onDisconnect() {
     this.constructor.observer.unobserve(this);
   }
@@ -46,37 +57,10 @@ class SifrrLazyImg extends SifrrDom.Element.extends(HTMLImageElement) {
 SifrrLazyImg.rootMargin = '0px 0px 50px 0px';
 SifrrDom.register(SifrrLazyImg, { extends: 'img' });
 
-function moveAttr$1(el, attr) {
-  if (!el.dataset[attr]) return;
-  el.setAttribute(attr, el.dataset[attr]);
-  el.removeAttribute(`data-${attr}`);
-}
-function loadPicture$1(pic) {
-  pic.$$('source', false).forEach((s) => {
-    moveAttr$1(s, 'srcset');
-  });
-  const img = pic.$('img', false);
-  moveAttr$1(img, 'src');
-  moveAttr$1(img, 'srcset');
-  return true;
-}
 class SifrrLazyPicture extends SifrrDom.Element.extends(HTMLPictureElement) {
   static get observer() {
-    this._observer = this._observer || new IntersectionObserver(this.onVisible, {
-      rootMargin: this.rootMargin
-    });
+    this._observer = this._observer || new lazyloader(this.rootMargin);
     return this._observer;
-  }
-  static onVisible(entries) {
-    entries.forEach(entry => {
-      if (entry.isIntersecting && !entry.target._loaded) {
-        entry.target._loaded = true;
-        entry.target.beforeLoad();
-        loadPicture$1(entry.target);
-        this.unobserve(entry.target);
-        entry.target.afterLoad();
-      }
-    });
   }
   onConnect() {
     this.reload();
@@ -85,8 +69,6 @@ class SifrrLazyPicture extends SifrrDom.Element.extends(HTMLPictureElement) {
     this._loaded = false;
     this.constructor.observer.observe(this);
   }
-  beforeLoad() {}
-  afterLoad() {}
   onDisconnect() {
     this.constructor.observer.unobserve(this);
   }
@@ -1146,6 +1128,6 @@ class SifrrInclude extends SifrrDom.Element {
 }
 SifrrDom.register(SifrrInclude);
 
-export { SifrrCodeEditor, SifrrInclude, SifrrLazyPicture, SifrrLazyImg as SifrrLazzyImg, SifrrProgressRound, SifrrShimmer, SifrrShowcase, SifrrStater, SifrrTabs };
+export { lazyloader as LazyLoader, SifrrCodeEditor, SifrrInclude, SifrrLazyPicture, SifrrLazyImg as SifrrLazzyImg, SifrrProgressRound, SifrrShimmer, SifrrShowcase, SifrrStater, SifrrTabs };
 /*! (c) @aadityataparia */
 //# sourceMappingURL=sifrr.elements.module.js.map

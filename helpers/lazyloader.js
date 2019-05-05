@@ -1,11 +1,9 @@
-/*! SifrrLazyImg v0.0.4 - sifrr project | MIT licensed | https://github.com/sifrr/sifrr-elements */
-import SifrrDom from '@sifrr/dom';
-
 function moveAttr(el, attr) {
   if (!el.dataset[attr]) return;
   el.setAttribute(attr, el.dataset[attr]);
   el.removeAttribute(`data-${attr}`);
 }
+
 function loadPicture(pic) {
   if (pic.tagName === 'PICTURE') {
     pic.querySelectorAll('source').forEach((s) => {
@@ -20,6 +18,7 @@ function loadPicture(pic) {
   moveAttr(pic, 'srcset');
   return true;
 }
+
 function onVisible(entries) {
   entries.forEach(entry => {
     if (entry.isIntersecting && !entry.target._loaded) {
@@ -31,31 +30,11 @@ function onVisible(entries) {
     }
   });
 }
+
 class LazyLoader extends window.IntersectionObserver {
   constructor(rootMargin = '0px 0px 0px 0px') {
     super(onVisible, { rootMargin });
   }
 }
-var lazyloader = LazyLoader;
 
-class SifrrLazyImg extends SifrrDom.Element.extends(HTMLImageElement) {
-  static get observer() {
-    this._observer = this._observer || new lazyloader(this.rootMargin);
-    return this._observer;
-  }
-  onConnect() {
-    this.reload();
-  }
-  reload() {
-    this.constructor.observer.observe(this);
-  }
-  onDisconnect() {
-    this.constructor.observer.unobserve(this);
-  }
-}
-SifrrLazyImg.rootMargin = '0px 0px 50px 0px';
-SifrrDom.register(SifrrLazyImg, { extends: 'img' });
-
-export default SifrrLazyImg;
-/*! (c) @aadityataparia */
-//# sourceMappingURL=sifrrlazyimg.module.js.map
+module.exports = LazyLoader;

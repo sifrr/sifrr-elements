@@ -1,35 +1,10 @@
 import SifrrDom from '@sifrr/dom';
-
-function moveAttr(el, attr) {
-  if (!el.dataset[attr]) return;
-  el.setAttribute(attr, el.dataset[attr]);
-  el.removeAttribute(`data-${attr}`);
-}
-
-function loadPicture(img) {
-  moveAttr(img, 'src');
-  moveAttr(img, 'srcset');
-  return true;
-}
+import LazyLoader from '../../../helpers/lazyloader';
 
 class SifrrLazyImg extends SifrrDom.Element.extends(HTMLImageElement) {
   static get observer() {
-    this._observer = this._observer || new IntersectionObserver(this.onVisible, {
-      rootMargin: this.rootMargin
-    });
+    this._observer = this._observer || new LazyLoader(this.rootMargin);
     return this._observer;
-  }
-
-  static onVisible(entries) {
-    entries.forEach(entry => {
-      if (entry.isIntersecting && !entry.target._loaded) {
-        entry.target._loaded = true;
-        entry.target.beforeLoad();
-        loadPicture(entry.target);
-        this.unobserve(entry.target);
-        entry.target.afterLoad();
-      }
-    });
   }
 
   onConnect() {
@@ -37,12 +12,8 @@ class SifrrLazyImg extends SifrrDom.Element.extends(HTMLImageElement) {
   }
 
   reload() {
-    this._loaded = false;
     this.constructor.observer.observe(this);
   }
-
-  beforeLoad() {}
-  afterLoad() {}
 
   onDisconnect() {
     this.constructor.observer.unobserve(this);
