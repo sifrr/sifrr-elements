@@ -56,6 +56,7 @@
       this.reload();
     }
     reload() {
+      this._loaded = false;
       this.constructor.observer.observe(this);
     }
     onDisconnect() {

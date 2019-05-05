@@ -67,6 +67,29 @@ import { SifrrLazyPicture } from '@sifrr/elements';
 // Elements are auto registering, so they will be registered when file is loaded
 ```
 
+## Helpers
+
+### LazyLoader
+
+Lazy loads a image when it is near viewport, using data-src and data-srcset.
+
+usage:
+
+```js
+// In HTML <img data-src="url" class="lazy">
+
+import { LazyLoader } from '@sifrr/elements';
+
+const lazyLoader = new LazyLoader(rootMargin /* same as mutation observer's rootMargin, default: '0px 0px 0px 0px' */);
+
+lazyLoader.observe(document.querySelector('.lazy'));
+
+// or multiple images
+document.querySelectorAll('.lazy').forEach(lazyLoader.observe);
+
+// not img's data-src will be changed to src when rootmargin condition is satisfied
+```
+
 ## License
 
 sifrr-elements is [MIT Licensed](./LICENSE).

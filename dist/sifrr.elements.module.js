@@ -48,6 +48,7 @@ class SifrrLazyImg extends SifrrDom.Element.extends(HTMLImageElement) {
     this.reload();
   }
   reload() {
+    this._loaded = false;
     this.constructor.observer.observe(this);
   }
   onDisconnect() {
