@@ -37,6 +37,11 @@ class LazyLoader extends window.IntersectionObserver {
     super(onVisible, { rootMargin });
   }
 }
+LazyLoader.prototype._observe = LazyLoader.prototype.observe;
+LazyLoader.prototype.observe = function(el) {
+  el._loaded = false;
+  this._observe(el);
+};
 var lazyloader = LazyLoader;
 
 class SifrrLazyImg extends SifrrDom.Element.extends(HTMLImageElement) {
@@ -48,7 +53,6 @@ class SifrrLazyImg extends SifrrDom.Element.extends(HTMLImageElement) {
     this.reload();
   }
   reload() {
-    this._loaded = false;
     this.constructor.observer.observe(this);
   }
   onDisconnect() {
@@ -67,7 +71,6 @@ class SifrrLazyPicture extends SifrrDom.Element.extends(HTMLPictureElement) {
     this.reload();
   }
   reload() {
-    this._loaded = false;
     this.constructor.observer.observe(this);
   }
   onDisconnect() {

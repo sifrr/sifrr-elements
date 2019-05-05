@@ -44,6 +44,11 @@
       });
     }
   }
+  LazyLoader.prototype._observe = LazyLoader.prototype.observe;
+  LazyLoader.prototype.observe = function (el) {
+    el._loaded = false;
+    this._observe(el);
+  };
   var lazyloader = LazyLoader;
 
   class SifrrLazyImg extends SifrrDom.Element.extends(HTMLImageElement) {
@@ -55,7 +60,6 @@
       this.reload();
     }
     reload() {
-      this._loaded = false;
       this.constructor.observer.observe(this);
     }
     onDisconnect() {

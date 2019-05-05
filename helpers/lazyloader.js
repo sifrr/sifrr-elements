@@ -37,4 +37,10 @@ class LazyLoader extends window.IntersectionObserver {
   }
 }
 
+LazyLoader.prototype._observe = LazyLoader.prototype.observe;
+LazyLoader.prototype.observe = function(el) {
+  el._loaded = false;
+  this._observe(el);
+};
+
 module.exports = LazyLoader;

@@ -1,6 +1,6 @@
 async function getDegree() {
   return page.$eval('sifrr-progress-round', el => {
-    const bar = el.$('.bar');
+    const bar = el.$('.bar.left');
     const transform = window.getComputedStyle(bar).getPropertyValue('transform');
     const vals = transform.split('(')[1].split(')')[0].split(',');
     return Math.round(Math.atan(vals[1] / vals[0]) * (180 / Math.PI));
