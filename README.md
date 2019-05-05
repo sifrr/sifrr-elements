@@ -59,12 +59,14 @@ add `@sifrr/elements` package, `yarn add @sifrr/elements`
 require/import needed elements
 
 ```js
+const SifrrDom = require('@sifrr/dom');
 const { SifrrLazyPicture } = require('@sifrr/elements');
 //or
+import SifrrDom from '@sifrr/dom';
 import { SifrrLazyPicture } from '@sifrr/elements';
 
 // Register
-// Elements are auto registering, so they will be registered when file is loaded
+SifrrDom.register(SifrrLazyPicture);
 ```
 
 ## Helpers
