@@ -73,12 +73,15 @@ SifrrDom.register(SifrrLazyPicture);
 
 ### LazyLoader
 
+Since lazy-image and lazy-picture doesn't work with safari, you can simply use LazyLoader helper to lazy load native images and pictures.
+
 Lazy loads a image when it is near viewport, using data-src and data-srcset.
 
 usage:
 
 ```js
 // In HTML <img data-src="url" class="lazy">
+// // supports picture tag also
 
 import { LazyLoader } from '@sifrr/elements';
 
@@ -89,7 +92,7 @@ lazyLoader.observe(document.querySelector('.lazy'));
 // or multiple images
 document.querySelectorAll('.lazy').forEach(lazyLoader.observe);
 
-// not img's data-src will be changed to src when rootmargin condition is satisfied
+// observed images' data-src will be changed to src when rootmargin condition is satisfied
 ```
 
 ## License
