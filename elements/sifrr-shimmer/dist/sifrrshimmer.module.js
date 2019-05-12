@@ -1,7 +1,7 @@
 /*! SifrrShimmer v0.0.4 - sifrr project | MIT licensed | https://github.com/sifrr/sifrr-elements */
 import SifrrDom from '@sifrr/dom';
 
-var css = ":host {\n  background: linear-gradient(to right, \"${this.colora(0.7)}\" 4%, \"${this.colora(0.5)}\" 25%, \"${this.colora(0.7)}\" 36%);\n  display: inline-block;\n  animation: shimmer 2.5s linear 0s infinite;\n  background-size: 2000px 100%;\n}\n@keyframes shimmer{\n  0% { background-position: -2000px 0 }\n  100% { background-position: 2000px 0 }\n}\n";
+var css = ":host {\n  background: linear-gradient(to right, \"${this.colora(0.15)}\" 4%, \"${this.colora(0)}\" 25%, \"${this.colora(0.15)}\" 36%);\n  display: inline-block;\n  animation: shimmer 2.5s linear 0s infinite;\n  background-size: 2000px 100%;\n}\n@keyframes shimmer{\n  0% { background-position: -2000px 0 }\n  100% { background-position: 2000px 0 }\n}\n";
 
 const properStyle = css.replace(/"(\${[^"]*})"/g, '$1');
 function rgbToHsl(r = 0, g = 0, b = 0) {
@@ -24,14 +24,18 @@ function rgbToHsl(r = 0, g = 0, b = 0) {
 }
 class SifrrShimmer extends SifrrDom.Element {
   static syncedAttrs() {
-    return ['color'];
+    return ['color', 'light'];
   }
   static get template() {
     return SifrrDom.template(`<style>${properStyle}</style>`);
   }
   colora(point) {
-    const hsl = rgbToHsl(...(this.color || '0, 0, 0').replace(/ /g, '').split(',').map(Number));
-    return `hsl(${hsl[0] * 359}, ${hsl[1] * 100}%, ${point * 100}%)`;
+    const hsl = rgbToHsl(...(this.color || '170, 170, 170').replace(/ /g, '').split(',').map(Number));
+    const l = Math.min(hsl[2] + (this.isLight() ? point : -1 * point), 1);
+    return `hsl(${hsl[0] * 359}, ${hsl[1] * 100}%, ${l * 100}%)`;
+  }
+  isLight() {
+    return this.hasAttribute('light');
   }
 }
 SifrrDom.register(SifrrShimmer);

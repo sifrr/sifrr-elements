@@ -27,7 +27,7 @@ function rgbToHsl(r = 0, g = 0, b = 0) {
 
 class SifrrShimmer extends SifrrDom.Element {
   static syncedAttrs() {
-    return ['color'];
+    return ['color', 'light'];
   }
 
   static get template() {
@@ -35,8 +35,13 @@ class SifrrShimmer extends SifrrDom.Element {
   }
 
   colora(point) {
-    const hsl = rgbToHsl(...(this.color || '0, 0, 0').replace(/ /g, '').split(',').map(Number));
-    return `hsl(${hsl[0] * 359}, ${hsl[1] * 100}%, ${point * 100}%)`;
+    const hsl = rgbToHsl(...(this.color || '170, 170, 170').replace(/ /g, '').split(',').map(Number));
+    const l = Math.min(hsl[2] + (this.isLight() ? point : -1 * point), 1);
+    return `hsl(${hsl[0] * 359}, ${hsl[1] * 100}%, ${l * 100}%)`;
+  }
+
+  isLight() {
+    return this.hasAttribute('light');
   }
 }
 

@@ -225,15 +225,15 @@
         {
           "variantId": 1,
           "variantName": "normal",
-          "code": "<sifrr-shimmer color=\"255,255,255\"></sifrr-shimmer>",
+          "code": "<sifrr-shimmer></sifrr-shimmer>",
           "style": "#element > * {\n  height: 50px;\n  width: 250px;\n}",
           "elState": "return {\n\n}"
         },
         {
           "variantId": 4,
-          "variantName": "different color",
+          "variantName": "different color, light theme",
           "style": "#element > * {\n  height: 50px;\n  width: 200px;\n}",
-          "code": "<sifrr-shimmer color=\"124, 56, 90\"></sifrr-shimmer>",
+          "code": "<sifrr-shimmer color=\"124, 56, 90\" light></sifrr-shimmer>",
           "elState": "return {\n\n}"
         },
         {
@@ -252,11 +252,11 @@
         }
       ],
       "element": "sifrr-shimmer",
-      "code": "<sifrr-shimmer color=\"255,255,255\"></sifrr-shimmer>",
-      "variantName": "normal",
-      "variantId": 1,
-      "style": "#element > * {\n  height: 50px;\n  width: 250px;\n}",
-      "elState": "return {\n\n}"
+      "code": "<sifrr-loading>\n  <sifrr-shimmer></sifrr-shimmer>\n</sifrr-loading>",
+      "variantName": "loading sifrr element",
+      "variantId": 3,
+      "style": "#element sifrr-random, sifrr-shimmer {\n  width: 300px;\n  height: 100px;\n}\n",
+      "elState": "// when element is registered shimmer will disappear, refresh to load again\nsetTimeout(() => {\n  Sifrr.Dom.register(class SifrrLoading extends Sifrr.Dom.Element {\n  static get template() {\n    return Sifrr.Dom.template('<p></p>')\n  }\n})\n}, 3000);\nreturn {\n\n}"
     },
     {
       "name": "sifrr-include",
