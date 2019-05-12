@@ -48,7 +48,8 @@ function moduleConfig(name, root, min = false, isModule = false) {
         plugins: [
           min ? require('cssnano')({
             preset: [ 'default' ],
-          }) : false
+          }) : false,
+          require('autoprefixer')
         ].filter(k => k)
       }),
       html({
