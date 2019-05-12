@@ -1,10 +1,13 @@
 import SifrrDom from '@sifrr/dom';
 
 import template from './template.html';
+import style from './style.css';
+
+const properStyle = style.replace(/"(\${.*})"/g, '$1');
 
 class SifrrProgressRound extends SifrrDom.Element {
   static get template() {
-    return SifrrDom.template(template);
+    return SifrrDom.template(`<style>${properStyle}</style>${template}`);
   }
 
   static observedAttrs() {

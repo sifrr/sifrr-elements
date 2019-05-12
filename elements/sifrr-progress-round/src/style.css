@@ -1,0 +1,63 @@
+:host {
+  display: inline-block;
+  position: relative;
+}
+
+:host * {
+  box-sizing: border-box;
+}
+
+/* absolute positioning */
+.circle, .bar {
+  position: absolute;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  top: 0;
+  left: 0;
+}
+
+/* borders */
+.back.circle {
+  border: 2px solid rgba(255, 255, 255, 0.6);
+}
+
+.bar, .over50 .bar.right {
+  border: 2px solid "${this.hasAttribute('dark') ? '#000000' : '#ffffff'}";
+}
+
+/* clipping */
+.front.circle {
+  /* right half */
+  clip-path: polygon(50% 0, 101% 0%, 100% 100%, 50% 100%);
+}
+
+.front.circle.over50 {
+  /* full */
+  clip-path: polygon(0 0, 101% 0, 100% 100%, 0 100%);
+}
+
+.bar.left {
+  /* left half */
+  clip-path: polygon(0 0, 50% 0, 50% 100%, 0 100%);
+}
+
+.over50 .bar.right {
+  /* right half */
+  clip-path: polygon(50% 0, 101% 0%, 100% 100%, 50% 100%);
+}
+
+/* progress */
+.bar.left {
+  transform: rotate("${this.state.progress * 360 / 100}"deg)
+}
+
+.bar.right {
+  display: none;
+}
+
+.over50 .bar.right {
+  display: block;
+}

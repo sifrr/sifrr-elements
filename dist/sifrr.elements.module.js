@@ -1079,11 +1079,14 @@ SifrrShowcase.defaultState = {
 };
 SifrrDom.register(SifrrShowcase);
 
-const template$5 = "<style media=\"screen\">\n  :host {\n    display: inline-block;\n    position: relative;\n  }\n\n  :host * {\n    box-sizing: border-box;\n  }\n\n  /* absolute positioning */\n  .circle, .bar {\n    position: absolute;\n    margin: 0;\n    padding: 0;\n    width: 100%;\n    height: 100%;\n    border-radius: 50%;\n    top: 0;\n    left: 0;\n  }\n\n  /* borders */\n  .back.circle {\n    border: 2px solid rgba(255, 255, 255, 0.6);\n  }\n\n  .bar, .over50 .bar.right {\n    border: 2px solid ${this.hasAttribute('dark') ? '#000000' : '#ffffff'};\n  }\n\n  /* clipping */\n  .front.circle {\n    /* right half */\n    clip-path: polygon(50% 0, 101% 0%, 100% 100%, 50% 100%);\n  }\n\n  .front.circle.over50 {\n    /* full */\n    clip-path: polygon(0 0, 101% 0, 100% 100%, 0 100%);\n  }\n\n  .bar.left {\n    /* left half */\n    clip-path: polygon(0 0, 50% 0, 50% 100%, 0 100%);\n  }\n\n  .over50 .bar.right {\n    /* right half */\n    clip-path: polygon(50% 0, 101% 0%, 100% 100%, 50% 100%);\n  }\n\n  /* progress */\n  .bar.left {\n    transform: rotate(${this.state.progress * 360 / 100}deg)\n  }\n\n  .bar.right {\n    display: none;\n  }\n\n  .over50 .bar.right {\n    display: block;\n  }\n</style>\n<div class=\"circle back\">\n</div>\n<div class=\"circle front ${this.state.progress > 50 ? 'over50' : ''}\">\n  <div class=\"bar right\"></div>\n  <div class=\"bar left\"></div>\n</div>\n";
+const template$5 = "<div class=\"circle back\">\n</div>\n<div class=\"circle front ${this.state.progress > 50 ? 'over50' : ''}\">\n  <div class=\"bar right\"></div>\n  <div class=\"bar left\"></div>\n</div>\n";
 
+var css$4 = ":host {\n  display: inline-block;\n  position: relative;\n}\n\n:host * {\n  box-sizing: border-box;\n}\n\n/* absolute positioning */\n.circle, .bar {\n  position: absolute;\n  margin: 0;\n  padding: 0;\n  width: 100%;\n  height: 100%;\n  border-radius: 50%;\n  top: 0;\n  left: 0;\n}\n\n/* borders */\n.back.circle {\n  border: 2px solid rgba(255, 255, 255, 0.6);\n}\n\n.bar, .over50 .bar.right {\n  border: 2px solid \"${this.hasAttribute('dark') ? '#000000' : '#ffffff'}\";\n}\n\n/* clipping */\n.front.circle {\n  /* right half */\n  clip-path: polygon(50% 0, 101% 0%, 100% 100%, 50% 100%);\n}\n\n.front.circle.over50 {\n  /* full */\n  clip-path: polygon(0 0, 101% 0, 100% 100%, 0 100%);\n}\n\n.bar.left {\n  /* left half */\n  clip-path: polygon(0 0, 50% 0, 50% 100%, 0 100%);\n}\n\n.over50 .bar.right {\n  /* right half */\n  clip-path: polygon(50% 0, 101% 0%, 100% 100%, 50% 100%);\n}\n\n/* progress */\n.bar.left {\n  transform: rotate(\"${this.state.progress * 360 / 100}\"deg)\n}\n\n.bar.right {\n  display: none;\n}\n\n.over50 .bar.right {\n  display: block;\n}\n";
+
+const properStyle = css$4.replace(/"(\${.*})"/g, '$1');
 class SifrrProgressRound extends SifrrDom.Element {
   static get template() {
-    return SifrrDom.template(template$5);
+    return SifrrDom.template(`<style>${properStyle}</style>${template$5}`);
   }
   static observedAttrs() {
     return ['progress'];
@@ -1101,11 +1104,37 @@ class SifrrProgressRound extends SifrrDom.Element {
 SifrrProgressRound.defaultState = { progress: 0 };
 SifrrDom.register(SifrrProgressRound);
 
-const template$6 = "<style media=\"screen\">\n  :host {\n    background: #f3f3f3;\n    background-image: linear-gradient(to right, #f3f3f3 0%, #e8e8e8 30%, #f6f7f8 60%, #f3f3f3 100%);\n    background-repeat: no-repeat;\n    display: inline-block;\n    animation: placeHolderShimmer 1s linear 0s infinite normal forwards;\n  }\n  @keyframes placeHolderShimmer{\n    0% { background-position: -${this.offsetWidth}px 0 }\n    100% { background-position: ${this.offsetWidth}px 0 }\n  }\n</style>\n";
+var css$5 = ":host {\n  background: linear-gradient(to right, \"${this.colora(0.7)}\" 4%, \"${this.colora(0.5)}\" 25%, \"${this.colora(0.7)}\" 36%);\n  display: inline-block;\n  animation: shimmer 2.2s linear 0s infinite;\n  background-size: 2000px 100%;\n}\n@keyframes shimmer{\n  0% { background-position: -2000px 0 }\n  100% { background-position: 2000px 0 }\n}\n";
 
+const properStyle$1 = css$5.replace(/"(\${[^"]*})"/g, '$1');
+function rgbToHsl(r = 0, g = 0, b = 0) {
+  r /= 255, g /= 255, b /= 255;
+  let max = Math.max(r, g, b), min = Math.min(r, g, b);
+  let h, s, l = (max + min) / 2;
+  if (max == min) {
+    h = s = 0;
+  } else {
+    let d = max - min;
+    s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+    switch(max) {
+    case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+    case g: h = (b - r) / d + 2; break;
+    case b: h = (r - g) / d + 4; break;
+    }
+    h /= 6;
+  }
+  return [h, s, l];
+}
 class SifrrShimmer extends SifrrDom.Element {
+  static syncedAttrs() {
+    return ['color'];
+  }
   static get template() {
-    return SifrrDom.template(template$6);
+    return SifrrDom.template(`<style>${properStyle$1}</style>`);
+  }
+  colora(point) {
+    const hsl = rgbToHsl(...(this.color || '0, 0, 0').replace(/ /g, '').split(',').map(Number));
+    return `hsl(${hsl[0] * 359}, ${hsl[1] * 100}%, ${point * 100}%)`;
   }
 }
 SifrrDom.register(SifrrShimmer);

@@ -7,11 +7,46 @@
 
   SifrrDom = SifrrDom && SifrrDom.hasOwnProperty('default') ? SifrrDom['default'] : SifrrDom;
 
-  const template = "<style media=\"screen\">\n  :host {\n    background: #f3f3f3;\n    background-image: linear-gradient(to right, #f3f3f3 0%, #e8e8e8 30%, #f6f7f8 60%, #f3f3f3 100%);\n    background-repeat: no-repeat;\n    display: inline-block;\n    animation: placeHolderShimmer 1s linear 0s infinite normal forwards;\n  }\n  @keyframes placeHolderShimmer{\n    0% { background-position: -${this.offsetWidth}px 0 }\n    100% { background-position: ${this.offsetWidth}px 0 }\n  }\n</style>\n";
+  var css = ":host {\n  background: linear-gradient(to right, \"${this.colora(0.7)}\" 4%, \"${this.colora(0.5)}\" 25%, \"${this.colora(0.7)}\" 36%);\n  display: inline-block;\n  animation: shimmer 2.2s linear 0s infinite;\n  background-size: 2000px 100%;\n}\n@keyframes shimmer{\n  0% { background-position: -2000px 0 }\n  100% { background-position: 2000px 0 }\n}\n";
 
+  const properStyle = css.replace(/"(\${[^"]*})"/g, '$1');
+  function rgbToHsl(r = 0, g = 0, b = 0) {
+    r /= 255, g /= 255, b /= 255;
+    let max = Math.max(r, g, b),
+        min = Math.min(r, g, b);
+    let h,
+        s,
+        l = (max + min) / 2;
+    if (max == min) {
+      h = s = 0;
+    } else {
+      let d = max - min;
+      s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+      switch (max) {
+        case r:
+          h = (g - b) / d + (g < b ? 6 : 0);
+          break;
+        case g:
+          h = (b - r) / d + 2;
+          break;
+        case b:
+          h = (r - g) / d + 4;
+          break;
+      }
+      h /= 6;
+    }
+    return [h, s, l];
+  }
   class SifrrShimmer extends SifrrDom.Element {
+    static syncedAttrs() {
+      return ['color'];
+    }
     static get template() {
-      return SifrrDom.template(template);
+      return SifrrDom.template("<style>".concat(properStyle, "</style>"));
+    }
+    colora(point) {
+      const hsl = rgbToHsl(...(this.color || '0, 0, 0').replace(/ /g, '').split(',').map(Number));
+      return "hsl(".concat(hsl[0] * 359, ", ").concat(hsl[1] * 100, "%, ").concat(point * 100, "%)");
     }
   }
   SifrrDom.register(SifrrShimmer);
