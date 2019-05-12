@@ -47,11 +47,10 @@ function moduleConfig(name, root, min = false, isModule = false) {
         inject: false,
         plugins: [
           min ? require('cssnano')({
-            preset: [ 'default', { discardComments: false } ],
+            preset: [ 'default' ],
           }) : false
         ].filter(k => k)
       }),
-      require('./utils/rollupsifrrplugin')(),
       html({
         htmlMinifierOptions: min ? {
           collapseWhitespace: true,
