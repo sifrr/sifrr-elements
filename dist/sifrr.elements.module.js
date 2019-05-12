@@ -1104,7 +1104,7 @@ class SifrrProgressRound extends SifrrDom.Element {
 SifrrProgressRound.defaultState = { progress: 0 };
 SifrrDom.register(SifrrProgressRound);
 
-var css$5 = ":host {\n  background: linear-gradient(to right, \"${this.colora(0.7)}\" 4%, \"${this.colora(0.5)}\" 25%, \"${this.colora(0.7)}\" 36%);\n  display: inline-block;\n  animation: shimmer 2.2s linear 0s infinite;\n  background-size: 2000px 100%;\n}\n@keyframes shimmer{\n  0% { background-position: -2000px 0 }\n  100% { background-position: 2000px 0 }\n}\n";
+var css$5 = ":host {\n  background: linear-gradient(to right, \"${this.colora(0.7)}\" 4%, \"${this.colora(0.5)}\" 25%, \"${this.colora(0.7)}\" 36%);\n  display: inline-block;\n  animation: shimmer 2.5s linear 0s infinite;\n  background-size: 2000px 100%;\n}\n@keyframes shimmer{\n  0% { background-position: -2000px 0 }\n  100% { background-position: 2000px 0 }\n}\n";
 
 const properStyle$1 = css$5.replace(/"(\${[^"]*})"/g, '$1');
 function rgbToHsl(r = 0, g = 0, b = 0) {

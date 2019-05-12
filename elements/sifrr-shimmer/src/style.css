@@ -1,7 +1,7 @@
 :host {
   background: linear-gradient(to right, "${this.colora(0.7)}" 4%, "${this.colora(0.5)}" 25%, "${this.colora(0.7)}" 36%);
   display: inline-block;
-  animation: shimmer 2.2s linear 0s infinite;
+  animation: shimmer 2.5s linear 0s infinite;
   background-size: 2000px 100%;
 }
 @keyframes shimmer{
