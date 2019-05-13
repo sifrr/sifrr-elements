@@ -846,7 +846,8 @@ class SifrrSingleShowcase extends SifrrDom.Element {
     }
   }
   onUpdate() {
-    window.requestAnimationFrame(this.runStateFunction.bind(this));
+    if (this._stateFxnTimeout) clearTimeout(this._stateFxnTimeout);
+    this._stateFxnTimeout = setTimeout(this.runStateFunction.bind(this), 500);
   }
   runStateFunction() {
     let state;
