@@ -1,3 +1,4 @@
+const fs = require('fs');
 const path = require('path');
 const version = require('./package.json').version;
 const babel = require('rollup-plugin-babel');
@@ -7,6 +8,7 @@ const commonjs = require('rollup-plugin-commonjs');
 const cleanup = require('rollup-plugin-cleanup');
 const postcss = require('rollup-plugin-postcss');
 const html = require('rollup-plugin-html');
+const purgecss = require('@fullhuman/postcss-purgecss');
 
 const external = [
   '@sifrr/dom',
@@ -49,7 +51,10 @@ function moduleConfig(name, root, min = false, isModule = false) {
           min ? require('cssnano')({
             preset: [ 'default' ],
           }) : false,
-          require('autoprefixer')
+          require('autoprefixer'),
+          (fs.existsSync(path.join(root, 'src/template.html')) && fs.existsSync(path.join(root, 'src/style.css'))) ? purgecss({
+            content: [path.join(root, 'src/template.html')]
+          }) : false
         ].filter(k => k)
       }),
       html({

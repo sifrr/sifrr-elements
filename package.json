@@ -42,6 +42,8 @@
     "@babel/preset-env": "^7.4.1",
     "@commitlint/cli": "^7.5.2",
     "@commitlint/config-conventional": "^7.5.0",
+    "@fullhuman/postcss-purgecss": "^1.2.0",
+    "autoprefixer": "^9.5.1",
     "browserslist": "^4.5.6",
     "chai": "^4.1.2",
     "chai-as-promised": "^7.1.1",
@@ -81,7 +83,6 @@
     "sinon": "^7.2.4"
   },
   "dependencies": {
-    "@sifrr/animate": "^0.0.1",
-    "autoprefixer": "^9.5.1"
+    "@sifrr/animate": "^0.0.1"
   }
 }
