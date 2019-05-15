@@ -39,7 +39,7 @@
   }
   class SifrrShimmer extends SifrrDom.Element {
     static syncedAttrs() {
-      return ['color', 'light'];
+      return ['color'];
     }
     static get template() {
       return SifrrDom.template("<style>".concat(properStyle, "</style>"));
