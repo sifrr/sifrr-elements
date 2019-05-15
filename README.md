@@ -35,6 +35,9 @@ Examples as showcase: <https://sifrr.github.io/sifrr-elements/showcase/> (only d
 #### Script tag
 
 ```html
+// load sifrr-dom
+<script src="https://unpkg.com/@sifrr/sifrr@{version}/packages/browser/sifrr-dom/dist/sifrr.dom.min.js"></script>
+// load element you want to add
 <script src="https://unpkg.com/@sifrr/elements@{version}/elements/element-name/dist/elementname.min.js"></script>
 // for v0.0.3, version = 0.0.3
 ```
@@ -42,7 +45,10 @@ Examples as showcase: <https://sifrr.github.io/sifrr-elements/showcase/> (only d
 #### Script Module tag
 
 ```html
-<script src="https://unpkg.com/@sifrr/elements@{version}/elements/element-name/dist/elementname.min.js" type="module"></script>
+// load sifrr-dom
+<script src="https://unpkg.com/@sifrr/sifrr@{version}/packages/browser/sifrr-dom/dist/sifrr.dom.module.js" type="module"></script>
+// load element you want to add
+<script src="https://unpkg.com/@sifrr/elements@{version}/elements/element-name/dist/elementname.module.js" type="module"></script>
 // for v0.0.3, version = 0.0.3
 ```
 

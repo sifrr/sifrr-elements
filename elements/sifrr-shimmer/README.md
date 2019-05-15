@@ -5,7 +5,7 @@
 After loading JS file as instructed in [main readme](../../README.md). Put this in your html file:
 
 ```html
-<sifrr-shimmer color="125, 45, 78"></sifrr-shimmer>
+<sifrr-shimmer color="125, 45, 78" bg-color="" fg-color=""></sifrr-shimmer>
 ```
 
 Set height/width as needed with CSS.
@@ -15,7 +15,12 @@ This shows shimmering element, can be used as a placeholder when elements/data a
 
 #### Theme
 
-Default theme dark, if you add light attribute theme will be changed to light.
+Default theme dark, if you add `light` attribute theme will be changed to light.
 
 - `dark`: background will be darker than shimmer color
 - `light`: background will be lighter than shimmer color
+
+#### Manual coloring
+
+- `bg-color`: color of background, should be a valid css color property
+- `fg-color`: color of shimmer, should be a valid css color property

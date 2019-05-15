@@ -27,11 +27,19 @@ function rgbToHsl(r = 0, g = 0, b = 0) {
 
 class SifrrShimmer extends SifrrDom.Element {
   static syncedAttrs() {
-    return ['color'];
+    return ['color', 'bg-color', 'fg-color'];
   }
 
   static get template() {
     return SifrrDom.template(`<style>${properStyle}</style>`);
+  }
+
+  get bgColor() {
+    return this['bg-color'] || this.colora(0.15);
+  }
+
+  get fgColor() {
+    return this['fg-color'] || this.colora(0);
   }
 
   colora(point) {

@@ -1,7 +1,7 @@
 /*! SifrrShimmer v0.0.4 - sifrr project | MIT licensed | https://github.com/sifrr/sifrr-elements */
 import SifrrDom from '@sifrr/dom';
 
-var css = ":host {\n  background: linear-gradient(to right, \"${this.colora(0.15)}\" 4%, \"${this.colora(0)}\" 25%, \"${this.colora(0.15)}\" 36%);\n  display: inline-block;\n  animation: shimmer 2.5s linear 0s infinite;\n  background-size: 2000px 100%;\n}\n@keyframes shimmer{\n  0% { background-position: -2000px 0 }\n  100% { background-position: 2000px 0 }\n}\n";
+var css = ":host {\n  background: linear-gradient(to right, \"${this.bgColor}\" 4%, \"${this.fgColor}\" 25%, \"${this.bgColor}\" 36%);\n  display: inline-block;\n  animation: shimmer 2.5s linear 0s infinite;\n  background-size: 2000px 100%;\n}\n@keyframes shimmer{\n  0% { background-position: -2000px 0 }\n  100% { background-position: 2000px 0 }\n}\n";
 
 const properStyle = css.replace(/"(\${[^"]*})"/g, '$1');
 function rgbToHsl(r = 0, g = 0, b = 0) {
@@ -24,10 +24,16 @@ function rgbToHsl(r = 0, g = 0, b = 0) {
 }
 class SifrrShimmer extends SifrrDom.Element {
   static syncedAttrs() {
-    return ['color'];
+    return ['color', 'bg-color', 'fg-color'];
   }
   static get template() {
     return SifrrDom.template(`<style>${properStyle}</style>`);
+  }
+  get bgColor() {
+    return this['bg-color'] || this.colora(0.15);
+  }
+  get fgColor() {
+    return this['fg-color'] || this.colora(0);
   }
   colora(point) {
     const hsl = rgbToHsl(...(this.color || '170, 170, 170').replace(/ /g, '').split(',').map(Number));
