@@ -8,6 +8,7 @@ set -ex
 
 # Add dist files not generated before
 git ls-files '*/dist/*.js*' | xargs git add
+git ls-files 'dist/*.js*' | xargs git add
 git ls-files 'package.json' | xargs git add
 git ls-files 'rollup.config.js' | xargs git add
 git ls-files 'misc/*' | xargs git add

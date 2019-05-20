@@ -15,15 +15,12 @@ class Bezier {
   }
   setProps(x1, y1, x2, y2) {
     let props = {
-      x1: x1,
-      y1: y1,
-      x2: x2,
-      y2: y2,
-      A: (aA1, aA2) => 1.0 - 3.0 * aA2 + 3.0 * aA1,
-      B: (aA1, aA2) => 3.0 * aA2 - 6.0 * aA1,
-      C: (aA1) => 3.0 * aA1,
-      CalcBezier: (aT, aA1, aA2) => ((this.A(aA1, aA2)*aT + this.B(aA1, aA2))*aT + this.C(aA1))*aT,
-      GetSlope: (aT, aA1, aA2) => 3.0 * this.A(aA1, aA2)*aT*aT + 2.0 * this.B(aA1, aA2) * aT + this.C(aA1)
+      x1, y1, x2, y2,
+      A: (x1, x2) => 1.0 - 3.0 * x2 + 3.0 * x1,
+      B: (x1, x2) => 3.0 * x2 - 6.0 * x1,
+      C: (x1) => 3.0 * x1,
+      CalcBezier: (t, x1, x2) => ((this.A(x1, x2) * t + this.B(x1, x2)) * t + this.C(x1)) * t,
+      GetSlope: (t, x1, x2) => 3.0 * this.A(x1, x2) * t * t + 2.0 * this.B(x1, x2) * t + this.C(x1)
     };
     Object.assign(this, props);
   }
@@ -50,7 +47,14 @@ var types = {
   easeOut: [0, 0, .58, 1],
   easeInOut: [.42, 0, .58, 1]
 };
-const digitRgx = /(\d+)/;
+var wait = (t) => new Promise(res => setTimeout(res, t));
+const digitRgx = /(\d+\.?\d*)/;
+const frames = new Set();
+function runFrames(currentTime) {
+  frames.forEach(f => f(currentTime));
+  window.requestAnimationFrame(runFrames);
+}
+window.requestAnimationFrame(runFrames);
 function animateOne({
   target,
   prop,
@@ -59,7 +63,8 @@ function animateOne({
   time = 300,
   type = 'ease',
   onUpdate,
-  round = false
+  round = false,
+  delay = 0
 }) {
   const toSplit = to.toString().split(digitRgx), l = toSplit.length, raw = [], fromNums = [], diffs = [];
   const fromSplit = (from || target[prop] || '').toString().split(digitRgx);
@@ -72,24 +77,30 @@ function animateOne({
       diffs.push(n - (Number(fromSplit[i]) || 0));
     }
   }
-  type = typeof type === 'function' ? type : new bezier(types[type] || type);
-  return new Promise(res => {
-    let startTime;
-    function frame(currentTime) {
-      startTime = startTime || currentTime;
+  const rawObj = { raw };
+  return wait(delay).then(() => new Promise((resolve, reject) => {
+    if (types[type]) type = new bezier(types[type]);
+    else if (Array.isArray(type)) type = new bezier(type);
+    else if (typeof type !== 'function') return reject(Error('type should be one of ' + Object.keys(types).toString() + ' or Bezier Array or Function, given ' + type));
+    let startTime = performance.now();
+    const frame = function(currentTime) {
       const percent = (currentTime - startTime) / time, bper = type(percent >= 1 ? 1 : percent);
       const next = diffs.map((d, i) => {
-        if (round) return Math.round(bper * d + fromNums[i]);
-        return bper * d + (fromNums[i] || 0);
+        const n = bper * d + fromNums[i];
+        return round ? Math.round(n) : n;
       });
-      const val = String.raw({ raw }, ...next);
-      target[prop] = Number(val) || val;
-      if (onUp) onUpdate(target, prop, target[prop]);
-      if (percent >= 1) return res();
-      window.requestAnimationFrame(frame);
-    }
-    window.requestAnimationFrame(frame);
-  });
+      const val = String.raw(rawObj, ...next);
+      try {
+        target[prop] = Number(val) || val;
+        if (onUp) onUpdate(target, prop, target[prop]);
+        if (percent >= 1) resolve(frames.delete(frame));
+      } catch(e) {
+        frames.delete(frame);
+        reject(e);
+      }
+    };
+    frames.add(frame);
+  }));
 }
 var animateone = animateOne;
 function animate({
@@ -99,36 +110,44 @@ function animate({
   time,
   type,
   onUpdate,
-  round
+  round,
+  delay
 }) {
   targets = targets ? Array.from(targets) : [target];
-  function iterate(target, props) {
+  function iterate(tg, props, d, ntime) {
     const promises = [];
     for (let prop in props) {
       let from, final;
       if (Array.isArray(props[prop])) [from, final] = props[prop];
       else final = props[prop];
       if (typeof props[prop] === 'object' && !Array.isArray(props[prop])) {
-        promises.push(iterate(target[prop], props[prop]));
+        promises.push(iterate(tg[prop], props[prop], d, ntime));
       } else {
         promises.push(animateone({
-          target,
+          target: tg,
           prop,
           to: final,
-          time,
+          time: ntime,
           type,
           from,
           onUpdate,
-          round
+          round,
+          delay: d
         }));
       }
     }
     return Promise.all(promises);
   }
-  return Promise.all(targets.map(target => iterate(target, to)));
+  let numTo = to, numDelay = delay, numTime = time;
+  return Promise.all(targets.map((target, i) => {
+    if (typeof to === 'function') numTo = to(i);
+    if (typeof delay === 'function') numDelay = delay(i);
+    if (typeof time === 'function') numTime = time(i);
+    return iterate(target, numTo, numDelay, numTime);
+  }));
 }
 animate.types = types;
-animate.wait = (t = 0) => new Promise(res => setTimeout(res, t));
+animate.wait = wait;
 animate.animate = animate;
 var animate_1 = animate;
 
