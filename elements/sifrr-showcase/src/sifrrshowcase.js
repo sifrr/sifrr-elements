@@ -23,11 +23,11 @@ const template = SifrrDom.template`<style media="screen">
       <input id="showcaseName" type="text" name="showcase" _input=\${this.changeName} value=\${this.state.showcases[this.state.current].name}>
       <button class="font" type="button" name="createVariant" _click="\${this.createShowcase}">Create new showcase</button>
       <div id="showcases" data-sifrr-repeat="\${this.state.showcases}">
-        <li class="font showcase small" data-showcase-id="\${this.state.key}" draggable="true">\${this.state.name}<span>X</span></li>
+        <li class="font showcase small \${this.state.id === this._root.state.currentSC.id ? 'current' : ''}" data-showcase-id="\${this.state.key}" draggable="true">\${this.state.name}<span>X</span></li>
       </div>
     </div>
   </div>
-  <sifrr-single-showcase _update=\${this.saveShowcase}></sifrr-single-showcase>
+  <sifrr-single-showcase _update=\${this.saveShowcase} _state=\${this.state.currentSC} data-sifrr-bind="currentSC"></sifrr-single-showcase>
 </div>`;
 
 const storage = new SifrrStorage({ name: 'showcases', version: '1.0' });
@@ -93,10 +93,7 @@ class SifrrShowcase extends SifrrDom.Element {
     this.current = i;
     this.$('#showcases').children[this.state.current].classList.remove('current');
     if (!this.state.showcases[i]) i = this.state.showcases.length - 1;
-    this.state = { current: i };
-    this.el._state = this.state.showcases[i];
-    this.el.update();
-    this.$('#showcases').children[i].id = 'showcase' + i;
+    this.state = { current: i, currentSC: this.state.showcases[i] };
     this.$('#showcases').children[i].classList.add('current');
   }
 
@@ -105,7 +102,7 @@ class SifrrShowcase extends SifrrDom.Element {
   }
 
   saveShowcase() {
-    this.state.showcases[this.state.current] = Object.assign(this.state.showcases[this.state.current] || {}, JSON.parse(JSON.stringify(this.el.state)));
+    this.state.showcases[this.state.current] = Object.assign(this.state.showcases[this.state.current], this.state.currentSC);
     if (this._loaded) {
       this.$('#status').textContent = 'saving locally!';
       if (this._timeout) clearTimeout(this._timeout);

@@ -1,4 +1,4 @@
-/*! Sifrr.Elements v0.0.4 - sifrr project | MIT licensed | https://github.com/sifrr/sifrr-elements */
+/*! Sifrr.Elements v0.0.5 - sifrr project | MIT licensed | https://github.com/sifrr/sifrr-elements */
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@sifrr/dom'), require('@sifrr/storage')) :
   typeof define === 'function' && define.amd ? define(['exports', '@sifrr/dom', '@sifrr/storage'], factory) :
@@ -127,15 +127,15 @@
       }
       setProps(x1, y1, x2, y2) {
         let props = {
-          x1: x1,
-          y1: y1,
-          x2: x2,
-          y2: y2,
-          A: (aA1, aA2) => 1.0 - 3.0 * aA2 + 3.0 * aA1,
-          B: (aA1, aA2) => 3.0 * aA2 - 6.0 * aA1,
-          C: aA1 => 3.0 * aA1,
-          CalcBezier: (aT, aA1, aA2) => ((this.A(aA1, aA2) * aT + this.B(aA1, aA2)) * aT + this.C(aA1)) * aT,
-          GetSlope: (aT, aA1, aA2) => 3.0 * this.A(aA1, aA2) * aT * aT + 2.0 * this.B(aA1, aA2) * aT + this.C(aA1)
+          x1,
+          y1,
+          x2,
+          y2,
+          A: (x1, x2) => 1.0 - 3.0 * x2 + 3.0 * x1,
+          B: (x1, x2) => 3.0 * x2 - 6.0 * x1,
+          C: x1 => 3.0 * x1,
+          CalcBezier: (t, x1, x2) => ((this.A(x1, x2) * t + this.B(x1, x2)) * t + this.C(x1)) * t,
+          GetSlope: (t, x1, x2) => 3.0 * this.A(x1, x2) * t * t + 2.0 * this.B(x1, x2) * t + this.C(x1)
         };
         Object.assign(this, props);
       }
@@ -162,7 +162,14 @@
       easeOut: [0, 0, .58, 1],
       easeInOut: [.42, 0, .58, 1]
     };
-    const digitRgx = /(\d+)/;
+    var wait = t => new Promise(res => setTimeout(res, t));
+    const digitRgx = /(\d+\.?\d*)/;
+    const frames = new Set();
+    function runFrames(currentTime) {
+      frames.forEach(f => f(currentTime));
+      window.requestAnimationFrame(runFrames);
+    }
+    window.requestAnimationFrame(runFrames);
     function animateOne({
       target,
       prop,
@@ -171,7 +178,8 @@
       time = 300,
       type = 'ease',
       onUpdate,
-      round = false
+      round = false,
+      delay = 0
     }) {
       const toSplit = to.toString().split(digitRgx),
             l = toSplit.length,
@@ -187,27 +195,31 @@
           diffs.push(n - (Number(fromSplit[i]) || 0));
         }
       }
-      type = typeof type === 'function' ? type : new bezier(types[type] || type);
-      return new Promise(res => {
-        let startTime;
-        function frame(currentTime) {
-          startTime = startTime || currentTime;
+      const rawObj = {
+        raw
+      };
+      return wait(delay).then(() => new Promise((resolve, reject) => {
+        if (types[type]) type = new bezier(types[type]);else if (Array.isArray(type)) type = new bezier(type);else if (typeof type !== 'function') return reject(Error('type should be one of ' + Object.keys(types).toString() + ' or Bezier Array or Function, given ' + type));
+        let startTime = performance.now();
+        const frame = function (currentTime) {
           const percent = (currentTime - startTime) / time,
                 bper = type(percent >= 1 ? 1 : percent);
           const next = diffs.map((d, i) => {
-            if (round) return Math.round(bper * d + fromNums[i]);
-            return bper * d + (fromNums[i] || 0);
+            const n = bper * d + fromNums[i];
+            return round ? Math.round(n) : n;
           });
-          const val = String.raw({
-            raw
-          }, ...next);
-          target[prop] = Number(val) || val;
-          if (onUp) onUpdate(target, prop, target[prop]);
-          if (percent >= 1) return res();
-          window.requestAnimationFrame(frame);
-        }
-        window.requestAnimationFrame(frame);
-      });
+          const val = String.raw(rawObj, ...next);
+          try {
+            target[prop] = Number(val) || val;
+            if (onUp) onUpdate(target, prop, target[prop]);
+            if (percent >= 1) resolve(frames.delete(frame));
+          } catch (e) {
+            frames.delete(frame);
+            reject(e);
+          }
+        };
+        frames.add(frame);
+      }));
     }
     var animateone = animateOne;
     function animate({
@@ -217,35 +229,45 @@
       time,
       type,
       onUpdate,
-      round
+      round,
+      delay
     }) {
       targets = targets ? Array.from(targets) : [target];
-      function iterate(target, props) {
+      function iterate(tg, props, d, ntime) {
         const promises = [];
         for (let prop in props) {
           let from, final;
           if (Array.isArray(props[prop])) [from, final] = props[prop];else final = props[prop];
           if (typeof props[prop] === 'object' && !Array.isArray(props[prop])) {
-            promises.push(iterate(target[prop], props[prop]));
+            promises.push(iterate(tg[prop], props[prop], d, ntime));
           } else {
             promises.push(animateone({
-              target,
+              target: tg,
               prop,
               to: final,
-              time,
+              time: ntime,
               type,
               from,
               onUpdate,
-              round
+              round,
+              delay: d
             }));
           }
         }
         return Promise.all(promises);
       }
-      return Promise.all(targets.map(target => iterate(target, to)));
+      let numTo = to,
+          numDelay = delay,
+          numTime = time;
+      return Promise.all(targets.map((target, i) => {
+        if (typeof to === 'function') numTo = to(i);
+        if (typeof delay === 'function') numDelay = delay(i);
+        if (typeof time === 'function') numTime = time(i);
+        return iterate(target, numTo, numDelay, numTime);
+      }));
     }
     animate.types = types;
-    animate.wait = (t = 0) => new Promise(res => setTimeout(res, t));
+    animate.wait = wait;
     animate.animate = animate;
     var animate_1 = animate;
     return animate_1;
@@ -902,7 +924,7 @@
   SifrrDom.register(SifrrSingleShowcase);
 
   function _templateObject$4() {
-    const data = _taggedTemplateLiteral(["<style media=\"screen\">\n  ", "\n</style>\n<div class=\"container\">\n  <div class=\"flex-column\" id=\"sidemenu\">\n    <div class=\"box\">\n      <h1 class=\"font head\">Sifrr Showcase</h1>\n      <p class=\"font\" id=\"loader\"></p>\n      <input id=\"url\" type=\"text\" placeholder=\"Enter url here...\" name=\"url\" />\n      <button type=\"button\" name=\"loadUrl\" _click=${this.loadUrl}>Load from url</button>\n      <p class=\"font\" id=\"status\"></p>\n      <span class=\"button font\">\n        Upload File\n        <input type=\"file\" name=\"file\" accept=\"application/json\" _input=\"${this.loadFile}\" />\n      </span>\n      <button class=\"font\" type=\"button\" name=\"saveFile\" _click=\"${this.saveFile}\">Save to File</button>\n      <h3 class=\"font head\">Showcases</h3>\n      <input id=\"showcaseName\" type=\"text\" name=\"showcase\" _input=${this.changeName} value=${this.state.showcases[this.state.current].name}>\n      <button class=\"font\" type=\"button\" name=\"createVariant\" _click=\"${this.createShowcase}\">Create new showcase</button>\n      <div id=\"showcases\" data-sifrr-repeat=\"${this.state.showcases}\">\n        <li class=\"font showcase small\" data-showcase-id=\"${this.state.key}\" draggable=\"true\">${this.state.name}<span>X</span></li>\n      </div>\n    </div>\n  </div>\n  <sifrr-single-showcase _update=${this.saveShowcase}></sifrr-single-showcase>\n</div>"], ["<style media=\"screen\">\n  ", "\n</style>\n<div class=\"container\">\n  <div class=\"flex-column\" id=\"sidemenu\">\n    <div class=\"box\">\n      <h1 class=\"font head\">Sifrr Showcase</h1>\n      <p class=\"font\" id=\"loader\"></p>\n      <input id=\"url\" type=\"text\" placeholder=\"Enter url here...\" name=\"url\" />\n      <button type=\"button\" name=\"loadUrl\" _click=\\${this.loadUrl}>Load from url</button>\n      <p class=\"font\" id=\"status\"></p>\n      <span class=\"button font\">\n        Upload File\n        <input type=\"file\" name=\"file\" accept=\"application/json\" _input=\"\\${this.loadFile}\" />\n      </span>\n      <button class=\"font\" type=\"button\" name=\"saveFile\" _click=\"\\${this.saveFile}\">Save to File</button>\n      <h3 class=\"font head\">Showcases</h3>\n      <input id=\"showcaseName\" type=\"text\" name=\"showcase\" _input=\\${this.changeName} value=\\${this.state.showcases[this.state.current].name}>\n      <button class=\"font\" type=\"button\" name=\"createVariant\" _click=\"\\${this.createShowcase}\">Create new showcase</button>\n      <div id=\"showcases\" data-sifrr-repeat=\"\\${this.state.showcases}\">\n        <li class=\"font showcase small\" data-showcase-id=\"\\${this.state.key}\" draggable=\"true\">\\${this.state.name}<span>X</span></li>\n      </div>\n    </div>\n  </div>\n  <sifrr-single-showcase _update=\\${this.saveShowcase}></sifrr-single-showcase>\n</div>"]);
+    const data = _taggedTemplateLiteral(["<style media=\"screen\">\n  ", "\n</style>\n<div class=\"container\">\n  <div class=\"flex-column\" id=\"sidemenu\">\n    <div class=\"box\">\n      <h1 class=\"font head\">Sifrr Showcase</h1>\n      <p class=\"font\" id=\"loader\"></p>\n      <input id=\"url\" type=\"text\" placeholder=\"Enter url here...\" name=\"url\" />\n      <button type=\"button\" name=\"loadUrl\" _click=${this.loadUrl}>Load from url</button>\n      <p class=\"font\" id=\"status\"></p>\n      <span class=\"button font\">\n        Upload File\n        <input type=\"file\" name=\"file\" accept=\"application/json\" _input=\"${this.loadFile}\" />\n      </span>\n      <button class=\"font\" type=\"button\" name=\"saveFile\" _click=\"${this.saveFile}\">Save to File</button>\n      <h3 class=\"font head\">Showcases</h3>\n      <input id=\"showcaseName\" type=\"text\" name=\"showcase\" _input=${this.changeName} value=${this.state.showcases[this.state.current].name}>\n      <button class=\"font\" type=\"button\" name=\"createVariant\" _click=\"${this.createShowcase}\">Create new showcase</button>\n      <div id=\"showcases\" data-sifrr-repeat=\"${this.state.showcases}\">\n        <li class=\"font showcase small ${this.state.id === this._root.state.currentSC.id ? 'current' : ''}\" data-showcase-id=\"${this.state.key}\" draggable=\"true\">${this.state.name}<span>X</span></li>\n      </div>\n    </div>\n  </div>\n  <sifrr-single-showcase _update=${this.saveShowcase} _state=${this.state.currentSC} data-sifrr-bind=\"currentSC\"></sifrr-single-showcase>\n</div>"], ["<style media=\"screen\">\n  ", "\n</style>\n<div class=\"container\">\n  <div class=\"flex-column\" id=\"sidemenu\">\n    <div class=\"box\">\n      <h1 class=\"font head\">Sifrr Showcase</h1>\n      <p class=\"font\" id=\"loader\"></p>\n      <input id=\"url\" type=\"text\" placeholder=\"Enter url here...\" name=\"url\" />\n      <button type=\"button\" name=\"loadUrl\" _click=\\${this.loadUrl}>Load from url</button>\n      <p class=\"font\" id=\"status\"></p>\n      <span class=\"button font\">\n        Upload File\n        <input type=\"file\" name=\"file\" accept=\"application/json\" _input=\"\\${this.loadFile}\" />\n      </span>\n      <button class=\"font\" type=\"button\" name=\"saveFile\" _click=\"\\${this.saveFile}\">Save to File</button>\n      <h3 class=\"font head\">Showcases</h3>\n      <input id=\"showcaseName\" type=\"text\" name=\"showcase\" _input=\\${this.changeName} value=\\${this.state.showcases[this.state.current].name}>\n      <button class=\"font\" type=\"button\" name=\"createVariant\" _click=\"\\${this.createShowcase}\">Create new showcase</button>\n      <div id=\"showcases\" data-sifrr-repeat=\"\\${this.state.showcases}\">\n        <li class=\"font showcase small \\${this.state.id === this._root.state.currentSC.id ? 'current' : ''}\" data-showcase-id=\"\\${this.state.key}\" draggable=\"true\">\\${this.state.name}<span>X</span></li>\n      </div>\n    </div>\n  </div>\n  <sifrr-single-showcase _update=\\${this.saveShowcase} _state=\\${this.state.currentSC} data-sifrr-bind=\"currentSC\"></sifrr-single-showcase>\n</div>"]);
     _templateObject$4 = function () {
       return data;
     };
@@ -968,18 +990,16 @@
       this.$('#showcases').children[this.state.current].classList.remove('current');
       if (!this.state.showcases[i]) i = this.state.showcases.length - 1;
       this.state = {
-        current: i
+        current: i,
+        currentSC: this.state.showcases[i]
       };
-      this.el._state = this.state.showcases[i];
-      this.el.update();
-      this.$('#showcases').children[i].id = 'showcase' + i;
       this.$('#showcases').children[i].classList.add('current');
     }
     onStateChange() {
       if (this.state.current !== this.current) this.switchShowcase(this.state.current);
     }
     saveShowcase() {
-      this.state.showcases[this.state.current] = Object.assign(this.state.showcases[this.state.current] || {}, JSON.parse(JSON.stringify(this.el.state)));
+      this.state.showcases[this.state.current] = Object.assign(this.state.showcases[this.state.current], this.state.currentSC);
       if (this._loaded) {
         this.$('#status').textContent = 'saving locally!';
         if (this._timeout) clearTimeout(this._timeout);
