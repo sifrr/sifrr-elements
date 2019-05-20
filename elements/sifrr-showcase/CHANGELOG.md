@@ -1,3 +1,18 @@
+## 0.0.5 (2019-05-20)
+
+
+### Bug Fixes
+
+* **sifrr-code-editor:** fix EOL scroll bug ([3cd8b72](https://github.com/sifrr/sifrr-elements/commit/3cd8b72))
+
+
+### Features
+
+* **sifrr-showcase:** throttle state function for 500ms ([9c7d415](https://github.com/sifrr/sifrr-elements/commit/9c7d415))
+* add sifrr-include ([899600b](https://github.com/sifrr/sifrr-elements/commit/899600b))
+
+
+
 ## 0.0.4 (2019-04-30)
 
 

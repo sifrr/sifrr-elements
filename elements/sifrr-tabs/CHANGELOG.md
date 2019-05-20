@@ -1,3 +1,18 @@
+## 0.0.5 (2019-05-20)
+
+
+### Bug Fixes
+
+* **sifrr-tabs:** fix multiple tabs scroll bug ([ccaf0e0](https://github.com/sifrr/sifrr-elements/commit/ccaf0e0))
+
+
+
+### Performance Improvements
+
+* **sifrr-tabs:** make it smoother ([8a6eb83](https://github.com/sifrr/sifrr-elements/commit/8a6eb83))
+
+
+
 ## 0.0.4 (2019-04-30)
 
 

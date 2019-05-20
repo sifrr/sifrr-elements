@@ -1,3 +1,13 @@
+## 0.0.5 (2019-05-20)
+
+
+### Bug Fixes
+
+* **sifrr-stater:** update syntax to 0.0.4 ([2bde5a4](https://github.com/sifrr/sifrr-elements/commit/2bde5a4))
+
+
+
+
 ## 0.0.4 (2019-04-30)
 
 

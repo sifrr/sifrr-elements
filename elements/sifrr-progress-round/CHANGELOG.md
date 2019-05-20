@@ -1,3 +1,12 @@
+## 0.0.5 (2019-05-20)
+
+
+### Bug Fixes
+
+* **sifrr-progress-round:** set display inline block ([613455e](https://github.com/sifrr/sifrr-elements/commit/613455e))
+
+
+
 ## 0.0.4 (2019-04-30)
 
 
