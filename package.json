@@ -83,6 +83,6 @@
     "sinon": "^7.2.4"
   },
   "dependencies": {
-    "@sifrr/animate": "^0.0.1"
+    "@sifrr/animate": "^0.0.2"
   }
 }
