@@ -1,4 +1,4 @@
-/*! SifrrStater v0.0.4 - sifrr project | MIT licensed | https://github.com/sifrr/sifrr-elements */
+/*! SifrrStater v0.0.5 - sifrr project | MIT licensed | https://github.com/sifrr/sifrr-elements */
 import SifrrDom from '@sifrr/dom';
 import SifrrStorage from '@sifrr/storage';
 

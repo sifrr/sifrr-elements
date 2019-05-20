@@ -1,4 +1,4 @@
-/*! SifrrInclude v0.0.4 - sifrr project | MIT licensed | https://github.com/sifrr/sifrr-elements */
+/*! SifrrInclude v0.0.5 - sifrr project | MIT licensed | https://github.com/sifrr/sifrr-elements */
 import SifrrDom from '@sifrr/dom';
 
 class SifrrInclude extends SifrrDom.Element {

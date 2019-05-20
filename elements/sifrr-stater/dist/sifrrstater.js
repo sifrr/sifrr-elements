@@ -1,4 +1,4 @@
-/*! SifrrStater v0.0.4 - sifrr project | MIT licensed | https://github.com/sifrr/sifrr-elements */
+/*! SifrrStater v0.0.5 - sifrr project | MIT licensed | https://github.com/sifrr/sifrr-elements */
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('@sifrr/dom'), require('@sifrr/storage')) :
   typeof define === 'function' && define.amd ? define(['@sifrr/dom', '@sifrr/storage'], factory) :

@@ -1,4 +1,4 @@
-/*! SifrrProgressRound v0.0.4 - sifrr project | MIT licensed | https://github.com/sifrr/sifrr-elements */
+/*! SifrrProgressRound v0.0.5 - sifrr project | MIT licensed | https://github.com/sifrr/sifrr-elements */
 import SifrrDom from '@sifrr/dom';
 
 const template = "<div class=\"circle back\">\n</div>\n<div class=\"circle front ${this.state.progress > 50 ? 'over50' : ''}\">\n  <div class=\"bar right\"></div>\n  <div class=\"bar left\"></div>\n</div>\n";
