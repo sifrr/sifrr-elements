@@ -28,6 +28,7 @@
   }
 
   var sifrr_animate = createCommonjsModule(function (module, exports) {
+    /*! Sifrr.animate v0.0.2 - sifrr project | MIT licensed | https://github.com/sifrr/sifrr-elements */
     (function (global, factory) {
       module.exports = factory();
     })(commonjsGlobal, function () {
@@ -188,6 +189,7 @@
       var animate_1 = animate;
       return animate_1;
     });
+    /*! (c) @aadityataparia */
   });
 
   function _templateObject() {
