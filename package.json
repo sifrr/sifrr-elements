@@ -37,8 +37,7 @@
     "@sifrr/storage": "^0.0.5"
   },
   "devDependencies": {
-    "@sifrr/dev": "^0.0.4",
-    "node-sass": "^4.11.0"
+    "@sifrr/dev": "^0.0.4"
   },
   "dependencies": {
     "@sifrr/animate": "^0.0.2"
