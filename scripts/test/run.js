@@ -56,5 +56,6 @@ runTests({
     source: path.join(__dirname, '../../elements')
   },
   sourceFileRegex: /sifrr-[a-z-]+\/src\/.*\.js$/,
+  junitXmlFile: path.resolve(`./test-results/${path.basename(root)}/results.xml`),
   reporters
 });
