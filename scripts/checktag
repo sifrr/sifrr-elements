@@ -1,9 +1,0 @@
-#!/usr/bin/env node
-
-const { checkTag } = require('@sifrr/dev');
-
-(async function() {
-  const exists = await checkTag();
-  if (exists) process.exitCode = 1;
-  else process.exitCode = 0;
-})();
