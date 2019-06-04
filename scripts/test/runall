@@ -18,7 +18,6 @@ do
 done
 
 if [[ $COVERAGE == 'true' ]]; then
-  node ./scripts/test/htmlcoverage.js
   if [[ $LCOV == 'true' ]]; then
     cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js
   fi

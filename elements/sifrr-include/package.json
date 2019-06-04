@@ -1,6 +1,6 @@
 {
   "name": "@sifrr/include",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -22,9 +22,9 @@
     "firefox >= 63"
   ],
   "scripts": {
-    "test": "rm -rf ../../.nyc_output; node ../../scripts/test/run.js ./elements/sifrr-include",
-    "build": "../../node_modules/.bin/rollup -c",
-    "test-build": "cd test/public && ../../node_modules/.bin/rollup -c",
+    "test": "node ../../scripts/test/run.js ./elements/sifrr-include",
+    "build": "yarn rollup -c",
+    "test-build": "cd test/public && yarn rollup -c",
     "test-server": "node ../../scripts/test/run.js ./elements/sifrr-include -s"
   },
   "files": [
