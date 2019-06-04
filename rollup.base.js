@@ -1,14 +1,6 @@
-const fs = require('fs');
 const path = require('path');
+const { getRollupConfig } = require('@sifrr/dev');
 const version = require('./package.json').version;
-const babel = require('rollup-plugin-babel');
-const terser = require('rollup-plugin-terser').terser;
-const resolve = require('rollup-plugin-node-resolve');
-const commonjs = require('rollup-plugin-commonjs');
-const cleanup = require('rollup-plugin-cleanup');
-const postcss = require('rollup-plugin-postcss');
-const html = require('rollup-plugin-html');
-const purgecss = require('@fullhuman/postcss-purgecss');
 
 const external = [
   '@sifrr/dom',
@@ -22,70 +14,24 @@ const globals = {
 };
 const footer = '/*! (c) @aadityataparia */';
 
-function moduleConfig(name, root, min = false, isModule = false) {
+function moduleConfig(name, root, minify = false, isModule = false) {
   const filename = name.toLowerCase();
   const banner = `/*! ${name} v${version} - sifrr project | MIT licensed | https://github.com/sifrr/sifrr-elements */`;
-  const ret = {
-    input: path.join(root, `./src/${filename}.js`),
+  return getRollupConfig({
+    name,
+    inputFile: path.join(root, `./src/${filename}.js`),
+    outputFolder: path.join(root, './dist'),
+    outputFileName: filename,
+    minify,
+    type: isModule ? 'module' : 'browser'
+  }, {
     output: {
-      file: path.join(root, `./dist/${filename + (isModule ? '.module' : '') + (min ? '.min' : '')}.js`),
-      format: isModule ? 'es' : 'umd',
-      name: name,
-      banner: banner,
-      footer: footer,
-      sourcemap: !min,
-      preferConst: true,
-      globals: globals
+      banner,
+      footer,
+      globals
     },
-    external: external,
-    plugins: [
-      resolve({
-        browser: !isModule,
-        mainFields: ['module', 'main']
-      }),
-      commonjs(),
-      postcss({
-        extensions: ['.css', '.scss', '.sass', '.less'],
-        inject: false,
-        plugins: [
-          min ? require('cssnano')({
-            preset: [ 'default' ],
-          }) : false,
-          require('autoprefixer'),
-          (fs.existsSync(path.join(root, 'src/template.html')) && fs.existsSync(path.join(root, 'src/style.css'))) ? purgecss({
-            content: [path.join(root, 'src/template.html')]
-          }) : false
-        ].filter(k => k)
-      }),
-      html({
-        htmlMinifierOptions: min ? {
-          collapseWhitespace: true,
-          collapseBooleanAttributes: true,
-          conservativeCollapse: true,
-          minifyJS: true
-        } : {}
-      })
-    ]
-  };
-
-  if (!isModule) {
-    ret.plugins.push(babel({
-      exclude: 'node_modules/**',
-      rootMode: 'upward'
-    }));
-  }
-
-  ret.plugins.push(cleanup());
-
-  if (min) {
-    ret.plugins.push(terser({
-      output: {
-        comments: 'all'
-      }
-    }));
-  }
-
-  return ret;
+    external
+  });
 }
 
 module.exports = (name, __dirname, isBrowser = true) => {
