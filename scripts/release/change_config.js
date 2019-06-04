@@ -21,8 +21,8 @@ module.exports = function(folder, isBrowser) {
     devDependencies: pkg.devDependencies,
     scripts: {
       test: `node ../../scripts/test/run.js ${folder}`,
-      build: 'yarn rollup -c',
-      'test-build': 'cd test/public && yarn rollup -c',
+      build: '../../node_modules/.bin/rollup -c',
+      'test-build': 'cd test/public && ../../node_modules/.bin/rollup -c',
       'test-server': `node ../../scripts/test/run.js ${folder} -s`,
     },
     files: [
