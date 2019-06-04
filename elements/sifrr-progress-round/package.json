@@ -1,6 +1,6 @@
 {
   "name": "@sifrr/progress-round",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -22,7 +22,7 @@
     "firefox >= 63"
   ],
   "scripts": {
-    "test": "rm -rf ../../.nyc_output; node ../../scripts/test/run.js ./elements/sifrr-progress-round",
+    "test": "node ../../scripts/test/run.js ./elements/sifrr-progress-round",
     "build": "../../node_modules/.bin/rollup -c",
     "test-build": "cd test/public && ../../node_modules/.bin/rollup -c",
     "test-server": "node ../../scripts/test/run.js ./elements/sifrr-progress-round -s"

@@ -1,3 +1,7 @@
 #!/usr/bin/env bash
 
-./scripts/release/config_browser
+for dir in ./elements/*
+do
+  echo "Changing config files in ${dir}:"
+  node ./scripts/release/change_config_browser.js "${dir}" "$@"
+done

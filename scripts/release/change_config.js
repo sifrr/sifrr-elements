@@ -20,7 +20,7 @@ module.exports = function(folder, isBrowser) {
     homepage: pkg.homepage,
     devDependencies: pkg.devDependencies,
     scripts: {
-      test: `rm -rf ../../.nyc_output; node ../../scripts/test/run.js ${folder}`,
+      test: `node ../../scripts/test/run.js ${folder}`,
       build: '../../node_modules/.bin/rollup -c',
       'test-build': 'cd test/public && ../../node_modules/.bin/rollup -c',
       'test-server': `node ../../scripts/test/run.js ${folder} -s`,
@@ -54,14 +54,14 @@ module.exports = function(folder, isBrowser) {
     fs.writeFileSync(__dirname + '/' + pkgFileString, stringify(pkgFile) + '\n');
     process.stdout.write('Done: package.json \n');
   } catch(e) {
-    console.log(e);
+    global.console.log(e);
     process.stdout.write('No package file in this folder \n');
   }
 
   let rollupConfigFileString = '../.' + folder + '/rollup.config.js';
   const config = `const getConfig = require('../../rollup.base');
 
-module.exports = getConfig('${pkgFolder.replace(/(^|\-)(\S)/g, s => s.toUpperCase()).replace(/-/g, '')}', __dirname, ${isBrowser});
+module.exports = getConfig('${pkgFolder.replace(/(^|-)(\S)/g, s => s.toUpperCase()).replace(/-/g, '')}', __dirname, ${isBrowser});
 `;
   fs.writeFileSync(__dirname + '/' + rollupConfigFileString, config);
 
