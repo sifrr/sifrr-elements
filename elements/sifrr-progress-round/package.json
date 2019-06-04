@@ -23,8 +23,8 @@
   ],
   "scripts": {
     "test": "node ../../scripts/test/run.js ./elements/sifrr-progress-round",
-    "build": "yarn rollup -c",
-    "test-build": "cd test/public && yarn rollup -c",
+    "build": "../../node_modules/.bin/rollup -c",
+    "test-build": "cd test/public && ../../node_modules/.bin/rollup -c",
     "test-server": "node ../../scripts/test/run.js ./elements/sifrr-progress-round -s"
   },
   "files": [
