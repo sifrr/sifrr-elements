@@ -769,8 +769,10 @@
   resolved "https://registry.yarnpkg.com/@sifrr/animate/-/animate-0.0.2.tgz#9d8d23467d7aabc49a64ba41c5a2f79af349c570"
   integrity sha512-KPzLkdlISWc7G5zoZZDVA6EUcJ881s6qjvS9KDuJ7L12Vn/Y6VXAEYZRWflPyHfdnaXZcR6ddd3tivu9UIpmww==
 
-"@sifrr/dev@file:../sifrr-dev":
-  version "0.0.4"
+"@sifrr/dev@0.0.5":
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/@sifrr/dev/-/dev-0.0.5.tgz#6d45ea774048f76e9013a7f25d1030b126ae624b"
+  integrity sha512-eOZiV8Pf9PpT/cNL+lf4Xnz5KLUWVBoMPUh0Rl7mnl9lxa8fpuHFENZnhQ4cPNdmvVbY0U9UpGjgueBeUCo/VQ==
   dependencies:
     "@babel/core" "^7.4.0"
     "@babel/plugin-external-helpers" "^7.2.0"
@@ -5550,7 +5552,7 @@ typedarray@^0.0.6:
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
   integrity sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c=
 
-"uWebSockets.js@github:uNetworking/uWebSockets.js#v15.10.0":
+uWebSockets.js@uNetworking/uWebSockets.js#v15.10.0:
   version "15.10.0"
   resolved "https://codeload.github.com/uNetworking/uWebSockets.js/tar.gz/db6a5f22ebb348ef328ff1fcbdc639f7bff49e11"
 
