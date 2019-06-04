@@ -2,7 +2,7 @@
 
 const { gitAddCommitPush } = require('@sifrr/dev');
 gitAddCommitPush({
-  // preCommand: ['sh ./scripts/release/config', 'sh ./scripts/yarn build', 'sh ./scripts/contributors'],
+  preCommand: ['sh ./scripts/release/config', 'sh ./scripts/yarn build', 'sh ./scripts/contributors'],
   files: ['*dist/*.js*', '*package.json', 'yarn.lock', '*rollup.config.js', 'misc/*', 'CHANGELOG.md'],
   commitMsg: 'chore: add auto generated files'
 });
