@@ -51,11 +51,11 @@ runTests({
   useJunitReporter,
   inspect,
   folders: {
-    static: [path.resolve('./dist')],
+    static: [path.join(__dirname, '../../dist')],
     coverage: path.join(__dirname, '../../.nyc_output'),
     source: path.join(__dirname, '../../elements')
   },
   sourceFileRegex: /sifrr-[a-z-]+\/src\/.*\.js$/,
-  junitXmlFile: path.resolve(`./test-results/${path.basename(root)}/results.xml`),
+  junitXmlFile: path.join(__dirname, `../../test-results/${path.basename(root)}/results.xml`),
   reporters
 });

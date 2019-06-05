@@ -1,4 +1,4 @@
-describe('sifrr-lazy-picture', () => {
+describe('sifrr-lazy-img', () => {
   before(async () => {
     await page.goto(`${PATH}/lazyimg.html`);
   });
