@@ -23,9 +23,7 @@ class SifrrCodeEditor extends SifrrDom.Element {
   }
 
   static hljs() {
-    this._hljs = this._hljs || fetch('https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js')
-      .then(resp => resp.text())
-      .then(text => new Function(text)());
+    this._hljs = this._hljs || SifrrDom.Loader.executeJS('https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js');
     return this._hljs;
   }
 
@@ -83,7 +81,6 @@ class SifrrCodeEditor extends SifrrDom.Element {
 
   set theme(v) {
     this.setAttribute('theme', v);
-    this.update();
   }
 
   get value() {

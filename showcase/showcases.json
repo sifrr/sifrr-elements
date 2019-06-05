@@ -242,7 +242,7 @@
           "variantName": "bg-color, fg-color (rando)",
           "style": "#element > * {\n  height: 50px;\n  width: 200px;\n}",
           "code": "<sifrr-shimmer></sifrr-shimmer>",
-          "elState": "const allowed = '0123456789abcdef';\nfunction randomCC() {\n  const char = Math.round(Math.random() * (allowed.length - 1));\n  console.log(char); \n  return allowed[char];\n}\nfunction randomColor() {\n  let color = '#';\n  for (let i = 0; i < 6; i++) {\n    color += randomCC();\n  }\n  return color;\n}\nthis.setAttribute('bg-color', randomColor());\nthis.setAttribute('fg-color', randomColor());\n\nreturn {\n\n}"
+          "elState": "const allowed = '0123456789abcdef';\nfunction randomCC() {\n  const char = Math.round(Math.random() * (allowed.length - 1));\n  return allowed[char];\n}\nfunction randomColor() {\n  let color = '#';\n  for (let i = 0; i < 6; i++) {\n    color += randomCC();\n  }\n  return color;\n}\nthis.setAttribute('bg-color', randomColor());\nthis.setAttribute('fg-color', randomColor());\n\nreturn {\n\n}"
         },
         {
           "variantId": 2,
@@ -264,7 +264,7 @@
       "variantName": "bg-color, fg-color (rando)",
       "variantId": 5,
       "style": "#element > * {\n  height: 50px;\n  width: 200px;\n}",
-      "elState": "const allowed = '0123456789abcdef';\nfunction randomCC() {\n  const char = Math.round(Math.random() * (allowed.length - 1));\n  console.log(char); \n  return allowed[char];\n}\nfunction randomColor() {\n  let color = '#';\n  for (let i = 0; i < 6; i++) {\n    color += randomCC();\n  }\n  return color;\n}\nthis.setAttribute('bg-color', randomColor());\nthis.setAttribute('fg-color', randomColor());\n\nreturn {\n\n}",
+      "elState": "const allowed = '0123456789abcdef';\nfunction randomCC() {\n  const char = Math.round(Math.random() * (allowed.length - 1));\n  return allowed[char];\n}\nfunction randomColor() {\n  let color = '#';\n  for (let i = 0; i < 6; i++) {\n    color += randomCC();\n  }\n  return color;\n}\nthis.setAttribute('bg-color', randomColor());\nthis.setAttribute('fg-color', randomColor());\n\nreturn {\n\n}",
       "id": 1,
       "elementUrl": "",
       "isjs": true
@@ -315,7 +315,7 @@
         "variantName": "bg-color, fg-color (rando)",
         "style": "#element > * {\n  height: 50px;\n  width: 200px;\n}",
         "code": "<sifrr-shimmer></sifrr-shimmer>",
-        "elState": "const allowed = '0123456789abcdef';\nfunction randomCC() {\n  const char = Math.round(Math.random() * (allowed.length - 1));\n  console.log(char); \n  return allowed[char];\n}\nfunction randomColor() {\n  let color = '#';\n  for (let i = 0; i < 6; i++) {\n    color += randomCC();\n  }\n  return color;\n}\nthis.setAttribute('bg-color', randomColor());\nthis.setAttribute('fg-color', randomColor());\n\nreturn {\n\n}"
+        "elState": "const allowed = '0123456789abcdef';\nfunction randomCC() {\n  const char = Math.round(Math.random() * (allowed.length - 1));\n  return allowed[char];\n}\nfunction randomColor() {\n  let color = '#';\n  for (let i = 0; i < 6; i++) {\n    color += randomCC();\n  }\n  return color;\n}\nthis.setAttribute('bg-color', randomColor());\nthis.setAttribute('fg-color', randomColor());\n\nreturn {\n\n}"
       },
       {
         "variantId": 2,
@@ -335,6 +335,6 @@
     "variantId": 5,
     "style": "#element > * {\n  height: 50px;\n  width: 200px;\n}",
     "code": "<sifrr-shimmer></sifrr-shimmer>",
-    "elState": "const allowed = '0123456789abcdef';\nfunction randomCC() {\n  const char = Math.round(Math.random() * (allowed.length - 1));\n  console.log(char); \n  return allowed[char];\n}\nfunction randomColor() {\n  let color = '#';\n  for (let i = 0; i < 6; i++) {\n    color += randomCC();\n  }\n  return color;\n}\nthis.setAttribute('bg-color', randomColor());\nthis.setAttribute('fg-color', randomColor());\n\nreturn {\n\n}"
+    "elState": "const allowed = '0123456789abcdef';\nfunction randomCC() {\n  const char = Math.round(Math.random() * (allowed.length - 1));\n  return allowed[char];\n}\nfunction randomColor() {\n  let color = '#';\n  for (let i = 0; i < 6; i++) {\n    color += randomCC();\n  }\n  return color;\n}\nthis.setAttribute('bg-color', randomColor());\nthis.setAttribute('fg-color', randomColor());\n\nreturn {\n\n}"
   }
 }
