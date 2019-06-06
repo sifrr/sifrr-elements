@@ -5,7 +5,6 @@ const { exec } = require('@sifrr/dev');
 (async function() {
   const exists = await require('@sifrr/dev').checkTag();
   if (exists) return;
-  await require('@sifrr/dev').generateChangelog();
   await require('@sifrr/dev').gitAddCommitPush({
     preCommand: 'sh ./scripts/changelog',
     files: ['*CHANGELOG.md'],
