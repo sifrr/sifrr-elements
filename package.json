@@ -37,7 +37,7 @@
     "@sifrr/storage": "^0.0.5"
   },
   "devDependencies": {
-    "@sifrr/dev": "0.0.7"
+    "@sifrr/dev": "0.0.8"
   },
   "dependencies": {
     "@sifrr/animate": "^0.0.2"
