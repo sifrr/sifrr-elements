@@ -1327,8 +1327,6 @@
         type: this.options.animation === 'none' ? () => 1 : this.options.animation
       });
       removeExceptOne$1(this.options.tabs, 'active', i);
-      removeExceptOne$1(this.options.tabs, 'prev', this.getTabNumber(i - 1));
-      removeExceptOne$1(this.options.tabs, 'next', this.getTabNumber(i + 1));
     }
     next() {
       this.active += 1;
@@ -1356,6 +1354,23 @@
   }
   SifrrDom.register(SifrrTabContainer);
 
+  var css$8 = ":host {\n  box-sizing: border-box;\n  width: 100%;\n  display: block;\n  position: relative;\n  overflow-x: auto;\n  margin: 0; }\n\n.tabs {\n  min-height: 1px;\n  display: block; }\n\n.tabs::slotted(*) {\n  float: left;\n  max-height: 100%;\n  height: 100%;\n  overflow-x: hidden;\n  overflow-y: auto;\n  vertical-align: top;\n  padding: 8px;\n  box-sizing: border-box; }\n";
+
+  function _templateObject$7() {
+    const data = _taggedTemplateLiteral(["<style media=\"screen\">\n  ", "\n</style>\n<style media=\"screen\">\n  .tabs {\n    width: ${this.totalWidth + 'px'};\n  }\n  .tabs::slotted(*) {\n    width: ${this.tabWidth + 'px'};\n  }\n</style>"], ["<style media=\"screen\">\n  ", "\n</style>\n<style media=\"screen\">\n  .tabs {\n    width: \\${this.totalWidth + 'px'};\n  }\n  .tabs::slotted(*) {\n    width: \\${this.tabWidth + 'px'};\n  }\n</style>"]);
+    _templateObject$7 = function () {
+      return data;
+    };
+    return data;
+  }
+  const template$8 = SifrrDom.template(_templateObject$7(), css$8);
+  class SifrrTabHeader extends SifrrDom.Element {
+    static get template() {
+      return template$8;
+    }
+  }
+  SifrrDom.register(SifrrTabHeader);
+
   window.LazyLoader = lazyloader;
 
   exports.LazyLoader = lazyloader;
@@ -1369,6 +1384,7 @@
   exports.SifrrShowcase = SifrrShowcase;
   exports.SifrrStater = SifrrStater;
   exports.SifrrTabContainer = SifrrTabContainer;
+  exports.SifrrTabHeader = SifrrTabHeader;
   exports.SifrrTabs = SifrrTabs;
 
   Object.defineProperty(exports, '__esModule', { value: true });

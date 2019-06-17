@@ -10,6 +10,7 @@ export { default as SifrrShimmer } from '../elements/sifrr-shimmer/src/sifrrshim
 export { default as SifrrInclude } from '../elements/sifrr-include/src/sifrrinclude';
 export { default as SifrrCarousel } from '../elements/sifrr-carousel/src/sifrrcarousel';
 export { default as SifrrTabContainer } from '../elements/sifrr-tab-container/src/sifrrtabcontainer';
+export { default as SifrrTabHeader } from '../elements/sifrr-tab-header/src/sifrrtabheader';
 
 // helpers
 export { default as LazyLoader } from '../helpers/lazyloader';

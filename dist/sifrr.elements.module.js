@@ -1327,8 +1327,6 @@ class SifrrTabContainer extends SifrrDom.Element {
       type: this.options.animation === 'none' ? () => 1 : this.options.animation
     });
     removeExceptOne$1(this.options.tabs, 'active', i);
-    removeExceptOne$1(this.options.tabs, 'prev', this.getTabNumber(i - 1));
-    removeExceptOne$1(this.options.tabs, 'next', this.getTabNumber(i + 1));
   }
   next() {
     this.active += 1;
@@ -1356,8 +1354,28 @@ class SifrrTabContainer extends SifrrDom.Element {
 }
 SifrrDom.register(SifrrTabContainer);
 
+var css$8 = ":host {\n  box-sizing: border-box;\n  width: 100%;\n  display: block;\n  position: relative;\n  overflow-x: auto;\n  margin: 0; }\n\n.tabs {\n  min-height: 1px;\n  display: block; }\n\n.tabs::slotted(*) {\n  float: left;\n  max-height: 100%;\n  height: 100%;\n  overflow-x: hidden;\n  overflow-y: auto;\n  vertical-align: top;\n  padding: 8px;\n  box-sizing: border-box; }\n";
+
+const template$8 = SifrrDom.template`<style media="screen">
+  ${css$8}
+</style>
+<style media="screen">
+  .tabs {
+    width: \${this.totalWidth + 'px'};
+  }
+  .tabs::slotted(*) {
+    width: \${this.tabWidth + 'px'};
+  }
+</style>`;
+class SifrrTabHeader extends SifrrDom.Element {
+  static get template() {
+    return template$8;
+  }
+}
+SifrrDom.register(SifrrTabHeader);
+
 window.LazyLoader = lazyloader;
 
-export { lazyloader as LazyLoader, SifrrCarousel, SifrrCodeEditor, SifrrInclude, SifrrLazyPicture, SifrrLazyImg as SifrrLazzyImg, SifrrProgressRound, SifrrShimmer, SifrrShowcase, SifrrStater, SifrrTabContainer, SifrrTabs };
+export { lazyloader as LazyLoader, SifrrCarousel, SifrrCodeEditor, SifrrInclude, SifrrLazyPicture, SifrrLazyImg as SifrrLazzyImg, SifrrProgressRound, SifrrShimmer, SifrrShowcase, SifrrStater, SifrrTabContainer, SifrrTabHeader, SifrrTabs };
 /*! (c) @aadityataparia */
 //# sourceMappingURL=sifrr.elements.module.js.map

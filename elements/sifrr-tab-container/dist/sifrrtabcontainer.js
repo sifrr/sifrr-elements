@@ -313,8 +313,6 @@
         type: this.options.animation === 'none' ? () => 1 : this.options.animation
       });
       removeExceptOne(this.options.tabs, 'active', i);
-      removeExceptOne(this.options.tabs, 'prev', this.getTabNumber(i - 1));
-      removeExceptOne(this.options.tabs, 'next', this.getTabNumber(i + 1));
     }
     next() {
       this.active += 1;
