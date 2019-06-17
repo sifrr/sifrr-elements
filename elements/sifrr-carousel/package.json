@@ -1,5 +1,5 @@
 {
-  "name": "@sifrr/code-editor",
+  "name": "@sifrr/carousel",
   "version": "0.0.5",
   "license": "MIT",
   "repository": {
@@ -12,9 +12,9 @@
   },
   "homepage": "https://github.com/sifrr/sifrr-elements",
   "private": true,
-  "main": "src/sifrrcodeeditor.js",
-  "module": "dist/sifrrcodeeditor.module.js",
-  "browser": "dist/sifrrcodeeditor.js",
+  "main": "src/sifrrcarousel.js",
+  "module": "dist/sifrrcarousel.module.js",
+  "browser": "dist/sifrrcarousel.js",
   "browserslist": [
     "chrome >= 55",
     "safari >= 10.1",
@@ -22,10 +22,9 @@
     "firefox >= 63"
   ],
   "scripts": {
-    "test": "node ../../scripts/test/run.js ./elements/sifrr-code-editor",
+    "test": "node ../../scripts/test/run.js ./elements/sifrr-carousel",
     "build": "../../node_modules/.bin/rollup -c",
-    "test-build": "cd test/public && ../../node_modules/.bin/rollup -c",
-    "test-server": "node ../../scripts/test/run.js ./elements/sifrr-code-editor -s"
+    "test-server": "yarn build -s"
   },
   "files": [
     "bin",

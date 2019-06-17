@@ -24,8 +24,7 @@
   "scripts": {
     "test": "node ../../scripts/test/run.js ./elements/sifrr-lazy-picture",
     "build": "../../node_modules/.bin/rollup -c",
-    "test-build": "cd test/public && ../../node_modules/.bin/rollup -c",
-    "test-server": "node ../../scripts/test/run.js ./elements/sifrr-lazy-picture -s"
+    "test-server": "yarn build -s"
   },
   "files": [
     "bin",

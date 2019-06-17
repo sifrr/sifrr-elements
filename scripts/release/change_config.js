@@ -22,8 +22,7 @@ module.exports = function(folder, isBrowser) {
     scripts: {
       test: `node ../../scripts/test/run.js ${folder}`,
       build: '../../node_modules/.bin/rollup -c',
-      'test-build': 'cd test/public && ../../node_modules/.bin/rollup -c',
-      'test-server': `node ../../scripts/test/run.js ${folder} -s`,
+      'test-server': `yarn build -s`,
     },
     files: [
       'bin',
