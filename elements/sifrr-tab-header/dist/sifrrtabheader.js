@@ -30,7 +30,6 @@
   }
   const template = SifrrDom.template(_templateObject(), css);
   function removeExceptOne(elements, name, index) {
-    if (elements.nodeType === 1) elements = elements.children;
     for (let j = 0, l = elements.length; j < l; j++) {
       j === index || elements[j] === index ? elements[j].classList.add(name) : elements[j].classList.remove(name);
     }

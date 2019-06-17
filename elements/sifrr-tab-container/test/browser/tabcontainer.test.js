@@ -122,4 +122,12 @@ describe('tab-container', function() {
       }), 0);
     });
   });
+
+  it('changes options on attribute change', async () => {
+    assert.equal(await page.$eval('#single', async el => {
+      el.setAttribute('options', '{ "random": "ok" }');
+      await delay(10);
+      return el.options.random;
+    }), 'ok');
+  });
 });
