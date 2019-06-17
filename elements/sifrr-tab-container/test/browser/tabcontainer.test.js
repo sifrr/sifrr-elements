@@ -1,0 +1,94 @@
+describe('tab-container', function() {
+  before(async () => {
+    await page.goto(`${PATH}/tabcontainer.html`);
+  });
+
+  describe('single tab', async function() {
+    it('has correct widths', async () => {
+      const widths = await page.$eval('#single', el => {
+        const cs = Array.from(el.children);
+        return cs.map(c => c.clientWidth);
+      });
+      widths.forEach(w => {
+        assert.equal(w, 400);
+      });
+
+      assert.equal(await page.$eval('#single', el => el.shadowRoot.querySelector('.tabs').clientWidth), 1200);
+    });
+
+    it('has correct scroll position', async () => {
+      assert.equal(await page.$eval('#single', el => el.scrollLeft), 0);
+      assert.equal(await page.$eval('#single', async el => {
+        el.active = 1;
+        await delay(100);
+        return el.scrollLeft;
+      }), 400);
+      assert.equal(await page.$eval('#single', async el => {
+        el.active = 2;
+        await delay(100);
+        return el.scrollLeft;
+      }), 800);
+    });
+
+    it('next,prev works', async () => {
+      assert.equal(await page.$eval('#single', async el => {
+        el.active = 0;
+        el.next();
+        await delay(100);
+        return el.scrollLeft;
+      }), 400);
+      assert.equal(await page.$eval('#single', async el => {
+        el.prev();
+        await delay(100);
+        return el.scrollLeft;
+      }), 0);
+    });
+  });
+
+  describe('multi tab', async function() {
+    it('has correct widths', async () => {
+      const widths = await page.$eval('#multi', el => {
+        const cs = Array.from(el.children);
+        return cs.map(c => c.clientWidth);
+      });
+      widths.forEach(w => {
+        assert.equal(w, 200);
+      });
+
+      assert.equal(await page.$eval('#multi', el => el.shadowRoot.querySelector('.tabs').clientWidth), 1200);
+    });
+
+    it('has correct scroll position', async () => {
+      assert.equal(await page.$eval('#multi', el => el.scrollLeft), 0);
+      assert.equal(await page.$eval('#multi', async el => {
+        el.active = 2;
+        await delay(100);
+        return el.scrollLeft;
+      }), 400);
+      assert.equal(await page.$eval('#multi', async el => {
+        el.active = 3;
+        await delay(100);
+        return el.scrollLeft;
+      }), 600);
+      assert.equal(await page.$eval('#multi', async el => {
+        el.active = 4;
+        await delay(100);
+        return el.scrollLeft;
+      }), 600);
+    });
+
+    it('next,prev works', async () => {
+      assert.equal(await page.$eval('#multi', async el => {
+        el.active = 0;
+        el.next();
+        await delay(100);
+        return el.scrollLeft;
+      }), 200);
+      assert.equal(await page.$eval('#multi', async el => {
+        el.prev();
+        await delay(100);
+        return el.scrollLeft;
+      }), 0);
+    });
+  });
+});

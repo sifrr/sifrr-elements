@@ -4,7 +4,7 @@ describe('code editor', function() {
   });
 
   it('loads code editor', async function() {
-    const hljs = await page.$eval('sifrr-carousel', el => el.$('.hljs'));
-    expect(hljs).to.exist;
+    const name = await page.evaluate("Sifrr.Dom.elements['sifrr-carousel'].elementName");
+    expect(name).to.equal('sifrr-carousel');
   });
 });

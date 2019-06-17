@@ -245,8 +245,8 @@
     onConnect() {
       this._connected = true;
       this.refresh();
-      this.setWindowResizeEvent();
-      this.setSlotChangeEvent();
+      window.addEventListener('resize', () => requestAnimationFrame(this.refresh.bind(this)));
+      this.$('slot').addEventListener('slotchange', this.refresh.bind(this, {}));
       this.setScrollEvent();
     }
     onAttributeChange(n, _, v) {
@@ -255,19 +255,19 @@
         if (this._connected) this.refresh();
       }
     }
-    refresh() {
-      this.options = Object.assign({
+    refresh(options = {}) {
+      this.options = Object.assign(this.options || {}, {
         content: this,
         tabs: this.$('slot').assignedNodes().filter(n => n.nodeType === 1),
         num: 1,
         animation: 'spring',
         animationTime: 300,
         scrollBreakpoint: 0.3
-      }, this._attrOptions);
+      }, options, this._attrOptions);
       if (!this.options.tabs || this.options.tabs.length < 1) return;
       this.tabWidth = this.clientWidth / this.options.num;
       this.totalWidth = this.tabWidth * this.options.tabs.length;
-      this.active = this._active || 0;
+      this.active = typeof this._active === 'number' ? this._active : 0;
     }
     setScrollEvent() {
       let me = this,
@@ -292,17 +292,6 @@
       }
     }
     onScrollPercent() {}
-    setWindowResizeEvent() {
-      window.addEventListener('resize', () => requestAnimationFrame(this.refresh.bind(this)));
-    }
-    setSlotChangeEvent() {
-      const me = this;
-      const fxn = () => {
-        me.options.tabs = me.$('slot').assignedNodes();
-        me.refresh();
-      };
-      this.$('slot').addEventListener('slotchange', fxn);
-    }
     get active() {
       return this._active;
     }
@@ -340,6 +329,7 @@
     }
     getTabNumber(i) {
       const l = this.options.tabs.length;
+      if (l < 1) return 0;
       const num = this.options.num;
       i = i < 0 ? i + l : i % l;
       if (i + num - 1 >= l) {

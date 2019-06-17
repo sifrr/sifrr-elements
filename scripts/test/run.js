@@ -58,4 +58,10 @@ runTests({
   sourceFileRegex: /sifrr-[a-z-]+\/src\/.*\.js$/,
   junitXmlFile: path.join(__dirname, `../../test-results/${path.basename(root)}/results.xml`),
   reporters
-});
+})
+  .then(() => global.console.log(`All tests passed`))
+  .catch(e => {
+    if (Number(e)) global.console.log(`${e} tests failed!`);
+    else global.console.error(e);
+    process.exit(1);
+  });
