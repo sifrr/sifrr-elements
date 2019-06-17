@@ -1,16 +1,19 @@
 import SifrrDom from '@sifrr/dom';
 import SifrrStorage from '@sifrr/storage';
-import '../../sifrr-tabs/src/sifrrtabs';
+import '../../sifrr-tab-header/src/sifrrtabheader';
+import '../../sifrr-tab-container/src/sifrrtabcontainer';
 import style from './style.scss';
 
 const template = SifrrDom.template`<style>
   ${style}
 </style>
 <div id="showHide" _click=\${this.showHide}></div>
-<sifrr-tabs options='{"tabHeight": "calc(100vh - 132px)"}' data-sifrr-html="true">
+<sifrr-tab-header style='background: blue; color: white' data-sifrr-html="true">
   \${ this.headingHtml() }
+</sifrr-tab-header>
+<sifrr-tab-container style='height: calc(100vh - 132px)' data-sifrr-html="true">
   \${ this.stateHtml() }
-</sifrr-tabs>
+</sifrr-tab-container>
 <footer>
   <input _keyup=\${this.addTargetOnEnter} id="addTargetInput" type="text" name="addTargetInput" value="" placeholder="Enter css selector query of target">
   <button _click=\${this.addTarget} class="btn3" type="button" name="addTargetButton">Add Taget</button>
@@ -67,13 +70,13 @@ class SifrrStater extends SifrrDom.Element {
   }
 
   headingHtml() {
-    return this.state.queries.map((q) => `<li slot="heading">${q}</li>`).join('');
+    return this.state.queries.map((q) => `<span>${q}</span>`).join('');
   }
 
   stateHtml() {
     let me = this;
     return this.state.states.map((s, i) =>
-      `<div data-target="${i}" slot="tab">
+      `<div data-target="${i}">
       <button class="btn3 commit" type="button" name="commit">Commit</button>
       <button class="btn3 reset" type="button" name="reset">Reset</button>
       <button class="btn3 remove" type="button" name="remove">Remove</button>

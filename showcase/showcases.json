@@ -1,5 +1,5 @@
 {
-  "current": 3,
+  "current": 4,
   "showcases": [
     {
       "id": 1,
@@ -103,109 +103,46 @@
       "id": 1,
       "elementUrl": "",
       "isjs": true,
-      "variantName": "default",
-      "variantId": 1,
+      "variantName": "multiple tabs in view",
+      "variantId": 2,
       "style": "#element > * {\n  background-color: white;\n}",
-      "code": "<sifrr-tab-container>\n  <div>\n    Tab 1\n  </div>\n  <div>\n    Tab 2\n  </div>\n</sifrr-tab-container>",
-      "elState": "this.active = 0;\nreturn {\n\n}",
+      "code": "<sifrr-tab-container options='{ \"num\": 3 }'>\n  <div>\n    Tab 1\n  </div>\n  <div>\n    Tab 2\n  </div>\n  <div>\n    Tab 3\n  </div>\n  <div>\n    Tab 4\n  </div>\n  <div>\n    Tab 5\n  </div>\n  <div>\n    Tab 6\n  </div>\n</sifrr-tab-container>\n",
+      "elState": "return {\n\n}",
       "current": 0
     },
     {
-      "name": "sifrr-tabs",
+      "name": "sifrr-tab-header",
       "variants": [
         {
           "variantId": 1,
-          "variantName": "with menu and content",
-          "style": "#element > * {\n  background-color: white;\n}",
-          "code": "<sifrr-tabs>\n        <li slot='heading'>Heading 1</li>\n        <li slot='heading'>Heading 2 - sdfsdfsdafsdf d sdf af </li>\n        <li slot='heading'>Heading 3 - sdf ssd fdsf sf </li>\n        <li slot='heading'>Heading 4 - vesdfdf d df dfds dsf dsf </li>\n        <div slot='tab'>\n          <p>Tab 1</p>\n          <p>Tab 1</p>\n          <p>Tab 1</p>\n          <p>Tab 1</p>\n          <p>Tab 1</p>\n          <p>Tab 1</p>\n        </div>\n        <div slot='tab'>\n          <p>Tab 2</p>\n          <p>Tab 2</p>\n          <p>Tab 2</p>\n        </div>\n        <div slot='tab'>\n          <p>Tab 3</p>\n        </div>\n        <div slot='tab'>\n          <p>Tab 4</p>\n        </div>\n      </sifrr-tabs>",
-          "elState": "return {\n\n}"
-        },
-        {
-          "variantId": 11,
-          "variantName": "different menu color / border radius",
-          "style": "#element > * {\n  background-color: white;\n  border-radius: 5px;\n}",
-          "code": "<sifrr-tabs options='{ \"background\": \"black\" }'>\n        <li slot='heading'>Heading 1</li>\n        <li slot='heading'>Heading 2 - sdfsdfsdafsdf d sdf af </li>\n        <li slot='heading'>Heading 3 - sdf ssd fdsf sf </li>\n        <li slot='heading'>Heading 4 - vesdfdf d df dfds dsf dsf </li>\n        <div slot='tab'>\n          <p>Tab 1</p>\n          <p>Tab 1</p>\n          <p>Tab 1</p>\n          <p>Tab 1</p>\n          <p>Tab 1</p>\n          <p>Tab 1</p>\n        </div>\n        <div slot='tab'>\n          <p>Tab 2</p>\n          <p>Tab 2</p>\n          <p>Tab 2</p>\n        </div>\n        <div slot='tab'>\n          <p>Tab 3</p>\n        </div>\n        <div slot='tab'>\n          <p>Tab 4</p>\n        </div>\n      </sifrr-tabs>",
+          "variantName": "default",
+          "style": "#element > * {\n  background-color: blue;\n  color: white;\n}",
+          "code": "<sifrr-tab-header>\n  <span>hahaha</span>\n  <span>lololol</span>\n</sifrr-tab-header>",
           "elState": "return {\n\n}"
         },
         {
           "variantId": 2,
-          "variantName": "without menu, with arrows",
-          "style": "#element > * {\n  background-color: white;\n}",
-          "code": "<sifrr-tabs options='{ \"showMenu\": false, \"showArrows\": true }'>\n        <div slot='tab'>\n          Tab 1\n        </div>\n        <div slot='tab'>\n          Tab 2\n        </div>\n      </sifrr-tabs>",
-          "elState": "return {\n\n}"
-        },
-        {
-          "variantId": 12,
-          "variantName": "arrow big area to clickk",
-          "style": "#element > * {\n  background-color: white;\n}",
-          "code": "<sifrr-tabs options='{ \"showMenu\": false, \"showArrows\": true, \"arrowWidth\": \"30%\" }'>\n        <div slot='tab'>\n          Tab 1\n        </div>\n        <div slot='tab'>\n          Tab 2\n        </div>\n      </sifrr-tabs>",
-          "elState": "return {\n\n}"
-        },
-        {
-          "variantId": 10,
-          "variantName": "without menu, with arrows, arrow margin",
-          "style": "#element > * {\n  background-color: white;\n}",
-          "code": "<sifrr-tabs options='{ \"showMenu\": false, \"showArrows\": true, \"arrowMargin\": 20 }'>\n        <div slot='tab'>\n          Tab 1\n        </div>\n        <div slot='tab'>\n          Tab 2\n        </div>\n      </sifrr-tabs>",
+          "variantName": "auto scrolling demo",
+          "style": "#element > * {\n  background-color: blue;\n  color: white;\n}",
+          "code": "<sifrr-tab-header>\n  <span>hahaha</span>\n  <span>lololol</span>\n  <span>hahaha</span>\n  <span>lololol</span>\n  <span>hahaha</span>\n  <span>lololol</span>\n  <span>hahaha</span>\n  <span>lololol</span>\n  <span>hahaha</span>\n  <span>lololol</span>\n  <span>hahaha</span>\n  <span>lololol</span>\n  <span>hahaha</span>\n  <span>lololol</span>\n  <span>hahaha</span>\n  <span>lololol</span>\n  <span>hahaha</span>\n  <span>lololol</span>\n  <span>hahaha</span>\n  <span>lololol</span>\n  <span>hahaha</span>\n  <span>lololol</span>\n  <span>hahaha</span>\n  <span>lololol</span>\n</sifrr-tab-header>",
           "elState": "return {\n\n}"
         },
         {
           "variantId": 3,
-          "variantName": "without menu, with arrows, looped",
-          "style": "#element > * {\n  background-color: white;\n}",
-          "code": "<sifrr-tabs options='{ \"showMenu\": false, \"showArrows\": true, \"loop\": true }'>\n        <div slot='tab'>\n          Tab 1\n        </div>\n        <div slot='tab'>\n          Tab 2\n        </div>\n        <div slot='tab'>\n          Tab 3\n        </div>\n      </sifrr-tabs>",
-          "elState": "return {\n\n}"
-        },
-        {
-          "variantId": 4,
-          "variantName": "with multiple tabs (integer) in view",
-          "style": "#element > * {\n  background-color: white;\n}",
-          "code": "<sifrr-tabs options='{ \"showMenu\": false, \"showArrows\": true, \"num\": 3 }'>\n        <div slot='tab'>\n          Tab 1\n        </div>\n        <div slot='tab'>\n          Tab 2\n        </div>\n        <div slot='tab'>\n          Tab 3\n        </div>\n        <div slot='tab'>\n          Tab 4\n        </div>\n        <div slot='tab'>\n          Tab 5\n        </div>\n        <div slot='tab'>\n          Tab 6\n        </div>\n      </sifrr-tabs>\n",
-          "elState": "return {\n\n}"
-        },
-        {
-          "variantId": 5,
-          "variantName": "with multiple tabs in view, looped, and arrow steps more than 1",
-          "style": "#element > * {\n  background-color: white;\n}",
-          "code": "<sifrr-tabs options='{ \"showMenu\": false, \"showArrows\": true, \"num\": 3, \"loop\": true, \"step\": 3 }'>\n        <div slot='tab'>\n          Tab 1\n        </div>\n        <div slot='tab'>\n          Tab 2\n        </div>\n        <div slot='tab'>\n          Tab 3\n        </div>\n        <div slot='tab'>\n          Tab 4\n        </div>\n        <div slot='tab'>\n          Tab 5\n        </div>\n        <div slot='tab'>\n          Tab 6\n        </div>\n      </sifrr-tabs>\n",
-          "elState": "return {\n\n}"
-        },
-        {
-          "variantId": 6,
-          "variantName": "with pre defined tab height",
-          "style": "#element > * {\n  background-color: white;\n}",
-          "code": "<sifrr-tabs options='{ \"tabHeight\": \"100px\" }'>\n        <a slot='heading'>Heading 1</a>\n        <a slot='heading'>Heading 2</a>\n        <div slot='tab'>\n          Tab 1\n        </div>\n        <div slot='tab'>\n          Tab 2\n        </div>\n      </sifrr-tabs>",
-          "elState": "return {\n\n}"
-        },
-        {
-          "variantId": 7,
-          "variantName": "with no animation",
-          "style": "#element > * {\n  background-color: white;\n}",
-          "code": "<sifrr-tabs options='{ \"animation\": \"none\", \"time\": 0 }'>\n        <li slot='heading'>Heading 1</li>\n        <li slot='heading'>Heading 2</li>\n        <div slot='tab'>\n          Tab 1\n        </div>\n        <div slot='tab'>\n          Tab 2\n        </div>\n      </sifrr-tabs>",
-          "elState": "return {\n\n}"
-        },
-        {
-          "variantId": 8,
-          "variantName": "with arrowMargins",
-          "style": "#element > * {\n  background-color: white;\n}",
-          "code": "<sifrr-tabs options='{ \"showMenu\": false, \"showArrows\": true, \"arrowMargin\": 25 }'>\n        <div slot='tab'>\n          Tab 1\n        </div>\n        <div slot='tab'>\n          Tab 2\n        </div>\n      </sifrr-tabs>",
-          "elState": "return {\n\n}"
-        },
-        {
-          "variantId": 9,
-          "variantName": "images carousel",
-          "style": "#element > * {\n  background-color: white;\n}\n#element > * > img {\n  height: 100%;\n}",
-          "code": "<sifrr-tabs options='{ \"showMenu\": false, \"showArrows\": true, \"tabHeight\": \"400px\" }'>\n  <img slot=\"tab\" src=\"https://static.adweek.com/adweek.com-prod/wp-content/uploads/files/blogs/google-logo-hed-2014.jpg\">\n  <img slot=\"tab\" src=\"https://static.adweek.com/adweek.com-prod/wp-content/uploads/files/blogs/google-logo-hed-2014.jpg\">\n  <img slot=\"tab\" src=\"https://static.adweek.com/adweek.com-prod/wp-content/uploads/files/blogs/google-logo-hed-2014.jpg\">\n  <img slot=\"tab\" src=\"https://static.adweek.com/adweek.com-prod/wp-content/uploads/files/blogs/google-logo-hed-2014.jpg\">\n</sifrr-tabs>",
-          "elState": "return {\n\n}"
+          "variantName": "with tab container",
+          "style": "#element > sifrr-tab-header {\n  background-color: blue;\n  color: white;\n}\n#element > sifrr-tab-container {\n  background-color: white;\n}",
+          "code": "<sifrr-tab-header>\n  <span>hahaha</span>\n  <span>lolsfsdfsdfsdfsfsdfsdfolol</span>\n  <span>haha</span>\n</sifrr-tab-header>\n<sifrr-tab-container>\n  <div>\n    Tab 1\n  </div>\n  <div>\n    Tab 2\n  </div>\n  <div>\n    Tab 3\n  </div>\n</sifrr-tab-container>",
+          "elState": "this.refresh({ container: this.nextElementSibling });\nreturn {\n\n}"
         }
       ],
+      "element": "sifrr-tab-header",
       "id": 1,
-      "element": "sifrr-tabs",
       "elementUrl": "",
       "isjs": true,
-      "variantName": "with pre defined tab height",
-      "variantId": 6,
-      "style": "#element > * {\n  background-color: white;\n}",
-      "code": "<sifrr-tabs options='{ \"tabHeight\": \"100px\" }'>\n        <a slot='heading'>Heading 1</a>\n        <a slot='heading'>Heading 2</a>\n        <div slot='tab'>\n          Tab 1\n        </div>\n        <div slot='tab'>\n          Tab 2\n        </div>\n      </sifrr-tabs>",
+      "variantName": "auto scrolling demo",
+      "variantId": 2,
+      "style": "#element > * {\n  background-color: blue;\n  color: white;\n}",
+      "code": "<sifrr-tab-header>\n  <span>hahaha</span>\n  <span>lololol</span>\n  <span>hahaha</span>\n  <span>lololol</span>\n  <span>hahaha</span>\n  <span>lololol</span>\n  <span>hahaha</span>\n  <span>lololol</span>\n  <span>hahaha</span>\n  <span>lololol</span>\n  <span>hahaha</span>\n  <span>lololol</span>\n  <span>hahaha</span>\n  <span>lololol</span>\n  <span>hahaha</span>\n  <span>lololol</span>\n  <span>hahaha</span>\n  <span>lololol</span>\n  <span>hahaha</span>\n  <span>lololol</span>\n  <span>hahaha</span>\n  <span>lololol</span>\n  <span>hahaha</span>\n  <span>lololol</span>\n</sifrr-tab-header>",
       "elState": "return {\n\n}",
       "current": 0
     },
@@ -321,30 +258,37 @@
   ],
   "currentSC": {
     "id": 1,
-    "name": "sifrr-tab-container",
-    "element": "sifrr-tab-container",
+    "name": "sifrr-tab-header",
+    "element": "sifrr-tab-header",
     "elementUrl": "",
     "isjs": true,
-    "variantName": "multiple tabs in view",
+    "variantName": "default",
     "variants": [
       {
         "variantId": 1,
         "variantName": "default",
-        "style": "#element > * {\n  background-color: white;\n}",
-        "code": "<sifrr-tab-container>\n  <div>\n    Tab 1\n  </div>\n  <div>\n    Tab 2\n  </div>\n</sifrr-tab-container>",
-        "elState": "this.active = 0;\nreturn {\n\n}"
+        "style": "#element > * {\n  background-color: blue;\n  color: white;\n}",
+        "code": "<sifrr-tab-header>\n  <span>hahaha</span>\n  <span>lololol</span>\n</sifrr-tab-header>",
+        "elState": "return {\n\n}"
       },
       {
         "variantId": 2,
-        "variantName": "multiple tabs in view",
-        "style": "#element > * {\n  background-color: white;\n}",
-        "code": "<sifrr-tab-container options='{ \"num\": 3 }'>\n  <div>\n    Tab 1\n  </div>\n  <div>\n    Tab 2\n  </div>\n  <div>\n    Tab 3\n  </div>\n  <div>\n    Tab 4\n  </div>\n  <div>\n    Tab 5\n  </div>\n  <div>\n    Tab 6\n  </div>\n</sifrr-tab-container>\n",
+        "variantName": "auto scrolling demo",
+        "style": "#element > * {\n  background-color: blue;\n  color: white;\n}",
+        "code": "<sifrr-tab-header>\n  <span>hahaha</span>\n  <span>lololol</span>\n  <span>hahaha</span>\n  <span>lololol</span>\n  <span>hahaha</span>\n  <span>lololol</span>\n  <span>hahaha</span>\n  <span>lololol</span>\n  <span>hahaha</span>\n  <span>lololol</span>\n  <span>hahaha</span>\n  <span>lololol</span>\n  <span>hahaha</span>\n  <span>lololol</span>\n  <span>hahaha</span>\n  <span>lololol</span>\n  <span>hahaha</span>\n  <span>lololol</span>\n  <span>hahaha</span>\n  <span>lololol</span>\n  <span>hahaha</span>\n  <span>lololol</span>\n  <span>hahaha</span>\n  <span>lololol</span>\n</sifrr-tab-header>",
         "elState": "return {\n\n}"
+      },
+      {
+        "variantId": 3,
+        "variantName": "with tab container",
+        "style": "#element > sifrr-tab-header {\n  background-color: blue;\n  color: white;\n}\n#element > sifrr-tab-container {\n  background-color: white;\n}",
+        "code": "<sifrr-tab-header>\n  <span>hahaha</span>\n  <span>lolsfsdfsdfsdfsfsdfsdfolol</span>\n  <span>haha</span>\n</sifrr-tab-header>\n<sifrr-tab-container>\n  <div>\n    Tab 1\n  </div>\n  <div>\n    Tab 2\n  </div>\n  <div>\n    Tab 3\n  </div>\n</sifrr-tab-container>",
+        "elState": "this.refresh({ container: this.nextElementSibling });\nreturn {\n\n}"
       }
     ],
-    "variantId": 2,
-    "style": "#element > * {\n  background-color: white;\n}",
-    "code": "<sifrr-tab-container options='{ \"num\": 3 }'>\n  <div>\n    Tab 1\n  </div>\n  <div>\n    Tab 2\n  </div>\n  <div>\n    Tab 3\n  </div>\n  <div>\n    Tab 4\n  </div>\n  <div>\n    Tab 5\n  </div>\n  <div>\n    Tab 6\n  </div>\n</sifrr-tab-container>\n",
+    "variantId": 1,
+    "style": "#element > * {\n  background-color: blue;\n  color: white;\n}",
+    "code": "<sifrr-tab-header>\n  <span>hahaha</span>\n  <span>lololol</span>\n</sifrr-tab-header>",
     "elState": "return {\n\n}",
     "current": 0
   }

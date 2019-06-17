@@ -74,7 +74,6 @@ class SifrrTabHeader extends SifrrDom.Element {
       };
       left += elem.offsetWidth;
       elem._click = () => {
-        console.log(this.options.container, i);
         if (this.options.container) this.options.container.active = i;
         else this.active = i;
       };
