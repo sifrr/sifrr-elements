@@ -196,9 +196,9 @@ const template = SifrrDom.template`<style media="screen">
 <slot class="tabs">
 </slot>`;
 function removeExceptOne(elements, name, index) {
-  if (elements instanceof HTMLElement) elements = elements.children;
-  for (let j = 0; j < elements.length; j++) {
-    j !== index && elements[j] !== index ? elements[j].classList.remove(name) : elements[j].classList.add(name);
+  if (elements.nodeType === 1) elements = elements.children;
+  for (let j = 0, l = elements.length; j < l; j++) {
+    j === index || elements[j] === index ? elements[j].classList.add(name) : elements[j].classList.remove(name);
   }
 }
 class SifrrTabContainer extends SifrrDom.Element {
@@ -252,7 +252,7 @@ class SifrrTabContainer extends SifrrDom.Element {
         if (total - scrollPos < -me.options.scrollBreakpoint) {
           me.active = Math.min(t, scrollPos - 1);
         } else if (total - scrollPos > +me.options.scrollBreakpoint) {
-          me.active = Math.min(t, scrollPos + 1);
+          me.active = Math.max(t, scrollPos + 1);
         } else {
           me.active = scrollPos;
         }
