@@ -57,7 +57,7 @@ class SifrrTabContainer extends SifrrDom.Element {
       scrollBreakpoint: 0.3,
       loop: false
     }, this.options, options, this._attrOptions);
-    this.options.tabs = this.options.tabs || this.options.slot.assignedNodes().filter(n => n.nodeType === 1);
+    this.options.tabs = this.options.slot.assignedNodes().filter(n => n.nodeType === 1);
     if (!this.options.tabs || this.options.tabs.length < 1) return;
     this.tabWidth = this.clientWidth / this.options.num;
     this.totalWidth = this.tabWidth * this.options.tabs.length;
