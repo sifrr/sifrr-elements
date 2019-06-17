@@ -1260,7 +1260,7 @@ class SifrrTabContainer extends SifrrDom.Element {
     this._connected = true;
     this.refresh();
     window.addEventListener('resize', () => requestAnimationFrame(this.refresh.bind(this)));
-    this.$('slot').addEventListener('slotchange', this.refresh.bind(this, {}));
+    this.options.slot.addEventListener('slotchange', this.refresh.bind(this, {}));
     this.setScrollEvent();
   }
   onAttributeChange(n, _, v) {
@@ -1270,14 +1270,16 @@ class SifrrTabContainer extends SifrrDom.Element {
     }
   }
   refresh(options = {}) {
-    this.options = Object.assign(this.options || {}, {
+    this.options = Object.assign({
       content: this,
-      tabs: this.$('slot').assignedNodes().filter(n => n.nodeType === 1),
+      slot: this.$('slot'),
       num: 1,
       animation: 'spring',
       animationTime: 300,
-      scrollBreakpoint: 0.3
-    }, options, this._attrOptions);
+      scrollBreakpoint: 0.3,
+      loop: false
+    }, this.options, options, this._attrOptions);
+    this.options.tabs = this.options.tabs || this.options.slot.assignedNodes().filter(n => n.nodeType === 1);
     if (!this.options.tabs || this.options.tabs.length < 1) return;
     this.tabWidth = this.clientWidth / this.options.num;
     this.totalWidth = this.tabWidth * this.options.tabs.length;
@@ -1347,7 +1349,7 @@ class SifrrTabContainer extends SifrrDom.Element {
     const num = this.options.num;
     i = i < 0 ? i + l : i % l;
     if (i + num - 1 >= l) {
-      i = this.options.loop ? 0 : l - num;
+      i = this.options.loop ? i % l : l - num;
     }
     return i;
   }

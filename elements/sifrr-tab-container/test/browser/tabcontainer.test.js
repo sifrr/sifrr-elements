@@ -43,6 +43,37 @@ describe('tab-container', function() {
         return el.scrollLeft;
       }), 0);
     });
+
+    it('goes to last tab if not looped', async () => {
+      assert.equal(await page.$eval('#single', async el => {
+        el.active = 10;
+        el.next();
+        await delay(100);
+        return el.scrollLeft;
+      }), 800);
+    });
+  });
+
+  describe('looped', function() {
+    it('loops', async () => {
+      assert.equal(await page.$eval('#single', async el => {
+        el.active = 3;
+        await delay(100);
+        return el.scrollLeft;
+      }), 0);
+
+      assert.equal(await page.$eval('#single', async el => {
+        el.active = 5;
+        await delay(100);
+        return el.scrollLeft;
+      }), 800);
+
+      assert.equal(await page.$eval('#single', async el => {
+        el.active = 8;
+        await delay(100);
+        return el.scrollLeft;
+      }), 800);
+    });
   });
 
   describe('multi tab', async function() {

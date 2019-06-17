@@ -22,7 +22,8 @@
   num: 1, // number of tabs in view at once
   animation: 'ease', // type of animation for tabs changing
   animationTime: 300, // time in ms for animation
-  scrollBreakpoint: 0.3 // breakpoint for scroll, when tab should be changed
+  scrollBreakpoint: 0.3, // breakpoint for scroll, when tab should be changed
+  loop: false // loop on next/prev/active or not
 }
 ```
 
@@ -59,12 +60,12 @@ tabs.active = 0; // tabs index start from 0
 
 ### Check if there are tabs after active tab
 ```js
-tabs.hasNext();
+tabs.hasNext(); // always returns true if loop = true
 ```
 
 ### Check if there are tabs before active tab
 ```js
-tabs.hasPrev();
+tabs.hasPrev(); // always returns true if loop = true
 ```
 
 ### On scroll event
