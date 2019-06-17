@@ -5,10 +5,10 @@
 
 ```html
 <sifrr-tab-container options="<JSON String>">
-  <div slot='tab'>
+  <div>
     Tab 1
   </div>
-  <div slot='tab'>
+  <div>
     Tab 2
   </div>
 </sifrr-tab-container>
