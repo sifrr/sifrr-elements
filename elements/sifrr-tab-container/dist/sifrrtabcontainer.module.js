@@ -1,9 +1,9 @@
 /*! SifrrTabContainer v0.0.5 - sifrr project | MIT licensed | https://github.com/sifrr/sifrr-elements */
 import SifrrDom from '@sifrr/dom';
 
-var css = ":host {\n  /* CSS for tabs container */\n  box-sizing: border-box;\n  width: 100%;\n  display: block;\n  position: relative;\n  overflow-x: auto;\n  margin: 0; }\n\n.tabs {\n  min-height: 1px; }\n\n/* Tab element css */\n.tabs *::slotted([slot=\"tab\"]) {\n  float: left;\n  max-height: 100%;\n  height: 100%;\n  overflow-x: hidden;\n  overflow-y: auto;\n  vertical-align: top;\n  padding: 8px;\n  box-sizing: border-box; }\n";
+var css = ":host {\n  box-sizing: border-box;\n  width: 100%;\n  display: block;\n  position: relative;\n  overflow-x: auto;\n  margin: 0; }\n\n.tabs {\n  min-height: 1px;\n  display: block; }\n\n.tabs::slotted(*) {\n  float: left;\n  max-height: 100%;\n  height: 100%;\n  overflow-x: hidden;\n  overflow-y: auto;\n  vertical-align: top;\n  padding: 8px;\n  box-sizing: border-box; }\n";
 
-/*! Sifrr.animate v0.0.2 - sifrr project | MIT licensed | https://github.com/sifrr/sifrr-elements */
+/*! sifrr-animate v0.0.3 - sifrr project | MIT licensed | https://github.com/sifrr/sifrr-animate */
 const beziers = {};
 class Bezier {
   constructor(args){
@@ -46,10 +46,11 @@ var types = {
   ease: [.25, .1, .25, 1],
   easeIn: [.42, 0, 1, 1],
   easeOut: [0, 0, .58, 1],
-  easeInOut: [.42, 0, .58, 1]
+  easeInOut: [.42, 0, .58, 1],
+  spring: [.3642, 0, .6358, 1]
 };
-var wait = (t) => new Promise(res => setTimeout(res, t));
-const digitRgx = /(\d+\.?\d*)/;
+var wait = t => new Promise(res => setTimeout(res, t));
+const digitRgx = /((?:[+\-*/]=)?-?\d+\.?\d*)/;
 const frames = new Set();
 function runFrames(currentTime) {
   frames.forEach(f => f(currentTime));
@@ -62,7 +63,7 @@ function animateOne({
   from,
   to,
   time = 300,
-  type = 'ease',
+  type = 'spring',
   onUpdate,
   round = false,
   delay = 0
@@ -71,20 +72,39 @@ function animateOne({
   const fromSplit = (from || target[prop] || '').toString().split(digitRgx);
   const onUp = typeof onUpdate === 'function';
   for (let i = 0; i < l; i++) {
-    const n = Number(toSplit[i]);
-    if (isNaN(n) || !toSplit[i]) raw.push(toSplit[i]);
+    const fn = Number(fromSplit[i]) || 0;
+    let tn = Number(toSplit[i]);
+    if (toSplit[i][1] === '=') {
+      tn = Number(toSplit[i].slice(2));
+      switch (toSplit[i][0]) {
+      case '+':
+        tn = fn + tn;
+        break;
+      case '-':
+        tn = fn - tn;
+        break;
+      case '*':
+        tn = fn * tn;
+        break;
+      case '/':
+        tn = fn / tn;
+        break;
+      }
+    }
+    if (isNaN(tn) || !toSplit[i]) raw.push(toSplit[i]);
     else {
-      fromNums.push(Number(fromSplit[i]) || 0);
-      diffs.push(n - (Number(fromSplit[i]) || 0));
+      fromNums.push(fn);
+      diffs.push(tn - fn);
     }
   }
   const rawObj = { raw };
   return wait(delay).then(() => new Promise((resolve, reject) => {
-    if (types[type]) type = new bezier(types[type]);
-    else if (Array.isArray(type)) type = new bezier(type);
+    if (types[type]) type = types[type];
+    if (Array.isArray(type)) type = new bezier(type);
     else if (typeof type !== 'function') return reject(Error('type should be one of ' + Object.keys(types).toString() + ' or Bezier Array or Function, given ' + type));
-    let startTime = performance.now();
+    let startTime;
     const frame = function(currentTime) {
+      startTime = startTime || currentTime - 17;
       const percent = (currentTime - startTime) / time, bper = type(percent >= 1 ? 1 : percent);
       const next = diffs.map((d, i) => {
         const n = bper * d + fromNums[i];
@@ -141,35 +161,40 @@ function animate({
   }
   let numTo = to, numDelay = delay, numTime = time;
   return Promise.all(targets.map((target, i) => {
-    if (typeof to === 'function') numTo = to(i);
-    if (typeof delay === 'function') numDelay = delay(i);
-    if (typeof time === 'function') numTime = time(i);
+    if (typeof to === 'function') numTo = to.call(target, i);
+    if (typeof delay === 'function') numDelay = delay.call(target, i);
+    if (typeof time === 'function') numTime = time.call(target, i);
     return iterate(target, numTo, numDelay, numTime);
   }));
 }
 animate.types = types;
 animate.wait = wait;
 animate.animate = animate;
+animate.keyframes = (arrOpts) => {
+  let promise = Promise.resolve(true);
+  arrOpts.forEach(opts => {
+    if (Array.isArray(opts)) promise = promise.then(() => Promise.all(opts.map(animate)));
+    promise = promise.then(() => animate(opts));
+  });
+  return promise;
+};
+animate.loop = (fxn) => fxn().then(() => animate.loop(fxn));
 var animate_1 = animate;
 /*! (c) @aadityataparia */
 
 const template = SifrrDom.template`<style media="screen">
   ${css}
 </style>
-<style>
+<style media="screen">
   .tabs {
-    height: \${this.options ? this.options.tabHeight : 'auto'};
     width: \${this.totalWidth + 'px'};
   }
-  .tabs *::slotted([slot="tab"]) {
+  .tabs::slotted(*) {
     width: \${this.tabWidth + 'px'};
-    margin: 0 \${this.options ? this.options.arrowMargin + 'px' : 0};
   }
 </style>
-<div class="tabs">
-  <slot>
-  </slot>
-</div>`;
+<slot class="tabs">
+</slot>`;
 function removeExceptOne(elements, name, index) {
   if (elements instanceof HTMLElement) elements = elements.children;
   for (let j = 0; j < elements.length; j++) {
@@ -198,35 +223,28 @@ class SifrrTabContainer extends SifrrDom.Element {
   }
   refresh() {
     this.options = Object.assign({
-      menu: this.$('.headings ul'),
-      content: this.$('.content'),
-      tabcontainer: this.$('.tabs'),
-      tabs: this.$('slot[name=tab]').assignedNodes(),
+      content: this,
+      tabs: this.$('slot').assignedNodes().filter(n => n.nodeType === 1),
       num: 1,
-      tabHeight: 'auto',
-      loop: false,
-      animation: 'ease',
+      animation: 'spring',
       animationTime: 300,
-      scrollBreakpoint: 0.2
+      scrollBreakpoint: 0.3
     }, this._attrOptions);
     if (!this.options.tabs || this.options.tabs.length < 1) return;
-    this.usableWidth = this.clientWidth;
-    this.totalWidth = this.usableWidth / this.options.num * this.options.tabs.length;
-    this.usableWidth -= 2 * this.options.arrowMargin;
-    this.tabWidth = this.usableWidth / this.options.num;
-    this.setProps();
-    this.update();
-    this.active = this.active || 0;
+    this.tabWidth = this.clientWidth / this.options.num;
+    this.totalWidth = this.tabWidth * this.options.tabs.length;
+    this.active = this._active || 0;
   }
   setScrollEvent() {
     let me = this,
       isScrolling,
       scrollPos;
-    this.options.content.onscroll = () => requestAnimationFrame(onScroll);
+    this.options.content.addEventListener('scroll', onScroll);
     function onScroll() {
       scrollPos = me.active;
       const total = me.options.content.scrollLeft / me.tabWidth;
       const t = Math.floor(total);
+      me.onScrollPercent(total);
       clearTimeout(isScrolling);
       isScrolling = setTimeout(function() {
         if (total - scrollPos < -me.options.scrollBreakpoint) {
@@ -239,34 +257,32 @@ class SifrrTabContainer extends SifrrDom.Element {
       }, 100);
     }
   }
+  onScrollPercent() {}
   setWindowResizeEvent() {
     window.addEventListener('resize', () => requestAnimationFrame(this.refresh.bind(this)));
   }
   setSlotChangeEvent() {
     const me = this;
     const fxn = () => {
-      me.options.tabs = me.$$('slot')[1].assignedNodes();
+      me.options.tabs = me.$('slot').assignedNodes();
       me.refresh();
     };
-    this.$$('slot')[0].addEventListener('slotchange', fxn);
+    this.$('slot').addEventListener('slotchange', fxn);
   }
   get active() {
-    return this.state ? this.state.active : 0;
+    return this._active;
   }
   set active(i) {
-    this.state = {
-      active: i
-    };
+    this._active = this.getTabNumber(i);
+    this.update();
   }
   beforeUpdate() {
     if (!this.options) return;
-    let i = this.state.active;
-    i = this.getTabNumber(i);
-    if (!isNaN(i) && i !== this.state.active) return this.active = i;
+    const i = this._active;
     animate_1({
       target: this.options.content,
       to: {
-        scrollLeft: i * (this.tabWidth + 2 * this.options.arrowMargin)
+        scrollLeft: i * this.tabWidth
       },
       time: this.options.animationTime,
       type: this.options.animation === 'none' ? () => 1 : this.options.animation
@@ -276,18 +292,17 @@ class SifrrTabContainer extends SifrrDom.Element {
     removeExceptOne(this.options.tabs, 'next', this.getTabNumber(i + 1));
   }
   next() {
-    this.active = this.state.active + this.options.step;
+    this.active += 1;
   }
   hasNext() {
     if (this.active === this.options.tabs.length - this.options.num) return false;
     return true;
   }
   prev() {
-    this.active = this.state.active - this.options.step;
+    this.active -= 1;
   }
   hasPrev() {
-    if (this.active === 0) return false;
-    return true;
+    return this.active === 0 ? false : true;
   }
   getTabNumber(i) {
     const l = this.options.tabs.length;
@@ -299,7 +314,6 @@ class SifrrTabContainer extends SifrrDom.Element {
     return i;
   }
 }
-SifrrTabContainer.defaultState = { active: 0 };
 SifrrDom.register(SifrrTabContainer);
 
 export default SifrrTabContainer;

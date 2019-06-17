@@ -9,6 +9,7 @@ export { default as SifrrProgressRound } from '../elements/sifrr-progress-round/
 export { default as SifrrShimmer } from '../elements/sifrr-shimmer/src/sifrrshimmer';
 export { default as SifrrInclude } from '../elements/sifrr-include/src/sifrrinclude';
 export { default as SifrrCarousel } from '../elements/sifrr-carousel/src/sifrrcarousel';
+export { default as SifrrTabContainer } from '../elements/sifrr-tab-container/src/sifrrtabcontainer';
 
 // helpers
 export { default as LazyLoader } from '../helpers/lazyloader';

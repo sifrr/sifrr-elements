@@ -28,7 +28,7 @@
   }
 
   var sifrr_animate = createCommonjsModule(function (module, exports) {
-  /*! Sifrr.animate v0.0.2 - sifrr project | MIT licensed | https://github.com/sifrr/sifrr-elements */
+  /*! sifrr-animate v0.0.3 - sifrr project | MIT licensed | https://github.com/sifrr/sifrr-animate */
   (function (global, factory) {
     module.exports = factory();
   }(commonjsGlobal, function () {  const beziers = {};
@@ -76,10 +76,11 @@
       ease: [.25, .1, .25, 1],
       easeIn: [.42, 0, 1, 1],
       easeOut: [0, 0, .58, 1],
-      easeInOut: [.42, 0, .58, 1]
+      easeInOut: [.42, 0, .58, 1],
+      spring: [.3642, 0, .6358, 1]
     };
     var wait = t => new Promise(res => setTimeout(res, t));
-    const digitRgx = /(\d+\.?\d*)/;
+    const digitRgx = /((?:[+\-*/]=)?-?\d+\.?\d*)/;
     const frames = new Set();
     function runFrames(currentTime) {
       frames.forEach(f => f(currentTime));
@@ -92,7 +93,7 @@
       from,
       to,
       time = 300,
-      type = 'ease',
+      type = 'spring',
       onUpdate,
       round = false,
       delay = 0
@@ -105,19 +106,39 @@
       const fromSplit = (from || target[prop] || '').toString().split(digitRgx);
       const onUp = typeof onUpdate === 'function';
       for (let i = 0; i < l; i++) {
-        const n = Number(toSplit[i]);
-        if (isNaN(n) || !toSplit[i]) raw.push(toSplit[i]);else {
-          fromNums.push(Number(fromSplit[i]) || 0);
-          diffs.push(n - (Number(fromSplit[i]) || 0));
+        const fn = Number(fromSplit[i]) || 0;
+        let tn = Number(toSplit[i]);
+        if (toSplit[i][1] === '=') {
+          tn = Number(toSplit[i].slice(2));
+          switch (toSplit[i][0]) {
+            case '+':
+              tn = fn + tn;
+              break;
+            case '-':
+              tn = fn - tn;
+              break;
+            case '*':
+              tn = fn * tn;
+              break;
+            case '/':
+              tn = fn / tn;
+              break;
+          }
+        }
+        if (isNaN(tn) || !toSplit[i]) raw.push(toSplit[i]);else {
+          fromNums.push(fn);
+          diffs.push(tn - fn);
         }
       }
       const rawObj = {
         raw
       };
       return wait(delay).then(() => new Promise((resolve, reject) => {
-        if (types[type]) type = new bezier(types[type]);else if (Array.isArray(type)) type = new bezier(type);else if (typeof type !== 'function') return reject(Error('type should be one of ' + Object.keys(types).toString() + ' or Bezier Array or Function, given ' + type));
-        let startTime = performance.now();
+        if (types[type]) type = types[type];
+        if (Array.isArray(type)) type = new bezier(type);else if (typeof type !== 'function') return reject(Error('type should be one of ' + Object.keys(types).toString() + ' or Bezier Array or Function, given ' + type));
+        let startTime;
         const frame = function (currentTime) {
+          startTime = startTime || currentTime - 17;
           const percent = (currentTime - startTime) / time,
                 bper = type(percent >= 1 ? 1 : percent);
           const next = diffs.map((d, i) => {
@@ -176,15 +197,24 @@
           numDelay = delay,
           numTime = time;
       return Promise.all(targets.map((target, i) => {
-        if (typeof to === 'function') numTo = to(i);
-        if (typeof delay === 'function') numDelay = delay(i);
-        if (typeof time === 'function') numTime = time(i);
+        if (typeof to === 'function') numTo = to.call(target, i);
+        if (typeof delay === 'function') numDelay = delay.call(target, i);
+        if (typeof time === 'function') numTime = time.call(target, i);
         return iterate(target, numTo, numDelay, numTime);
       }));
     }
     animate.types = types;
     animate.wait = wait;
     animate.animate = animate;
+    animate.keyframes = arrOpts => {
+      let promise = Promise.resolve(true);
+      arrOpts.forEach(opts => {
+        if (Array.isArray(opts)) promise = promise.then(() => Promise.all(opts.map(animate)));
+        promise = promise.then(() => animate(opts));
+      });
+      return promise;
+    };
+    animate.loop = fxn => fxn().then(() => animate.loop(fxn));
     var animate_1 = animate;
     return animate_1;
   }));
@@ -244,7 +274,7 @@
         tabHeight: 'auto',
         showUnderline: true,
         loop: false,
-        animation: 'ease',
+        animation: 'spring',
         animationTime: 300,
         scrollBreakpoint: 0.2,
         background: '#714cfe'

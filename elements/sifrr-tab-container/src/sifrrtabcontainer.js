@@ -5,20 +5,16 @@ import animate from '@sifrr/animate';
 const template = SifrrDom.template`<style media="screen">
   ${style}
 </style>
-<style>
+<style media="screen">
   .tabs {
-    height: \${this.options ? this.options.tabHeight : 'auto'};
     width: \${this.totalWidth + 'px'};
   }
-  .tabs *::slotted([slot="tab"]) {
+  .tabs::slotted(*) {
     width: \${this.tabWidth + 'px'};
-    margin: 0 \${this.options ? this.options.arrowMargin + 'px' : 0};
   }
 </style>
-<div class="tabs">
-  <slot>
-  </slot>
-</div>`;
+<slot class="tabs">
+</slot>`;
 
 function removeExceptOne(elements, name, index) {
   if (elements instanceof HTMLElement) elements = elements.children;
@@ -53,37 +49,30 @@ class SifrrTabContainer extends SifrrDom.Element {
 
   refresh() {
     this.options = Object.assign({
-      menu: this.$('.headings ul'),
-      content: this.$('.content'),
-      tabcontainer: this.$('.tabs'),
-      tabs: this.$('slot[name=tab]').assignedNodes(),
+      content: this,
+      tabs: this.$('slot').assignedNodes().filter(n => n.nodeType === 1),
       num: 1,
-      tabHeight: 'auto',
-      loop: false,
-      animation: 'ease',
+      animation: 'spring',
       animationTime: 300,
-      scrollBreakpoint: 0.2
+      scrollBreakpoint: 0.3
     }, this._attrOptions);
     if (!this.options.tabs || this.options.tabs.length < 1) return;
-    this.usableWidth = this.clientWidth;
-    this.totalWidth = this.usableWidth / this.options.num * this.options.tabs.length;
-    this.usableWidth -= 2 * this.options.arrowMargin;
-    this.tabWidth = this.usableWidth / this.options.num;
-    this.setProps();
-    this.update();
-    this.active = this.active || 0;
+    this.tabWidth = this.clientWidth / this.options.num;
+    this.totalWidth = this.tabWidth * this.options.tabs.length;
+    this.active = this._active || 0;
   }
 
   setScrollEvent() {
     let me = this,
       isScrolling,
       scrollPos;
-    this.options.content.onscroll = () => requestAnimationFrame(onScroll);
+    this.options.content.addEventListener('scroll', onScroll);
 
     function onScroll() {
       scrollPos = me.active;
       const total = me.options.content.scrollLeft / me.tabWidth;
       const t = Math.floor(total);
+      me.onScrollPercent(total);
       clearTimeout(isScrolling);
       isScrolling = setTimeout(function() {
         if (total - scrollPos < -me.options.scrollBreakpoint) {
@@ -97,6 +86,8 @@ class SifrrTabContainer extends SifrrDom.Element {
     }
   }
 
+  onScrollPercent() {}
+
   setWindowResizeEvent() {
     window.addEventListener('resize', () => requestAnimationFrame(this.refresh.bind(this)));
   }
@@ -104,31 +95,28 @@ class SifrrTabContainer extends SifrrDom.Element {
   setSlotChangeEvent() {
     const me = this;
     const fxn = () => {
-      me.options.tabs = me.$$('slot')[1].assignedNodes();
+      me.options.tabs = me.$('slot').assignedNodes();
       me.refresh();
     };
-    this.$$('slot')[0].addEventListener('slotchange', fxn);
+    this.$('slot').addEventListener('slotchange', fxn);
   }
 
   get active() {
-    return this.state ? this.state.active : 0;
+    return this._active;
   }
 
   set active(i) {
-    this.state = {
-      active: i
-    };
+    this._active = this.getTabNumber(i);
+    this.update();
   }
 
   beforeUpdate() {
     if (!this.options) return;
-    let i = this.state.active;
-    i = this.getTabNumber(i);
-    if (!isNaN(i) && i !== this.state.active) return this.active = i;
+    const i = this._active;
     animate({
       target: this.options.content,
       to: {
-        scrollLeft: i * (this.tabWidth + 2 * this.options.arrowMargin)
+        scrollLeft: i * this.tabWidth
       },
       time: this.options.animationTime,
       type: this.options.animation === 'none' ? () => 1 : this.options.animation
@@ -139,7 +127,7 @@ class SifrrTabContainer extends SifrrDom.Element {
   }
 
   next() {
-    this.active = this.state.active + this.options.step;
+    this.active += 1;
   }
 
   hasNext() {
@@ -148,12 +136,11 @@ class SifrrTabContainer extends SifrrDom.Element {
   }
 
   prev() {
-    this.active = this.state.active - this.options.step;
+    this.active -= 1;
   }
 
   hasPrev() {
-    if (this.active === 0) return false;
-    return true;
+    return this.active === 0 ? false : true;
   }
 
   getTabNumber(i) {
@@ -166,8 +153,6 @@ class SifrrTabContainer extends SifrrDom.Element {
     return i;
   }
 }
-
-SifrrTabContainer.defaultState = { active: 0 };
 
 SifrrDom.register(SifrrTabContainer);
 export default SifrrTabContainer;

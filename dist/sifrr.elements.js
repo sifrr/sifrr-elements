@@ -113,7 +113,7 @@
   }
 
   var sifrr_animate = createCommonjsModule(function (module, exports) {
-  /*! Sifrr.animate v0.0.2 - sifrr project | MIT licensed | https://github.com/sifrr/sifrr-elements */
+  /*! sifrr-animate v0.0.3 - sifrr project | MIT licensed | https://github.com/sifrr/sifrr-animate */
   (function (global, factory) {
     module.exports = factory();
   }(commonjsGlobal, function () {  const beziers = {};
@@ -161,10 +161,11 @@
       ease: [.25, .1, .25, 1],
       easeIn: [.42, 0, 1, 1],
       easeOut: [0, 0, .58, 1],
-      easeInOut: [.42, 0, .58, 1]
+      easeInOut: [.42, 0, .58, 1],
+      spring: [.3642, 0, .6358, 1]
     };
     var wait = t => new Promise(res => setTimeout(res, t));
-    const digitRgx = /(\d+\.?\d*)/;
+    const digitRgx = /((?:[+\-*/]=)?-?\d+\.?\d*)/;
     const frames = new Set();
     function runFrames(currentTime) {
       frames.forEach(f => f(currentTime));
@@ -177,7 +178,7 @@
       from,
       to,
       time = 300,
-      type = 'ease',
+      type = 'spring',
       onUpdate,
       round = false,
       delay = 0
@@ -190,19 +191,39 @@
       const fromSplit = (from || target[prop] || '').toString().split(digitRgx);
       const onUp = typeof onUpdate === 'function';
       for (let i = 0; i < l; i++) {
-        const n = Number(toSplit[i]);
-        if (isNaN(n) || !toSplit[i]) raw.push(toSplit[i]);else {
-          fromNums.push(Number(fromSplit[i]) || 0);
-          diffs.push(n - (Number(fromSplit[i]) || 0));
+        const fn = Number(fromSplit[i]) || 0;
+        let tn = Number(toSplit[i]);
+        if (toSplit[i][1] === '=') {
+          tn = Number(toSplit[i].slice(2));
+          switch (toSplit[i][0]) {
+            case '+':
+              tn = fn + tn;
+              break;
+            case '-':
+              tn = fn - tn;
+              break;
+            case '*':
+              tn = fn * tn;
+              break;
+            case '/':
+              tn = fn / tn;
+              break;
+          }
+        }
+        if (isNaN(tn) || !toSplit[i]) raw.push(toSplit[i]);else {
+          fromNums.push(fn);
+          diffs.push(tn - fn);
         }
       }
       const rawObj = {
         raw
       };
       return wait(delay).then(() => new Promise((resolve, reject) => {
-        if (types[type]) type = new bezier(types[type]);else if (Array.isArray(type)) type = new bezier(type);else if (typeof type !== 'function') return reject(Error('type should be one of ' + Object.keys(types).toString() + ' or Bezier Array or Function, given ' + type));
-        let startTime = performance.now();
+        if (types[type]) type = types[type];
+        if (Array.isArray(type)) type = new bezier(type);else if (typeof type !== 'function') return reject(Error('type should be one of ' + Object.keys(types).toString() + ' or Bezier Array or Function, given ' + type));
+        let startTime;
         const frame = function (currentTime) {
+          startTime = startTime || currentTime - 17;
           const percent = (currentTime - startTime) / time,
                 bper = type(percent >= 1 ? 1 : percent);
           const next = diffs.map((d, i) => {
@@ -261,15 +282,24 @@
           numDelay = delay,
           numTime = time;
       return Promise.all(targets.map((target, i) => {
-        if (typeof to === 'function') numTo = to(i);
-        if (typeof delay === 'function') numDelay = delay(i);
-        if (typeof time === 'function') numTime = time(i);
+        if (typeof to === 'function') numTo = to.call(target, i);
+        if (typeof delay === 'function') numDelay = delay.call(target, i);
+        if (typeof time === 'function') numTime = time.call(target, i);
         return iterate(target, numTo, numDelay, numTime);
       }));
     }
     animate.types = types;
     animate.wait = wait;
     animate.animate = animate;
+    animate.keyframes = arrOpts => {
+      let promise = Promise.resolve(true);
+      arrOpts.forEach(opts => {
+        if (Array.isArray(opts)) promise = promise.then(() => Promise.all(opts.map(animate)));
+        promise = promise.then(() => animate(opts));
+      });
+      return promise;
+    };
+    animate.loop = fxn => fxn().then(() => animate.loop(fxn));
     var animate_1 = animate;
     return animate_1;
   }));
@@ -329,7 +359,7 @@
         tabHeight: 'auto',
         showUnderline: true,
         loop: false,
-        animation: 'ease',
+        animation: 'spring',
         animationTime: 300,
         scrollBreakpoint: 0.2,
         background: '#714cfe'
@@ -925,7 +955,7 @@
   SifrrDom.register(SifrrSingleShowcase);
 
   function _templateObject$4() {
-    const data = _taggedTemplateLiteral(["<style media=\"screen\">\n  ", "\n</style>\n<div class=\"container\">\n  <div class=\"flex-column\" id=\"sidemenu\">\n    <div class=\"box\">\n      <h1 class=\"font head\">Sifrr Showcase</h1>\n      <p class=\"font\" id=\"loader\"></p>\n      <input id=\"url\" type=\"text\" placeholder=\"Enter url here...\" name=\"url\" />\n      <button type=\"button\" name=\"loadUrl\" _click=${this.loadUrl}>Load from url</button>\n      <p class=\"font\" id=\"status\"></p>\n      <span class=\"button font\">\n        Upload File\n        <input type=\"file\" name=\"file\" accept=\"application/json\" _input=\"${this.loadFile}\" />\n      </span>\n      <button class=\"font\" type=\"button\" name=\"saveFile\" _click=\"${this.saveFile}\">Save to File</button>\n      <h3 class=\"font head\">Showcases</h3>\n      <input id=\"showcaseName\" type=\"text\" name=\"showcase\" _input=${this.changeName} value=${this.state.showcases[this.state.current].name}>\n      <button class=\"font\" type=\"button\" name=\"createVariant\" _click=\"${this.createShowcase}\">Create new showcase</button>\n      <div id=\"showcases\" data-sifrr-repeat=\"${this.state.showcases}\">\n        <li class=\"font showcase small ${this.state.id === this._root.state.currentSC.id ? 'current' : ''}\" data-showcase-id=\"${this.state.key}\" draggable=\"true\">${this.state.name}<span>X</span></li>\n      </div>\n    </div>\n  </div>\n  <sifrr-single-showcase _update=${this.saveShowcase} _state=${this.state.currentSC} data-sifrr-bind=\"currentSC\"></sifrr-single-showcase>\n</div>"], ["<style media=\"screen\">\n  ", "\n</style>\n<div class=\"container\">\n  <div class=\"flex-column\" id=\"sidemenu\">\n    <div class=\"box\">\n      <h1 class=\"font head\">Sifrr Showcase</h1>\n      <p class=\"font\" id=\"loader\"></p>\n      <input id=\"url\" type=\"text\" placeholder=\"Enter url here...\" name=\"url\" />\n      <button type=\"button\" name=\"loadUrl\" _click=\\${this.loadUrl}>Load from url</button>\n      <p class=\"font\" id=\"status\"></p>\n      <span class=\"button font\">\n        Upload File\n        <input type=\"file\" name=\"file\" accept=\"application/json\" _input=\"\\${this.loadFile}\" />\n      </span>\n      <button class=\"font\" type=\"button\" name=\"saveFile\" _click=\"\\${this.saveFile}\">Save to File</button>\n      <h3 class=\"font head\">Showcases</h3>\n      <input id=\"showcaseName\" type=\"text\" name=\"showcase\" _input=\\${this.changeName} value=\\${this.state.showcases[this.state.current].name}>\n      <button class=\"font\" type=\"button\" name=\"createVariant\" _click=\"\\${this.createShowcase}\">Create new showcase</button>\n      <div id=\"showcases\" data-sifrr-repeat=\"\\${this.state.showcases}\">\n        <li class=\"font showcase small \\${this.state.id === this._root.state.currentSC.id ? 'current' : ''}\" data-showcase-id=\"\\${this.state.key}\" draggable=\"true\">\\${this.state.name}<span>X</span></li>\n      </div>\n    </div>\n  </div>\n  <sifrr-single-showcase _update=\\${this.saveShowcase} _state=\\${this.state.currentSC} data-sifrr-bind=\"currentSC\"></sifrr-single-showcase>\n</div>"]);
+    const data = _taggedTemplateLiteral(["<style media=\"screen\">\n  ", "\n</style>\n<div class=\"container\">\n  <div class=\"flex-column\" id=\"sidemenu\">\n    <div class=\"box\">\n      <h1 class=\"font head\">Sifrr Showcase</h1>\n      <p class=\"font\" id=\"loader\"></p>\n      <input id=\"url\" type=\"text\" placeholder=\"Enter url here...\" name=\"url\" />\n      <button type=\"button\" name=\"loadUrl\" _click=${this.loadUrl}>Load from url</button>\n      <p class=\"font\" id=\"status\"></p>\n      <span class=\"button font\">\n        Upload File\n        <input type=\"file\" name=\"file\" accept=\"application/json\" _input=\"${this.loadFile}\" />\n      </span>\n      <button class=\"font\" type=\"button\" name=\"saveFile\" _click=\"${this.saveFile}\">Save to File</button>\n      <h3 class=\"font head\">Showcases</h3>\n      <input id=\"showcaseName\" type=\"text\" name=\"showcase\" _input=${this.changeName} value=${this.state.showcases[this.state.current].name}>\n      <button class=\"font\" type=\"button\" name=\"createVariant\" _click=\"${this.createShowcase}\">Create new showcase</button>\n      <div id=\"showcases\" data-sifrr-repeat=\"${this.state.showcases}\">\n        <li class=\"font showcase small ${this._root ? (this.state.id === this._root.state.currentSC.id ? 'current' : '') : ''}\" data-showcase-id=\"${this.state.key}\" draggable=\"true\">${this.state.name}<span>X</span></li>\n      </div>\n    </div>\n  </div>\n  <sifrr-single-showcase _update=${this.saveShowcase} _state=${this.state.currentSC} data-sifrr-bind=\"currentSC\"></sifrr-single-showcase>\n</div>"], ["<style media=\"screen\">\n  ", "\n</style>\n<div class=\"container\">\n  <div class=\"flex-column\" id=\"sidemenu\">\n    <div class=\"box\">\n      <h1 class=\"font head\">Sifrr Showcase</h1>\n      <p class=\"font\" id=\"loader\"></p>\n      <input id=\"url\" type=\"text\" placeholder=\"Enter url here...\" name=\"url\" />\n      <button type=\"button\" name=\"loadUrl\" _click=\\${this.loadUrl}>Load from url</button>\n      <p class=\"font\" id=\"status\"></p>\n      <span class=\"button font\">\n        Upload File\n        <input type=\"file\" name=\"file\" accept=\"application/json\" _input=\"\\${this.loadFile}\" />\n      </span>\n      <button class=\"font\" type=\"button\" name=\"saveFile\" _click=\"\\${this.saveFile}\">Save to File</button>\n      <h3 class=\"font head\">Showcases</h3>\n      <input id=\"showcaseName\" type=\"text\" name=\"showcase\" _input=\\${this.changeName} value=\\${this.state.showcases[this.state.current].name}>\n      <button class=\"font\" type=\"button\" name=\"createVariant\" _click=\"\\${this.createShowcase}\">Create new showcase</button>\n      <div id=\"showcases\" data-sifrr-repeat=\"\\${this.state.showcases}\">\n        <li class=\"font showcase small \\${this._root ? (this.state.id === this._root.state.currentSC.id ? 'current' : '') : ''}\" data-showcase-id=\"\\${this.state.key}\" draggable=\"true\">\\${this.state.name}<span>X</span></li>\n      </div>\n    </div>\n  </div>\n  <sifrr-single-showcase _update=\\${this.saveShowcase} _state=\\${this.state.currentSC} data-sifrr-bind=\"currentSC\"></sifrr-single-showcase>\n</div>"]);
     _templateObject$4 = function () {
       return data;
     };
@@ -1203,6 +1233,137 @@
   }
   SifrrDom.register(SifrrCarousel);
 
+  var css$7 = ":host {\n  box-sizing: border-box;\n  width: 100%;\n  display: block;\n  position: relative;\n  overflow-x: auto;\n  margin: 0; }\n\n.tabs {\n  min-height: 1px;\n  display: block; }\n\n.tabs::slotted(*) {\n  float: left;\n  max-height: 100%;\n  height: 100%;\n  overflow-x: hidden;\n  overflow-y: auto;\n  vertical-align: top;\n  padding: 8px;\n  box-sizing: border-box; }\n";
+
+  function _templateObject$6() {
+    const data = _taggedTemplateLiteral(["<style media=\"screen\">\n  ", "\n</style>\n<style media=\"screen\">\n  .tabs {\n    width: ${this.totalWidth + 'px'};\n  }\n  .tabs::slotted(*) {\n    width: ${this.tabWidth + 'px'};\n  }\n</style>\n<slot class=\"tabs\">\n</slot>"], ["<style media=\"screen\">\n  ", "\n</style>\n<style media=\"screen\">\n  .tabs {\n    width: \\${this.totalWidth + 'px'};\n  }\n  .tabs::slotted(*) {\n    width: \\${this.tabWidth + 'px'};\n  }\n</style>\n<slot class=\"tabs\">\n</slot>"]);
+    _templateObject$6 = function () {
+      return data;
+    };
+    return data;
+  }
+  const template$7 = SifrrDom.template(_templateObject$6(), css$7);
+  function removeExceptOne$1(elements, name, index) {
+    if (elements instanceof HTMLElement) elements = elements.children;
+    for (let j = 0; j < elements.length; j++) {
+      j !== index && elements[j] !== index ? elements[j].classList.remove(name) : elements[j].classList.add(name);
+    }
+  }
+  class SifrrTabContainer extends SifrrDom.Element {
+    static get template() {
+      return template$7;
+    }
+    static observedAttrs() {
+      return ['options'];
+    }
+    onConnect() {
+      this._connected = true;
+      this.refresh();
+      this.setWindowResizeEvent();
+      this.setSlotChangeEvent();
+      this.setScrollEvent();
+    }
+    onAttributeChange(n, _, v) {
+      if (n === 'options') {
+        this._attrOptions = JSON.parse(v || '{}');
+        if (this._connected) this.refresh();
+      }
+    }
+    refresh() {
+      this.options = Object.assign({
+        content: this,
+        tabs: this.$('slot').assignedNodes().filter(n => n.nodeType === 1),
+        num: 1,
+        animation: 'spring',
+        animationTime: 300,
+        scrollBreakpoint: 0.3
+      }, this._attrOptions);
+      if (!this.options.tabs || this.options.tabs.length < 1) return;
+      this.tabWidth = this.clientWidth / this.options.num;
+      this.totalWidth = this.tabWidth * this.options.tabs.length;
+      this.active = this._active || 0;
+    }
+    setScrollEvent() {
+      let me = this,
+          isScrolling,
+          scrollPos;
+      this.options.content.addEventListener('scroll', onScroll);
+      function onScroll() {
+        scrollPos = me.active;
+        const total = me.options.content.scrollLeft / me.tabWidth;
+        const t = Math.floor(total);
+        me.onScrollPercent(total);
+        clearTimeout(isScrolling);
+        isScrolling = setTimeout(function () {
+          if (total - scrollPos < -me.options.scrollBreakpoint) {
+            me.active = t;
+          } else if (total - scrollPos > +me.options.scrollBreakpoint) {
+            me.active = t + 1;
+          } else {
+            me.active = scrollPos;
+          }
+        }, 100);
+      }
+    }
+    onScrollPercent() {}
+    setWindowResizeEvent() {
+      window.addEventListener('resize', () => requestAnimationFrame(this.refresh.bind(this)));
+    }
+    setSlotChangeEvent() {
+      const me = this;
+      const fxn = () => {
+        me.options.tabs = me.$('slot').assignedNodes();
+        me.refresh();
+      };
+      this.$('slot').addEventListener('slotchange', fxn);
+    }
+    get active() {
+      return this._active;
+    }
+    set active(i) {
+      this._active = this.getTabNumber(i);
+      this.update();
+    }
+    beforeUpdate() {
+      if (!this.options) return;
+      const i = this._active;
+      sifrr_animate({
+        target: this.options.content,
+        to: {
+          scrollLeft: i * this.tabWidth
+        },
+        time: this.options.animationTime,
+        type: this.options.animation === 'none' ? () => 1 : this.options.animation
+      });
+      removeExceptOne$1(this.options.tabs, 'active', i);
+      removeExceptOne$1(this.options.tabs, 'prev', this.getTabNumber(i - 1));
+      removeExceptOne$1(this.options.tabs, 'next', this.getTabNumber(i + 1));
+    }
+    next() {
+      this.active += 1;
+    }
+    hasNext() {
+      if (this.active === this.options.tabs.length - this.options.num) return false;
+      return true;
+    }
+    prev() {
+      this.active -= 1;
+    }
+    hasPrev() {
+      return this.active === 0 ? false : true;
+    }
+    getTabNumber(i) {
+      const l = this.options.tabs.length;
+      const num = this.options.num;
+      i = i < 0 ? i + l : i % l;
+      if (i + num - 1 >= l) {
+        i = this.options.loop ? 0 : l - num;
+      }
+      return i;
+    }
+  }
+  SifrrDom.register(SifrrTabContainer);
+
   window.LazyLoader = lazyloader;
 
   exports.LazyLoader = lazyloader;
@@ -1215,6 +1376,7 @@
   exports.SifrrShimmer = SifrrShimmer;
   exports.SifrrShowcase = SifrrShowcase;
   exports.SifrrStater = SifrrStater;
+  exports.SifrrTabContainer = SifrrTabContainer;
   exports.SifrrTabs = SifrrTabs;
 
   Object.defineProperty(exports, '__esModule', { value: true });

@@ -230,7 +230,7 @@ const template$2 = SifrrDom.template`<style media="screen">
       <input id="showcaseName" type="text" name="showcase" _input=\${this.changeName} value=\${this.state.showcases[this.state.current].name}>
       <button class="font" type="button" name="createVariant" _click="\${this.createShowcase}">Create new showcase</button>
       <div id="showcases" data-sifrr-repeat="\${this.state.showcases}">
-        <li class="font showcase small \${this.state.id === this._root.state.currentSC.id ? 'current' : ''}" data-showcase-id="\${this.state.key}" draggable="true">\${this.state.name}<span>X</span></li>
+        <li class="font showcase small \${this._root ? (this.state.id === this._root.state.currentSC.id ? 'current' : '') : ''}" data-showcase-id="\${this.state.key}" draggable="true">\${this.state.name}<span>X</span></li>
       </div>
     </div>
   </div>

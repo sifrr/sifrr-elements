@@ -93,7 +93,7 @@ class SifrrTabs extends SifrrDom.Element {
       tabHeight: 'auto',
       showUnderline: true,
       loop: false,
-      animation: 'ease',
+      animation: 'spring',
       animationTime: 300,
       scrollBreakpoint: 0.2,
       background: '#714cfe'
