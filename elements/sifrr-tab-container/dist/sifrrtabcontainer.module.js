@@ -245,14 +245,14 @@ class SifrrTabContainer extends SifrrDom.Element {
     function onScroll() {
       scrollPos = me.active;
       const total = me.options.content.scrollLeft / me.tabWidth;
-      const t = Math.floor(total);
+      const t = Math.round(total);
       me.onScrollPercent(total);
       clearTimeout(isScrolling);
       isScrolling = setTimeout(function() {
         if (total - scrollPos < -me.options.scrollBreakpoint) {
-          me.active = t;
+          me.active = Math.min(t, scrollPos - 1);
         } else if (total - scrollPos > +me.options.scrollBreakpoint) {
-          me.active = t + 1;
+          me.active = Math.min(t, scrollPos + 1);
         } else {
           me.active = scrollPos;
         }
