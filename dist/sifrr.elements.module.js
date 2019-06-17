@@ -1187,8 +1187,20 @@ class SifrrInclude extends SifrrDom.Element {
 }
 SifrrDom.register(SifrrInclude);
 
+var css$6 = "";
+
+const template$6 = SifrrDom.template`<style media="screen">
+  ${css$6}
+</style>`;
+class SifrrCarousel extends SifrrDom.Element {
+  static get template() {
+    return template$6;
+  }
+}
+SifrrDom.register(SifrrCarousel);
+
 window.LazyLoader = lazyloader;
 
-export { lazyloader as LazyLoader, SifrrCodeEditor, SifrrInclude, SifrrLazyPicture, SifrrLazyImg as SifrrLazzyImg, SifrrProgressRound, SifrrShimmer, SifrrShowcase, SifrrStater, SifrrTabs };
+export { lazyloader as LazyLoader, SifrrCarousel, SifrrCodeEditor, SifrrInclude, SifrrLazyPicture, SifrrLazyImg as SifrrLazzyImg, SifrrProgressRound, SifrrShimmer, SifrrShowcase, SifrrStater, SifrrTabs };
 /*! (c) @aadityataparia */
 //# sourceMappingURL=sifrr.elements.module.js.map

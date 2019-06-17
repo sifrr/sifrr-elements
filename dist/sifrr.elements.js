@@ -1186,9 +1186,27 @@
   }
   SifrrDom.register(SifrrInclude);
 
+  var css$6 = "";
+
+  function _templateObject$5() {
+    const data = _taggedTemplateLiteral(["<style media=\"screen\">\n  ", "\n</style>"]);
+    _templateObject$5 = function () {
+      return data;
+    };
+    return data;
+  }
+  const template$6 = SifrrDom.template(_templateObject$5(), css$6);
+  class SifrrCarousel extends SifrrDom.Element {
+    static get template() {
+      return template$6;
+    }
+  }
+  SifrrDom.register(SifrrCarousel);
+
   window.LazyLoader = lazyloader;
 
   exports.LazyLoader = lazyloader;
+  exports.SifrrCarousel = SifrrCarousel;
   exports.SifrrCodeEditor = SifrrCodeEditor;
   exports.SifrrInclude = SifrrInclude;
   exports.SifrrLazyPicture = SifrrLazyPicture;
