@@ -193,6 +193,10 @@
       this.options.line.style.left = left + 'px';
       this.options.line.style.width = width + 'px';
       this.scrollLeft = left + (width - this.clientWidth) / 2;
+      if (per === 0) {
+        this._active = t;
+        this.update();
+      }
     }
     get active() {
       return this._active || 0;
