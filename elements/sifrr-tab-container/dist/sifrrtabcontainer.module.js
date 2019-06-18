@@ -1,7 +1,7 @@
 /*! SifrrTabContainer v0.0.5 - sifrr project | MIT licensed | https://github.com/sifrr/sifrr-elements */
 import SifrrDom from '@sifrr/dom';
 
-var css = ":host {\n  box-sizing: border-box;\n  width: 100%;\n  display: block;\n  position: relative;\n  overflow-x: auto;\n  margin: 0; }\n\n.tabs {\n  min-height: 1px;\n  display: block; }\n\n.tabs::slotted(*) {\n  float: left;\n  max-height: 100%;\n  height: 100%;\n  overflow-x: hidden;\n  overflow-y: auto;\n  vertical-align: top;\n  padding: 8px;\n  box-sizing: border-box; }\n";
+var css = ":host {\n  box-sizing: border-box;\n  width: 100%;\n  display: block;\n  position: relative;\n  overflow-x: auto;\n  margin: 0; }\n\n.tabs {\n  min-height: 1px;\n  display: block; }\n\n.tabs::slotted(*) {\n  float: left;\n  max-height: 100%;\n  height: 100%;\n  overflow-x: hidden;\n  overflow-y: auto;\n  vertical-align: middle;\n  box-sizing: border-box; }\n";
 
 /*! sifrr-animate v0.0.3 - sifrr project | MIT licensed | https://github.com/sifrr/sifrr-animate */
 const beziers = {};
@@ -215,7 +215,7 @@ class SifrrTabContainer extends SifrrDom.Element {
       if (this._connected) this.refresh();
     }
   }
-  refresh(options = {}) {
+  refresh(options) {
     this.options = Object.assign({
       content: this,
       slot: this.$('slot'),
@@ -226,6 +226,7 @@ class SifrrTabContainer extends SifrrDom.Element {
       loop: false
     }, this.options, options, this._attrOptions);
     this.options.tabs = this.options.slot.assignedNodes().filter(n => n.nodeType === 1);
+    this.total = this.options.tabs.length;
     if (!this.options.tabs || this.options.tabs.length < 1) return;
     this.tabWidth = this.clientWidth / this.options.num;
     this.totalWidth = this.tabWidth * this.options.tabs.length;
@@ -261,7 +262,7 @@ class SifrrTabContainer extends SifrrDom.Element {
     this._active = this.getTabNumber(i);
     this.update();
   }
-  beforeUpdate() {
+  onUpdate() {
     if (!this.options) return;
     const i = this._active;
     animate_1({

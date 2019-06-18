@@ -1,0 +1,82 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
+#header, #container {
+  position: relative;
+}
+
+#header {
+  padding: 0 24px;
+}
+
+/* count and fs */
+#count {
+  position: absolute;
+}
+
+#count {
+  bottom: 6px;
+  left: 6px;
+  background: rgba(255,255,255,0.7);
+  border-radius: 10px;
+  font-size: 14px;
+  padding: 6px;
+}
+
+/* Arrows css */
+.arrow {
+  position: absolute;
+  z-index: 5;
+  top: 0;
+  bottom: 0;
+}
+
+.arrow > * {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  margin: -6px 5px;
+  top: 50%;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  display: inline-block;
+  padding: 3px;
+  filter: drop-shadow(-1px -1px 3px #000);
+}
+
+.arrow.l {
+  left: 0;
+  cursor: w-resize;
+}
+
+.arrow.l > * {
+  left: 0;
+  transform: rotate(135deg);
+}
+
+.arrow.r {
+  right: 0;
+  cursor: e-resize;
+}
+
+.arrow.r > * {
+  right: 0;
+  transform: rotate(-45deg);
+}
+
+/* slot elements css */
+slot[name=preview]::slotted(*) {
+  height: 64px;
+  opacity: 0.5;
+}
+
+slot[name=preview]::slotted(*.active) {
+  border: 1px solid white;
+  opacity: 1;
+}
+
+sifrr-tab-header {
+  height: 64px;
+}

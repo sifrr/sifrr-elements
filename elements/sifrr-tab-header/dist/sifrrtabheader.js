@@ -29,11 +29,6 @@
     return data;
   }
   const template = SifrrDom.template(_templateObject(), css);
-  function removeExceptOne(elements, name, index) {
-    for (let j = 0, l = elements.length; j < l; j++) {
-      j === index || elements[j] === index ? elements[j].classList.add(name) : elements[j].classList.remove(name);
-    }
-  }
   class SifrrTabHeader extends SifrrDom.Element {
     static get template() {
       return template;
@@ -52,7 +47,7 @@
         if (this._connected) this.refresh();
       }
     }
-    refresh(options = {}) {
+    refresh(options) {
       this.options = Object.assign({
         content: this,
         slot: this.$('slot'),
@@ -73,6 +68,7 @@
         c.onScrollPercent = this.setScrollPercent.bind(this);
         SifrrDom.Event.addListener('update', c, () => this.active = c.active);
       }
+      this.setScrollPercent(0);
     }
     setMenuProps() {
       let left = 0;
@@ -89,11 +85,7 @@
       });
       const last = this.options.menuProps[this.options.menus.length - 1];
       this.options.totalMenuWidth = last.left + last.width;
-      this.options.slot.style.width = last.left + last.width + 1 * this.options.menuProps.length + 'px';
-      const active = this.options.menuProps[this.active];
-      this.options.line.style.left = active.left + 'px';
-      this.options.line.style.width = active.width + 'px';
-      this.setScrollPercent(0);
+      this.$('slot').style.width = this.options.slot.style.width = last.left + last.width + 1 * this.options.menuProps.length + 'px';
     }
     setScrollPercent(total) {
       const per = total % 1,
@@ -122,7 +114,10 @@
     }
     onUpdate() {
       if (!this.options) return;
-      removeExceptOne(this.options.menus, 'active', this.active);
+      for (let j = 0, l = this.options.menus.length; j < l; j++) {
+        this.options.menus[j].classList[j === this.active ? 'add' : 'remove']('active');
+      }
+      this.setMenuProps();
     }
   }
   SifrrDom.register(SifrrTabHeader);

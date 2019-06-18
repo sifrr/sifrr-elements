@@ -114,11 +114,6 @@
     return data;
   }
   const template = SifrrDom.template(_templateObject(), css);
-  function removeExceptOne(elements, name, index) {
-    for (let j = 0, l = elements.length; j < l; j++) {
-      j === index || elements[j] === index ? elements[j].classList.add(name) : elements[j].classList.remove(name);
-    }
-  }
   class SifrrTabHeader extends SifrrDom.Element {
     static get template() {
       return template;
@@ -137,7 +132,7 @@
         if (this._connected) this.refresh();
       }
     }
-    refresh(options = {}) {
+    refresh(options) {
       this.options = Object.assign({
         content: this,
         slot: this.$('slot'),
@@ -158,6 +153,7 @@
         c.onScrollPercent = this.setScrollPercent.bind(this);
         SifrrDom.Event.addListener('update', c, () => this.active = c.active);
       }
+      this.setScrollPercent(0);
     }
     setMenuProps() {
       let left = 0;
@@ -174,11 +170,7 @@
       });
       const last = this.options.menuProps[this.options.menus.length - 1];
       this.options.totalMenuWidth = last.left + last.width;
-      this.options.slot.style.width = last.left + last.width + 1 * this.options.menuProps.length + 'px';
-      const active = this.options.menuProps[this.active];
-      this.options.line.style.left = active.left + 'px';
-      this.options.line.style.width = active.width + 'px';
-      this.setScrollPercent(0);
+      this.$('slot').style.width = this.options.slot.style.width = last.left + last.width + 1 * this.options.menuProps.length + 'px';
     }
     setScrollPercent(total) {
       const per = total % 1,
@@ -207,12 +199,15 @@
     }
     onUpdate() {
       if (!this.options) return;
-      removeExceptOne(this.options.menus, 'active', this.active);
+      for (let j = 0, l = this.options.menus.length; j < l; j++) {
+        this.options.menus[j].classList[j === this.active ? 'add' : 'remove']('active');
+      }
+      this.setMenuProps();
     }
   }
   SifrrDom.register(SifrrTabHeader);
 
-  var css$1 = ":host {\n  box-sizing: border-box;\n  width: 100%;\n  display: block;\n  position: relative;\n  overflow-x: auto;\n  margin: 0; }\n\n.tabs {\n  min-height: 1px;\n  display: block; }\n\n.tabs::slotted(*) {\n  float: left;\n  max-height: 100%;\n  height: 100%;\n  overflow-x: hidden;\n  overflow-y: auto;\n  vertical-align: top;\n  padding: 8px;\n  box-sizing: border-box; }\n";
+  var css$1 = ":host {\n  box-sizing: border-box;\n  width: 100%;\n  display: block;\n  position: relative;\n  overflow-x: auto;\n  margin: 0; }\n\n.tabs {\n  min-height: 1px;\n  display: block; }\n\n.tabs::slotted(*) {\n  float: left;\n  max-height: 100%;\n  height: 100%;\n  overflow-x: hidden;\n  overflow-y: auto;\n  vertical-align: middle;\n  box-sizing: border-box; }\n";
 
   var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
 
@@ -442,7 +437,7 @@
         if (this._connected) this.refresh();
       }
     }
-    refresh(options = {}) {
+    refresh(options) {
       this.options = Object.assign({
         content: this,
         slot: this.$('slot'),
@@ -453,6 +448,7 @@
         loop: false
       }, this.options, options, this._attrOptions);
       this.options.tabs = this.options.slot.assignedNodes().filter(n => n.nodeType === 1);
+      this.total = this.options.tabs.length;
       if (!this.options.tabs || this.options.tabs.length < 1) return;
       this.tabWidth = this.clientWidth / this.options.num;
       this.totalWidth = this.tabWidth * this.options.tabs.length;
@@ -488,7 +484,7 @@
       this._active = this.getTabNumber(i);
       this.update();
     }
-    beforeUpdate() {
+    onUpdate() {
       if (!this.options) return;
       const i = this._active;
       sifrr_animate({
@@ -1240,10 +1236,10 @@
   }
   SifrrDom.register(SifrrInclude);
 
-  var css$7 = "";
+  var css$7 = ":host {\n  display: block;\n  width: 100%; }\n\n#header, #container {\n  position: relative; }\n\n#header {\n  padding: 0 24px; }\n\n/* count and fs */\n#count {\n  position: absolute; }\n\n#count {\n  bottom: 6px;\n  left: 6px;\n  background: rgba(255, 255, 255, 0.7);\n  border-radius: 10px;\n  font-size: 14px;\n  padding: 6px; }\n\n/* Arrows css */\n.arrow {\n  position: absolute;\n  z-index: 5;\n  top: 0;\n  bottom: 0; }\n\n.arrow > * {\n  position: absolute;\n  width: 8px;\n  height: 8px;\n  margin: -6px 5px;\n  top: 50%;\n  border: solid white;\n  border-width: 0 3px 3px 0;\n  display: inline-block;\n  padding: 3px;\n  filter: drop-shadow(-1px -1px 3px #000); }\n\n.arrow.l {\n  left: 0;\n  cursor: w-resize; }\n\n.arrow.l > * {\n  left: 0;\n  transform: rotate(135deg); }\n\n.arrow.r {\n  right: 0;\n  cursor: e-resize; }\n\n.arrow.r > * {\n  right: 0;\n  transform: rotate(-45deg); }\n\n/* slot elements css */\nslot[name=preview]::slotted(*) {\n  height: 64px;\n  opacity: 0.5; }\n\nslot[name=preview]::slotted(*.active) {\n  border: 1px solid white;\n  opacity: 1; }\n\nsifrr-tab-header {\n  height: 64px; }\n";
 
   function _templateObject$6() {
-    const data = _taggedTemplateLiteral(["<style media=\"screen\">\n  ", "\n</style>"]);
+    const data = _taggedTemplateLiteral(["<style media=\"screen\">\n  ", "\n</style>\n<div id=\"container\">\n  <sifrr-tab-container>\n    <slot name=\"content\"></slot>\n  </sifrr-tab-container>\n  <span id=\"count\"></span>\n</div>\n<div id=\"header\">\n  <div class=\"arrow l\">\n    <span></span>\n  </div>\n  <div class=\"arrow r\">\n    <span></span>\n  </div>\n  <sifrr-tab-header options='{ \"showUnderline\": false }'>\n    <slot name=\"preview\"></slot>\n  </sifrr-tab-header>\n</div>"]);
     _templateObject$6 = function () {
       return data;
     };
@@ -1253,6 +1249,24 @@
   class SifrrCarousel extends SifrrDom.Element {
     static get template() {
       return template$7;
+    }
+    onConnect() {
+      this.container = this.$('sifrr-tab-container');
+      this.header = this.$('sifrr-tab-header');
+      this.container.refresh({
+        slot: this.$('slot[name=content]')
+      });
+      this.header.refresh({
+        slot: this.$('slot[name=preview]'),
+        container: this.container
+      });
+      SifrrDom.Event.addListener('click', this, (e, t) => {
+        if (t.matches('.arrow.l') || t.matches('.arrow.l span')) this.container.prev();
+        if (t.matches('.arrow.r') || t.matches('.arrow.r span')) this.container.next();
+      });
+      this.container._update = () => {
+        this.$('#count').textContent = "".concat(this.container.active, "/").concat(this.container.total);
+      };
     }
   }
   SifrrDom.register(SifrrCarousel);

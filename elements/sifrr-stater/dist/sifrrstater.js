@@ -30,11 +30,6 @@
     return data;
   }
   const template = SifrrDom.template(_templateObject(), css);
-  function removeExceptOne(elements, name, index) {
-    for (let j = 0, l = elements.length; j < l; j++) {
-      j === index || elements[j] === index ? elements[j].classList.add(name) : elements[j].classList.remove(name);
-    }
-  }
   class SifrrTabHeader extends SifrrDom.Element {
     static get template() {
       return template;
@@ -53,7 +48,7 @@
         if (this._connected) this.refresh();
       }
     }
-    refresh(options = {}) {
+    refresh(options) {
       this.options = Object.assign({
         content: this,
         slot: this.$('slot'),
@@ -74,6 +69,7 @@
         c.onScrollPercent = this.setScrollPercent.bind(this);
         SifrrDom.Event.addListener('update', c, () => this.active = c.active);
       }
+      this.setScrollPercent(0);
     }
     setMenuProps() {
       let left = 0;
@@ -90,11 +86,7 @@
       });
       const last = this.options.menuProps[this.options.menus.length - 1];
       this.options.totalMenuWidth = last.left + last.width;
-      this.options.slot.style.width = last.left + last.width + 1 * this.options.menuProps.length + 'px';
-      const active = this.options.menuProps[this.active];
-      this.options.line.style.left = active.left + 'px';
-      this.options.line.style.width = active.width + 'px';
-      this.setScrollPercent(0);
+      this.$('slot').style.width = this.options.slot.style.width = last.left + last.width + 1 * this.options.menuProps.length + 'px';
     }
     setScrollPercent(total) {
       const per = total % 1,
@@ -123,12 +115,15 @@
     }
     onUpdate() {
       if (!this.options) return;
-      removeExceptOne(this.options.menus, 'active', this.active);
+      for (let j = 0, l = this.options.menus.length; j < l; j++) {
+        this.options.menus[j].classList[j === this.active ? 'add' : 'remove']('active');
+      }
+      this.setMenuProps();
     }
   }
   SifrrDom.register(SifrrTabHeader);
 
-  var css$1 = ":host {\n  box-sizing: border-box;\n  width: 100%;\n  display: block;\n  position: relative;\n  overflow-x: auto;\n  margin: 0; }\n\n.tabs {\n  min-height: 1px;\n  display: block; }\n\n.tabs::slotted(*) {\n  float: left;\n  max-height: 100%;\n  height: 100%;\n  overflow-x: hidden;\n  overflow-y: auto;\n  vertical-align: top;\n  padding: 8px;\n  box-sizing: border-box; }\n";
+  var css$1 = ":host {\n  box-sizing: border-box;\n  width: 100%;\n  display: block;\n  position: relative;\n  overflow-x: auto;\n  margin: 0; }\n\n.tabs {\n  min-height: 1px;\n  display: block; }\n\n.tabs::slotted(*) {\n  float: left;\n  max-height: 100%;\n  height: 100%;\n  overflow-x: hidden;\n  overflow-y: auto;\n  vertical-align: middle;\n  box-sizing: border-box; }\n";
 
   var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
 
@@ -358,7 +353,7 @@
         if (this._connected) this.refresh();
       }
     }
-    refresh(options = {}) {
+    refresh(options) {
       this.options = Object.assign({
         content: this,
         slot: this.$('slot'),
@@ -369,6 +364,7 @@
         loop: false
       }, this.options, options, this._attrOptions);
       this.options.tabs = this.options.slot.assignedNodes().filter(n => n.nodeType === 1);
+      this.total = this.options.tabs.length;
       if (!this.options.tabs || this.options.tabs.length < 1) return;
       this.tabWidth = this.clientWidth / this.options.num;
       this.totalWidth = this.tabWidth * this.options.tabs.length;
@@ -404,7 +400,7 @@
       this._active = this.getTabNumber(i);
       this.update();
     }
-    beforeUpdate() {
+    onUpdate() {
       if (!this.options) return;
       const i = this._active;
       sifrr_animate({

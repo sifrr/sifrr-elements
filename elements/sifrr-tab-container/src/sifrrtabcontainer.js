@@ -40,7 +40,7 @@ class SifrrTabContainer extends SifrrDom.Element {
     }
   }
 
-  refresh(options = {}) {
+  refresh(options) {
     this.options = Object.assign({
       content: this,
       slot: this.$('slot'),
@@ -51,6 +51,7 @@ class SifrrTabContainer extends SifrrDom.Element {
       loop: false
     }, this.options, options, this._attrOptions);
     this.options.tabs = this.options.slot.assignedNodes().filter(n => n.nodeType === 1);
+    this.total = this.options.tabs.length;
     if (!this.options.tabs || this.options.tabs.length < 1) return;
     this.tabWidth = this.clientWidth / this.options.num;
     this.totalWidth = this.tabWidth * this.options.tabs.length;
@@ -92,7 +93,7 @@ class SifrrTabContainer extends SifrrDom.Element {
     this.update();
   }
 
-  beforeUpdate() {
+  onUpdate() {
     if (!this.options) return;
     const i = this._active;
     animate({
