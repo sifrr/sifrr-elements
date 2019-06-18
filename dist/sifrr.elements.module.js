@@ -1220,6 +1220,9 @@ var css$7 = ":host {\n  display: block;\n  width: 100%; }\n\n#header, #container
 const template$7 = SifrrDom.template`<style media="screen">
   ${css$7}
 </style>
+<style media="screen">
+  \${this.state.style || ''}
+</style>
 <div id="container">
   <sifrr-tab-container>
     <slot name="content"></slot>
@@ -1260,6 +1263,7 @@ class SifrrCarousel extends SifrrDom.Element {
     };
   }
 }
+SifrrCarousel.defaultState = { style: '' };
 SifrrDom.register(SifrrCarousel);
 
 window.LazyLoader = lazyloader;

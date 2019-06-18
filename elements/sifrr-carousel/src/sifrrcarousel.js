@@ -4,6 +4,9 @@ import style from './style.scss';
 const template = SifrrDom.template`<style media="screen">
   ${style}
 </style>
+<style media="screen">
+  \${this.state.style || ''}
+</style>
 <div id="container">
   <sifrr-tab-container>
     <slot name="content"></slot>
@@ -48,6 +51,7 @@ class SifrrCarousel extends SifrrDom.Element {
   }
 }
 
+SifrrCarousel.defaultState = { style: '' };
 SifrrDom.register(SifrrCarousel);
 
 export default SifrrCarousel;

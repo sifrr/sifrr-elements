@@ -6,6 +6,9 @@ var css = ":host {\n  display: block;\n  width: 100%; }\n\n#header, #container {
 const template = SifrrDom.template`<style media="screen">
   ${css}
 </style>
+<style media="screen">
+  \${this.state.style || ''}
+</style>
 <div id="container">
   <sifrr-tab-container>
     <slot name="content"></slot>
@@ -46,6 +49,7 @@ class SifrrCarousel extends SifrrDom.Element {
     };
   }
 }
+SifrrCarousel.defaultState = { style: '' };
 SifrrDom.register(SifrrCarousel);
 
 export default SifrrCarousel;
