@@ -193,6 +193,7 @@ class SifrrSingleShowcase extends SifrrDom.Element {
     });
   }
   switchVariant(id) {
+    this.$('#element').textContent = '';
     Object.assign(this.state, this.variant(id));
     this.update();
   }
