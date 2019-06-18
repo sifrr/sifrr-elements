@@ -1128,40 +1128,33 @@
   };
   SifrrDom.register(SifrrShowcase);
 
-  const template$6 = "<div class=\"circle back\">\n</div>\n<div class=\"circle front ${this.state.progress > 50 ? 'over50' : ''}\">\n  <div class=\"bar right\"></div>\n  <div class=\"bar left\"></div>\n</div>\n";
+  const template$6 = "<svg xmlns:xlink=\"http://www.w3.org/1999/xlink\" preserveAspectRatio=\"xMinYMin meet\" width=\"100%\" height=\"100%\" viewBox=\"0 0 60 60\">\n  <circle cx=\"30\" cy=\"30\" r=\"28\" fill=\"none\" stroke=\"rgba(255, 255, 255, 0.6)\" stroke-width=\"${this.state['stroke-width']}\"/>\n  <circle id=\"top\" cx=\"30\" cy=\"30\" r=\"28\" fill=\"none\" stroke=\"${this.state.stroke}\" stroke-width=\"${this.state['stroke-width']}\" stroke-dasharray=\"188.5\" stroke-dashoffset=\"${(100 - this.state.progress) / 100 * 188.5}\"/>\n</svg>";
 
-  var css$5 = ":host {\n  display: inline-block;\n  position: relative;\n}\n\n:host * {\n  box-sizing: border-box;\n}\n\n/* absolute positioning */\n.circle, .bar {\n  position: absolute;\n  margin: 0;\n  padding: 0;\n  width: 100%;\n  height: 100%;\n  border-radius: 50%;\n  top: 0;\n  left: 0;\n}\n\n/* borders */\n.back.circle {\n  border: 2px solid rgba(255, 255, 255, 0.6);\n}\n\n.bar, .over50 .bar.right {\n  border: 2px solid \"${this.hasAttribute('dark') ? '#000000' : '#ffffff'}\";\n}\n\n/* clipping */\n.front.circle {\n  /* right half */\n  -webkit-clip-path: polygon(50% 0, 101% 0%, 100% 100%, 50% 100%);\n          clip-path: polygon(50% 0, 101% 0%, 100% 100%, 50% 100%);\n}\n\n.front.circle.over50 {\n  /* full */\n  -webkit-clip-path: polygon(0 0, 101% 0, 100% 100%, 0 100%);\n          clip-path: polygon(0 0, 101% 0, 100% 100%, 0 100%);\n}\n\n.bar.left {\n  /* left half */\n  -webkit-clip-path: polygon(0 0, 50% 0, 50% 100%, 0 100%);\n          clip-path: polygon(0 0, 50% 0, 50% 100%, 0 100%);\n}\n\n.over50 .bar.right {\n  /* right half */\n  -webkit-clip-path: polygon(50% 0, 101% 0%, 100% 100%, 50% 100%);\n          clip-path: polygon(50% 0, 101% 0%, 100% 100%, 50% 100%);\n}\n\n/* progress */\n.bar.left {\n  transform: rotate(\"${this.state.progress * 360 / 100}\"deg)\n}\n\n.bar.right {\n  display: none;\n}\n\n.over50 .bar.right {\n  display: block;\n}\n";
+  var css$5 = ":host {\n  display: inline-block;\n}\n\n/* rotate svg */\nsvg {\n  transform: rotate(-90deg);\n}\n";
 
-  const properStyle = css$5.replace(/"(\${.*})"/g, '$1');
   class SifrrProgressRound extends SifrrDom.Element {
     static get template() {
-      return SifrrDom.template("<style>".concat(properStyle, "</style>").concat(template$6));
+      return SifrrDom.template("<style>".concat(css$5, "</style>").concat(template$6));
     }
-    static observedAttrs() {
-      return ['progress'];
-    }
-    get progress() {
-      return this._state.progress;
-    }
-    set progress(v) {
-      return this.state = {
-        progress: v
-      };
+    static syncedAttrs() {
+      return ['progress', 'stroke', 'stroke-width'];
     }
     onAttributeChange(n, _, v) {
-      if (n === 'progress') this.state = {
-        [n]: v
+      if (n === 'progress' || n === 'stroke' || n === 'stroke-width') this.state = {
+        [n]: Number(v)
       };
     }
   }
   SifrrProgressRound.defaultState = {
-    progress: 0
+    progress: 0,
+    'stroke-width': 2,
+    stroke: '#fff'
   };
   SifrrDom.register(SifrrProgressRound);
 
   var css$6 = ":host {\n  background: linear-gradient(to right, \"${this.bgColor}\" 4%, \"${this.fgColor}\" 25%, \"${this.bgColor}\" 36%);\n  display: inline-block;\n  animation: shimmer 2.5s linear 0s infinite;\n  background-size: 2000px 100%;\n}\n@keyframes shimmer{\n  0% { background-position: -2000px 0 }\n  100% { background-position: 2000px 0 }\n}\n";
 
-  const properStyle$1 = css$6.replace(/"(\${[^"]*})"/g, '$1');
+  const properStyle = css$6.replace(/"(\${[^"]*})"/g, '$1');
   function rgbToHsl(r = 0, g = 0, b = 0) {
     r /= 255, g /= 255, b /= 255;
     let max = Math.max(r, g, b),
@@ -1194,7 +1187,7 @@
       return ['color', 'bg-color', 'fg-color'];
     }
     static get template() {
-      return SifrrDom.template("<style>".concat(properStyle$1, "</style>"));
+      return SifrrDom.template("<style>".concat(properStyle, "</style>"));
     }
     get bgColor() {
       return this['bg-color'] || this.colora(0.15);

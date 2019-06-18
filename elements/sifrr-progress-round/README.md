@@ -10,10 +10,19 @@ After loading JS file as instructed in [main readme](../../README.md). Put this 
 
 This will render a instagram-like progres round with 47% completion. You need to set width, height with css to fit it as you need.
 
-#### Theme
+#### Stroke Theme
 
-By default it has translucent background and white progress bar. You can add `dark` attribute to html tag to show black progress.
+It always has translucent background.
+You can change progress `stroke` color and `stroke-width` with attribute.
 
 #### Programmatic API
 
-set `element.progress = 67` to set progress to 67.
+Change using state:
+
+```js
+el.state = {
+  progress: 34, // default 0
+  stroke: '#000', // default #fff
+  'stroke-width': 3 // default 2 (between 0-4)
+}
+```
