@@ -250,7 +250,7 @@ class SifrrTabContainer extends SifrrDom.Element {
         } else {
           me.active = scrollPos;
         }
-      }, 100);
+      }, 50);
     }
   }
   onScrollPercent() {}

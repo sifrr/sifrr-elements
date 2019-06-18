@@ -8,7 +8,8 @@ loadDir({
   onDir: (dir) => {
     generateChangelog({
       changelogFile: path.join(dir, './CHANGELOG.md'),
-      multiRepo: path.basename(dir)
+      multiRepo: path.basename(dir),
+      outputUnreleased: true
     });
   },
   deep: 0

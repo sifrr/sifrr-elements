@@ -284,7 +284,7 @@
           } else {
             me.active = scrollPos;
           }
-        }, 100);
+        }, 50);
       }
     }
     onScrollPercent() {}
