@@ -1,5 +1,7 @@
 import SifrrDom from '@sifrr/dom';
 import style from './style.scss';
+import '../../sifrr-tab-header/src/sifrrtabheader';
+import '../../sifrr-tab-container/src/sifrrtabcontainer';
 
 const template = SifrrDom.template`<style media="screen">
   ${style}
