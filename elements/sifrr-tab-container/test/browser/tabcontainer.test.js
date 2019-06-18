@@ -123,11 +123,26 @@ describe('tab-container', function() {
     });
   });
 
-  it('changes options on attribute change', async () => {
-    assert.equal(await page.$eval('#single', async el => {
-      el.setAttribute('options', '{ "random": "ok" }');
-      await delay(10);
-      return el.options.random;
-    }), 'ok');
+  describe('other options', () => {
+    it('changes options on attribute change', async () => {
+      assert.equal(await page.$eval('#single', async el => {
+        el.setAttribute('options', '{ "random": "ok" }');
+        await delay(10);
+        return el.options.random;
+      }), 'ok');
+    });
+
+    it('calls active/inactive listeners', async () => {
+      assert.deepEqual(await page.$eval('#single', async el => {
+        let i = 0, j = 0;
+        el.$('div', false).onActive = () => i++;
+        el.$('div', false).onInactive = () => j++;
+        el.active = 0;
+        el.active = 1;
+        el.active = 2;
+        await delay(10);
+        return [i, j];
+      }), [1, 1]);
+    });
   });
 });

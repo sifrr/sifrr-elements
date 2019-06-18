@@ -59,18 +59,32 @@ tabs.active = 0; // tabs index start from 0
 ```
 
 ### Check if there are tabs after active tab
+
 ```js
 tabs.hasNext(); // always returns true if loop = true
 ```
 
 ### Check if there are tabs before active tab
+
 ```js
 tabs.hasPrev(); // always returns true if loop = true
 ```
 
 ### On scroll event
+
 ```js
 tabs.onScrollPercent = (percent) => {
   // percent = scroll left position / width of 1 tab
 };
+```
+
+### Event listeners
+
+```js
+tabs.querySelector('div').onActive = () => {
+  // load posts or something when first div becomes active
+}
+tabs.querySelector('div').onInactive = () => {
+  // do something when first div becomes inactive
+}
 ```

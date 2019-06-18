@@ -422,11 +422,6 @@
     return data;
   }
   const template$1 = SifrrDom.template(_templateObject$1(), css$1);
-  function removeExceptOne$1(elements, name, index) {
-    for (let j = 0, l = elements.length; j < l; j++) {
-      j === index || elements[j] === index ? elements[j].classList.add(name) : elements[j].classList.remove(name);
-    }
-  }
   class SifrrTabContainer extends SifrrDom.Element {
     static get template() {
       return template$1;
@@ -504,7 +499,16 @@
         time: this.options.animationTime,
         type: this.options.animation === 'none' ? () => 1 : this.options.animation
       });
-      removeExceptOne$1(this.options.tabs, 'active', i);
+      for (let j = 0, l = this.options.tabs.length; j < l; j++) {
+        const el = this.options.tabs[j];
+        if (j === i) {
+          if (el.onActive && !el.classList.contains('active')) el.onActive();
+          el.classList.add('active');
+        } else {
+          if (el.onInactive && el.classList.contains('active')) el.onInactive();
+          el.classList.remove('active');
+        }
+      }
     }
     next() {
       this.active += 1;
