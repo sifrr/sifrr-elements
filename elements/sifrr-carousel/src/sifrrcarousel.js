@@ -43,7 +43,7 @@ class SifrrCarousel extends SifrrDom.Element {
       if (t.matches('.arrow.r') || t.matches('.arrow.r span')) this.container.next();
     });
     this.container._update = () => {
-      this.$('#count').textContent = `${this.container.active}/${this.container.total}`;
+      this.$('#count').textContent = `${this.container.active + 1}/${this.container.total}`;
     };
   }
 }
