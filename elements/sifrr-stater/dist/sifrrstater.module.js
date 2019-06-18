@@ -2,7 +2,7 @@
 import SifrrDom from '@sifrr/dom';
 import SifrrStorage from '@sifrr/storage';
 
-var css = ":host {\n  /* CSS for tabs container */\n  display: block;\n  line-height: 24px;\n  width: 100%;\n  position: relative;\n  overflow-x: auto;\n  box-sizing: border-box; }\n\nslot {\n  display: block; }\n\nslot::slotted(*) {\n  float: left;\n  text-align: center;\n  padding: 8px;\n  opacity: 0.8;\n  cursor: pointer; }\n\nslot::slotted(*.active) {\n  opacity: 1; }\n\nslot::slotted(*:hover) {\n  opacity: 1; }\n\n/* CSS for line under active tab heading */\n.underline {\n  position: absolute;\n  bottom: 0;\n  left: 0;\n  height: 3px;\n  background: white; }\n";
+var css = ":host {\n  /* CSS for tabs container */\n  display: block;\n  line-height: 24px;\n  width: 100%;\n  position: relative;\n  overflow-x: auto;\n  box-sizing: border-box; }\n\nslot {\n  display: block;\n  min-width: 100%; }\n\nslot::slotted(*) {\n  float: left;\n  text-align: center;\n  padding: 8px;\n  opacity: 0.8;\n  cursor: pointer; }\n\nslot::slotted(*.active) {\n  opacity: 1; }\n\nslot::slotted(*:hover) {\n  opacity: 1; }\n\n/* CSS for line under active tab heading */\n.underline {\n  position: absolute;\n  bottom: 0;\n  left: 0;\n  height: 3px;\n  background: white; }\n";
 
 const template = SifrrDom.template`<style media="screen">
   ${css}
