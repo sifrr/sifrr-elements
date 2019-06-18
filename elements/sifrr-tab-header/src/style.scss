@@ -1,11 +1,11 @@
 :host {
   /* CSS for tabs container */
   display: block;
-  line-height: 24px;
   width: 100%;
   position: relative;
   overflow-x: auto;
   box-sizing: border-box;
+  padding-bottom: 3px;
 }
 
 slot {
@@ -16,8 +16,8 @@ slot {
 slot::slotted(*) {
   float: left;
   text-align: center;
-  padding: 8px;
-  opacity: 0.8;
+  vertical-align: middle;
+  opacity: 0.7;
   cursor: pointer;
 }
 
@@ -26,14 +26,13 @@ slot::slotted(*.active) {
 }
 
 slot::slotted(*:hover) {
-  opacity: 1;
+  opacity: 0.9;
 }
 
 /* CSS for line under active tab heading */
 .underline {
   position: absolute;
   bottom: 0;
-  left: 0;
   height: 3px;
   background: white;
 }
