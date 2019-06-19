@@ -6,6 +6,9 @@ const template = SifrrDom.template`<style media="screen">
   slot::slotted(*) {
     \${this.options ? this.options.style : ''}
   }
+  :host {
+    padding-bottom: \${this.options.showUnderline ? '3px' : '0'};
+  }
 </style>
 <slot>
 </slot>
@@ -34,13 +37,14 @@ class SifrrTabHeader extends SifrrDom.Element {
   }
 
   refresh(options) {
-    this.options = Object.assign({
+    this._options = Object.assign({
       content: this,
       slot: this.$('slot'),
       showUnderline: true,
       line: this.$('.underline'),
       container: null
-    }, this.options, options, this._attrOptions);
+    }, this._options, options);
+    this.options = Object.assign({}, this._options, this._attrOptions);
     this.options.menus = this.options.slot.assignedNodes().filter(n => n.nodeType === 1);
     if (!this.options.menus || this.options.menus.length < 1) return;
     this.setProps();

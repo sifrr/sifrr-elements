@@ -80,12 +80,15 @@ class SifrrLazyPicture extends SifrrDom.Element.extends(HTMLPictureElement) {
 SifrrLazyPicture.rootMargin = '0px 0px 50px 0px';
 SifrrDom.register(SifrrLazyPicture, { extends: 'picture' });
 
-var css = ":host {\n  /* CSS for tabs container */\n  display: block;\n  width: 100%;\n  position: relative;\n  overflow-x: auto;\n  box-sizing: border-box;\n  padding-bottom: 3px; }\n\nslot {\n  display: block;\n  min-width: 100%; }\n\nslot::slotted(*) {\n  float: left;\n  text-align: center;\n  vertical-align: middle;\n  opacity: 0.7;\n  cursor: pointer; }\n\nslot::slotted(*.active) {\n  opacity: 1; }\n\nslot::slotted(*:hover) {\n  opacity: 0.9; }\n\n/* CSS for line under active tab heading */\n.underline {\n  position: absolute;\n  bottom: 0;\n  height: 3px;\n  background: white; }\n";
+var css = ":host {\n  /* CSS for tabs container */\n  display: block;\n  width: 100%;\n  position: relative;\n  overflow-x: auto;\n  box-sizing: border-box; }\n\nslot {\n  display: block;\n  min-width: 100%; }\n\nslot::slotted(*) {\n  float: left;\n  text-align: center;\n  vertical-align: middle;\n  opacity: 0.7;\n  cursor: pointer; }\n\nslot::slotted(*.active) {\n  opacity: 1; }\n\nslot::slotted(*:hover) {\n  opacity: 0.9; }\n\n/* CSS for line under active tab heading */\n.underline {\n  position: absolute;\n  bottom: 0;\n  height: 3px;\n  background: white; }\n";
 
 const template = SifrrDom.template`<style media="screen">
   ${css}
   slot::slotted(*) {
     \${this.options ? this.options.style : ''}
+  }
+  :host {
+    padding-bottom: \${this.options.showUnderline ? '3px' : '0'};
   }
 </style>
 <slot>
@@ -110,13 +113,14 @@ class SifrrTabHeader extends SifrrDom.Element {
     }
   }
   refresh(options) {
-    this.options = Object.assign({
+    this._options = Object.assign({
       content: this,
       slot: this.$('slot'),
       showUnderline: true,
       line: this.$('.underline'),
       container: null
-    }, this.options, options, this._attrOptions);
+    }, this._options, options);
+    this.options = Object.assign({}, this._options, this._attrOptions);
     this.options.menus = this.options.slot.assignedNodes().filter(n => n.nodeType === 1);
     if (!this.options.menus || this.options.menus.length < 1) return;
     this.setProps();
@@ -370,10 +374,10 @@ const template$1 = SifrrDom.template`<style media="screen">
 </style>
 <style media="screen">
   .tabs {
-    width: \${this.totalWidth + 'px'};
+    width: \${this.totalWidth};
   }
   .tabs::slotted(*) {
-    width: \${this.tabWidth + 'px'};
+    width: \${this.tabWidth};
   }
 </style>
 <slot class="tabs">
@@ -399,7 +403,7 @@ class SifrrTabContainer extends SifrrDom.Element {
     }
   }
   refresh(options) {
-    this.options = Object.assign({
+    this._options = Object.assign({
       content: this,
       slot: this.$('slot'),
       num: 1,
@@ -407,22 +411,31 @@ class SifrrTabContainer extends SifrrDom.Element {
       animationTime: 300,
       scrollBreakpoint: 0.3,
       loop: false
-    }, this.options, options, this._attrOptions);
+    }, this._options, options);
+    this.options = Object.assign({}, this._options, this._attrOptions);
     this.options.tabs = this.options.slot.assignedNodes().filter(n => n.nodeType === 1);
     this.total = this.options.tabs.length;
     if (!this.options.tabs || this.options.tabs.length < 1) return;
-    this.tabWidth = this.clientWidth / this.options.num;
-    this.totalWidth = this.tabWidth * this.options.tabs.length;
-    this.active = typeof this._active === 'number' ? this._active : 0;
+    if (this.options.num === 'auto') {
+      this.tabWidth = 'auto';
+      this._totalWidth = this.options.tabs.reduce((a, b) => a + b.offsetWidth, 0);
+      this.totalWidth = this._totalWidth + 'px';
+    } else {
+      this._tabWidth = this.clientWidth / this.options.num;
+      this.tabWidth = this._tabWidth + 'px';
+      this._totalWidth = this._tabWidth * this.options.tabs.length;
+      this.totalWidth = this._totalWidth + 'px';
+      this.active = typeof this._active === 'number' ? this._active : 0;
+    }
   }
   setScrollEvent() {
     let me = this,
       isScrolling,
       scrollPos;
-    this.options.content.addEventListener('scroll', onScroll);
+    if (this.options.num !== 'auto') this.options.content.addEventListener('scroll', onScroll);
     function onScroll() {
       scrollPos = me.active;
-      const total = me.options.content.scrollLeft / me.tabWidth;
+      const total = me.options.content.scrollLeft / me._tabWidth;
       const t = Math.round(total);
       me.onScrollPercent(total);
       clearTimeout(isScrolling);
@@ -446,12 +459,12 @@ class SifrrTabContainer extends SifrrDom.Element {
     this.update();
   }
   onUpdate() {
-    if (!this.options) return;
+    if (!this.options || this.options.num === 'auto') return;
     const i = this._active;
     animate_1({
       target: this.options.content,
       to: {
-        scrollLeft: i * this.tabWidth
+        scrollLeft: i * this._tabWidth
       },
       time: this.options.animationTime,
       type: this.options.animation === 'none' ? () => 1 : this.options.animation
@@ -468,14 +481,14 @@ class SifrrTabContainer extends SifrrDom.Element {
     }
   }
   next() {
-    this.active += 1;
+    this.options.num === 'auto' ? (this.options.content.scrollLeft += this._totalWidth / 2) : (this.active += 1);
   }
   hasNext() {
     if (this.active === this.options.tabs.length - this.options.num) return false;
     return true;
   }
   prev() {
-    this.active -= 1;
+    this.options.num === 'auto' ? (this.options.content.scrollLeft -= this._totalWidth / 2) : (this.active -= 1);
   }
   hasPrev() {
     return this.active === 0 ? false : true;

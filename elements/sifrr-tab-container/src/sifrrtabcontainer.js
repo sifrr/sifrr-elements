@@ -7,10 +7,10 @@ const template = SifrrDom.template`<style media="screen">
 </style>
 <style media="screen">
   .tabs {
-    width: \${this.totalWidth + 'px'};
+    width: \${this.totalWidth};
   }
   .tabs::slotted(*) {
-    width: \${this.tabWidth + 'px'};
+    width: \${this.tabWidth};
   }
 </style>
 <slot class="tabs">
@@ -41,7 +41,7 @@ class SifrrTabContainer extends SifrrDom.Element {
   }
 
   refresh(options) {
-    this.options = Object.assign({
+    this._options = Object.assign({
       content: this,
       slot: this.$('slot'),
       num: 1,
@@ -49,24 +49,33 @@ class SifrrTabContainer extends SifrrDom.Element {
       animationTime: 300,
       scrollBreakpoint: 0.3,
       loop: false
-    }, this.options, options, this._attrOptions);
+    }, this._options, options);
+    this.options = Object.assign({}, this._options, this._attrOptions);
     this.options.tabs = this.options.slot.assignedNodes().filter(n => n.nodeType === 1);
     this.total = this.options.tabs.length;
     if (!this.options.tabs || this.options.tabs.length < 1) return;
-    this.tabWidth = this.clientWidth / this.options.num;
-    this.totalWidth = this.tabWidth * this.options.tabs.length;
-    this.active = typeof this._active === 'number' ? this._active : 0;
+    if (this.options.num === 'auto') {
+      this.tabWidth = 'auto';
+      this._totalWidth = this.options.tabs.reduce((a, b) => a + b.offsetWidth, 0);
+      this.totalWidth = this._totalWidth + 'px';
+    } else {
+      this._tabWidth = this.clientWidth / this.options.num;
+      this.tabWidth = this._tabWidth + 'px';
+      this._totalWidth = this._tabWidth * this.options.tabs.length;
+      this.totalWidth = this._totalWidth + 'px';
+      this.active = typeof this._active === 'number' ? this._active : 0;
+    }
   }
 
   setScrollEvent() {
     let me = this,
       isScrolling,
       scrollPos;
-    this.options.content.addEventListener('scroll', onScroll);
+    if (this.options.num !== 'auto') this.options.content.addEventListener('scroll', onScroll);
 
     function onScroll() {
       scrollPos = me.active;
-      const total = me.options.content.scrollLeft / me.tabWidth;
+      const total = me.options.content.scrollLeft / me._tabWidth;
       const t = Math.round(total);
       me.onScrollPercent(total);
       clearTimeout(isScrolling);
@@ -94,12 +103,12 @@ class SifrrTabContainer extends SifrrDom.Element {
   }
 
   onUpdate() {
-    if (!this.options) return;
+    if (!this.options || this.options.num === 'auto') return;
     const i = this._active;
     animate({
       target: this.options.content,
       to: {
-        scrollLeft: i * this.tabWidth
+        scrollLeft: i * this._tabWidth
       },
       time: this.options.animationTime,
       type: this.options.animation === 'none' ? () => 1 : this.options.animation
@@ -117,7 +126,7 @@ class SifrrTabContainer extends SifrrDom.Element {
   }
 
   next() {
-    this.active += 1;
+    this.options.num === 'auto' ? (this.options.content.scrollLeft += this._totalWidth / 2) : (this.active += 1);
   }
 
   hasNext() {
@@ -126,7 +135,7 @@ class SifrrTabContainer extends SifrrDom.Element {
   }
 
   prev() {
-    this.active -= 1;
+    this.options.num === 'auto' ? (this.options.content.scrollLeft -= this._totalWidth / 2) : (this.active -= 1);
   }
 
   hasPrev() {
