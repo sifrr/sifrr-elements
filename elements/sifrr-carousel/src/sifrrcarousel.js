@@ -51,7 +51,7 @@ class SifrrCarousel extends SifrrDom.Element {
     Array.from(this.$$('img', false)).forEach(img => img.addEventListener('load', this._rel));
 
     SifrrDom.Event.addListener('click', this, (e, t) => {
-      if (t.matches('[slot=content]') && !t.matches('.fullscreen [slot=content]')) this.fullScreen(true);
+      if ((t.matches('[slot=content]') || t.matches('[slot=content] *')) && !t.matches('.fullscreen *')) this.fullScreen(true);
       else if (t.matches('#bg') || t.matches('#bg *')) this.fullScreen(false);
       else if (t.matches('.arrow.l') || t.matches('.arrow.l span')) this.container.prev();
       else if (t.matches('.arrow.r') || t.matches('.arrow.r span')) this.container.next();
