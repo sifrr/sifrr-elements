@@ -16,6 +16,12 @@
   "bugs": {
     "url": "https://github.com/sifrr/sifrr-elements/issues"
   },
+  "browserslist": [
+    "chrome >= 55",
+    "safari >= 10.1",
+    "opera >= 42",
+    "firefox >= 63"
+  ],
   "main": "dist/sifrrelements.js",
   "module": "dist/sifrrelements.module.js",
   "browser": "dist/sifrrelements.js",

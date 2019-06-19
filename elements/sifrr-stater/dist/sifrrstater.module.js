@@ -60,13 +60,16 @@ class SifrrTabHeader extends SifrrDom.Element {
   }
   setMenuProps() {
     let left = 0;
+    this._smt = this._smt || this.setMenuProps.bind(this);
     this.options.menuProps = [];
     Array.from(this.options.menus).forEach((elem, i) => {
+      const width = elem.getBoundingClientRect().width;
       this.options.menuProps[i] = {
-        width: elem.offsetWidth,
+        width,
         left: left
       };
-      left += elem.offsetWidth;
+      left += width;
+      elem.addEventListener('load', this._smt);
       elem._click = () => {
         if (this.options.container) this.options.container.active = i;
         else this.active = i;
@@ -74,7 +77,7 @@ class SifrrTabHeader extends SifrrDom.Element {
     });
     const last = this.options.menuProps[this.options.menus.length - 1];
     this.options.totalMenuWidth = last.left + last.width;
-    this.$('slot').style.width = this.options.slot.style.width = last.left + last.width + 1 * this.options.menuProps.length + 'px';
+    this.$('slot').style.width = this.options.slot.style.width = this.options.totalMenuWidth + 'px';
   }
   setScrollPercent(total) {
     const per = total % 1, t = Math.floor(total);
@@ -105,7 +108,6 @@ class SifrrTabHeader extends SifrrDom.Element {
     for (let j = 0, l = this.options.menus.length; j < l; j++) {
       this.options.menus[j].classList[j === this.active ? 'add' : 'remove']('active');
     }
-    this.setMenuProps();
   }
 }
 SifrrDom.register(SifrrTabHeader);
