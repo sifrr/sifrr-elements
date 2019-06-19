@@ -1221,7 +1221,7 @@ class SifrrInclude extends SifrrDom.Element {
 }
 SifrrDom.register(SifrrInclude);
 
-var css$7 = ":host {\n  display: block;\n  width: 100%; }\n\n#preview, #content {\n  position: relative; }\n\n#preview {\n  padding: 0 24px; }\n\n/* count, fs, and bg */\n#count {\n  position: absolute; }\n\n#count {\n  bottom: 6px;\n  left: 6px;\n  background: rgba(255, 255, 255, 0.7);\n  border-radius: 10px;\n  font-size: 14px;\n  padding: 4px 6px; }\n\n#bg {\n  background: rgba(255, 255, 255, 0.9);\n  display: none;\n  height: 100%;\n  width: 100%; }\n  #bg #cross {\n    position: absolute;\n    top: 6px;\n    right: 6px;\n    width: 32px;\n    height: 32px;\n    font-family: 'Helvetica', 'Arial', sans-serif;\n    font-size: 32px; }\n\n/* Arrows css */\n.arrow {\n  position: absolute;\n  z-index: 5;\n  top: 0;\n  bottom: 0; }\n\n.arrow > * {\n  position: absolute;\n  width: 8px;\n  height: 8px;\n  margin: -6px 5px;\n  top: 50%;\n  border: solid white;\n  border-width: 0 3px 3px 0;\n  display: inline-block;\n  padding: 3px; }\n\n.arrow.l {\n  left: 0;\n  cursor: w-resize; }\n\n.arrow.l > * {\n  left: 0;\n  transform: rotate(135deg); }\n\n.arrow.r {\n  right: 0;\n  cursor: e-resize; }\n\n.arrow.r > * {\n  right: 0;\n  transform: rotate(-45deg); }\n\n/* drop shadow */\n.arrow > *, #cross {\n  filter: drop-shadow(-1px -1px 3px #000);\n  -webkit-user-select: none;\n     -moz-user-select: none;\n          user-select: none;\n  color: white;\n  z-index: 3; }\n\n/* slot elements css */\nslot[name=preview]::slotted(*) {\n  height: 64px;\n  opacity: 0.5; }\n\nslot[name=preview]::slotted(*.active) {\n  border: 1px solid white;\n  opacity: 1; }\n\nsifrr-tab-header {\n  height: 64px; }\n\n/* Full screen css */\n:host(.fullscreen) {\n  position: fixed;\n  width: 100%;\n  height: 100%;\n  left: 0;\n  top: 0;\n  z-index: 9999; }\n  :host(.fullscreen) #bg {\n    display: block;\n    z-index: 1; }\n  :host(.fullscreen) #preview, :host(.fullscreen) #content {\n    position: absolute;\n    left: 0;\n    right: 0;\n    margin: auto; }\n  :host(.fullscreen) #preview {\n    bottom: 30px;\n    max-width: 90%;\n    z-index: 2; }\n  :host(.fullscreen) #content {\n    z-index: 2;\n    max-width: 90%;\n    max-height: calc(100% - 150px);\n    top: calc(50% - 55px);\n    transform: translateY(-50%);\n    overflow: hidden; }\n";
+var css$7 = ":host {\n  display: block;\n  width: 100%; }\n\n#preview, #content {\n  position: relative; }\n\n#preview {\n  padding: 0 24px; }\n\n/* count, fs, and bg */\n#count {\n  position: absolute; }\n\n#count {\n  bottom: 6px;\n  right: 6px;\n  background: rgba(255, 255, 255, 0.7);\n  border-radius: 10px;\n  font-size: 14px;\n  padding: 4px 6px; }\n\n#bg {\n  background: rgba(255, 255, 255, 0.9);\n  display: none;\n  height: 100%;\n  width: 100%; }\n  #bg #cross {\n    position: absolute;\n    top: 6px;\n    right: 6px;\n    width: 32px;\n    height: 32px;\n    font-family: 'Helvetica', 'Arial', sans-serif;\n    font-size: 32px; }\n\n/* Arrows css */\n.arrow {\n  position: absolute;\n  z-index: 5;\n  top: 0;\n  bottom: 0; }\n\n.arrow > * {\n  position: absolute;\n  width: 8px;\n  height: 8px;\n  margin: -6px 5px;\n  top: 50%;\n  border: solid white;\n  border-width: 0 3px 3px 0;\n  display: inline-block;\n  padding: 3px; }\n\n.arrow.l {\n  left: 0;\n  cursor: w-resize; }\n\n.arrow.l > * {\n  left: 0;\n  transform: rotate(135deg); }\n\n.arrow.r {\n  right: 0;\n  cursor: e-resize; }\n\n.arrow.r > * {\n  right: 0;\n  transform: rotate(-45deg); }\n\n/* drop shadow */\n.arrow > *, #cross {\n  filter: drop-shadow(-1px -1px 3px #000);\n  -webkit-user-select: none;\n     -moz-user-select: none;\n          user-select: none;\n  color: white;\n  z-index: 3; }\n\n/* slot elements css */\nslot[name=preview]::slotted(*) {\n  height: 64px;\n  opacity: 0.5; }\n\nslot[name=preview]::slotted(*.active) {\n  border: 1px solid white;\n  opacity: 1; }\n\nsifrr-tab-header {\n  height: 64px; }\n\n/* Full screen css */\n:host(.fullscreen) {\n  position: fixed;\n  width: 100%;\n  height: 100%;\n  left: 0;\n  top: 0;\n  z-index: 9999; }\n  :host(.fullscreen) #bg {\n    display: block;\n    z-index: 1; }\n  :host(.fullscreen) #preview, :host(.fullscreen) #content {\n    position: absolute;\n    left: 0;\n    right: 0;\n    margin: auto; }\n  :host(.fullscreen) #preview {\n    bottom: 30px;\n    max-width: 90%;\n    z-index: 2; }\n  :host(.fullscreen) #content {\n    z-index: 2;\n    max-width: 90%;\n    max-height: calc(100% - 150px);\n    top: calc(50% - 55px);\n    transform: translateY(-50%);\n    overflow: hidden; }\n";
 
 const template$7 = SifrrDom.template`<style media="screen">
   ${css$7}
@@ -1291,8 +1291,64 @@ class SifrrCarousel extends SifrrDom.Element {
 SifrrCarousel.defaultState = { style: '' };
 SifrrDom.register(SifrrCarousel);
 
-window.LazyLoader = lazyloader;
+const styles = [ 'position', 'left', 'top', 'width', 'height', 'z-index'];
+const FS_CLASS = 'fs';
+function getNewProps(rect) {
+  const ans = {};
+  styles.forEach(s => {
+    if (s === 'position') {
+      ans[s] = 'fixed';
+    } else if (s === 'z-index') {
+      ans[s] = '99999';
+    } else {
+      ans[s] = rect[s] + 'px';
+    }
+  });
+  return ans;
+}
+function makeFullScreen(element, onUpdate) {
+  const rect = element.getBoundingClientRect();
+  const newProps = getNewProps(rect);
+  for (let prop in newProps) {
+    element[`__o${prop}`] = element.style[prop];
+    element[`__n${prop}`] = newProps[prop];
+    element.style[prop] = newProps[prop];
+  }
+  return animate_1({
+    target: element.style,
+    to: {
+      left: '0px',
+      top: '0px',
+      width: window.innerWidth + 'px',
+      height: window.innerHeight + 'px',
+      onUpdate
+    }
+  }).then(() => element.classList.add(FS_CLASS));
+}
+function exitFullScreen(element, onUpdate) {
+  element.classList.remove(FS_CLASS);
+  return animate_1({
+    target: element.style,
+    to: {
+      left: element.__nleft,
+      top: element.__ntop,
+      width: element.__nwidth,
+      height: element.__nheight,
+      onUpdate
+    }
+  }).then(() => {
+    styles.forEach(s => {
+      element.style[s] = element[`__o${s}`];
+      delete element[`__o${s}`];
+      delete element[`__n${s}`];
+    });
+  });
+}
 
-export { lazyloader as LazyLoader, SifrrCarousel, SifrrCodeEditor, SifrrInclude, SifrrLazyPicture, SifrrLazyImg as SifrrLazzyImg, SifrrProgressRound, SifrrShimmer, SifrrShowcase, SifrrStater, SifrrTabContainer, SifrrTabHeader };
+window.LazyLoader = lazyloader;
+window.makeFullScreen = makeFullScreen;
+window.exitFullScreen = exitFullScreen;
+
+export { lazyloader as LazyLoader, SifrrCarousel, SifrrCodeEditor, SifrrInclude, SifrrLazyPicture, SifrrLazyImg as SifrrLazzyImg, SifrrProgressRound, SifrrShimmer, SifrrShowcase, SifrrStater, SifrrTabContainer, SifrrTabHeader, exitFullScreen, makeFullScreen };
 /*! (c) @aadityataparia */
 //# sourceMappingURL=sifrr.elements.module.js.map

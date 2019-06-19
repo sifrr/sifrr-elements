@@ -15,3 +15,8 @@ export { default as SifrrTabHeader } from '../elements/sifrr-tab-header/src/sifr
 export { default as LazyLoader } from '../helpers/lazyloader';
 import LazyLoader from '../helpers/lazyloader';
 window.LazyLoader = LazyLoader;
+
+export { makeFullScreen, exitFullScreen } from '../helpers/makefullscreen';
+import { makeFullScreen, exitFullScreen } from '../helpers/makefullscreen';
+window.makeFullScreen = makeFullScreen;
+window.exitFullScreen = exitFullScreen;
