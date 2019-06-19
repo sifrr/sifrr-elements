@@ -3,15 +3,15 @@
   width: 100%;
 }
 
-#header, #container {
+#preview, #content {
   position: relative;
 }
 
-#header {
+#preview {
   padding: 0 24px;
 }
 
-/* count and fs */
+/* count, fs, and bg */
 #count {
   position: absolute;
 }
@@ -25,13 +25,29 @@
   padding: 4px 6px;
 }
 
+#bg {
+  background: rgba(255,255,255,0.9);
+  display: none;
+  height: 100%;
+  width: 100%;
+
+  #cross {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    width: 32px;
+    height: 32px;
+    font-family: 'Helvetica', 'Arial', sans-serif;
+    font-size: 32px;
+  }
+}
+
 /* Arrows css */
 .arrow {
   position: absolute;
   z-index: 5;
   top: 0;
   bottom: 0;
-  user-select: none;
 }
 
 .arrow > * {
@@ -44,7 +60,6 @@
   border-width: 0 3px 3px 0;
   display: inline-block;
   padding: 3px;
-  filter: drop-shadow(-1px -1px 3px #000);
 }
 
 .arrow.l {
@@ -67,6 +82,14 @@
   transform: rotate(-45deg);
 }
 
+/* drop shadow */
+.arrow > *, #cross {
+  filter: drop-shadow(-1px -1px 3px #000);
+  user-select: none;
+  color: white;
+  z-index: 3;
+}
+
 /* slot elements css */
 slot[name=preview]::slotted(*) {
   height: 64px;
@@ -80,4 +103,41 @@ slot[name=preview]::slotted(*.active) {
 
 sifrr-tab-header {
   height: 64px;
+}
+
+/* Full screen css */
+:host(.fullscreen) {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  z-index: 9999;
+
+  #bg {
+    display: block;
+    z-index: 1;
+  }
+
+  #preview, #content {
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: auto;
+  }
+
+  #preview {
+    bottom: 30px;
+    max-width: 500px;
+    z-index: 2;
+  }
+
+  #content {
+    z-index: 2;
+    max-width: 90%;
+    max-height: calc(100% - 150px);
+    top: calc(50% - 55px);
+    transform: translateY(-50%);
+    overflow: hidden;
+  }
 }

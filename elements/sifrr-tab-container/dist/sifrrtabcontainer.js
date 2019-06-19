@@ -265,10 +265,10 @@
       if (!this.options.tabs || this.options.tabs.length < 1) return;
       if (this.options.num === 'auto') {
         this.tabWidth = 'auto';
-        this._totalWidth = this.options.tabs.reduce((a, b) => a + b.offsetWidth, 0);
+        this._totalWidth = this.options.tabs.reduce((a, b) => a + b.getBoundingClientRect().width, 0);
         this.totalWidth = this._totalWidth + 'px';
       } else {
-        this._tabWidth = this.clientWidth / this.options.num;
+        this._tabWidth = this.getBoundingClientRect().width / this.options.num;
         this.tabWidth = this._tabWidth + 'px';
         this._totalWidth = this._tabWidth * this.options.tabs.length;
         this.totalWidth = this._totalWidth + 'px';

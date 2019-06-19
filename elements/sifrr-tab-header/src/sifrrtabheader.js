@@ -7,7 +7,7 @@ const template = SifrrDom.template`<style media="screen">
     \${this.options ? this.options.style : ''}
   }
   :host {
-    padding-bottom: \${this.options.showUnderline ? '3px' : '0'};
+    padding-bottom: \${this.options && this.options.showUnderline ? '3px' : '0'};
   }
 </style>
 <slot>
@@ -64,7 +64,6 @@ class SifrrTabHeader extends SifrrDom.Element {
 
   setMenuProps() {
     let left = 0;
-    this._smt = this._smt || this.setMenuProps.bind(this);
     this.options.menuProps = [];
     Array.from(this.options.menus).forEach((elem, i) => {
       const width = elem.getBoundingClientRect().width;
@@ -73,7 +72,6 @@ class SifrrTabHeader extends SifrrDom.Element {
         left: left
       };
       left += width;
-      elem.addEventListener('load', this._smt);
       elem._click = () => {
         if (this.options.container) this.options.container.active = i;
         else this.active = i;
@@ -81,7 +79,7 @@ class SifrrTabHeader extends SifrrDom.Element {
     });
     const last = this.options.menuProps[this.options.menus.length - 1];
     this.options.totalMenuWidth = last.left + last.width;
-    this.$('slot').style.width = this.options.slot.style.width = this.options.totalMenuWidth + 'px';
+    this.$('slot').style.width = this.options.slot.style.width = this.options.totalMenuWidth + 1 + 'px';
   }
 
   setScrollPercent(total) {

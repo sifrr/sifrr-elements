@@ -1,5 +1,5 @@
 {
-  "current": 3,
+  "current": 5,
   "showcases": [
     {
       "id": 1,
@@ -87,20 +87,20 @@
         {
           "variantId": 1,
           "variantName": "default",
-          "style": "#element > * {\n  background-color: white;\n}",
+          "style": "#element > * {\n  background-color: white;\n}\n#element div {\n  padding: 10px;\n  height: 100px;\n}",
           "code": "<sifrr-tab-container>\n  <div>\n    Tab 1\n  </div>\n  <div>\n    Tab 2\n  </div>\n</sifrr-tab-container>",
           "elState": "this.active = 0;\nreturn {\n\n}"
         },
         {
           "variantId": 2,
           "variantName": "multiple tabs in view",
-          "style": "#element > * {\n  background-color: white;\n}",
+          "style": "#element > * {\n  background-color: white;\n}\n#element div {\n  padding: 10px;\n  height: 100px;\n}",
           "code": "<sifrr-tab-container options='{ \"num\": 3 }'>\n  <div>\n    Tab 1\n  </div>\n  <div>\n    Tab 2\n  </div>\n  <div>\n    Tab 3\n  </div>\n  <div>\n    Tab 4\n  </div>\n  <div>\n    Tab 5\n  </div>\n  <div>\n    Tab 6\n  </div>\n</sifrr-tab-container>\n",
           "elState": "return {\n\n}"
         },
         {
           "variantId": 3,
-          "variantName": "auto width, without break",
+          "variantName": "auto width, without break ",
           "style": "#element > * {\n  background-color: white;\n}\n#element div {\n  padding: 10px;\n  height: 100px;\n}",
           "code": "<sifrr-tab-container options='{ \"num\": \"auto\" }'>\n  <div style=\"width: 100px\">\n    Tab 1\n  </div>\n  <div style=\"width: 170px\">\n    Tab 2\n  </div>\n  <div style=\"width: 200px\">\n    Tab 3\n  </div>\n  <div style=\"width: 400px\">\n    Tab 4\n  </div>\n  <div style=\"width: 300px\">\n    Tab 5\n  </div>\n  <div style=\"width: 150px\">\n    Tab 6\n  </div>\n</sifrr-tab-container>\n",
           "elState": "return {\n\n}"
@@ -110,11 +110,11 @@
       "id": 1,
       "elementUrl": "",
       "isjs": true,
-      "variantName": "auto width, without break ",
-      "variantId": 3,
+      "variantName": "default",
+      "variantId": 1,
       "style": "#element > * {\n  background-color: white;\n}\n#element div {\n  padding: 10px;\n  height: 100px;\n}",
-      "code": "<sifrr-tab-container options='{ \"num\": \"auto\" }'>\n  <div style=\"width: 100px\">\n    Tab 1\n  </div>\n  <div style=\"width: 170px\">\n    Tab 2\n  </div>\n  <div style=\"width: 200px\">\n    Tab 3\n  </div>\n  <div style=\"width: 400px\">\n    Tab 4\n  </div>\n  <div style=\"width: 300px\">\n    Tab 5\n  </div>\n  <div style=\"width: 150px\">\n    Tab 6\n  </div>\n</sifrr-tab-container>\n",
-      "elState": "return {\n\n}",
+      "code": "<sifrr-tab-container>\n  <div>\n    Tab 1\n  </div>\n  <div>\n    Tab 2\n  </div>\n</sifrr-tab-container>",
+      "elState": "this.active = 0;\nreturn {\n\n}",
       "current": 0
     },
     {
@@ -160,11 +160,11 @@
       "id": 1,
       "elementUrl": "",
       "isjs": true,
-      "variantName": "default",
-      "variantId": 1,
-      "style": "#element > * {\n  background-color: blue;\n  color: white;\n}\n#element span {\n  padding: 8px;\n}",
-      "code": "<sifrr-tab-header>\n  <span>hahaha</span>\n  <span>lololol</span>\n</sifrr-tab-header>",
-      "elState": "return {\n\n}",
+      "variantName": "with tab container",
+      "variantId": 3,
+      "style": "#element > sifrr-tab-header {\n  background-color: blue;\n  color: white;\n}\n#element > sifrr-tab-container {\n  background-color: white;\n}\n#element span {\n  padding: 8px;\n}",
+      "code": "<sifrr-tab-header>\n  <span>hahaha</span>\n  <span>lolsfsdfsdfsdfsfsdfsdfolol</span>\n  <span>haha</span>\n</sifrr-tab-header>\n<sifrr-tab-container>\n  <div>\n    Tab 1\n  </div>\n  <div>\n    Tab 2\n  </div>\n  <div>\n    Tab 3\n  </div>\n</sifrr-tab-container>",
+      "elState": "this.refresh({ container: this.nextElementSibling });\nreturn {\n\n}",
       "current": 0
     },
     {
@@ -173,7 +173,7 @@
         {
           "variantId": 1,
           "variantName": "normal",
-          "style": "#element sifrr-carousel {\n  width: 600px;\n}",
+          "style": "#element sifrr-carousel {\n  width: 600px;\n}\n#element sifrr-carousel.fullscreen {\n  width: 100vw;\n}",
           "code": "<sifrr-carousel>\n  <img src='https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg?auto=format%2Ccompress&cs=tinysrgb&dpr=1&w=500' slot='content'>\n  <img src='https://helpx.adobe.com/content/dam/help/en/stock/how-to/visual-reverse-image-search/jcr_content/main-pars/image/visual-reverse-image-search-v2_intro.jpg' slot='content'>\n  <img src='https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg?auto=format%2Ccompress&cs=tinysrgb&dpr=1&w=500' slot='preview'>\n  <img src='https://helpx.adobe.com/content/dam/help/en/stock/how-to/visual-reverse-image-search/jcr_content/main-pars/image/visual-reverse-image-search-v2_intro.jpg' slot='preview'>\n  <img src='https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg?auto=format%2Ccompress&cs=tinysrgb&dpr=1&w=500' slot='content'>\n  <img src='https://helpx.adobe.com/content/dam/help/en/stock/how-to/visual-reverse-image-search/jcr_content/main-pars/image/visual-reverse-image-search-v2_intro.jpg' slot='content'>\n  <img src='https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg?auto=format%2Ccompress&cs=tinysrgb&dpr=1&w=500' slot='preview'>\n  <img src='https://helpx.adobe.com/content/dam/help/en/stock/how-to/visual-reverse-image-search/jcr_content/main-pars/image/visual-reverse-image-search-v2_intro.jpg' slot='preview'>\n  <img src='https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg?auto=format%2Ccompress&cs=tinysrgb&dpr=1&w=500' slot='content'>\n  <img src='https://helpx.adobe.com/content/dam/help/en/stock/how-to/visual-reverse-image-search/jcr_content/main-pars/image/visual-reverse-image-search-v2_intro.jpg' slot='content'>\n  <img src='https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg?auto=format%2Ccompress&cs=tinysrgb&dpr=1&w=500' slot='preview'>\n  <img src='https://helpx.adobe.com/content/dam/help/en/stock/how-to/visual-reverse-image-search/jcr_content/main-pars/image/visual-reverse-image-search-v2_intro.jpg' slot='preview'>\n  <img src='https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg?auto=format%2Ccompress&cs=tinysrgb&dpr=1&w=500' slot='content'>\n  <img src='https://helpx.adobe.com/content/dam/help/en/stock/how-to/visual-reverse-image-search/jcr_content/main-pars/image/visual-reverse-image-search-v2_intro.jpg' slot='content'>\n  <img src='https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg?auto=format%2Ccompress&cs=tinysrgb&dpr=1&w=500' slot='preview'>\n  <img src='https://helpx.adobe.com/content/dam/help/en/stock/how-to/visual-reverse-image-search/jcr_content/main-pars/image/visual-reverse-image-search-v2_intro.jpg' slot='preview'>\n</sifrr-carousel>",
           "elState": "return {\n\n}"
         }
@@ -184,7 +184,7 @@
       "isjs": true,
       "variantName": "normal",
       "variantId": 1,
-      "style": "#element sifrr-carousel {\n  width: 600px;\n}",
+      "style": "#element sifrr-carousel {\n  width: 600px;\n}\n#element sifrr-carousel.fullscreen {\n  width: 100vw;\n}",
       "code": "<sifrr-carousel>\n  <img src='https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg?auto=format%2Ccompress&cs=tinysrgb&dpr=1&w=500' slot='content'>\n  <img src='https://helpx.adobe.com/content/dam/help/en/stock/how-to/visual-reverse-image-search/jcr_content/main-pars/image/visual-reverse-image-search-v2_intro.jpg' slot='content'>\n  <img src='https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg?auto=format%2Ccompress&cs=tinysrgb&dpr=1&w=500' slot='preview'>\n  <img src='https://helpx.adobe.com/content/dam/help/en/stock/how-to/visual-reverse-image-search/jcr_content/main-pars/image/visual-reverse-image-search-v2_intro.jpg' slot='preview'>\n  <img src='https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg?auto=format%2Ccompress&cs=tinysrgb&dpr=1&w=500' slot='content'>\n  <img src='https://helpx.adobe.com/content/dam/help/en/stock/how-to/visual-reverse-image-search/jcr_content/main-pars/image/visual-reverse-image-search-v2_intro.jpg' slot='content'>\n  <img src='https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg?auto=format%2Ccompress&cs=tinysrgb&dpr=1&w=500' slot='preview'>\n  <img src='https://helpx.adobe.com/content/dam/help/en/stock/how-to/visual-reverse-image-search/jcr_content/main-pars/image/visual-reverse-image-search-v2_intro.jpg' slot='preview'>\n  <img src='https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg?auto=format%2Ccompress&cs=tinysrgb&dpr=1&w=500' slot='content'>\n  <img src='https://helpx.adobe.com/content/dam/help/en/stock/how-to/visual-reverse-image-search/jcr_content/main-pars/image/visual-reverse-image-search-v2_intro.jpg' slot='content'>\n  <img src='https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg?auto=format%2Ccompress&cs=tinysrgb&dpr=1&w=500' slot='preview'>\n  <img src='https://helpx.adobe.com/content/dam/help/en/stock/how-to/visual-reverse-image-search/jcr_content/main-pars/image/visual-reverse-image-search-v2_intro.jpg' slot='preview'>\n  <img src='https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg?auto=format%2Ccompress&cs=tinysrgb&dpr=1&w=500' slot='content'>\n  <img src='https://helpx.adobe.com/content/dam/help/en/stock/how-to/visual-reverse-image-search/jcr_content/main-pars/image/visual-reverse-image-search-v2_intro.jpg' slot='content'>\n  <img src='https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg?auto=format%2Ccompress&cs=tinysrgb&dpr=1&w=500' slot='preview'>\n  <img src='https://helpx.adobe.com/content/dam/help/en/stock/how-to/visual-reverse-image-search/jcr_content/main-pars/image/visual-reverse-image-search-v2_intro.jpg' slot='preview'>\n</sifrr-carousel>",
       "elState": "return {\n\n}",
       "current": 0
@@ -301,37 +301,23 @@
   ],
   "currentSC": {
     "id": 1,
-    "name": "sifrr-tab-container",
-    "element": "sifrr-tab-container",
+    "name": "sifrr-carousel",
+    "element": "sifrr-carousel",
     "elementUrl": "",
     "isjs": true,
-    "variantName": "auto width, without break",
+    "variantName": "normal",
     "variants": [
       {
         "variantId": 1,
-        "variantName": "default",
-        "style": "#element > * {\n  background-color: white;\n}",
-        "code": "<sifrr-tab-container>\n  <div>\n    Tab 1\n  </div>\n  <div>\n    Tab 2\n  </div>\n</sifrr-tab-container>",
-        "elState": "this.active = 0;\nreturn {\n\n}"
-      },
-      {
-        "variantId": 2,
-        "variantName": "multiple tabs in view",
-        "style": "#element > * {\n  background-color: white;\n}",
-        "code": "<sifrr-tab-container options='{ \"num\": 3 }'>\n  <div>\n    Tab 1\n  </div>\n  <div>\n    Tab 2\n  </div>\n  <div>\n    Tab 3\n  </div>\n  <div>\n    Tab 4\n  </div>\n  <div>\n    Tab 5\n  </div>\n  <div>\n    Tab 6\n  </div>\n</sifrr-tab-container>\n",
-        "elState": "return {\n\n}"
-      },
-      {
-        "variantId": 3,
-        "variantName": "auto width, without break",
-        "style": "#element > * {\n  background-color: white;\n}\n#element div {\n  padding: 10px;\n  height: 100px;\n}",
-        "code": "<sifrr-tab-container options='{ \"num\": \"auto\" }'>\n  <div style=\"width: 100px\">\n    Tab 1\n  </div>\n  <div style=\"width: 170px\">\n    Tab 2\n  </div>\n  <div style=\"width: 200px\">\n    Tab 3\n  </div>\n  <div style=\"width: 400px\">\n    Tab 4\n  </div>\n  <div style=\"width: 300px\">\n    Tab 5\n  </div>\n  <div style=\"width: 150px\">\n    Tab 6\n  </div>\n</sifrr-tab-container>\n",
+        "variantName": "normal",
+        "style": "#element sifrr-carousel {\n  width: 600px;\n}\n#element sifrr-carousel.fullscreen {\n  width: 100vw;\n}",
+        "code": "<sifrr-carousel>\n  <img src='https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg?auto=format%2Ccompress&cs=tinysrgb&dpr=1&w=500' slot='content'>\n  <img src='https://helpx.adobe.com/content/dam/help/en/stock/how-to/visual-reverse-image-search/jcr_content/main-pars/image/visual-reverse-image-search-v2_intro.jpg' slot='content'>\n  <img src='https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg?auto=format%2Ccompress&cs=tinysrgb&dpr=1&w=500' slot='preview'>\n  <img src='https://helpx.adobe.com/content/dam/help/en/stock/how-to/visual-reverse-image-search/jcr_content/main-pars/image/visual-reverse-image-search-v2_intro.jpg' slot='preview'>\n  <img src='https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg?auto=format%2Ccompress&cs=tinysrgb&dpr=1&w=500' slot='content'>\n  <img src='https://helpx.adobe.com/content/dam/help/en/stock/how-to/visual-reverse-image-search/jcr_content/main-pars/image/visual-reverse-image-search-v2_intro.jpg' slot='content'>\n  <img src='https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg?auto=format%2Ccompress&cs=tinysrgb&dpr=1&w=500' slot='preview'>\n  <img src='https://helpx.adobe.com/content/dam/help/en/stock/how-to/visual-reverse-image-search/jcr_content/main-pars/image/visual-reverse-image-search-v2_intro.jpg' slot='preview'>\n  <img src='https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg?auto=format%2Ccompress&cs=tinysrgb&dpr=1&w=500' slot='content'>\n  <img src='https://helpx.adobe.com/content/dam/help/en/stock/how-to/visual-reverse-image-search/jcr_content/main-pars/image/visual-reverse-image-search-v2_intro.jpg' slot='content'>\n  <img src='https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg?auto=format%2Ccompress&cs=tinysrgb&dpr=1&w=500' slot='preview'>\n  <img src='https://helpx.adobe.com/content/dam/help/en/stock/how-to/visual-reverse-image-search/jcr_content/main-pars/image/visual-reverse-image-search-v2_intro.jpg' slot='preview'>\n  <img src='https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg?auto=format%2Ccompress&cs=tinysrgb&dpr=1&w=500' slot='content'>\n  <img src='https://helpx.adobe.com/content/dam/help/en/stock/how-to/visual-reverse-image-search/jcr_content/main-pars/image/visual-reverse-image-search-v2_intro.jpg' slot='content'>\n  <img src='https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg?auto=format%2Ccompress&cs=tinysrgb&dpr=1&w=500' slot='preview'>\n  <img src='https://helpx.adobe.com/content/dam/help/en/stock/how-to/visual-reverse-image-search/jcr_content/main-pars/image/visual-reverse-image-search-v2_intro.jpg' slot='preview'>\n</sifrr-carousel>",
         "elState": "return {\n\n}"
       }
     ],
-    "variantId": 3,
-    "style": "#element > * {\n  background-color: white;\n}\n#element div {\n  padding: 10px;\n  height: 100px;\n}",
-    "code": "<sifrr-tab-container options='{ \"num\": \"auto\" }'>\n  <div style=\"width: 100px\">\n    Tab 1\n  </div>\n  <div style=\"width: 170px\">\n    Tab 2\n  </div>\n  <div style=\"width: 200px\">\n    Tab 3\n  </div>\n  <div style=\"width: 400px\">\n    Tab 4\n  </div>\n  <div style=\"width: 300px\">\n    Tab 5\n  </div>\n  <div style=\"width: 150px\">\n    Tab 6\n  </div>\n</sifrr-tab-container>\n",
+    "variantId": 1,
+    "style": "#element sifrr-carousel {\n  width: 600px;\n}\n#element sifrr-carousel.fullscreen {\n  width: 100vw;\n}",
+    "code": "<sifrr-carousel>\n  <img src='https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg?auto=format%2Ccompress&cs=tinysrgb&dpr=1&w=500' slot='content'>\n  <img src='https://helpx.adobe.com/content/dam/help/en/stock/how-to/visual-reverse-image-search/jcr_content/main-pars/image/visual-reverse-image-search-v2_intro.jpg' slot='content'>\n  <img src='https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg?auto=format%2Ccompress&cs=tinysrgb&dpr=1&w=500' slot='preview'>\n  <img src='https://helpx.adobe.com/content/dam/help/en/stock/how-to/visual-reverse-image-search/jcr_content/main-pars/image/visual-reverse-image-search-v2_intro.jpg' slot='preview'>\n  <img src='https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg?auto=format%2Ccompress&cs=tinysrgb&dpr=1&w=500' slot='content'>\n  <img src='https://helpx.adobe.com/content/dam/help/en/stock/how-to/visual-reverse-image-search/jcr_content/main-pars/image/visual-reverse-image-search-v2_intro.jpg' slot='content'>\n  <img src='https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg?auto=format%2Ccompress&cs=tinysrgb&dpr=1&w=500' slot='preview'>\n  <img src='https://helpx.adobe.com/content/dam/help/en/stock/how-to/visual-reverse-image-search/jcr_content/main-pars/image/visual-reverse-image-search-v2_intro.jpg' slot='preview'>\n  <img src='https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg?auto=format%2Ccompress&cs=tinysrgb&dpr=1&w=500' slot='content'>\n  <img src='https://helpx.adobe.com/content/dam/help/en/stock/how-to/visual-reverse-image-search/jcr_content/main-pars/image/visual-reverse-image-search-v2_intro.jpg' slot='content'>\n  <img src='https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg?auto=format%2Ccompress&cs=tinysrgb&dpr=1&w=500' slot='preview'>\n  <img src='https://helpx.adobe.com/content/dam/help/en/stock/how-to/visual-reverse-image-search/jcr_content/main-pars/image/visual-reverse-image-search-v2_intro.jpg' slot='preview'>\n  <img src='https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg?auto=format%2Ccompress&cs=tinysrgb&dpr=1&w=500' slot='content'>\n  <img src='https://helpx.adobe.com/content/dam/help/en/stock/how-to/visual-reverse-image-search/jcr_content/main-pars/image/visual-reverse-image-search-v2_intro.jpg' slot='content'>\n  <img src='https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg?auto=format%2Ccompress&cs=tinysrgb&dpr=1&w=500' slot='preview'>\n  <img src='https://helpx.adobe.com/content/dam/help/en/stock/how-to/visual-reverse-image-search/jcr_content/main-pars/image/visual-reverse-image-search-v2_intro.jpg' slot='preview'>\n</sifrr-carousel>",
     "elState": "return {\n\n}",
     "current": 0
   }

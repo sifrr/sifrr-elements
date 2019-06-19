@@ -19,12 +19,12 @@
     }));
   }
 
-  var css = ":host {\n  display: block;\n  width: 100%; }\n\n#header, #container {\n  position: relative; }\n\n#header {\n  padding: 0 24px; }\n\n/* count and fs */\n#count {\n  position: absolute; }\n\n#count {\n  bottom: 6px;\n  left: 6px;\n  background: rgba(255, 255, 255, 0.7);\n  border-radius: 10px;\n  font-size: 14px;\n  padding: 4px 6px; }\n\n/* Arrows css */\n.arrow {\n  position: absolute;\n  z-index: 5;\n  top: 0;\n  bottom: 0;\n  -webkit-user-select: none;\n     -moz-user-select: none;\n          user-select: none; }\n\n.arrow > * {\n  position: absolute;\n  width: 8px;\n  height: 8px;\n  margin: -6px 5px;\n  top: 50%;\n  border: solid white;\n  border-width: 0 3px 3px 0;\n  display: inline-block;\n  padding: 3px;\n  filter: drop-shadow(-1px -1px 3px #000); }\n\n.arrow.l {\n  left: 0;\n  cursor: w-resize; }\n\n.arrow.l > * {\n  left: 0;\n  transform: rotate(135deg); }\n\n.arrow.r {\n  right: 0;\n  cursor: e-resize; }\n\n.arrow.r > * {\n  right: 0;\n  transform: rotate(-45deg); }\n\n/* slot elements css */\nslot[name=preview]::slotted(*) {\n  height: 64px;\n  opacity: 0.5; }\n\nslot[name=preview]::slotted(*.active) {\n  border: 1px solid white;\n  opacity: 1; }\n\nsifrr-tab-header {\n  height: 64px; }\n";
+  var css = ":host {\n  display: block;\n  width: 100%; }\n\n#preview, #content {\n  position: relative; }\n\n#preview {\n  padding: 0 24px; }\n\n/* count, fs, and bg */\n#count {\n  position: absolute; }\n\n#count {\n  bottom: 6px;\n  left: 6px;\n  background: rgba(255, 255, 255, 0.7);\n  border-radius: 10px;\n  font-size: 14px;\n  padding: 4px 6px; }\n\n#bg {\n  background: rgba(255, 255, 255, 0.9);\n  display: none;\n  height: 100%;\n  width: 100%; }\n  #bg #cross {\n    position: absolute;\n    top: 6px;\n    right: 6px;\n    width: 32px;\n    height: 32px;\n    font-family: 'Helvetica', 'Arial', sans-serif;\n    font-size: 32px; }\n\n/* Arrows css */\n.arrow {\n  position: absolute;\n  z-index: 5;\n  top: 0;\n  bottom: 0; }\n\n.arrow > * {\n  position: absolute;\n  width: 8px;\n  height: 8px;\n  margin: -6px 5px;\n  top: 50%;\n  border: solid white;\n  border-width: 0 3px 3px 0;\n  display: inline-block;\n  padding: 3px; }\n\n.arrow.l {\n  left: 0;\n  cursor: w-resize; }\n\n.arrow.l > * {\n  left: 0;\n  transform: rotate(135deg); }\n\n.arrow.r {\n  right: 0;\n  cursor: e-resize; }\n\n.arrow.r > * {\n  right: 0;\n  transform: rotate(-45deg); }\n\n/* drop shadow */\n.arrow > *, #cross {\n  filter: drop-shadow(-1px -1px 3px #000);\n  -webkit-user-select: none;\n     -moz-user-select: none;\n          user-select: none;\n  color: white;\n  z-index: 3; }\n\n/* slot elements css */\nslot[name=preview]::slotted(*) {\n  height: 64px;\n  opacity: 0.5; }\n\nslot[name=preview]::slotted(*.active) {\n  border: 1px solid white;\n  opacity: 1; }\n\nsifrr-tab-header {\n  height: 64px; }\n\n/* Full screen css */\n:host(.fullscreen) {\n  position: fixed;\n  width: 100%;\n  height: 100%;\n  left: 0;\n  top: 0;\n  z-index: 9999; }\n  :host(.fullscreen) #bg {\n    display: block;\n    z-index: 1; }\n  :host(.fullscreen) #preview, :host(.fullscreen) #content {\n    position: absolute;\n    left: 0;\n    right: 0;\n    margin: auto; }\n  :host(.fullscreen) #preview {\n    bottom: 30px;\n    max-width: 500px;\n    z-index: 2; }\n  :host(.fullscreen) #content {\n    z-index: 2;\n    max-width: 90%;\n    max-height: calc(100% - 150px);\n    top: calc(50% - 55px);\n    transform: translateY(-50%);\n    overflow: hidden; }\n";
 
   var css$1 = ":host {\n  /* CSS for tabs container */\n  display: block;\n  width: 100%;\n  position: relative;\n  overflow-x: auto;\n  box-sizing: border-box; }\n\nslot {\n  display: block;\n  min-width: 100%; }\n\nslot::slotted(*) {\n  float: left;\n  text-align: center;\n  vertical-align: middle;\n  opacity: 0.7;\n  cursor: pointer; }\n\nslot::slotted(*.active) {\n  opacity: 1; }\n\nslot::slotted(*:hover) {\n  opacity: 0.9; }\n\n/* CSS for line under active tab heading */\n.underline {\n  position: absolute;\n  bottom: 0;\n  height: 3px;\n  background: white; }\n";
 
   function _templateObject() {
-    const data = _taggedTemplateLiteral(["<style media=\"screen\">\n  ", "\n  slot::slotted(*) {\n    ${this.options ? this.options.style : ''}\n  }\n  :host {\n    padding-bottom: ${this.options.showUnderline ? '3px' : '0'};\n  }\n</style>\n<slot>\n</slot>\n<div class=\"underline\"></div>"], ["<style media=\"screen\">\n  ", "\n  slot::slotted(*) {\n    \\${this.options ? this.options.style : ''}\n  }\n  :host {\n    padding-bottom: \\${this.options.showUnderline ? '3px' : '0'};\n  }\n</style>\n<slot>\n</slot>\n<div class=\"underline\"></div>"]);
+    const data = _taggedTemplateLiteral(["<style media=\"screen\">\n  ", "\n  slot::slotted(*) {\n    ${this.options ? this.options.style : ''}\n  }\n  :host {\n    padding-bottom: ${this.options && this.options.showUnderline ? '3px' : '0'};\n  }\n</style>\n<slot>\n</slot>\n<div class=\"underline\"></div>"], ["<style media=\"screen\">\n  ", "\n  slot::slotted(*) {\n    \\${this.options ? this.options.style : ''}\n  }\n  :host {\n    padding-bottom: \\${this.options && this.options.showUnderline ? '3px' : '0'};\n  }\n</style>\n<slot>\n</slot>\n<div class=\"underline\"></div>"]);
     _templateObject = function () {
       return data;
     };
@@ -75,7 +75,6 @@
     }
     setMenuProps() {
       let left = 0;
-      this._smt = this._smt || this.setMenuProps.bind(this);
       this.options.menuProps = [];
       Array.from(this.options.menus).forEach((elem, i) => {
         const width = elem.getBoundingClientRect().width;
@@ -84,14 +83,13 @@
           left: left
         };
         left += width;
-        elem.addEventListener('load', this._smt);
         elem._click = () => {
           if (this.options.container) this.options.container.active = i;else this.active = i;
         };
       });
       const last = this.options.menuProps[this.options.menus.length - 1];
       this.options.totalMenuWidth = last.left + last.width;
-      this.$('slot').style.width = this.options.slot.style.width = this.options.totalMenuWidth + 'px';
+      this.$('slot').style.width = this.options.slot.style.width = this.options.totalMenuWidth + 1 + 'px';
     }
     setScrollPercent(total) {
       const per = total % 1,
@@ -373,10 +371,10 @@
       if (!this.options.tabs || this.options.tabs.length < 1) return;
       if (this.options.num === 'auto') {
         this.tabWidth = 'auto';
-        this._totalWidth = this.options.tabs.reduce((a, b) => a + b.offsetWidth, 0);
+        this._totalWidth = this.options.tabs.reduce((a, b) => a + b.getBoundingClientRect().width, 0);
         this.totalWidth = this._totalWidth + 'px';
       } else {
-        this._tabWidth = this.clientWidth / this.options.num;
+        this._tabWidth = this.getBoundingClientRect().width / this.options.num;
         this.tabWidth = this._tabWidth + 'px';
         this._totalWidth = this._tabWidth * this.options.tabs.length;
         this.totalWidth = this._totalWidth + 'px';
@@ -462,7 +460,7 @@
   SifrrDom.register(SifrrTabContainer);
 
   function _templateObject$2() {
-    const data = _taggedTemplateLiteral(["<style media=\"screen\">\n  ", "\n</style>\n<style media=\"screen\">\n  ${this.state.style || ''}\n</style>\n<div id=\"container\">\n  <sifrr-tab-container>\n    <slot name=\"content\"></slot>\n  </sifrr-tab-container>\n  <span id=\"count\"></span>\n</div>\n<div id=\"header\">\n  <div class=\"arrow l\">\n    <span></span>\n  </div>\n  <div class=\"arrow r\">\n    <span></span>\n  </div>\n  <sifrr-tab-header options='{ \"showUnderline\": false }'>\n    <slot name=\"preview\"></slot>\n  </sifrr-tab-header>\n</div>"], ["<style media=\"screen\">\n  ", "\n</style>\n<style media=\"screen\">\n  \\${this.state.style || ''}\n</style>\n<div id=\"container\">\n  <sifrr-tab-container>\n    <slot name=\"content\"></slot>\n  </sifrr-tab-container>\n  <span id=\"count\"></span>\n</div>\n<div id=\"header\">\n  <div class=\"arrow l\">\n    <span></span>\n  </div>\n  <div class=\"arrow r\">\n    <span></span>\n  </div>\n  <sifrr-tab-header options='{ \"showUnderline\": false }'>\n    <slot name=\"preview\"></slot>\n  </sifrr-tab-header>\n</div>"]);
+    const data = _taggedTemplateLiteral(["<style media=\"screen\">\n  ", "\n</style>\n<style media=\"screen\">\n  ${this.state.style || ''}\n</style>\n<div id=\"bg\">\n  <div id=\"cross\">X</div>\n</div>\n<div id=\"content\">\n  <sifrr-tab-container>\n    <slot name=\"content\"></slot>\n  </sifrr-tab-container>\n  <span id=\"count\"></span>\n</div>\n<div id=\"preview\">\n  <div class=\"arrow l\">\n    <span></span>\n  </div>\n  <div class=\"arrow r\">\n    <span></span>\n  </div>\n  <sifrr-tab-header options='{ \"showUnderline\": false }'>\n    <slot name=\"preview\"></slot>\n  </sifrr-tab-header>\n</div>"], ["<style media=\"screen\">\n  ", "\n</style>\n<style media=\"screen\">\n  \\${this.state.style || ''}\n</style>\n<div id=\"bg\">\n  <div id=\"cross\">X</div>\n</div>\n<div id=\"content\">\n  <sifrr-tab-container>\n    <slot name=\"content\"></slot>\n  </sifrr-tab-container>\n  <span id=\"count\"></span>\n</div>\n<div id=\"preview\">\n  <div class=\"arrow l\">\n    <span></span>\n  </div>\n  <div class=\"arrow r\">\n    <span></span>\n  </div>\n  <sifrr-tab-header options='{ \"showUnderline\": false }'>\n    <slot name=\"preview\"></slot>\n  </sifrr-tab-header>\n</div>"]);
     _templateObject$2 = function () {
       return data;
     };
@@ -483,13 +481,26 @@
         slot: this.$('slot[name=preview]'),
         container: this.container
       });
+      this._rel = this._rel || this.refresh.bind(this);
+      Array.from(this.$$('img', false)).forEach(img => img.addEventListener('load', this._rel));
       SifrrDom.Event.addListener('click', this, (e, t) => {
-        if (t.matches('.arrow.l') || t.matches('.arrow.l span')) this.container.prev();
-        if (t.matches('.arrow.r') || t.matches('.arrow.r span')) this.container.next();
+        if (t.matches('[slot=content]') && !t.matches('.fullscreen [slot=content]')) this.fullScreen(true);else if (t.matches('#bg') || t.matches('#bg *')) this.fullScreen(false);else if (t.matches('.arrow.l') || t.matches('.arrow.l span')) this.container.prev();else if (t.matches('.arrow.r') || t.matches('.arrow.r span')) this.container.next();
       });
       this.container._update = () => {
         this.$('#count').textContent = "".concat(this.container.active + 1, "/").concat(this.container.total);
       };
+    }
+    fullScreen(on = true) {
+      if (on) {
+        this.classList.add('fullscreen');
+      } else {
+        this.classList.remove('fullscreen');
+      }
+      this.refresh();
+    }
+    refresh() {
+      this.container.refresh();
+      this.header.refresh();
     }
   }
   SifrrCarousel.defaultState = {
