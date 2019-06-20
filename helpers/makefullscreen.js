@@ -32,8 +32,8 @@ function makeFullScreen(element, onUpdate) {
       top: '0px',
       width: window.innerWidth + 'px',
       height: window.innerHeight + 'px',
-      onUpdate
-    }
+    },
+    onUpdate
   }).then(() => element.classList.add(FS_CLASS));
 }
 
@@ -46,8 +46,8 @@ function exitFullScreen(element, onUpdate) {
       top: element.__ntop,
       width: element.__nwidth,
       height: element.__nheight,
-      onUpdate
-    }
+    },
+    onUpdate
   }).then(() => {
     styles.forEach(s => {
       element.style[s] = element[`__o${s}`];

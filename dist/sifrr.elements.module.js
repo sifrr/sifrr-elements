@@ -993,7 +993,7 @@ const template$5 = SifrrDom.template`<style media="screen">
       <input id="showcaseName" type="text" name="showcase" _input=\${this.changeName} value=\${this.state.showcases[this.state.current].name}>
       <button class="font" type="button" name="createVariant" _click="\${this.createShowcase}">Create new showcase</button>
       <div id="showcases" data-sifrr-repeat="\${this.state.showcases}">
-        <li class="font showcase small \${this.root ? (this.state.id === this.root.state.currentSC.id ? 'current' : '') : ''}" data-showcase-id="\${this.state.key}" draggable="true">\${this.state.name}<span>X</span></li>
+        <li class="font showcase small \${(this.root && this.state.name === this.root.state.currentSC.name) ? 'current' : ''}" data-showcase-id="\${this.state.key}" draggable="true">\${this.state.name}<span>X</span></li>
       </div>
     </div>
   </div>
@@ -1321,8 +1321,8 @@ function makeFullScreen(element, onUpdate) {
       top: '0px',
       width: window.innerWidth + 'px',
       height: window.innerHeight + 'px',
-      onUpdate
-    }
+    },
+    onUpdate
   }).then(() => element.classList.add(FS_CLASS));
 }
 function exitFullScreen(element, onUpdate) {
@@ -1334,8 +1334,8 @@ function exitFullScreen(element, onUpdate) {
       top: element.__ntop,
       width: element.__nwidth,
       height: element.__nheight,
-      onUpdate
-    }
+    },
+    onUpdate
   }).then(() => {
     styles.forEach(s => {
       element.style[s] = element[`__o${s}`];
