@@ -6,7 +6,7 @@
       "element": "sifrr-code-editor",
       "elementUrl": "",
       "isjs": true,
-      "variantName": "css",
+      "variantName": "default - html",
       "variants": [
         {
           "variantId": 1,
@@ -19,7 +19,7 @@
           "variantId": 3,
           "variantName": "js",
           "style": "#element > * {\n  \n}",
-          "code": "<sifrr-code-editor lang=\"js\"></sifrr-code-editor>",
+          "code": "<sifrr-code-editor lang=\"javascript\"></sifrr-code-editor>",
           "elState": "this.value = 'var a = \"some value\";';\nreturn {\n\n}"
         },
         {
@@ -33,14 +33,14 @@
           "variantId": 5,
           "variantName": "themed",
           "style": "#element > * {\n\n}",
-          "code": "<sifrr-code-editor theme=\"a11y-light\"></sifrr-code-editor>",
+          "code": "<sifrr-code-editor theme=\"solarized\"></sifrr-code-editor>",
           "elState": "this.value = '<a>some test.. </a>';\nreturn {\n\n}"
         }
       ],
-      "variantId": 4,
-      "style": "#element > * {\n  \n}",
-      "code": "<sifrr-code-editor lang=\"css\"></sifrr-code-editor>",
-      "elState": "this.value = `element {\n  color: black;\n}\n`;\nreturn {\n\n}",
+      "variantId": 1,
+      "style": "#element > * {\n}",
+      "code": "<sifrr-code-editor lang='html'></sifrr-code-editor>\n",
+      "elState": "this.value = '<a>some test.. </a>';\nreturn {\n\n}",
       "name": "sifrr-code-editor",
       "current": 0
     },
@@ -173,14 +173,14 @@
         {
           "variantId": 1,
           "variantName": "normal",
-          "style": "#element sifrr-carousel {\n  width: 600px;\n}\n#element sifrr-carousel.fullscreen {\n  width: 100%;\n}",
+          "style": "#element sifrr-carousel {\n  width: 600px;\n}\n#element sifrr-carousel.fullscreen {\n  width: 100%;\n}\n",
           "code": "<sifrr-carousel>\n  <img src='https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg?auto=format%2Ccompress&cs=tinysrgb&dpr=1&w=500' slot='content'>\n  <img src='https://helpx.adobe.com/content/dam/help/en/stock/how-to/visual-reverse-image-search/jcr_content/main-pars/image/visual-reverse-image-search-v2_intro.jpg' slot='content'>\n  <img src='https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg?auto=format%2Ccompress&cs=tinysrgb&dpr=1&w=500' slot='preview'>\n  <img src='https://helpx.adobe.com/content/dam/help/en/stock/how-to/visual-reverse-image-search/jcr_content/main-pars/image/visual-reverse-image-search-v2_intro.jpg' slot='preview'>\n  <img src='https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg?auto=format%2Ccompress&cs=tinysrgb&dpr=1&w=500' slot='content'>\n  <img src='https://helpx.adobe.com/content/dam/help/en/stock/how-to/visual-reverse-image-search/jcr_content/main-pars/image/visual-reverse-image-search-v2_intro.jpg' slot='content'>\n  <img src='https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg?auto=format%2Ccompress&cs=tinysrgb&dpr=1&w=500' slot='preview'>\n  <img src='https://helpx.adobe.com/content/dam/help/en/stock/how-to/visual-reverse-image-search/jcr_content/main-pars/image/visual-reverse-image-search-v2_intro.jpg' slot='preview'>\n  <img src='https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg?auto=format%2Ccompress&cs=tinysrgb&dpr=1&w=500' slot='content'>\n  <img src='https://helpx.adobe.com/content/dam/help/en/stock/how-to/visual-reverse-image-search/jcr_content/main-pars/image/visual-reverse-image-search-v2_intro.jpg' slot='content'>\n  <img src='https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg?auto=format%2Ccompress&cs=tinysrgb&dpr=1&w=500' slot='preview'>\n  <img src='https://helpx.adobe.com/content/dam/help/en/stock/how-to/visual-reverse-image-search/jcr_content/main-pars/image/visual-reverse-image-search-v2_intro.jpg' slot='preview'>\n  <img src='https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg?auto=format%2Ccompress&cs=tinysrgb&dpr=1&w=500' slot='content'>\n  <img src='https://helpx.adobe.com/content/dam/help/en/stock/how-to/visual-reverse-image-search/jcr_content/main-pars/image/visual-reverse-image-search-v2_intro.jpg' slot='content'>\n  <img src='https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg?auto=format%2Ccompress&cs=tinysrgb&dpr=1&w=500' slot='preview'>\n  <img src='https://helpx.adobe.com/content/dam/help/en/stock/how-to/visual-reverse-image-search/jcr_content/main-pars/image/visual-reverse-image-search-v2_intro.jpg' slot='preview'>\n</sifrr-carousel>",
           "elState": "return {\n\n}"
         },
         {
           "variantId": 2,
           "variantName": "centered images",
-          "style": "#element sifrr-carousel {\n  width: 400px;\n}\n#element sifrr-carousel.fullscreen {\n  width: 100%;\n  height: 100%;\n}\n.cimage {\n  position: relative;\n  height: 300px;\n}\n.cimage img {\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  transform: translate3d(-50%, -50%, 0);\n  max-height: 100%;\n  max-width: 100%;\n}",
+          "style": "#element sifrr-carousel {\n  width: 400px;\n}\n#element sifrr-carousel.fullscreen {\n  width: 100%;\n  height: 100%;\n}\n.cimage {\n  position: relative;\n  height: 300px;\n}\n.fullscreen .cimage {\n  position: relative;\n  height: 80vh;\n}\n.cimage img {\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  transform: translate3d(-50%, -50%, 0);\n  max-height: 100%;\n  max-width: 100%;\n}",
           "code": "<sifrr-carousel>\n  <div class='cimage' slot='content'>\n    <img src='https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg?auto=format%2Ccompress&cs=tinysrgb&dpr=1&w=500' slot='content'>\n  </div>\n  <div class='cimage' slot='content'>\n    <img src='https://helpx.adobe.com/content/dam/help/en/stock/how-to/visual-reverse-image-search/jcr_content/main-pars/image/visual-reverse-image-search-v2_intro.jpg'>\n  </div>\n  <img src='https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg?auto=format%2Ccompress&cs=tinysrgb&dpr=1&w=500' slot='preview'>\n  <img src='https://helpx.adobe.com/content/dam/help/en/stock/how-to/visual-reverse-image-search/jcr_content/main-pars/image/visual-reverse-image-search-v2_intro.jpg' slot='preview'>\n</sifrr-carousel>",
           "elState": "return {\n\n}"
         }
@@ -189,10 +189,10 @@
       "id": 1,
       "elementUrl": "",
       "isjs": true,
-      "variantName": "centered images",
-      "variantId": 2,
-      "style": "#element sifrr-carousel {\n  width: 400px;\n}\n#element sifrr-carousel.fullscreen {\n  width: 100%;\n  height: 100%;\n}\n.cimage {\n  position: relative;\n  height: 300px;\n}\n.cimage img {\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  transform: translate3d(-50%, -50%, 0);\n  max-height: 100%;\n  max-width: 100%;\n}",
-      "code": "<sifrr-carousel>\n  <div class='cimage' slot='content'>\n    <img src='https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg?auto=format%2Ccompress&cs=tinysrgb&dpr=1&w=500' slot='content'>\n  </div>\n  <div class='cimage' slot='content'>\n    <img src='https://helpx.adobe.com/content/dam/help/en/stock/how-to/visual-reverse-image-search/jcr_content/main-pars/image/visual-reverse-image-search-v2_intro.jpg'>\n  </div>\n  <img src='https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg?auto=format%2Ccompress&cs=tinysrgb&dpr=1&w=500' slot='preview'>\n  <img src='https://helpx.adobe.com/content/dam/help/en/stock/how-to/visual-reverse-image-search/jcr_content/main-pars/image/visual-reverse-image-search-v2_intro.jpg' slot='preview'>\n</sifrr-carousel>",
+      "variantName": "normal",
+      "variantId": 1,
+      "style": "#element sifrr-carousel {\n  width: 600px;\n}\n#element sifrr-carousel.fullscreen {\n  width: 100%;\n}\n",
+      "code": "<sifrr-carousel>\n  <img src='https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg?auto=format%2Ccompress&cs=tinysrgb&dpr=1&w=500' slot='content'>\n  <img src='https://helpx.adobe.com/content/dam/help/en/stock/how-to/visual-reverse-image-search/jcr_content/main-pars/image/visual-reverse-image-search-v2_intro.jpg' slot='content'>\n  <img src='https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg?auto=format%2Ccompress&cs=tinysrgb&dpr=1&w=500' slot='preview'>\n  <img src='https://helpx.adobe.com/content/dam/help/en/stock/how-to/visual-reverse-image-search/jcr_content/main-pars/image/visual-reverse-image-search-v2_intro.jpg' slot='preview'>\n  <img src='https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg?auto=format%2Ccompress&cs=tinysrgb&dpr=1&w=500' slot='content'>\n  <img src='https://helpx.adobe.com/content/dam/help/en/stock/how-to/visual-reverse-image-search/jcr_content/main-pars/image/visual-reverse-image-search-v2_intro.jpg' slot='content'>\n  <img src='https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg?auto=format%2Ccompress&cs=tinysrgb&dpr=1&w=500' slot='preview'>\n  <img src='https://helpx.adobe.com/content/dam/help/en/stock/how-to/visual-reverse-image-search/jcr_content/main-pars/image/visual-reverse-image-search-v2_intro.jpg' slot='preview'>\n  <img src='https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg?auto=format%2Ccompress&cs=tinysrgb&dpr=1&w=500' slot='content'>\n  <img src='https://helpx.adobe.com/content/dam/help/en/stock/how-to/visual-reverse-image-search/jcr_content/main-pars/image/visual-reverse-image-search-v2_intro.jpg' slot='content'>\n  <img src='https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg?auto=format%2Ccompress&cs=tinysrgb&dpr=1&w=500' slot='preview'>\n  <img src='https://helpx.adobe.com/content/dam/help/en/stock/how-to/visual-reverse-image-search/jcr_content/main-pars/image/visual-reverse-image-search-v2_intro.jpg' slot='preview'>\n  <img src='https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg?auto=format%2Ccompress&cs=tinysrgb&dpr=1&w=500' slot='content'>\n  <img src='https://helpx.adobe.com/content/dam/help/en/stock/how-to/visual-reverse-image-search/jcr_content/main-pars/image/visual-reverse-image-search-v2_intro.jpg' slot='content'>\n  <img src='https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg?auto=format%2Ccompress&cs=tinysrgb&dpr=1&w=500' slot='preview'>\n  <img src='https://helpx.adobe.com/content/dam/help/en/stock/how-to/visual-reverse-image-search/jcr_content/main-pars/image/visual-reverse-image-search-v2_intro.jpg' slot='preview'>\n</sifrr-carousel>",
       "elState": "return {\n\n}",
       "current": 0
     },
@@ -303,35 +303,39 @@
       "variantName": "html",
       "style": "",
       "code": "<sifrr-include url=\"./random.html\"></sifrr-include>",
-      "elState": ""
+      "elState": "",
+      "id": 1,
+      "elementUrl": "",
+      "isjs": true,
+      "current": 0
     }
   ],
   "currentSC": {
-    "id": 1,
     "name": "sifrr-carousel",
-    "element": "sifrr-carousel",
-    "elementUrl": "",
-    "isjs": true,
-    "variantName": "centered images",
     "variants": [
       {
         "variantId": 1,
         "variantName": "normal",
-        "style": "#element sifrr-carousel {\n  width: 600px;\n}\n#element sifrr-carousel.fullscreen {\n  width: 100%;\n}",
+        "style": "#element sifrr-carousel {\n  width: 600px;\n}\n#element sifrr-carousel.fullscreen {\n  width: 100%;\n}\n",
         "code": "<sifrr-carousel>\n  <img src='https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg?auto=format%2Ccompress&cs=tinysrgb&dpr=1&w=500' slot='content'>\n  <img src='https://helpx.adobe.com/content/dam/help/en/stock/how-to/visual-reverse-image-search/jcr_content/main-pars/image/visual-reverse-image-search-v2_intro.jpg' slot='content'>\n  <img src='https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg?auto=format%2Ccompress&cs=tinysrgb&dpr=1&w=500' slot='preview'>\n  <img src='https://helpx.adobe.com/content/dam/help/en/stock/how-to/visual-reverse-image-search/jcr_content/main-pars/image/visual-reverse-image-search-v2_intro.jpg' slot='preview'>\n  <img src='https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg?auto=format%2Ccompress&cs=tinysrgb&dpr=1&w=500' slot='content'>\n  <img src='https://helpx.adobe.com/content/dam/help/en/stock/how-to/visual-reverse-image-search/jcr_content/main-pars/image/visual-reverse-image-search-v2_intro.jpg' slot='content'>\n  <img src='https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg?auto=format%2Ccompress&cs=tinysrgb&dpr=1&w=500' slot='preview'>\n  <img src='https://helpx.adobe.com/content/dam/help/en/stock/how-to/visual-reverse-image-search/jcr_content/main-pars/image/visual-reverse-image-search-v2_intro.jpg' slot='preview'>\n  <img src='https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg?auto=format%2Ccompress&cs=tinysrgb&dpr=1&w=500' slot='content'>\n  <img src='https://helpx.adobe.com/content/dam/help/en/stock/how-to/visual-reverse-image-search/jcr_content/main-pars/image/visual-reverse-image-search-v2_intro.jpg' slot='content'>\n  <img src='https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg?auto=format%2Ccompress&cs=tinysrgb&dpr=1&w=500' slot='preview'>\n  <img src='https://helpx.adobe.com/content/dam/help/en/stock/how-to/visual-reverse-image-search/jcr_content/main-pars/image/visual-reverse-image-search-v2_intro.jpg' slot='preview'>\n  <img src='https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg?auto=format%2Ccompress&cs=tinysrgb&dpr=1&w=500' slot='content'>\n  <img src='https://helpx.adobe.com/content/dam/help/en/stock/how-to/visual-reverse-image-search/jcr_content/main-pars/image/visual-reverse-image-search-v2_intro.jpg' slot='content'>\n  <img src='https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg?auto=format%2Ccompress&cs=tinysrgb&dpr=1&w=500' slot='preview'>\n  <img src='https://helpx.adobe.com/content/dam/help/en/stock/how-to/visual-reverse-image-search/jcr_content/main-pars/image/visual-reverse-image-search-v2_intro.jpg' slot='preview'>\n</sifrr-carousel>",
         "elState": "return {\n\n}"
       },
       {
         "variantId": 2,
         "variantName": "centered images",
-        "style": "#element sifrr-carousel {\n  width: 400px;\n}\n#element sifrr-carousel.fullscreen {\n  width: 100%;\n  height: 100%;\n}\n.cimage {\n  position: relative;\n  height: 300px;\n}\n.cimage img {\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  transform: translate3d(-50%, -50%, 0);\n  max-height: 100%;\n  max-width: 100%;\n}",
+        "style": "#element sifrr-carousel {\n  width: 400px;\n}\n#element sifrr-carousel.fullscreen {\n  width: 100%;\n  height: 100%;\n}\n.cimage {\n  position: relative;\n  height: 300px;\n}\n.fullscreen .cimage {\n  position: relative;\n  height: 80vh;\n}\n.cimage img {\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  transform: translate3d(-50%, -50%, 0);\n  max-height: 100%;\n  max-width: 100%;\n}",
         "code": "<sifrr-carousel>\n  <div class='cimage' slot='content'>\n    <img src='https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg?auto=format%2Ccompress&cs=tinysrgb&dpr=1&w=500' slot='content'>\n  </div>\n  <div class='cimage' slot='content'>\n    <img src='https://helpx.adobe.com/content/dam/help/en/stock/how-to/visual-reverse-image-search/jcr_content/main-pars/image/visual-reverse-image-search-v2_intro.jpg'>\n  </div>\n  <img src='https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg?auto=format%2Ccompress&cs=tinysrgb&dpr=1&w=500' slot='preview'>\n  <img src='https://helpx.adobe.com/content/dam/help/en/stock/how-to/visual-reverse-image-search/jcr_content/main-pars/image/visual-reverse-image-search-v2_intro.jpg' slot='preview'>\n</sifrr-carousel>",
         "elState": "return {\n\n}"
       }
     ],
-    "variantId": 2,
-    "style": "#element sifrr-carousel {\n  width: 400px;\n}\n#element sifrr-carousel.fullscreen {\n  width: 100%;\n  height: 100%;\n}\n.cimage {\n  position: relative;\n  height: 300px;\n}\n.cimage img {\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  transform: translate3d(-50%, -50%, 0);\n  max-height: 100%;\n  max-width: 100%;\n}",
-    "code": "<sifrr-carousel>\n  <div class='cimage' slot='content'>\n    <img src='https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg?auto=format%2Ccompress&cs=tinysrgb&dpr=1&w=500' slot='content'>\n  </div>\n  <div class='cimage' slot='content'>\n    <img src='https://helpx.adobe.com/content/dam/help/en/stock/how-to/visual-reverse-image-search/jcr_content/main-pars/image/visual-reverse-image-search-v2_intro.jpg'>\n  </div>\n  <img src='https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg?auto=format%2Ccompress&cs=tinysrgb&dpr=1&w=500' slot='preview'>\n  <img src='https://helpx.adobe.com/content/dam/help/en/stock/how-to/visual-reverse-image-search/jcr_content/main-pars/image/visual-reverse-image-search-v2_intro.jpg' slot='preview'>\n</sifrr-carousel>",
+    "element": "sifrr-carousel",
+    "id": 1,
+    "elementUrl": "",
+    "isjs": true,
+    "variantName": "normal",
+    "variantId": 1,
+    "style": "#element sifrr-carousel {\n  width: 600px;\n}\n#element sifrr-carousel.fullscreen {\n  width: 100%;\n}\n",
+    "code": "<sifrr-carousel>\n  <img src='https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg?auto=format%2Ccompress&cs=tinysrgb&dpr=1&w=500' slot='content'>\n  <img src='https://helpx.adobe.com/content/dam/help/en/stock/how-to/visual-reverse-image-search/jcr_content/main-pars/image/visual-reverse-image-search-v2_intro.jpg' slot='content'>\n  <img src='https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg?auto=format%2Ccompress&cs=tinysrgb&dpr=1&w=500' slot='preview'>\n  <img src='https://helpx.adobe.com/content/dam/help/en/stock/how-to/visual-reverse-image-search/jcr_content/main-pars/image/visual-reverse-image-search-v2_intro.jpg' slot='preview'>\n  <img src='https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg?auto=format%2Ccompress&cs=tinysrgb&dpr=1&w=500' slot='content'>\n  <img src='https://helpx.adobe.com/content/dam/help/en/stock/how-to/visual-reverse-image-search/jcr_content/main-pars/image/visual-reverse-image-search-v2_intro.jpg' slot='content'>\n  <img src='https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg?auto=format%2Ccompress&cs=tinysrgb&dpr=1&w=500' slot='preview'>\n  <img src='https://helpx.adobe.com/content/dam/help/en/stock/how-to/visual-reverse-image-search/jcr_content/main-pars/image/visual-reverse-image-search-v2_intro.jpg' slot='preview'>\n  <img src='https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg?auto=format%2Ccompress&cs=tinysrgb&dpr=1&w=500' slot='content'>\n  <img src='https://helpx.adobe.com/content/dam/help/en/stock/how-to/visual-reverse-image-search/jcr_content/main-pars/image/visual-reverse-image-search-v2_intro.jpg' slot='content'>\n  <img src='https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg?auto=format%2Ccompress&cs=tinysrgb&dpr=1&w=500' slot='preview'>\n  <img src='https://helpx.adobe.com/content/dam/help/en/stock/how-to/visual-reverse-image-search/jcr_content/main-pars/image/visual-reverse-image-search-v2_intro.jpg' slot='preview'>\n  <img src='https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg?auto=format%2Ccompress&cs=tinysrgb&dpr=1&w=500' slot='content'>\n  <img src='https://helpx.adobe.com/content/dam/help/en/stock/how-to/visual-reverse-image-search/jcr_content/main-pars/image/visual-reverse-image-search-v2_intro.jpg' slot='content'>\n  <img src='https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg?auto=format%2Ccompress&cs=tinysrgb&dpr=1&w=500' slot='preview'>\n  <img src='https://helpx.adobe.com/content/dam/help/en/stock/how-to/visual-reverse-image-search/jcr_content/main-pars/image/visual-reverse-image-search-v2_intro.jpg' slot='preview'>\n</sifrr-carousel>",
     "elState": "return {\n\n}",
     "current": 0
   }

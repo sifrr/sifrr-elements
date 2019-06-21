@@ -1,17 +1,15 @@
 import SifrrDom from '@sifrr/dom';
 import style from './style.scss';
 
+const CM_VERSION = '5.48.0';
+
 const template = SifrrDom.template`
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/codemirror@${CM_VERSION}/lib/codemirror.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/codemirror@${CM_VERSION}/theme/\${this.getTheme()}.css">
 <style media="screen">
   ${style}
 </style>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/\${this.theme}.min.css">
-<pre class='hljs'>
-  <code id="highlight" data-sifrr-html="true">
-    \${this.htmlValue}
-  </code>
-</pre>
-<textarea class='hljs' _input="\${this.input}"></textarea>`;
+<textarea></textarea>`;
 
 class SifrrCodeEditor extends SifrrDom.Element {
   static get template() {
@@ -19,45 +17,27 @@ class SifrrCodeEditor extends SifrrDom.Element {
   }
 
   static observedAttrs() {
-    return ['value', 'theme'];
+    return ['value', 'theme', 'lang'];
   }
 
-  static hljs() {
-    this._hljs = this._hljs || SifrrDom.Loader.executeJS('https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js');
-    return this._hljs;
+  static syncedAttrs() {
+    return ['theme'];
   }
 
-  onAttributeChange() {
-    this.update();
+  static cm() {
+    this._cm = this._cm || SifrrDom.Loader.executeJS(`https://cdn.jsdelivr.net/npm/codemirror@${CM_VERSION}/lib/codemirror.js`);
+    return this._cm;
+  }
+
+  onAttributeChange(n, _, v) {
+    if (this._cmLoaded) {
+      if (n === 'theme') this.cm.setOption('theme', v);
+      if (n === 'lang') this.cm.setOption('mode', this.getTheme());
+    }
   }
 
   onConnect() {
-    this.constructor.hljs().then(() => this.hljsLoaded());
-
-    const txtarea = this.$('textarea');
-    txtarea.addEventListener('keydown', (e) => {
-      let keyCode = e.keyCode || e.which;
-      this.$('#highlight').style.height = this.$('textarea').height;
-      if (keyCode == 9) {
-        e.preventDefault();
-        const start = txtarea.selectionStart;
-        const end = txtarea.selectionEnd;
-
-        const tabCharacter = '  ';
-        const tabOffset = 2;
-
-        // set textarea value to: text before caret + tab + text after caret
-        txtarea.value = txtarea.value.substring(0, start) + tabCharacter + txtarea.value.substring(end);
-
-        // put caret at right position again
-        txtarea.selectionStart = txtarea.selectionEnd = start + tabOffset;
-
-        this.update();
-      }
-    });
-    txtarea.onscroll = () => {
-      this.$('pre.hljs').scrollTop = txtarea.scrollTop;
-    };
+    this.constructor.cm().then(() => this.cmLoaded());
   }
 
   input() {
@@ -65,35 +45,42 @@ class SifrrCodeEditor extends SifrrDom.Element {
     this.update();
   }
 
-  hljsLoaded() {
-    this.$('textarea').classList.add('loaded');
-    this.update();
+  cmLoaded() {
+    SifrrDom.Loader.executeJS(`https://cdn.jsdelivr.net/npm/codemirror@${CM_VERSION}/mode/${this.lang}/${this.lang}.js`)
+      .then(() => {
+        this.cm = window.CodeMirror.fromTextArea(this.$('textarea'), {
+          value: this.$('textarea').value,
+          mode: this.lang,
+          htmlMode: true,
+          theme: this.getTheme(),
+          indentUnit: 2,
+          tabSize: 2,
+          lineNumbers: true
+        });
+        this.cm.on('change', this.input.bind(this));
+        this._cmLoaded = true;
+      });
   }
 
-  get htmlValue() {
-    if (window.hljs) return window.hljs.highlight(this.lang, this.value.replace(/\n$/, '\n\n')).value;
-    else return this.value.replace(/</g, '&lt;');
-  }
-
-  get theme() {
-    return this.getAttribute('theme') || 'atom-one-dark';
-  }
-
-  set theme(v) {
-    this.setAttribute('theme', v);
+  getTheme() {
+    return this.theme ? this.theme.split(' ')[0] : 'dracula';
   }
 
   get value() {
-    return this.$('textarea').value;
+    if (this._cmLoaded) return this.cm.getValue();
+    else return this.$('textarea').value;
   }
 
   set value(v) {
-    this.$('textarea').value = v;
-    this.update();
+    if (v === this.value) return;
+    if (this._cmLoaded) return this.cm.setValue(v);
+    else this.$('textarea').value = v;
   }
 
   get lang() {
-    return this.getAttribute('lang') || 'html';
+    const attr = this.getAttribute('lang');
+    if (!attr || attr === 'html') return 'xml';
+    return attr;
   }
 }
 
