@@ -2,6 +2,7 @@ import SifrrDom from '@sifrr/dom';
 import SifrrStorage from '@sifrr/storage';
 import style from './style.scss';
 import './singleshowcase';
+import { getParam, setParam } from '../../../helpers/urlparams';
 
 const template = SifrrDom.template`<style media="screen">
   ${style}
@@ -51,7 +52,6 @@ class SifrrShowcase extends SifrrDom.Element {
       if (el.matches('.showcase span')) this.deleteShowcase(this.getChildIndex(el.parentNode));
     });
     this.loadUrl();
-    this.switchShowcase(0);
     if (window.Sortable) {
       const me = this;
       new window.Sortable(this.$('#showcases'), {
@@ -90,11 +90,13 @@ class SifrrShowcase extends SifrrDom.Element {
   }
 
   switchShowcase(i) {
+    i = Number(i);
     this.current = i;
     this.$('#showcases').children[this.state.current].classList.remove('current');
     if (!this.state.showcases[i]) i = this.state.showcases.length - 1;
     this.state = { current: i, currentSC: this.state.showcases[i] };
     this.$('#showcases').children[i].classList.add('current');
+    setParam('showcase', i);
   }
 
   onStateChange() {
@@ -136,10 +138,10 @@ class SifrrShowcase extends SifrrDom.Element {
   }
 
   loadUrl() {
-    this._url = this.$('#url').value;
+    this._url = getParam('url') || this.$('#url').value;
     window.fetch(this._url).then((resp) => resp.json()).then(v => {
       this.state.showcases = v.showcases;
-      this.switchShowcase(v.current);
+      this.switchShowcase(getParam('showcase') === undefined ? v.current : getParam('showcase'));
       this.$('#status').textContent = 'loaded from url!';
     }).catch((e) => {
       this.$('#status').textContent = e.message;
@@ -148,7 +150,7 @@ class SifrrShowcase extends SifrrDom.Element {
         this._loaded = true;
         if (Array.isArray(v.showcases)) {
           this.state.showcases = v.showcases;
-          this.switchShowcase(v.current);
+          this.switchShowcase(getParam('showcase') === undefined ? v.current : getParam('showcase'));
         }
       });
     });

@@ -20,3 +20,8 @@ export { makeFullScreen, exitFullScreen } from '../helpers/makefullscreen';
 import { makeFullScreen, exitFullScreen } from '../helpers/makefullscreen';
 window.makeFullScreen = makeFullScreen;
 window.exitFullScreen = exitFullScreen;
+
+export { getParam, setParam } from '../helpers/urlparams';
+import { getParam, setParam } from '../helpers/urlparams';
+window.getParam = getParam;
+window.setParam = setParam;

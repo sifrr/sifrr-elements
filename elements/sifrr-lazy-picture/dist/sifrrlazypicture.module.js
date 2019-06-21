@@ -41,11 +41,10 @@ LazyLoader.prototype.observe = function(el) {
   el._loaded = false;
   this._observe(el);
 };
-var lazyloader = LazyLoader;
 
 class SifrrLazyPicture extends SifrrDom.Element.extends(HTMLPictureElement) {
   static get observer() {
-    this._observer = this._observer || new lazyloader(this.rootMargin);
+    this._observer = this._observer || new LazyLoader(this.rootMargin);
     return this._observer;
   }
   onConnect() {

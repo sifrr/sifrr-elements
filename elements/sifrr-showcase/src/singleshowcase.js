@@ -2,6 +2,7 @@ import SifrrDom from '@sifrr/dom';
 import style from './style.scss';
 import html from './template.html';
 import '../../sifrr-code-editor/src/sifrrcodeeditor';
+import { getParam, setParam } from '../../../helpers/urlparams';
 
 const template = SifrrDom.template`<style media="screen">
   ${style}
@@ -45,7 +46,7 @@ class SifrrSingleShowcase extends SifrrDom.Element {
   }
 
   onConnect() {
-    this.switchVariant();
+    this.switchVariant(getParam('variant'));
     SifrrDom.Event.addListener('click', '.variant', (e, el) => {
       if (el.matches('.variant')) this.switchVariant(el.dataset.variantId);
       if (el.matches('.variant span')) this.deleteVariant(el.parentNode.dataset.variantId);
@@ -54,7 +55,7 @@ class SifrrSingleShowcase extends SifrrDom.Element {
 
   beforeUpdate() {
     this.saveVariant();
-    if (!this.state.elemnt) return;
+    if (!this.state.element) return;
     if (this._element !== this.state.element || this._js !== this.state.isjs || this._url !== this.state.elementUrl) {
       SifrrDom.load(this.state.element, {
         js: this.state.isjs == 'true',
@@ -126,6 +127,7 @@ class SifrrSingleShowcase extends SifrrDom.Element {
   switchVariant(id) {
     this.$('#element').textContent = '';
     Object.assign(this.state, this.variant(id));
+    setParam('variant', id);
     this.update();
   }
 

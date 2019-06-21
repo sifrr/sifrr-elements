@@ -43,4 +43,4 @@ LazyLoader.prototype.observe = function(el) {
   this._observe(el);
 };
 
-module.exports = LazyLoader;
+export default LazyLoader;

@@ -26,12 +26,6 @@
   "module": "dist/sifrrelements.module.js",
   "browser": "dist/sifrrelements.js",
   "homepage": "https://github.com/sifrr/sifrr-elements",
-  "browserslist": [
-    "chrome >= 55",
-    "safari >= 10.1",
-    "opera >= 42",
-    "firefox >= 63"
-  ],
   "scripts": {
     "test": "./scripts/test/runall",
     "build": "./node_modules/.bin/rollup -c",
@@ -46,6 +40,7 @@
     "@sifrr/dev": "0.0.11"
   },
   "dependencies": {
-    "@sifrr/animate": "^0.0.3"
+    "@sifrr/animate": "^0.0.3",
+    "query-string": "^6.8.0"
   }
 }
