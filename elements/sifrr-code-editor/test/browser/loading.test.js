@@ -4,7 +4,7 @@ describe('code editor', function() {
   });
 
   it('loads code editor', async function() {
-    const hljs = await page.$eval('sifrr-code-editor', el => el.$('.hljs'));
-    expect(hljs).to.exist;
+    const textarea = await page.$eval('sifrr-code-editor', el => el.$('textarea'));
+    expect(textarea).to.exist;
   });
 });
