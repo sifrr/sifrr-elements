@@ -216,15 +216,19 @@ class SifrrTabContainer extends SifrrDom.Element {
     }
   }
   refresh(options) {
-    this._options = Object.assign({
-      content: this,
-      slot: this.$('slot'),
-      num: 1,
-      animation: 'spring',
-      animationTime: 300,
-      scrollBreakpoint: 0.3,
-      loop: false
-    }, this._options, options);
+    this._options = Object.assign(
+      {
+        content: this,
+        slot: this.$('slot'),
+        num: 1,
+        animation: 'spring',
+        animationTime: 300,
+        scrollBreakpoint: 0.3,
+        loop: false
+      },
+      this._options,
+      options
+    );
     this.options = Object.assign({}, this._options, this._attrOptions);
     this.options.tabs = this.options.slot.assignedNodes().filter(n => n.nodeType === 1);
     this.total = this.options.tabs.length;
@@ -294,14 +298,18 @@ class SifrrTabContainer extends SifrrDom.Element {
     }
   }
   next() {
-    this.options.num === 'auto' ? (this.options.content.scrollLeft += this._totalWidth / 2) : (this.active += 1);
+    this.options.num === 'auto'
+      ? (this.options.content.scrollLeft += this._totalWidth / 2)
+      : (this.active += 1);
   }
   hasNext() {
     if (this.active === this.options.tabs.length - this.options.num) return false;
     return true;
   }
   prev() {
-    this.options.num === 'auto' ? (this.options.content.scrollLeft -= this._totalWidth / 2) : (this.active -= 1);
+    this.options.num === 'auto'
+      ? (this.options.content.scrollLeft -= this._totalWidth / 2)
+      : (this.active -= 1);
   }
   hasPrev() {
     return this.active === 0 ? false : true;

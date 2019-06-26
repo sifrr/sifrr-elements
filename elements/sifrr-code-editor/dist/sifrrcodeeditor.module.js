@@ -1,7 +1,7 @@
 /*! SifrrCodeEditor v0.0.5 - sifrr project | MIT licensed | https://github.com/sifrr/sifrr-elements */
 import SifrrDom from '@sifrr/dom';
 
-var css = ":host {\n  display: block;\n  position: relative; }\n\n* {\n  box-sizing: border-box; }\n\ntextarea {\n  resize: none;\n  border: none; }\n\ntextarea, .CodeMirror {\n  height: 100%;\n  width: 100%; }\n";
+var css = ":host {\n  display: block;\n  position: relative; }\n\n* {\n  box-sizing: border-box; }\n\ntextarea {\n  resize: none;\n  border: none; }\n\ntextarea,\n.CodeMirror {\n  height: 100%;\n  width: 100%; }\n";
 
 const CM_VERSION = '5.48.0';
 const template = SifrrDom.template`
@@ -22,7 +22,11 @@ class SifrrCodeEditor extends SifrrDom.Element {
     return ['theme'];
   }
   static cm() {
-    this._cm = this._cm || SifrrDom.Loader.executeJS(`https://cdn.jsdelivr.net/npm/codemirror@${CM_VERSION}/lib/codemirror.js`);
+    this._cm =
+      this._cm ||
+      SifrrDom.Loader.executeJS(
+        `https://cdn.jsdelivr.net/npm/codemirror@${CM_VERSION}/lib/codemirror.js`
+      );
     return this._cm;
   }
   onAttributeChange(n, _, v) {
@@ -39,20 +43,21 @@ class SifrrCodeEditor extends SifrrDom.Element {
     this.update();
   }
   cmLoaded() {
-    SifrrDom.Loader.executeJS(`https://cdn.jsdelivr.net/npm/codemirror@${CM_VERSION}/mode/${this.lang}/${this.lang}.js`)
-      .then(() => {
-        this.cm = window.CodeMirror.fromTextArea(this.$('textarea'), {
-          value: this.$('textarea').value,
-          mode: this.lang,
-          htmlMode: true,
-          theme: this.getTheme(),
-          indentUnit: 2,
-          tabSize: 2,
-          lineNumbers: true
-        });
-        this.cm.on('change', this.input.bind(this));
-        this._cmLoaded = true;
+    SifrrDom.Loader.executeJS(
+      `https://cdn.jsdelivr.net/npm/codemirror@${CM_VERSION}/mode/${this.lang}/${this.lang}.js`
+    ).then(() => {
+      this.cm = window.CodeMirror.fromTextArea(this.$('textarea'), {
+        value: this.$('textarea').value,
+        mode: this.lang,
+        htmlMode: true,
+        theme: this.getTheme(),
+        indentUnit: 2,
+        tabSize: 2,
+        lineNumbers: true
       });
+      this.cm.on('change', this.input.bind(this));
+      this._cmLoaded = true;
+    });
   }
   getTheme() {
     return this.theme ? this.theme.split(' ')[0] : 'dracula';

@@ -1,7 +1,7 @@
 /*! SifrrCarousel v0.0.5 - sifrr project | MIT licensed | https://github.com/sifrr/sifrr-elements */
 import SifrrDom from '@sifrr/dom';
 
-var css = ":host {\n  display: block;\n  width: 100%; }\n\n#preview, #content {\n  position: relative; }\n\n#preview {\n  padding: 0 24px; }\n\n/* count, fs, and bg */\n#count {\n  position: absolute; }\n\n#count {\n  bottom: 6px;\n  right: 6px;\n  background: rgba(255, 255, 255, 0.7);\n  border-radius: 10px;\n  font-size: 14px;\n  padding: 4px 6px; }\n\n#bg {\n  background: rgba(255, 255, 255, 0.9);\n  display: none;\n  height: 100%;\n  width: 100%; }\n  #bg #cross {\n    position: absolute;\n    top: 6px;\n    right: 6px;\n    width: 32px;\n    height: 32px;\n    font-family: 'Helvetica', 'Arial', sans-serif;\n    font-size: 32px; }\n\n/* Arrows css */\n.arrow {\n  position: absolute;\n  z-index: 5;\n  top: 0;\n  bottom: 0; }\n\n.arrow > * {\n  position: absolute;\n  width: 8px;\n  height: 8px;\n  margin: -6px 5px;\n  top: 50%;\n  border: solid white;\n  border-width: 0 3px 3px 0;\n  display: inline-block;\n  padding: 3px; }\n\n.arrow.l {\n  left: 0;\n  cursor: w-resize; }\n\n.arrow.l > * {\n  left: 0;\n  transform: rotate(135deg); }\n\n.arrow.r {\n  right: 0;\n  cursor: e-resize; }\n\n.arrow.r > * {\n  right: 0;\n  transform: rotate(-45deg); }\n\n/* drop shadow */\n.arrow > *, #cross {\n  filter: drop-shadow(-1px -1px 3px #000);\n  -webkit-user-select: none;\n     -moz-user-select: none;\n          user-select: none;\n  color: white;\n  z-index: 3; }\n\n/* slot elements css */\nslot[name=preview]::slotted(*) {\n  height: 64px;\n  opacity: 0.5; }\n\nslot[name=preview]::slotted(*.active) {\n  border: 1px solid white;\n  opacity: 1; }\n\nsifrr-tab-header {\n  height: 64px; }\n\n/* Full screen css */\n:host(.fullscreen) {\n  position: fixed;\n  width: 100%;\n  height: 100%;\n  left: 0;\n  top: 0;\n  z-index: 9999; }\n  :host(.fullscreen) #bg {\n    display: block;\n    z-index: 1; }\n  :host(.fullscreen) #preview, :host(.fullscreen) #content {\n    position: absolute;\n    left: 0;\n    right: 0;\n    margin: auto; }\n  :host(.fullscreen) #preview {\n    bottom: 30px;\n    max-width: 90%;\n    z-index: 2; }\n  :host(.fullscreen) #content {\n    z-index: 2;\n    max-width: 90%;\n    max-height: calc(100% - 150px);\n    top: calc(50% - 55px);\n    transform: translateY(-50%);\n    overflow: hidden; }\n";
+var css = ":host {\n  display: block;\n  width: 100%; }\n\n#preview,\n#content {\n  position: relative; }\n\n#preview {\n  padding: 0 24px; }\n\n/* count, fs, and bg */\n#count {\n  position: absolute; }\n\n#count {\n  bottom: 6px;\n  right: 6px;\n  background: rgba(255, 255, 255, 0.7);\n  border-radius: 10px;\n  font-size: 14px;\n  padding: 4px 6px; }\n\n#bg {\n  background: rgba(255, 255, 255, 0.9);\n  display: none;\n  height: 100%;\n  width: 100%; }\n  #bg #cross {\n    position: absolute;\n    top: 6px;\n    right: 6px;\n    width: 32px;\n    height: 32px;\n    font-family: 'Helvetica', 'Arial', sans-serif;\n    font-size: 32px; }\n\n/* Arrows css */\n.arrow {\n  position: absolute;\n  z-index: 5;\n  top: 0;\n  bottom: 0; }\n\n.arrow > * {\n  position: absolute;\n  width: 8px;\n  height: 8px;\n  margin: -6px 5px;\n  top: 50%;\n  border: solid white;\n  border-width: 0 3px 3px 0;\n  display: inline-block;\n  padding: 3px; }\n\n.arrow.l {\n  left: 0;\n  cursor: w-resize; }\n\n.arrow.l > * {\n  left: 0;\n  transform: rotate(135deg); }\n\n.arrow.r {\n  right: 0;\n  cursor: e-resize; }\n\n.arrow.r > * {\n  right: 0;\n  transform: rotate(-45deg); }\n\n/* drop shadow */\n.arrow > *,\n#cross {\n  filter: drop-shadow(-1px -1px 3px #000);\n  -webkit-user-select: none;\n     -moz-user-select: none;\n          user-select: none;\n  color: white;\n  z-index: 3; }\n\n/* slot elements css */\nslot[name='preview']::slotted(*) {\n  height: 64px;\n  opacity: 0.5; }\n\nslot[name='preview']::slotted(*.active) {\n  border: 1px solid white;\n  opacity: 1; }\n\nsifrr-tab-header {\n  height: 64px; }\n\n/* Full screen css */\n:host(.fullscreen) {\n  position: fixed;\n  width: 100%;\n  height: 100%;\n  left: 0;\n  top: 0;\n  z-index: 9999; }\n  :host(.fullscreen) #bg {\n    display: block;\n    z-index: 1; }\n  :host(.fullscreen) #preview,\n  :host(.fullscreen) #content {\n    position: absolute;\n    left: 0;\n    right: 0;\n    margin: auto; }\n  :host(.fullscreen) #preview {\n    bottom: 30px;\n    max-width: 90%;\n    z-index: 2; }\n  :host(.fullscreen) #content {\n    z-index: 2;\n    max-width: 90%;\n    max-height: calc(100% - 150px);\n    top: calc(50% - 55px);\n    transform: translateY(-50%);\n    overflow: hidden; }\n";
 
 var css$1 = ":host {\n  /* CSS for tabs container */\n  display: block;\n  width: 100%;\n  position: relative;\n  overflow-x: auto;\n  box-sizing: border-box; }\n\nslot {\n  display: block;\n  min-width: 100%; }\n\nslot::slotted(*) {\n  float: left;\n  text-align: center;\n  vertical-align: middle;\n  opacity: 0.7;\n  cursor: pointer; }\n\nslot::slotted(*.active) {\n  opacity: 1; }\n\nslot::slotted(*:hover) {\n  opacity: 0.9; }\n\n/* CSS for line under active tab heading */\n.underline {\n  position: absolute;\n  bottom: 0;\n  height: 3px;\n  background: white; }\n";
 
@@ -36,13 +36,17 @@ class SifrrTabHeader extends SifrrDom.Element {
     }
   }
   refresh(options) {
-    this._options = Object.assign({
-      content: this,
-      slot: this.$('slot'),
-      showUnderline: true,
-      line: this.$('.underline'),
-      container: null
-    }, this._options, options);
+    this._options = Object.assign(
+      {
+        content: this,
+        slot: this.$('slot'),
+        showUnderline: true,
+        line: this.$('.underline'),
+        container: null
+      },
+      this._options,
+      options
+    );
     this.options = Object.assign({}, this._options, this._attrOptions);
     this.options.menus = this.options.slot.assignedNodes().filter(n => n.nodeType === 1);
     if (!this.options.menus || this.options.menus.length < 1) return;
@@ -55,7 +59,7 @@ class SifrrTabHeader extends SifrrDom.Element {
     if (this.options.container) {
       const c = this.options.container;
       c.onScrollPercent = this.setScrollPercent.bind(this);
-      SifrrDom.Event.addListener('update', c, () => this.active = c.active);
+      SifrrDom.Event.addListener('update', c, () => (this.active = c.active));
     }
     this.setScrollPercent(0);
   }
@@ -76,16 +80,28 @@ class SifrrTabHeader extends SifrrDom.Element {
     });
     const last = this.options.menuProps[this.options.menus.length - 1];
     this.options.totalMenuWidth = last.left + last.width;
-    this.$('slot').style.width = this.options.slot.style.width = this.options.totalMenuWidth + 1 + 'px';
+    this.$('slot').style.width = this.options.slot.style.width =
+      this.options.totalMenuWidth + 1 + 'px';
   }
   setScrollPercent(total) {
-    const per = total % 1, t = Math.floor(total);
-    const left = this.options.menuProps[t].left * (1 - per) + (this.options.menuProps[t + 1] || {
-      left: 0
-    }).left * per;
-    const width = this.options.menuProps[t].width * (1 - per) + (this.options.menuProps[t + 1] || {
-      width: 0
-    }).width * per;
+    const per = total % 1,
+      t = Math.floor(total);
+    const left =
+      this.options.menuProps[t].left * (1 - per) +
+      (
+        this.options.menuProps[t + 1] || {
+          left: 0
+        }
+      ).left *
+        per;
+    const width =
+      this.options.menuProps[t].width * (1 - per) +
+      (
+        this.options.menuProps[t + 1] || {
+          width: 0
+        }
+      ).width *
+        per;
     this.options.line.style.left = left + 'px';
     this.options.line.style.width = width + 'px';
     this.scrollLeft = left + (width - this.clientWidth) / 2;
@@ -326,15 +342,19 @@ class SifrrTabContainer extends SifrrDom.Element {
     }
   }
   refresh(options) {
-    this._options = Object.assign({
-      content: this,
-      slot: this.$('slot'),
-      num: 1,
-      animation: 'spring',
-      animationTime: 300,
-      scrollBreakpoint: 0.3,
-      loop: false
-    }, this._options, options);
+    this._options = Object.assign(
+      {
+        content: this,
+        slot: this.$('slot'),
+        num: 1,
+        animation: 'spring',
+        animationTime: 300,
+        scrollBreakpoint: 0.3,
+        loop: false
+      },
+      this._options,
+      options
+    );
     this.options = Object.assign({}, this._options, this._attrOptions);
     this.options.tabs = this.options.slot.assignedNodes().filter(n => n.nodeType === 1);
     this.total = this.options.tabs.length;
@@ -404,14 +424,18 @@ class SifrrTabContainer extends SifrrDom.Element {
     }
   }
   next() {
-    this.options.num === 'auto' ? (this.options.content.scrollLeft += this._totalWidth / 2) : (this.active += 1);
+    this.options.num === 'auto'
+      ? (this.options.content.scrollLeft += this._totalWidth / 2)
+      : (this.active += 1);
   }
   hasNext() {
     if (this.active === this.options.tabs.length - this.options.num) return false;
     return true;
   }
   prev() {
-    this.options.num === 'auto' ? (this.options.content.scrollLeft -= this._totalWidth / 2) : (this.active -= 1);
+    this.options.num === 'auto'
+      ? (this.options.content.scrollLeft -= this._totalWidth / 2)
+      : (this.active -= 1);
   }
   hasPrev() {
     return this.active === 0 ? false : true;
@@ -472,7 +496,11 @@ class SifrrCarousel extends SifrrDom.Element {
     this._rel = this._rel || this.refresh.bind(this);
     Array.from(this.$$('img', false)).forEach(img => img.addEventListener('load', this._rel));
     SifrrDom.Event.addListener('click', this, (e, t) => {
-      if ((t.matches('[slot=content]') || t.matches('[slot=content] *')) && !t.matches('.fullscreen *')) this.fullScreen(true);
+      if (
+        (t.matches('[slot=content]') || t.matches('[slot=content] *')) &&
+        !t.matches('.fullscreen *')
+      )
+        this.fullScreen(true);
       else if (t.matches('#bg') || t.matches('#bg *')) this.fullScreen(false);
       else if (t.matches('.arrow.l') || t.matches('.arrow.l span')) this.container.prev();
       else if (t.matches('.arrow.r') || t.matches('.arrow.r span')) this.container.next();

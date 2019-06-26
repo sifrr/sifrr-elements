@@ -19,7 +19,7 @@
     }));
   }
 
-  var css = ":host {\n  display: block;\n  position: relative; }\n\n* {\n  box-sizing: border-box; }\n\ntextarea {\n  resize: none;\n  border: none; }\n\ntextarea, .CodeMirror {\n  height: 100%;\n  width: 100%; }\n";
+  var css = ":host {\n  display: block;\n  position: relative; }\n\n* {\n  box-sizing: border-box; }\n\ntextarea {\n  resize: none;\n  border: none; }\n\ntextarea,\n.CodeMirror {\n  height: 100%;\n  width: 100%; }\n";
 
   function _templateObject() {
     const data = _taggedTemplateLiteral(["\n<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/npm/codemirror@", "/lib/codemirror.css\">\n<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/npm/codemirror@", "/theme/${this.getTheme()}.css\">\n<style media=\"screen\">\n  ", "\n</style>\n<textarea></textarea>"], ["\n<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/npm/codemirror@", "/lib/codemirror.css\">\n<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/npm/codemirror@", "/theme/\\${this.getTheme()}.css\">\n<style media=\"screen\">\n  ", "\n</style>\n<textarea></textarea>"]);

@@ -7,7 +7,7 @@
 
   SifrrDom = SifrrDom && SifrrDom.hasOwnProperty('default') ? SifrrDom['default'] : SifrrDom;
 
-  var css = ":host {\n  background: linear-gradient(to right, \"${this.bgColor}\" 4%, \"${this.fgColor}\" 25%, \"${this.bgColor}\" 36%);\n  display: inline-block;\n  animation: shimmer 2.5s linear 0s infinite;\n  background-size: 2000px 100%;\n}\n@keyframes shimmer{\n  0% { background-position: -2000px 0 }\n  100% { background-position: 2000px 0 }\n}\n";
+  var css = ":host {\n  background: linear-gradient(\n    to right,\n    '${this.bgColor}' 4%,\n    '${this.fgColor}' 25%,\n    '${this.bgColor}' 36%\n  );\n  display: inline-block;\n  animation: shimmer 2.5s linear 0s infinite;\n  background-size: 2000px 100%;\n}\n@keyframes shimmer {\n  0% {\n    background-position: -2000px 0;\n  }\n  100% {\n    background-position: 2000px 0;\n  }\n}\n";
 
   const properStyle = css.replace(/"(\${[^"]*})"/g, '$1');
   function rgbToHsl(r = 0, g = 0, b = 0) {

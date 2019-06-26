@@ -35,13 +35,17 @@ class SifrrTabHeader extends SifrrDom.Element {
     }
   }
   refresh(options) {
-    this._options = Object.assign({
-      content: this,
-      slot: this.$('slot'),
-      showUnderline: true,
-      line: this.$('.underline'),
-      container: null
-    }, this._options, options);
+    this._options = Object.assign(
+      {
+        content: this,
+        slot: this.$('slot'),
+        showUnderline: true,
+        line: this.$('.underline'),
+        container: null
+      },
+      this._options,
+      options
+    );
     this.options = Object.assign({}, this._options, this._attrOptions);
     this.options.menus = this.options.slot.assignedNodes().filter(n => n.nodeType === 1);
     if (!this.options.menus || this.options.menus.length < 1) return;
@@ -54,7 +58,7 @@ class SifrrTabHeader extends SifrrDom.Element {
     if (this.options.container) {
       const c = this.options.container;
       c.onScrollPercent = this.setScrollPercent.bind(this);
-      SifrrDom.Event.addListener('update', c, () => this.active = c.active);
+      SifrrDom.Event.addListener('update', c, () => (this.active = c.active));
     }
     this.setScrollPercent(0);
   }
@@ -75,16 +79,28 @@ class SifrrTabHeader extends SifrrDom.Element {
     });
     const last = this.options.menuProps[this.options.menus.length - 1];
     this.options.totalMenuWidth = last.left + last.width;
-    this.$('slot').style.width = this.options.slot.style.width = this.options.totalMenuWidth + 1 + 'px';
+    this.$('slot').style.width = this.options.slot.style.width =
+      this.options.totalMenuWidth + 1 + 'px';
   }
   setScrollPercent(total) {
-    const per = total % 1, t = Math.floor(total);
-    const left = this.options.menuProps[t].left * (1 - per) + (this.options.menuProps[t + 1] || {
-      left: 0
-    }).left * per;
-    const width = this.options.menuProps[t].width * (1 - per) + (this.options.menuProps[t + 1] || {
-      width: 0
-    }).width * per;
+    const per = total % 1,
+      t = Math.floor(total);
+    const left =
+      this.options.menuProps[t].left * (1 - per) +
+      (
+        this.options.menuProps[t + 1] || {
+          left: 0
+        }
+      ).left *
+        per;
+    const width =
+      this.options.menuProps[t].width * (1 - per) +
+      (
+        this.options.menuProps[t + 1] || {
+          width: 0
+        }
+      ).width *
+        per;
     this.options.line.style.left = left + 'px';
     this.options.line.style.width = width + 'px';
     this.scrollLeft = left + (width - this.clientWidth) / 2;
@@ -325,15 +341,19 @@ class SifrrTabContainer extends SifrrDom.Element {
     }
   }
   refresh(options) {
-    this._options = Object.assign({
-      content: this,
-      slot: this.$('slot'),
-      num: 1,
-      animation: 'spring',
-      animationTime: 300,
-      scrollBreakpoint: 0.3,
-      loop: false
-    }, this._options, options);
+    this._options = Object.assign(
+      {
+        content: this,
+        slot: this.$('slot'),
+        num: 1,
+        animation: 'spring',
+        animationTime: 300,
+        scrollBreakpoint: 0.3,
+        loop: false
+      },
+      this._options,
+      options
+    );
     this.options = Object.assign({}, this._options, this._attrOptions);
     this.options.tabs = this.options.slot.assignedNodes().filter(n => n.nodeType === 1);
     this.total = this.options.tabs.length;
@@ -403,14 +423,18 @@ class SifrrTabContainer extends SifrrDom.Element {
     }
   }
   next() {
-    this.options.num === 'auto' ? (this.options.content.scrollLeft += this._totalWidth / 2) : (this.active += 1);
+    this.options.num === 'auto'
+      ? (this.options.content.scrollLeft += this._totalWidth / 2)
+      : (this.active += 1);
   }
   hasNext() {
     if (this.active === this.options.tabs.length - this.options.num) return false;
     return true;
   }
   prev() {
-    this.options.num === 'auto' ? (this.options.content.scrollLeft -= this._totalWidth / 2) : (this.active -= 1);
+    this.options.num === 'auto'
+      ? (this.options.content.scrollLeft -= this._totalWidth / 2)
+      : (this.active -= 1);
   }
   hasPrev() {
     return this.active === 0 ? false : true;
@@ -428,7 +452,7 @@ class SifrrTabContainer extends SifrrDom.Element {
 }
 SifrrDom.register(SifrrTabContainer);
 
-var css$2 = ":host {\n  position: fixed;\n  right: 0;\n  top: 0;\n  bottom: 0;\n  height: 100%;\n  max-width: 100%;\n  width: 320px;\n  z-index: 1000;\n  background-color: rgba(0, 0, 0, 0.8);\n  transform: translate3d(100%, 0, 0);\n  transition: all 0.2s ease; }\n\n:host(.show) {\n  transform: translate3d(0, 0, 0); }\n\n* {\n  box-sizing: border-box; }\n\n#showHide {\n  position: fixed;\n  left: -30px;\n  top: 0;\n  bottom: 0;\n  width: 30px;\n  height: 30px;\n  margin-top: 5px;\n  background-color: blue;\n  z-index: 2; }\n\n.stateContainer {\n  padding-left: 10px;\n  margin-left: 10px;\n  border-left: 1px solid white;\n  position: relative; }\n\n.stateContainer.off {\n  opacity: 0.5; }\n\n.stateContainer .dotC {\n  position: absolute;\n  top: 0;\n  left: -10px;\n  width: 20px;\n  height: 100%;\n  cursor: pointer; }\n\n.stateContainer .dotC .dot {\n  position: absolute;\n  top: 50%;\n  left: 10px;\n  width: 10px;\n  height: 10px;\n  transform: translate3d(-50%, -50%, 0);\n  background-color: white;\n  border-radius: 50%; }\n\n.stateContainer .delete {\n  position: absolute;\n  top: 0;\n  right: 0;\n  padding: 4px;\n  background-color: rgba(0, 0, 0, 0.7);\n  color: white;\n  cursor: pointer; }\n\n.state {\n  white-space: pre-wrap;\n  max-height: 90px;\n  overflow: hidden;\n  background-color: rgba(255, 255, 255, 0.97);\n  padding: 5px;\n  margin-bottom: 5px;\n  position: relative;\n  cursor: pointer; }\n\n.state:hover::after {\n  content: '\\\\\\/';\n  position: absolute;\n  bottom: 0;\n  left: 0;\n  width: 100%;\n  background-color: rgba(0, 0, 0, 0.7);\n  text-align: center;\n  color: white; }\n\n.state.open {\n  max-height: none; }\n\n.state.open:hover::after {\n  content: '\\/\\\\'; }\n\n.key {\n  color: red; }\n\n.string {\n  color: green; }\n\n.number, .null, .boolean {\n  color: blue; }\n\nfooter {\n  position: absolute;\n  bottom: 0; }\n\ninput {\n  margin: 3px;\n  width: calc(100% - 6px);\n  padding: 3px; }\n\n.btn3 {\n  margin: 3px;\n  width: calc(33% - 8px);\n  padding: 3px;\n  background: white; }\n";
+var css$2 = ":host {\n  position: fixed;\n  right: 0;\n  top: 0;\n  bottom: 0;\n  height: 100%;\n  max-width: 100%;\n  width: 320px;\n  z-index: 1000;\n  background-color: rgba(0, 0, 0, 0.8);\n  transform: translate3d(100%, 0, 0);\n  transition: all 0.2s ease; }\n\n:host(.show) {\n  transform: translate3d(0, 0, 0); }\n\n* {\n  box-sizing: border-box; }\n\n#showHide {\n  position: fixed;\n  left: -30px;\n  top: 0;\n  bottom: 0;\n  width: 30px;\n  height: 30px;\n  margin-top: 5px;\n  background-color: blue;\n  z-index: 2; }\n\n.stateContainer {\n  padding-left: 10px;\n  margin-left: 10px;\n  border-left: 1px solid white;\n  position: relative; }\n\n.stateContainer.off {\n  opacity: 0.5; }\n\n.stateContainer .dotC {\n  position: absolute;\n  top: 0;\n  left: -10px;\n  width: 20px;\n  height: 100%;\n  cursor: pointer; }\n\n.stateContainer .dotC .dot {\n  position: absolute;\n  top: 50%;\n  left: 10px;\n  width: 10px;\n  height: 10px;\n  transform: translate3d(-50%, -50%, 0);\n  background-color: white;\n  border-radius: 50%; }\n\n.stateContainer .delete {\n  position: absolute;\n  top: 0;\n  right: 0;\n  padding: 4px;\n  background-color: rgba(0, 0, 0, 0.7);\n  color: white;\n  cursor: pointer; }\n\n.state {\n  white-space: pre-wrap;\n  max-height: 90px;\n  overflow: hidden;\n  background-color: rgba(255, 255, 255, 0.97);\n  padding: 5px;\n  margin-bottom: 5px;\n  position: relative;\n  cursor: pointer; }\n\n.state:hover::after {\n  content: '\\\\\\/';\n  position: absolute;\n  bottom: 0;\n  left: 0;\n  width: 100%;\n  background-color: rgba(0, 0, 0, 0.7);\n  text-align: center;\n  color: white; }\n\n.state.open {\n  max-height: none; }\n\n.state.open:hover::after {\n  content: '\\/\\\\'; }\n\n.key {\n  color: red; }\n\n.string {\n  color: green; }\n\n.number,\n.null,\n.boolean {\n  color: blue; }\n\nfooter {\n  position: absolute;\n  bottom: 0; }\n\ninput {\n  margin: 3px;\n  width: calc(100% - 6px);\n  padding: 3px; }\n\n.btn3 {\n  margin: 3px;\n  width: calc(33% - 8px);\n  padding: 3px;\n  background: white; }\n";
 
 const template$2 = SifrrDom.template`<style>
   ${css$2}
@@ -491,21 +515,28 @@ class SifrrStater extends SifrrDom.Element {
     }
   }
   headingHtml() {
-    return this.state.queries.map((q) => `<span>${q}</span>`).join('');
+    return this.state.queries.map(q => `<span>${q}</span>`).join('');
   }
   stateHtml() {
     let me = this;
-    return this.state.states.map((s, i) =>
-      `<div data-target="${i}">
+    return this.state.states
+      .map(
+        (s, i) =>
+          `<div data-target="${i}">
       <button class="btn3 commit" type="button" name="commit">Commit</button>
       <button class="btn3 reset" type="button" name="reset">Reset</button>
       <button class="btn3 remove" type="button" name="remove">Remove</button>
-      ${s.map((jsn, j) => `<div class="stateContainer ${j <= me.state.activeStates[i] ? 'on' : 'off'}">
+      ${s
+        .map(
+          (jsn, j) => `<div class="stateContainer ${j <= me.state.activeStates[i] ? 'on' : 'off'}">
                            <div class="dotC" data-target="${i}" data-state-index="${j}"><div class="dot"></div></div>
                            <div class="state">${SifrrStater.prettyJSON(jsn)}</div>
                            <div class="delete" data-target="${i}" data-state-index="${j}">X</div>
-                           </div>`).join('')}</div>`
-    ).join('');
+                           </div>`
+        )
+        .join('')}</div>`
+      )
+      .join('');
   }
   addTarget(query) {
     if (typeof query !== 'string') query = this.$('#addTargetInput').value;
@@ -518,7 +549,8 @@ class SifrrStater extends SifrrDom.Element {
       window.console.log('Sifrr Element has no state.', target);
       return false;
     }
-    const old = target.onStateChange, me = this;
+    const old = target.onStateChange,
+      me = this;
     target.onStateChange = function() {
       me.addState(this, this.state);
       old.call(this);
@@ -533,9 +565,7 @@ class SifrrStater extends SifrrDom.Element {
     this.update();
   }
   removeTarget(el) {
-    const {
-      index
-    } = this.getTarget(el);
+    const { index } = this.getTarget(el);
     if (index > -1) {
       this.state.targets.splice(index, 1);
       this.state.queries.splice(index, 1);
@@ -545,9 +575,7 @@ class SifrrStater extends SifrrDom.Element {
     }
   }
   addState(el, state) {
-    const {
-      index
-    } = this.getTarget(el);
+    const { index } = this.getTarget(el);
     if (index > -1) {
       const active = this.state.activeStates[index];
       const newState = JSON.stringify(state);
@@ -559,9 +587,7 @@ class SifrrStater extends SifrrDom.Element {
     }
   }
   deleteState(el, stateN) {
-    const {
-      index
-    } = this.getTarget(el);
+    const { index } = this.getTarget(el);
     this.state.states[index].splice(stateN, 1);
     if (stateN < this.state.activeStates[index]) {
       this.state.activeStates[index] -= 1;
@@ -572,9 +598,7 @@ class SifrrStater extends SifrrDom.Element {
     this.update();
   }
   commit(el) {
-    const {
-      index
-    } = this.getTarget(el);
+    const { index } = this.getTarget(el);
     const last_state = this.state.states[index][this.state.states[index].length - 1];
     this.state.states[index] = [last_state];
     this.state.activeStates[index] = 0;
@@ -586,19 +610,13 @@ class SifrrStater extends SifrrDom.Element {
     this.update();
   }
   toState(el, n) {
-    const {
-      index,
-      target
-    } = this.getTarget(el);
+    const { index, target } = this.getTarget(el);
     this.state.activeStates[index] = n;
     target.state = this.state.states[index][n];
     this.update();
   }
   resetToFirstState(el) {
-    const {
-      index,
-      target
-    } = this.getTarget(el);
+    const { index, target } = this.getTarget(el);
     this.toState(target, 0, false);
     this.state.states[index] = [this.state.states[index][0]];
     this.update();
@@ -609,9 +627,7 @@ class SifrrStater extends SifrrDom.Element {
     this.update();
   }
   clear(target) {
-    const {
-      index
-    } = this.getTarget(target);
+    const { index } = this.getTarget(target);
     this.state.activeStates[index] = -1;
     this.state.states[index] = [];
     this.update();
@@ -635,7 +651,7 @@ class SifrrStater extends SifrrDom.Element {
   }
   loadData() {
     const me = this;
-    this.storage.all().then((data) => {
+    this.storage.all().then(data => {
       let i = 0;
       for (let q in data) {
         me.addTarget(q);
@@ -661,21 +677,27 @@ class SifrrStater extends SifrrDom.Element {
   }
   static prettyJSON(json) {
     json = JSON.stringify(json, null, 4);
-    json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-    return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+-]?\d+)?)/g, function(match) {
-      let cls = 'number';
-      if (/:$/.test(match)) {
-        cls = 'key';
+    json = json
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;');
+    return json.replace(
+      /("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+-]?\d+)?)/g,
+      function(match) {
+        let cls = 'number';
+        if (/:$/.test(match)) {
+          cls = 'key';
+          return '<span class="' + cls + '">' + match + '</span>';
+        } else if (/^"/.test(match)) {
+          cls = 'string';
+        } else if (/true|false/.test(match)) {
+          cls = 'boolean';
+        } else if (/null/.test(match)) {
+          cls = 'null';
+        }
         return '<span class="' + cls + '">' + match + '</span>';
-      } else if (/^"/.test(match)) {
-        cls = 'string';
-      } else if (/true|false/.test(match)) {
-        cls = 'boolean';
-      } else if (/null/.test(match)) {
-        cls = 'null';
       }
-      return '<span class="' + cls + '">' + match + '</span>';
-    });
+    );
   }
 }
 SifrrStater.defaultState = {
