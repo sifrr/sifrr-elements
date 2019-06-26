@@ -7,7 +7,7 @@
   max-width: 100%;
   width: 320px;
   z-index: 1000;
-  background-color: rgba(0, 0, 0, .8);
+  background-color: rgba(0, 0, 0, 0.8);
   transform: translate3d(100%, 0, 0);
   transition: all 0.2s ease;
 }
@@ -96,7 +96,9 @@
 .string {
   color: green;
 }
-.number, .null, .boolean {
+.number,
+.null,
+.boolean {
   color: blue;
 }
 footer {

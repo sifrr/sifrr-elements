@@ -1,6 +1,6 @@
 import animate from '@sifrr/animate';
 
-const styles = [ 'position', 'left', 'top', 'width', 'height', 'z-index'];
+const styles = ['position', 'left', 'top', 'width', 'height', 'z-index'];
 const FS_CLASS = 'fs';
 
 function getNewProps(rect) {
@@ -31,7 +31,7 @@ function makeFullScreen(element, onUpdate) {
       left: '0px',
       top: '0px',
       width: window.innerWidth + 'px',
-      height: window.innerHeight + 'px',
+      height: window.innerHeight + 'px'
     },
     onUpdate
   }).then(() => element.classList.add(FS_CLASS));
@@ -45,7 +45,7 @@ function exitFullScreen(element, onUpdate) {
       left: element.__nleft,
       top: element.__ntop,
       width: element.__nwidth,
-      height: element.__nheight,
+      height: element.__nheight
     },
     onUpdate
   }).then(() => {
@@ -57,7 +57,4 @@ function exitFullScreen(element, onUpdate) {
   });
 }
 
-export {
-  makeFullScreen,
-  exitFullScreen
-};
+export { makeFullScreen, exitFullScreen };

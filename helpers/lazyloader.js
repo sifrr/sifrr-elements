@@ -6,13 +6,16 @@ function moveAttr(el, attr) {
 
 function loadPicture(pic) {
   if (pic.tagName === 'PICTURE') {
-    pic.querySelectorAll('source').forEach((s) => {
+    pic.querySelectorAll('source').forEach(s => {
       moveAttr(s, 'src');
       moveAttr(s, 'srcset');
     });
     pic = pic.querySelector('img');
   } else if (pic.tagName !== 'IMG') {
-    throw Error('LazyLoader only supports `picture` or `img` element. Given: ', pic);
+    throw Error(
+      'LazyLoader only supports `picture` or `img` element. Given: ',
+      pic
+    );
   }
   moveAttr(pic, 'src');
   moveAttr(pic, 'srcset');

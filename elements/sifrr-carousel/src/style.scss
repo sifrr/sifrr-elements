@@ -3,7 +3,8 @@
   width: 100%;
 }
 
-#preview, #content {
+#preview,
+#content {
   position: relative;
 }
 
@@ -19,14 +20,14 @@
 #count {
   bottom: 6px;
   right: 6px;
-  background: rgba(255,255,255,0.7);
+  background: rgba(255, 255, 255, 0.7);
   border-radius: 10px;
   font-size: 14px;
   padding: 4px 6px;
 }
 
 #bg {
-  background: rgba(255,255,255,0.9);
+  background: rgba(255, 255, 255, 0.9);
   display: none;
   height: 100%;
   width: 100%;
@@ -83,7 +84,8 @@
 }
 
 /* drop shadow */
-.arrow > *, #cross {
+.arrow > *,
+#cross {
   filter: drop-shadow(-1px -1px 3px #000);
   user-select: none;
   color: white;
@@ -91,12 +93,12 @@
 }
 
 /* slot elements css */
-slot[name=preview]::slotted(*) {
+slot[name='preview']::slotted(*) {
   height: 64px;
   opacity: 0.5;
 }
 
-slot[name=preview]::slotted(*.active) {
+slot[name='preview']::slotted(*.active) {
   border: 1px solid white;
   opacity: 1;
 }
@@ -119,7 +121,8 @@ sifrr-tab-header {
     z-index: 1;
   }
 
-  #preview, #content {
+  #preview,
+  #content {
     position: absolute;
     left: 0;
     right: 0;

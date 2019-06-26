@@ -1,10 +1,19 @@
 :host {
-  background: linear-gradient(to right, "${this.bgColor}" 4%, "${this.fgColor}" 25%, "${this.bgColor}" 36%);
+  background: linear-gradient(
+    to right,
+    '${this.bgColor}' 4%,
+    '${this.fgColor}' 25%,
+    '${this.bgColor}' 36%
+  );
   display: inline-block;
   animation: shimmer 2.5s linear 0s infinite;
   background-size: 2000px 100%;
 }
-@keyframes shimmer{
-  0% { background-position: -2000px 0 }
-  100% { background-position: 2000px 0 }
+@keyframes shimmer {
+  0% {
+    background-position: -2000px 0;
+  }
+  100% {
+    background-position: 2000px 0;
+  }
 }

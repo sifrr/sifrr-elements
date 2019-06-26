@@ -56,8 +56,9 @@ class SifrrShowcase extends SifrrDom.Element {
       const me = this;
       new window.Sortable(this.$('#showcases'), {
         draggable: 'li',
-        onEnd: (e) => {
-          const o = e.oldIndex, n = e.newIndex;
+        onEnd: e => {
+          const o = e.oldIndex,
+            n = e.newIndex;
           const old = me.state.showcases[o];
           me.state.showcases[o] = me.state.showcases[n];
           me.state.showcases[n] = old;
@@ -70,7 +71,7 @@ class SifrrShowcase extends SifrrDom.Element {
 
   getChildIndex(el) {
     let i = 0;
-    while((el = el.previousElementSibling) != null) i++;
+    while ((el = el.previousElementSibling) != null) i++;
     return i;
   }
 
@@ -104,7 +105,10 @@ class SifrrShowcase extends SifrrDom.Element {
   }
 
   saveShowcase() {
-    this.state.showcases[this.state.current] = Object.assign(this.state.showcases[this.state.current], this.state.currentSC);
+    this.state.showcases[this.state.current] = Object.assign(
+      this.state.showcases[this.state.current],
+      this.state.currentSC
+    );
     if (this._loaded) {
       this.$('#status').textContent = 'saving locally!';
       if (this._timeout) clearTimeout(this._timeout);
@@ -139,21 +143,27 @@ class SifrrShowcase extends SifrrDom.Element {
 
   loadUrl() {
     this._url = getParam('url') || this.$('#url').value;
-    window.fetch(this._url).then((resp) => resp.json()).then(v => {
-      this.state.showcases = v.showcases;
-      this.switchShowcase(getParam('showcase') === undefined ? v.current : getParam('showcase'));
-      this.$('#status').textContent = 'loaded from url!';
-    }).catch((e) => {
-      this.$('#status').textContent = e.message;
-      storage.all().then(v => {
-        this.$('#status').textContent = 'failed to load from url, loaded from storage!';
-        this._loaded = true;
-        if (Array.isArray(v.showcases)) {
-          this.state.showcases = v.showcases;
-          this.switchShowcase(getParam('showcase') === undefined ? v.current : getParam('showcase'));
-        }
+    window
+      .fetch(this._url)
+      .then(resp => resp.json())
+      .then(v => {
+        this.state.showcases = v.showcases;
+        this.switchShowcase(getParam('showcase') === undefined ? v.current : getParam('showcase'));
+        this.$('#status').textContent = 'loaded from url!';
+      })
+      .catch(e => {
+        this.$('#status').textContent = e.message;
+        storage.all().then(v => {
+          this.$('#status').textContent = 'failed to load from url, loaded from storage!';
+          this._loaded = true;
+          if (Array.isArray(v.showcases)) {
+            this.state.showcases = v.showcases;
+            this.switchShowcase(
+              getParam('showcase') === undefined ? v.current : getParam('showcase')
+            );
+          }
+        });
       });
-    });
   }
 
   saveFile() {
@@ -181,9 +191,11 @@ class SifrrShowcase extends SifrrDom.Element {
 
 SifrrShowcase.defaultState = {
   current: 0,
-  showcases: [{
-    name: 'new'
-  }]
+  showcases: [
+    {
+      name: 'new'
+    }
+  ]
 };
 
 SifrrDom.register(SifrrShowcase);

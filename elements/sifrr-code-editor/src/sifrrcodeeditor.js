@@ -25,7 +25,11 @@ class SifrrCodeEditor extends SifrrDom.Element {
   }
 
   static cm() {
-    this._cm = this._cm || SifrrDom.Loader.executeJS(`https://cdn.jsdelivr.net/npm/codemirror@${CM_VERSION}/lib/codemirror.js`);
+    this._cm =
+      this._cm ||
+      SifrrDom.Loader.executeJS(
+        `https://cdn.jsdelivr.net/npm/codemirror@${CM_VERSION}/lib/codemirror.js`
+      );
     return this._cm;
   }
 
@@ -46,20 +50,21 @@ class SifrrCodeEditor extends SifrrDom.Element {
   }
 
   cmLoaded() {
-    SifrrDom.Loader.executeJS(`https://cdn.jsdelivr.net/npm/codemirror@${CM_VERSION}/mode/${this.lang}/${this.lang}.js`)
-      .then(() => {
-        this.cm = window.CodeMirror.fromTextArea(this.$('textarea'), {
-          value: this.$('textarea').value,
-          mode: this.lang,
-          htmlMode: true,
-          theme: this.getTheme(),
-          indentUnit: 2,
-          tabSize: 2,
-          lineNumbers: true
-        });
-        this.cm.on('change', this.input.bind(this));
-        this._cmLoaded = true;
+    SifrrDom.Loader.executeJS(
+      `https://cdn.jsdelivr.net/npm/codemirror@${CM_VERSION}/mode/${this.lang}/${this.lang}.js`
+    ).then(() => {
+      this.cm = window.CodeMirror.fromTextArea(this.$('textarea'), {
+        value: this.$('textarea').value,
+        mode: this.lang,
+        htmlMode: true,
+        theme: this.getTheme(),
+        indentUnit: 2,
+        tabSize: 2,
+        lineNumbers: true
       });
+      this.cm.on('change', this.input.bind(this));
+      this._cmLoaded = true;
+    });
   }
 
   getTheme() {

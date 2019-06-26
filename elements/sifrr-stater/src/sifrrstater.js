@@ -70,22 +70,29 @@ class SifrrStater extends SifrrDom.Element {
   }
 
   headingHtml() {
-    return this.state.queries.map((q) => `<span>${q}</span>`).join('');
+    return this.state.queries.map(q => `<span>${q}</span>`).join('');
   }
 
   stateHtml() {
     let me = this;
-    return this.state.states.map((s, i) =>
-      `<div data-target="${i}">
+    return this.state.states
+      .map(
+        (s, i) =>
+          `<div data-target="${i}">
       <button class="btn3 commit" type="button" name="commit">Commit</button>
       <button class="btn3 reset" type="button" name="reset">Reset</button>
       <button class="btn3 remove" type="button" name="remove">Remove</button>
-      ${s.map((jsn, j) => `<div class="stateContainer ${j <= me.state.activeStates[i] ? 'on' : 'off'}">
+      ${s
+        .map(
+          (jsn, j) => `<div class="stateContainer ${j <= me.state.activeStates[i] ? 'on' : 'off'}">
                            <div class="dotC" data-target="${i}" data-state-index="${j}"><div class="dot"></div></div>
                            <div class="state">${SifrrStater.prettyJSON(jsn)}</div>
                            <div class="delete" data-target="${i}" data-state-index="${j}">X</div>
-                           </div>`).join('')}</div>`
-    ).join('');
+                           </div>`
+        )
+        .join('')}</div>`
+      )
+      .join('');
   }
 
   addTarget(query) {
@@ -99,7 +106,8 @@ class SifrrStater extends SifrrDom.Element {
       window.console.log('Sifrr Element has no state.', target);
       return false;
     }
-    const old = target.onStateChange, me = this;
+    const old = target.onStateChange,
+      me = this;
     target.onStateChange = function() {
       me.addState(this, this.state);
       old.call(this);
@@ -115,9 +123,7 @@ class SifrrStater extends SifrrDom.Element {
   }
 
   removeTarget(el) {
-    const {
-      index
-    } = this.getTarget(el);
+    const { index } = this.getTarget(el);
     if (index > -1) {
       this.state.targets.splice(index, 1);
       this.state.queries.splice(index, 1);
@@ -128,9 +134,7 @@ class SifrrStater extends SifrrDom.Element {
   }
 
   addState(el, state) {
-    const {
-      index
-    } = this.getTarget(el);
+    const { index } = this.getTarget(el);
     if (index > -1) {
       const active = this.state.activeStates[index];
       const newState = JSON.stringify(state);
@@ -142,9 +146,7 @@ class SifrrStater extends SifrrDom.Element {
     }
   }
   deleteState(el, stateN) {
-    const {
-      index
-    } = this.getTarget(el);
+    const { index } = this.getTarget(el);
     this.state.states[index].splice(stateN, 1);
     if (stateN < this.state.activeStates[index]) {
       this.state.activeStates[index] -= 1;
@@ -156,9 +158,7 @@ class SifrrStater extends SifrrDom.Element {
   }
 
   commit(el) {
-    const {
-      index
-    } = this.getTarget(el);
+    const { index } = this.getTarget(el);
     const last_state = this.state.states[index][this.state.states[index].length - 1];
     this.state.states[index] = [last_state];
     this.state.activeStates[index] = 0;
@@ -172,20 +172,14 @@ class SifrrStater extends SifrrDom.Element {
   }
 
   toState(el, n) {
-    const {
-      index,
-      target
-    } = this.getTarget(el);
+    const { index, target } = this.getTarget(el);
     this.state.activeStates[index] = n;
     target.state = this.state.states[index][n];
     this.update();
   }
 
   resetToFirstState(el) {
-    const {
-      index,
-      target
-    } = this.getTarget(el);
+    const { index, target } = this.getTarget(el);
     this.toState(target, 0, false);
     this.state.states[index] = [this.state.states[index][0]];
     this.update();
@@ -198,9 +192,7 @@ class SifrrStater extends SifrrDom.Element {
   }
 
   clear(target) {
-    const {
-      index
-    } = this.getTarget(target);
+    const { index } = this.getTarget(target);
     this.state.activeStates[index] = -1;
     this.state.states[index] = [];
     this.update();
@@ -227,7 +219,7 @@ class SifrrStater extends SifrrDom.Element {
 
   loadData() {
     const me = this;
-    this.storage.all().then((data) => {
+    this.storage.all().then(data => {
       let i = 0;
       for (let q in data) {
         me.addTarget(q);
@@ -255,21 +247,27 @@ class SifrrStater extends SifrrDom.Element {
 
   static prettyJSON(json) {
     json = JSON.stringify(json, null, 4);
-    json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-    return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+-]?\d+)?)/g, function(match) {
-      let cls = 'number';
-      if (/:$/.test(match)) {
-        cls = 'key';
+    json = json
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;');
+    return json.replace(
+      /("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+-]?\d+)?)/g,
+      function(match) {
+        let cls = 'number';
+        if (/:$/.test(match)) {
+          cls = 'key';
+          return '<span class="' + cls + '">' + match + '</span>';
+        } else if (/^"/.test(match)) {
+          cls = 'string';
+        } else if (/true|false/.test(match)) {
+          cls = 'boolean';
+        } else if (/null/.test(match)) {
+          cls = 'null';
+        }
         return '<span class="' + cls + '">' + match + '</span>';
-      } else if (/^"/.test(match)) {
-        cls = 'string';
-      } else if (/true|false/.test(match)) {
-        cls = 'boolean';
-      } else if (/null/.test(match)) {
-        cls = 'null';
       }
-      return '<span class="' + cls + '">' + match + '</span>';
-    });
+    );
   }
 }
 

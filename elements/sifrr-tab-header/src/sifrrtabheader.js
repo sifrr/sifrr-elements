@@ -37,13 +37,17 @@ class SifrrTabHeader extends SifrrDom.Element {
   }
 
   refresh(options) {
-    this._options = Object.assign({
-      content: this,
-      slot: this.$('slot'),
-      showUnderline: true,
-      line: this.$('.underline'),
-      container: null
-    }, this._options, options);
+    this._options = Object.assign(
+      {
+        content: this,
+        slot: this.$('slot'),
+        showUnderline: true,
+        line: this.$('.underline'),
+        container: null
+      },
+      this._options,
+      options
+    );
     this.options = Object.assign({}, this._options, this._attrOptions);
     this.options.menus = this.options.slot.assignedNodes().filter(n => n.nodeType === 1);
     if (!this.options.menus || this.options.menus.length < 1) return;
@@ -57,7 +61,7 @@ class SifrrTabHeader extends SifrrDom.Element {
     if (this.options.container) {
       const c = this.options.container;
       c.onScrollPercent = this.setScrollPercent.bind(this);
-      SifrrDom.Event.addListener('update', c, () => this.active = c.active);
+      SifrrDom.Event.addListener('update', c, () => (this.active = c.active));
     }
     this.setScrollPercent(0);
   }
@@ -79,17 +83,29 @@ class SifrrTabHeader extends SifrrDom.Element {
     });
     const last = this.options.menuProps[this.options.menus.length - 1];
     this.options.totalMenuWidth = last.left + last.width;
-    this.$('slot').style.width = this.options.slot.style.width = this.options.totalMenuWidth + 1 + 'px';
+    this.$('slot').style.width = this.options.slot.style.width =
+      this.options.totalMenuWidth + 1 + 'px';
   }
 
   setScrollPercent(total) {
-    const per = total % 1, t = Math.floor(total);
-    const left = this.options.menuProps[t].left * (1 - per) + (this.options.menuProps[t + 1] || {
-      left: 0
-    }).left * per;
-    const width = this.options.menuProps[t].width * (1 - per) + (this.options.menuProps[t + 1] || {
-      width: 0
-    }).width * per;
+    const per = total % 1,
+      t = Math.floor(total);
+    const left =
+      this.options.menuProps[t].left * (1 - per) +
+      (
+        this.options.menuProps[t + 1] || {
+          left: 0
+        }
+      ).left *
+        per;
+    const width =
+      this.options.menuProps[t].width * (1 - per) +
+      (
+        this.options.menuProps[t + 1] || {
+          width: 0
+        }
+      ).width *
+        per;
     this.options.line.style.left = left + 'px';
     this.options.line.style.width = width + 'px';
     this.scrollLeft = left + (width - this.clientWidth) / 2;

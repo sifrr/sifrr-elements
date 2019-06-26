@@ -17,7 +17,11 @@ class SifrrProgressRound extends SifrrDom.Element {
   }
 }
 
-SifrrProgressRound.defaultState = { progress: 0, 'stroke-width': 2, stroke: '#fff' };
+SifrrProgressRound.defaultState = {
+  progress: 0,
+  'stroke-width': 2,
+  stroke: '#fff'
+};
 SifrrDom.register(SifrrProgressRound);
 
 export default SifrrProgressRound;

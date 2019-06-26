@@ -11,19 +11,19 @@
 
 ## List of Elements:
 
-| Elements                                                | Description                                                                                        | Size                                                                                                                                                                                                                                  |                        Test                       |
+| Elements                                                | Description                                                                                        | Size                                                                                                                                                                                                                                  |                       Test                        |
 | :------------------------------------------------------ | :------------------------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | :-----------------------------------------------: |
 | [sifrr-stater](./elements/sifrr-stater)                 | State manager for sifrr elements, save them to storage, replay state changes, travel to past state | [![Minified + Gzipped](https://img.badgesize.io/sifrr/sifrr-elements/master/elements/sifrr-stater/dist/sifrrstater.min.js?compression=gzip&maxAge=60)](./elements/sifrr-stater/dist/sifrrstater.min.js)                               |                       [WIP]                       |
-| [sifrr-tab-container](./elements/sifrr-tab-container)   | Scrollable tabs container                                                                          | [![Minified + Gzipped](https://img.badgesize.io/sifrr/sifrr-elements/master/elements/sifrr-tab-container/dist/sifrrtabcontainer.min.js?compression=gzip&maxAge=60)](./elements/sifrr-tab-container/dist/sifrrtabcontainer.min.js)     |  [OK](./elements/sifrr-tab-container/test/public) |
+| [sifrr-tab-container](./elements/sifrr-tab-container)   | Scrollable tabs container                                                                          | [![Minified + Gzipped](https://img.badgesize.io/sifrr/sifrr-elements/master/elements/sifrr-tab-container/dist/sifrrtabcontainer.min.js?compression=gzip&maxAge=60)](./elements/sifrr-tab-container/dist/sifrrtabcontainer.min.js)     | [OK](./elements/sifrr-tab-container/test/public)  |
 | [sifrr-tab-header](./elements/sifrr-tab-header)         | Scrollable tabs header that can be used with container                                             | [![Minified + Gzipped](https://img.badgesize.io/sifrr/sifrr-elements/master/elements/sifrr-tab-header/dist/sifrrtabheader.min.js?compression=gzip&maxAge=60)](./elements/sifrr-tab-header/dist/sifrrtabheader.min.js)                 |   [OK](./elements/sifrr-tab-header/test/public)   |
-| [sifrr-carousel](./elements/sifrr-carousel)             | Simple carousel with preview using tabs                                                            | [![Minified + Gzipped](https://img.badgesize.io/sifrr/sifrr-elements/master/elements/sifrr-carousel/dist/sifrrcarousel.min.js?compression=gzip&maxAge=60)](./elements/sifrr-carousel/dist/sifrrcarousel.min.js)                       |    [WIP](./elements/sifrr-carousel/test/public)    |
+| [sifrr-carousel](./elements/sifrr-carousel)             | Simple carousel with preview using tabs                                                            | [![Minified + Gzipped](https://img.badgesize.io/sifrr/sifrr-elements/master/elements/sifrr-carousel/dist/sifrrcarousel.min.js?compression=gzip&maxAge=60)](./elements/sifrr-carousel/dist/sifrrcarousel.min.js)                       |   [WIP](./elements/sifrr-carousel/test/public)    |
 | [sifrr-lazy-picture](./elements/sifrr-lazy-picture)     | Lazy loading pictures when in view                                                                 | [![Minified + Gzipped](https://img.badgesize.io/sifrr/sifrr-elements/master/elements/sifrr-lazy-picture/dist/sifrrlazypicture.min.js?compression=gzip&maxAge=60)](./elements/sifrr-lazy-picture/dist/sifrrlazypicture.min.js)         |  [OK](./elements/sifrr-lazy-picture/test/public)  |
 | [sifrr-lazy-img](./elements/sifrr-lazy-img)             | Lazy loading images when in view                                                                   | [![Minified + Gzipped](https://img.badgesize.io/sifrr/sifrr-elements/master/elements/sifrr-lazy-img/dist/sifrrlazyimg.min.js?compression=gzip&maxAge=60)](./elements/sifrr-lazy-img/dist/sifrrlazyimg.min.js)                         |    [OK](./elements/sifrr-lazy-img/test/public)    |
 | [sifrr-progress-round](./elements/sifrr-progress-round) | Circular progress circle                                                                           | [![Minified + Gzipped](https://img.badgesize.io/sifrr/sifrr-elements/master/elements/sifrr-progress-round/dist/sifrrprogressround.min.js?compression=gzip&maxAge=60)](./elements/sifrr-progress-round/dist/sifrrprogressround.min.js) | [OK](./elements/sifrr-progress-round/test/public) |
 | [sifrr-code-editor](./elements/sifrr-code-editor)       | Code editor with syntax highlighting using highlight.js                                            | [![Minified + Gzipped](https://img.badgesize.io/sifrr/sifrr-elements/master/elements/sifrr-code-editor/dist/sifrrcodeeditor.min.js?compression=gzip&maxAge=60)](./elements/sifrr-code-editor/dist/sifrrcodeeditor.min.js)             |                       [WIP]                       |
 | [sifrr-showcase](./elements/sifrr-showcase)             | Showcase sifrr-dom elements                                                                        | [![Minified + Gzipped](https://img.badgesize.io/sifrr/sifrr-elements/master/elements/sifrr-showcase/dist/sifrrshowcase.min.js?compression=gzip&maxAge=60)](./elements/sifrr-showcase/dist/sifrrshowcase.min.js)                       |                       [WIP]                       |
-| [sifrr-include](./elements/sifrr-include)               | Async include html/js/css with url                                                                 | [![Minified + Gzipped](https://img.badgesize.io/sifrr/sifrr-elements/master/elements/sifrr-include/dist/sifrrinclude.min.js?compression=gzip&maxAge=60)](./elements/sifrr-include/dist/sifrrinclude.min.js)                           |     [OK](./elements/sifrr-include/test/public)    |
-| [sifrr-shimmer](./elements/sifrr-shimmer)               | Facebook like Shimmer used as loading screen                                                       | [![Minified + Gzipped](https://img.badgesize.io/sifrr/sifrr-elements/master/elements/sifrr-shimmer/dist/sifrrshimmer.min.js?compression=gzip&maxAge=60)](./elements/sifrr-shimmer/dist/sifrrshimmer.min.js)                           |     [WIP](./elements/sifrr-shimmer/test/public)    |
+| [sifrr-include](./elements/sifrr-include)               | Async include html/js/css with url                                                                 | [![Minified + Gzipped](https://img.badgesize.io/sifrr/sifrr-elements/master/elements/sifrr-include/dist/sifrrinclude.min.js?compression=gzip&maxAge=60)](./elements/sifrr-include/dist/sifrrinclude.min.js)                           |    [OK](./elements/sifrr-include/test/public)     |
+| [sifrr-shimmer](./elements/sifrr-shimmer)               | Facebook like Shimmer used as loading screen                                                       | [![Minified + Gzipped](https://img.badgesize.io/sifrr/sifrr-elements/master/elements/sifrr-shimmer/dist/sifrrshimmer.min.js?compression=gzip&maxAge=60)](./elements/sifrr-shimmer/dist/sifrrshimmer.min.js)                           |    [WIP](./elements/sifrr-shimmer/test/public)    |
 
 ## View examples
 
@@ -49,16 +49,24 @@ Examples as showcase: <https://sifrr.github.io/sifrr-elements/showcase/> (only d
 
 ```html
 // load sifrr-dom
-<script src="https://unpkg.com/@sifrr/sifrr@{version}/packages/browser/sifrr-dom/dist/sifrr.dom.module.js" type="module"></script>
+<script
+  src="https://unpkg.com/@sifrr/sifrr@{version}/packages/browser/sifrr-dom/dist/sifrr.dom.module.js"
+  type="module"
+></script>
 // load element you want to add
-<script src="https://unpkg.com/@sifrr/elements@{version}/elements/element-name/dist/elementname.module.js" type="module"></script>
+<script
+  src="https://unpkg.com/@sifrr/elements@{version}/elements/element-name/dist/elementname.module.js"
+  type="module"
+></script>
 // for v0.0.3, version = 0.0.3
 ```
 
 #### Sifrr.Dom.load
 
 ```js
-Sifrr.Dom.load('element-name', { url: "https://unpkg.com/@sifrr/elements@{version}/elements/element-name/dist/elementname.min.js" })
+Sifrr.Dom.load('element-name', {
+  url: 'https://unpkg.com/@sifrr/elements@{version}/elements/element-name/dist/elementname.min.js'
+});
 ```
 
 ### NPM module
@@ -94,7 +102,9 @@ usage:
 
 import { LazyLoader } from '@sifrr/elements';
 
-const lazyLoader = new LazyLoader(rootMargin /* same as mutation observer's rootMargin, default: '0px 0px 0px 0px' */);
+const lazyLoader = new LazyLoader(
+  rootMargin /* same as mutation observer's rootMargin, default: '0px 0px 0px 0px' */
+);
 
 lazyLoader.observe(document.querySelector('.lazy'));
 

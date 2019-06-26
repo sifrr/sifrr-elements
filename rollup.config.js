@@ -5,7 +5,7 @@ const allConfigs = [];
 
 loadDir({
   dir: path.resolve('./elements'),
-  onFile: (file) => {
+  onFile: file => {
     if (file.match(/elements\/[a-z-]+\/sifrr-[a-z-]+\/rollup\.config\.js/)) {
       Array.prototype.push.apply(allConfigs, require(file));
     }

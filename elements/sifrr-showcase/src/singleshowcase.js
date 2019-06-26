@@ -56,11 +56,17 @@ class SifrrSingleShowcase extends SifrrDom.Element {
   beforeUpdate() {
     this.saveVariant();
     if (!this.state.element) return;
-    if (this._element !== this.state.element || this._js !== this.state.isjs || this._url !== this.state.elementUrl) {
+    if (
+      this._element !== this.state.element ||
+      this._js !== this.state.isjs ||
+      this._url !== this.state.elementUrl
+    ) {
       SifrrDom.load(this.state.element, {
         js: this.state.isjs == 'true',
         url: this.state.elementUrl ? this.state.elementUrl : undefined
-      }).then(() => this.$('#error').innerText = '').catch(e => this.$('#error').innerText = e.message);
+      })
+        .then(() => (this.$('#error').innerText = ''))
+        .catch(e => (this.$('#error').innerText = e.message));
       this._js = this.state.isjs;
       this._element = this.state.element;
       this._url = this.state.elementUrl;
@@ -76,7 +82,9 @@ class SifrrSingleShowcase extends SifrrDom.Element {
     let state;
     try {
       state = new Function(this.$('#elState').value).call(this.element());
-    } catch (e) { window.console.warn(e); }
+    } catch (e) {
+      window.console.warn(e);
+    }
     if (state && this.element() && this.element().isSifrr && this.element().state !== state) {
       this.element().state = state;
     }
@@ -89,13 +97,20 @@ class SifrrSingleShowcase extends SifrrDom.Element {
   createNewVariant() {
     const id = Math.max(...this.state.variants.map(s => s.variantId), 0) + 1;
     const cid = this.state.variants.findIndex(v => v.variantId == this.state.variantId) + 1 || 1;
-    this.state.variants.splice(cid, 0, Object.assign({}, {
-      variantId: id,
-      variantName: this.state.variantName,
-      style: this.state.style || '',
-      code: this.state.code || '',
-      elState: this.state.elState || ''
-    }));
+    this.state.variants.splice(
+      cid,
+      0,
+      Object.assign(
+        {},
+        {
+          variantId: id,
+          variantName: this.state.variantName,
+          style: this.state.style || '',
+          code: this.state.code || '',
+          elState: this.state.elState || ''
+        }
+      )
+    );
     this.switchVariant(id);
   }
 
@@ -103,7 +118,8 @@ class SifrrSingleShowcase extends SifrrDom.Element {
     this.state.variants.forEach((s, i) => {
       if (s.variantId == id) {
         this.state.variants.splice(i, 1);
-        if (this.state.variantId == id) this.switchVariant((this.state.variants[i] || {}).variantId);
+        if (this.state.variantId == id)
+          this.switchVariant((this.state.variants[i] || {}).variantId);
         else this.update();
       }
     });
@@ -141,7 +157,10 @@ class SifrrSingleShowcase extends SifrrDom.Element {
   }
 
   variant(id) {
-    return this.state.variants.find(s => s.variantId == id) || this.state.variants[this.state.variants.length - 1];
+    return (
+      this.state.variants.find(s => s.variantId == id) ||
+      this.state.variants[this.state.variants.length - 1]
+    );
   }
 }
 

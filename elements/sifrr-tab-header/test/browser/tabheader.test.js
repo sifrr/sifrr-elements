@@ -7,18 +7,24 @@ describe('tab-header', function() {
     it('has correct widths', async () => {
       const widths = await page.$eval('#single', el => {
         const cs = Array.from(el.children);
-        return { children: cs.map(c => c.offsetWidth).reduce((a, b) => a + b, 0), self: el.scrollWidth };
+        return {
+          children: cs.map(c => c.offsetWidth).reduce((a, b) => a + b, 0),
+          self: el.scrollWidth
+        };
       });
 
       expect(widths.self).to.equal(widths.children);
     });
 
     it('has correct scroll position', async () => {
-      assert.equal(await page.$eval('#single', async el => {
-        el.active = 0;
-        await delay(100);
-        return el.scrollLeft;
-      }), 0);
+      assert.equal(
+        await page.$eval('#single', async el => {
+          el.active = 0;
+          await delay(100);
+          return el.scrollLeft;
+        }),
+        0
+      );
 
       const next = await page.$eval('#single', async el => {
         el.active = 1;
@@ -63,10 +69,13 @@ describe('tab-header', function() {
   });
 
   it('changes options on attribute change', async () => {
-    assert.equal(await page.$eval('#single', async el => {
-      el.setAttribute('options', '{ "random": "ok" }');
-      await delay(10);
-      return el.options.random;
-    }), 'ok');
+    assert.equal(
+      await page.$eval('#single', async el => {
+        el.setAttribute('options', '{ "random": "ok" }');
+        await delay(10);
+        return el.options.random;
+      }),
+      'ok'
+    );
   });
 });

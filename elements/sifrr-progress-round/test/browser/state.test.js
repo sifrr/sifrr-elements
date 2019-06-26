@@ -13,7 +13,9 @@ describe('state managements', () => {
   });
 
   it('not change state twice on other attribute change', async () => {
-    await page.$eval('sifrr-progress-round', el => el.setAttribute('data-sifrr-state', '{"progress": 55}'));
+    await page.$eval('sifrr-progress-round', el =>
+      el.setAttribute('data-sifrr-state', '{"progress": 55}')
+    );
     assert.equal(await page.$eval('sifrr-progress-round', el => el.state.progress), 55);
   });
 });

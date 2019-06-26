@@ -73,7 +73,8 @@ sifrr-single-showcase {
   line-height: 24px;
   padding: 4px;
 }
-#error, #status {
+#error,
+#status {
   color: red;
 }
 sifrr-code-editor {
@@ -87,21 +88,24 @@ ul {
   height: calc(100% - 86px);
   overflow-y: scroll;
 }
-.variant, .showcase {
+.variant,
+.showcase {
   list-style-type: none;
-  border-bottom: 1px solid #5f616d; 
+  border-bottom: 1px solid #5f616d;
   span {
     color: red;
     float: right;
     margin-right: 10px;
   }
 }
-#saver, #loader {
+#saver,
+#loader {
   color: green;
   padding: 4px;
   margin: 0;
 }
-button, .button {
+button,
+.button {
   input {
     position: absolute;
     width: 100%;

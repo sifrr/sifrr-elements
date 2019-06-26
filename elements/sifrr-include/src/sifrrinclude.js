@@ -6,7 +6,8 @@ class SifrrInclude extends SifrrDom.Element {
   }
 
   onConnect() {
-    let preffix = '', suffix = '';
+    let preffix = '',
+      suffix = '';
     if (this.type === 'js') {
       preffix = '<script>';
       suffix = '</script>';
@@ -16,9 +17,11 @@ class SifrrInclude extends SifrrDom.Element {
     }
 
     if (this.url) {
-      fetch(this.url).then(r => r.text()).then(text => {
-        this.innerHTML = preffix + text + suffix;
-      });
+      fetch(this.url)
+        .then(r => r.text())
+        .then(text => {
+          this.innerHTML = preffix + text + suffix;
+        });
     }
   }
 }
