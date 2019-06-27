@@ -20,11 +20,16 @@ function getNewProps(rect) {
 function makeFullScreen(element, onUpdate) {
   const rect = element.getBoundingClientRect();
   const newProps = getNewProps(rect);
+  const clone = element.cloneNode(true);
   for (let prop in newProps) {
     element[`__o${prop}`] = element.style[prop];
     element[`__n${prop}`] = newProps[prop];
     element.style[prop] = newProps[prop];
   }
+  element.insertAdjacentElement('afterend', clone);
+  element.___clone = clone;
+  element.classList.add(FS_CLASS);
+
   return animate({
     target: element.style,
     to: {
@@ -34,11 +39,11 @@ function makeFullScreen(element, onUpdate) {
       height: window.innerHeight + 'px'
     },
     onUpdate
-  }).then(() => element.classList.add(FS_CLASS));
+  });
 }
 
 function exitFullScreen(element, onUpdate) {
-  element.classList.remove(FS_CLASS);
+  element.___clone.remove();
   return animate({
     target: element.style,
     to: {
@@ -54,7 +59,16 @@ function exitFullScreen(element, onUpdate) {
       delete element[`__o${s}`];
       delete element[`__n${s}`];
     });
+    element.classList.remove(FS_CLASS);
   });
 }
 
-export { makeFullScreen, exitFullScreen };
+function toggleFullScreen(element, onUpdate) {
+  if (element.classList.contains(FS_CLASS)) {
+    exitFullScreen(element, onUpdate);
+  } else {
+    makeFullScreen(element, onUpdate);
+  }
+}
+
+export { makeFullScreen, exitFullScreen, toggleFullScreen };

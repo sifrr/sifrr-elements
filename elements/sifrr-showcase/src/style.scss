@@ -37,6 +37,20 @@ sifrr-single-showcase {
   width: 70%;
   height: 100%;
 }
+#fs {
+  width: 40px;
+  height: 40px;
+  position: absolute;
+  right: 5px;
+  bottom: 5px;
+  background-image: url('https://cdn.jsdelivr.net/npm/feather-icons@4.22.1/dist/icons/maximize.svg');
+  background-size: contain;
+  z-index: 5;
+}
+#element.fs {
+  background: #3a3f5a;
+  padding: 0px;
+}
 
 // common
 .current {

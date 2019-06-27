@@ -3,6 +3,7 @@ import style from './style.scss';
 import html from './template.html';
 import '../../sifrr-code-editor/src/sifrrcodeeditor';
 import { getParam, setParam } from '../../../helpers/urlparams';
+import { toggleFullScreen } from '../../../helpers/makefullscreen';
 
 const template = SifrrDom.template`<style media="screen">
   ${style}
@@ -51,6 +52,9 @@ class SifrrSingleShowcase extends SifrrDom.Element {
       if (el.matches('.variant')) this.switchVariant(el.dataset.variantId);
       if (el.matches('.variant span')) this.deleteVariant(el.parentNode.dataset.variantId);
     });
+    this.$('#fs')._click = () => {
+      toggleFullScreen(this.$('#element'));
+    };
   }
 
   beforeUpdate() {

@@ -9,12 +9,7 @@
         value="${this.state.variantName}"
         data-sifrr-bind="variantName"
       />
-      <button
-        class="font"
-        type="button"
-        name="createVariant"
-        _click="${this.createNewVariant}"
-      >
+      <button class="font" type="button" name="createVariant" _click="${this.createNewVariant}">
         Create new variant
       </button>
       <style media="screen">
@@ -55,6 +50,7 @@
   <div class="flex-column" id="main">
     <div class="box" id="element" data-sifrr-html="true">
       ${this.state.code}
+      <i id="fs"></i>
     </div>
     <div class="box" id="code">
       <label class="font small" for="elementName">Element Name</label>
@@ -74,22 +70,14 @@
         data-sifrr-bind="elementUrl"
       />
       <label class="font small" for="elementName">Is JS File</label>
-      <select
-        id="isjs"
-        name="isjs"
-        value="${this.state.isjs}"
-        data-sifrr-bind="isjs"
-      >
+      <select id="isjs" name="isjs" value="${this.state.isjs}" data-sifrr-bind="isjs">
         <option value="true">true</option>
         <option value="false">false</option>
       </select>
       <span class="font" id="error"></span>
       <br />
       <label class="font small" for="htmlcode">HTML Code</label>
-      <sifrr-code-editor
-        data-sifrr-bind="code"
-        value="${this.state.code}"
-      ></sifrr-code-editor>
+      <sifrr-code-editor data-sifrr-bind="code" value="${this.state.code}"></sifrr-code-editor>
     </div>
   </div>
 </div>

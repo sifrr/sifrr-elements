@@ -20,9 +20,9 @@
     }));
   }
 
-  var css = "* {\n  box-sizing: border-box; }\n\n.font {\n  font-family: Roboto, Ariel; }\n\n.container {\n  width: 100%;\n  height: 100%;\n  display: flex;\n  flex-wrap: nowrap;\n  background-color: #3a3f5a; }\n\n#sidemenu {\n  width: 15%;\n  height: 100%; }\n\n#sidemenu > * {\n  height: 100%; }\n\nsifrr-single-showcase {\n  width: 85%;\n  height: 100%;\n  display: block; }\n\n#sidebar {\n  width: 30%;\n  height: 100%; }\n\n#sidebar > * {\n  height: 33.33%; }\n\n#main {\n  width: 70%;\n  height: 100%; }\n\n.current {\n  background: #5f616d; }\n\n.flex-column {\n  height: 100%;\n  display: flex;\n  flex-wrap: nowrap;\n  flex-direction: column; }\n\n.box {\n  width: 100%;\n  overflow: scroll;\n  border: 1px solid #5f616d; }\n\n#element {\n  padding: 20px;\n  height: 70%; }\n\n#code {\n  height: 30%; }\n\n#code sifrr-code-editor {\n  height: calc(100% - 48px) !important; }\n\n.head {\n  color: #cccccc;\n  text-align: center; }\n\n.small {\n  color: #8f9cb3;\n  font-size: 16px;\n  line-height: 24px;\n  padding: 4px; }\n\n#error,\n#status {\n  color: red; }\n\nsifrr-code-editor {\n  height: calc(100% - 24px); }\n\nul {\n  padding: 8px;\n  margin: 0; }\n\n#variants {\n  height: calc(100% - 86px);\n  overflow-y: scroll; }\n\n.variant,\n.showcase {\n  list-style-type: none;\n  border-bottom: 1px solid #5f616d; }\n  .variant span,\n  .showcase span {\n    color: red;\n    float: right;\n    margin-right: 10px; }\n\n#saver,\n#loader {\n  color: green;\n  padding: 4px;\n  margin: 0; }\n\nbutton,\n.button {\n  position: relative;\n  display: inline-block;\n  background: #cccccc;\n  border: 1px solid grey;\n  color: #3a3f5a;\n  font-size: 14px;\n  padding: 4px; }\n  button input,\n  .button input {\n    position: absolute;\n    width: 100%;\n    height: 100%;\n    top: 0;\n    left: 0;\n    opacity: 0; }\n";
+  var css = "* {\n  box-sizing: border-box; }\n\n.font {\n  font-family: Roboto, Ariel; }\n\n.container {\n  width: 100%;\n  height: 100%;\n  display: flex;\n  flex-wrap: nowrap;\n  background-color: #3a3f5a; }\n\n#sidemenu {\n  width: 15%;\n  height: 100%; }\n\n#sidemenu > * {\n  height: 100%; }\n\nsifrr-single-showcase {\n  width: 85%;\n  height: 100%;\n  display: block; }\n\n#sidebar {\n  width: 30%;\n  height: 100%; }\n\n#sidebar > * {\n  height: 33.33%; }\n\n#main {\n  width: 70%;\n  height: 100%; }\n\n#fs {\n  width: 40px;\n  height: 40px;\n  position: absolute;\n  right: 5px;\n  bottom: 5px;\n  background-image: url(\"https://cdn.jsdelivr.net/npm/feather-icons@4.22.1/dist/icons/maximize.svg\");\n  background-size: contain;\n  z-index: 5; }\n\n#element.fs {\n  background: #3a3f5a;\n  padding: 0px; }\n\n.current {\n  background: #5f616d; }\n\n.flex-column {\n  height: 100%;\n  display: flex;\n  flex-wrap: nowrap;\n  flex-direction: column; }\n\n.box {\n  width: 100%;\n  overflow: scroll;\n  border: 1px solid #5f616d; }\n\n#element {\n  padding: 20px;\n  height: 70%; }\n\n#code {\n  height: 30%; }\n\n#code sifrr-code-editor {\n  height: calc(100% - 48px) !important; }\n\n.head {\n  color: #cccccc;\n  text-align: center; }\n\n.small {\n  color: #8f9cb3;\n  font-size: 16px;\n  line-height: 24px;\n  padding: 4px; }\n\n#error,\n#status {\n  color: red; }\n\nsifrr-code-editor {\n  height: calc(100% - 24px); }\n\nul {\n  padding: 8px;\n  margin: 0; }\n\n#variants {\n  height: calc(100% - 86px);\n  overflow-y: scroll; }\n\n.variant,\n.showcase {\n  list-style-type: none;\n  border-bottom: 1px solid #5f616d; }\n  .variant span,\n  .showcase span {\n    color: red;\n    float: right;\n    margin-right: 10px; }\n\n#saver,\n#loader {\n  color: green;\n  padding: 4px;\n  margin: 0; }\n\nbutton,\n.button {\n  position: relative;\n  display: inline-block;\n  background: #cccccc;\n  border: 1px solid grey;\n  color: #3a3f5a;\n  font-size: 14px;\n  padding: 4px; }\n  button input,\n  .button input {\n    position: absolute;\n    width: 100%;\n    height: 100%;\n    top: 0;\n    left: 0;\n    opacity: 0; }\n";
 
-  const html = "<div class=\"container\">\n  <div class=\"flex-column\" id=\"sidebar\">\n    <div class=\"box\">\n      <h3 class=\"font head\">Variants</h3>\n      <input id=\"variantName\" type=\"text\" name=\"variantName\" value=\"${this.state.variantName}\" data-sifrr-bind=\"variantName\">\n      <button class=\"font\" type=\"button\" name=\"createVariant\" _click=\"${this.createNewVariant}\">\n        Create new variant\n      </button>\n      <style media=\"screen\">\n        #variant${this.state.variantId} {\n          background: #5f616d;\n        }\n      </style>\n      <div id=\"variants\">\n        <div data-sifrr-repeat=\"${this.state.variants}\">\n          <li class=\"font variant small\" data-variant-id=\"${this.state.variantId}\" id=\"variant${this.state.variantId}\">\n            ${this.state.variantName}<span>X</span>\n          </li>\n        </div>\n      </div>\n    </div>\n    <div class=\"box\">\n      <label class=\"font small\" for=\"style\">Element CSS Styles</label>\n      <sifrr-code-editor lang=\"css\" data-sifrr-bind=\"style\" value=\"${this.state.style}\"></sifrr-code-editor>\n    </div>\n    <div class=\"box\">\n      <label class=\"font small\" for=\"elState\">Element State Function</label>\n      <sifrr-code-editor id=\"elState\" lang=\"javascript\" data-sifrr-bind=\"elState\" value=\"${this.state.elState}\"></sifrr-code-editor>\n    </div>\n  </div>\n  <div class=\"flex-column\" id=\"main\">\n    <div class=\"box\" id=\"element\" data-sifrr-html=\"true\">\n      ${this.state.code}\n    </div>\n    <div class=\"box\" id=\"code\">\n      <label class=\"font small\" for=\"elementName\">Element Name</label>\n      <input type=\"text\" name=\"elementName\" placeholder=\"Enter element name here...\" _input=\"${this.updateHtml}\" value=\"${this.state.element}\">\n      <label class=\"font small\" for=\"customUrl\">Custom Url</label>\n      <input type=\"text\" name=\"customUrl\" placeholder=\"Enter element url here...\" value=\"${this.state.elementUrl}\" data-sifrr-bind=\"elementUrl\">\n      <label class=\"font small\" for=\"elementName\">Is JS File</label>\n      <select id=\"isjs\" name=\"isjs\" value=\"${this.state.isjs}\" data-sifrr-bind=\"isjs\">\n        <option value=\"true\">true</option>\n        <option value=\"false\">false</option>\n      </select>\n      <span class=\"font\" id=\"error\"></span>\n      <br>\n      <label class=\"font small\" for=\"htmlcode\">HTML Code</label>\n      <sifrr-code-editor data-sifrr-bind=\"code\" value=\"${this.state.code}\"></sifrr-code-editor>\n    </div>\n  </div>\n</div>\n";
+  const html = "<div class=\"container\">\n  <div class=\"flex-column\" id=\"sidebar\">\n    <div class=\"box\">\n      <h3 class=\"font head\">Variants</h3>\n      <input id=\"variantName\" type=\"text\" name=\"variantName\" value=\"${this.state.variantName}\" data-sifrr-bind=\"variantName\">\n      <button class=\"font\" type=\"button\" name=\"createVariant\" _click=\"${this.createNewVariant}\">\n        Create new variant\n      </button>\n      <style media=\"screen\">\n        #variant${this.state.variantId} {\n          background: #5f616d;\n        }\n      </style>\n      <div id=\"variants\">\n        <div data-sifrr-repeat=\"${this.state.variants}\">\n          <li class=\"font variant small\" data-variant-id=\"${this.state.variantId}\" id=\"variant${this.state.variantId}\">\n            ${this.state.variantName}<span>X</span>\n          </li>\n        </div>\n      </div>\n    </div>\n    <div class=\"box\">\n      <label class=\"font small\" for=\"style\">Element CSS Styles</label>\n      <sifrr-code-editor lang=\"css\" data-sifrr-bind=\"style\" value=\"${this.state.style}\"></sifrr-code-editor>\n    </div>\n    <div class=\"box\">\n      <label class=\"font small\" for=\"elState\">Element State Function</label>\n      <sifrr-code-editor id=\"elState\" lang=\"javascript\" data-sifrr-bind=\"elState\" value=\"${this.state.elState}\"></sifrr-code-editor>\n    </div>\n  </div>\n  <div class=\"flex-column\" id=\"main\">\n    <div class=\"box\" id=\"element\" data-sifrr-html=\"true\">\n      ${this.state.code}\n      <i id=\"fs\"></i>\n    </div>\n    <div class=\"box\" id=\"code\">\n      <label class=\"font small\" for=\"elementName\">Element Name</label>\n      <input type=\"text\" name=\"elementName\" placeholder=\"Enter element name here...\" _input=\"${this.updateHtml}\" value=\"${this.state.element}\">\n      <label class=\"font small\" for=\"customUrl\">Custom Url</label>\n      <input type=\"text\" name=\"customUrl\" placeholder=\"Enter element url here...\" value=\"${this.state.elementUrl}\" data-sifrr-bind=\"elementUrl\">\n      <label class=\"font small\" for=\"elementName\">Is JS File</label>\n      <select id=\"isjs\" name=\"isjs\" value=\"${this.state.isjs}\" data-sifrr-bind=\"isjs\">\n        <option value=\"true\">true</option>\n        <option value=\"false\">false</option>\n      </select>\n      <span class=\"font\" id=\"error\"></span>\n      <br>\n      <label class=\"font small\" for=\"htmlcode\">HTML Code</label>\n      <sifrr-code-editor data-sifrr-bind=\"code\" value=\"${this.state.code}\"></sifrr-code-editor>\n    </div>\n  </div>\n</div>\n";
 
   var css$1 = ":host {\n  display: block;\n  position: relative; }\n\n* {\n  box-sizing: border-box; }\n\ntextarea {\n  resize: none;\n  border: none; }\n\ntextarea,\n.CodeMirror {\n  height: 100%;\n  width: 100%; }\n";
 
@@ -407,6 +407,272 @@
     history.replaceState(newParams, 'Title', "".concat(location.pathname, "?").concat(queryString.stringify(newParams)));
   }
 
+  var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
+
+  function createCommonjsModule(fn, module) {
+  	return module = { exports: {} }, fn(module, module.exports), module.exports;
+  }
+
+  var sifrr_animate = createCommonjsModule(function (module, exports) {
+  /*! sifrr-animate v0.0.3 - sifrr project | MIT licensed | https://github.com/sifrr/sifrr-animate */
+  (function (global, factory) {
+    module.exports = factory();
+  }(commonjsGlobal, function () {  const beziers = {};
+    class Bezier {
+      constructor(args) {
+        const key = args.join('_');
+        if (!beziers[key]) {
+          this.setProps(...args);
+          beziers[key] = this.final.bind(this);
+        }
+        return beziers[key];
+      }
+      setProps(x1, y1, x2, y2) {
+        let props = {
+          x1,
+          y1,
+          x2,
+          y2,
+          A: (x1, x2) => 1.0 - 3.0 * x2 + 3.0 * x1,
+          B: (x1, x2) => 3.0 * x2 - 6.0 * x1,
+          C: x1 => 3.0 * x1,
+          CalcBezier: (t, x1, x2) => ((this.A(x1, x2) * t + this.B(x1, x2)) * t + this.C(x1)) * t,
+          GetSlope: (t, x1, x2) => 3.0 * this.A(x1, x2) * t * t + 2.0 * this.B(x1, x2) * t + this.C(x1)
+        };
+        Object.assign(this, props);
+      }
+      final(x) {
+        if (this.x1 == this.y1 && this.x2 == this.y2) return x;
+        return this.CalcBezier(this.GetTForX(x), this.y1, this.y2);
+      }
+      GetTForX(xx) {
+        let t = xx;
+        for (let i = 0; i < 4; ++i) {
+          let slope = this.GetSlope(t, this.x1, this.x2);
+          if (slope == 0) return t;
+          let x = this.CalcBezier(t, this.x1, this.x2) - xx;
+          t -= x / slope;
+        }
+        return t;
+      }
+    }
+    var bezier = Bezier;
+    var types = {
+      linear: [0, 0, 1, 1],
+      ease: [.25, .1, .25, 1],
+      easeIn: [.42, 0, 1, 1],
+      easeOut: [0, 0, .58, 1],
+      easeInOut: [.42, 0, .58, 1],
+      spring: [.3642, 0, .6358, 1]
+    };
+    var wait = t => new Promise(res => setTimeout(res, t));
+    const digitRgx = /((?:[+\-*/]=)?-?\d+\.?\d*)/;
+    const frames = new Set();
+    function runFrames(currentTime) {
+      frames.forEach(f => f(currentTime));
+      window.requestAnimationFrame(runFrames);
+    }
+    window.requestAnimationFrame(runFrames);
+    function animateOne({
+      target,
+      prop,
+      from,
+      to,
+      time = 300,
+      type = 'spring',
+      onUpdate,
+      round = false,
+      delay = 0
+    }) {
+      const toSplit = to.toString().split(digitRgx),
+            l = toSplit.length,
+            raw = [],
+            fromNums = [],
+            diffs = [];
+      const fromSplit = (from || target[prop] || '').toString().split(digitRgx);
+      const onUp = typeof onUpdate === 'function';
+      for (let i = 0; i < l; i++) {
+        const fn = Number(fromSplit[i]) || 0;
+        let tn = Number(toSplit[i]);
+        if (toSplit[i][1] === '=') {
+          tn = Number(toSplit[i].slice(2));
+          switch (toSplit[i][0]) {
+            case '+':
+              tn = fn + tn;
+              break;
+            case '-':
+              tn = fn - tn;
+              break;
+            case '*':
+              tn = fn * tn;
+              break;
+            case '/':
+              tn = fn / tn;
+              break;
+          }
+        }
+        if (isNaN(tn) || !toSplit[i]) raw.push(toSplit[i]);else {
+          fromNums.push(fn);
+          diffs.push(tn - fn);
+        }
+      }
+      const rawObj = {
+        raw
+      };
+      return wait(delay).then(() => new Promise((resolve, reject) => {
+        if (types[type]) type = types[type];
+        if (Array.isArray(type)) type = new bezier(type);else if (typeof type !== 'function') return reject(Error('type should be one of ' + Object.keys(types).toString() + ' or Bezier Array or Function, given ' + type));
+        let startTime;
+        const frame = function (currentTime) {
+          startTime = startTime || currentTime - 17;
+          const percent = (currentTime - startTime) / time,
+                bper = type(percent >= 1 ? 1 : percent);
+          const next = diffs.map((d, i) => {
+            const n = bper * d + fromNums[i];
+            return round ? Math.round(n) : n;
+          });
+          const val = String.raw(rawObj, ...next);
+          try {
+            target[prop] = Number(val) || val;
+            if (onUp) onUpdate(target, prop, target[prop]);
+            if (percent >= 1) resolve(frames.delete(frame));
+          } catch (e) {
+            frames.delete(frame);
+            reject(e);
+          }
+        };
+        frames.add(frame);
+      }));
+    }
+    var animateone = animateOne;
+    function animate({
+      targets,
+      target,
+      to,
+      time,
+      type,
+      onUpdate,
+      round,
+      delay
+    }) {
+      targets = targets ? Array.from(targets) : [target];
+      function iterate(tg, props, d, ntime) {
+        const promises = [];
+        for (let prop in props) {
+          let from, final;
+          if (Array.isArray(props[prop])) [from, final] = props[prop];else final = props[prop];
+          if (typeof props[prop] === 'object' && !Array.isArray(props[prop])) {
+            promises.push(iterate(tg[prop], props[prop], d, ntime));
+          } else {
+            promises.push(animateone({
+              target: tg,
+              prop,
+              to: final,
+              time: ntime,
+              type,
+              from,
+              onUpdate,
+              round,
+              delay: d
+            }));
+          }
+        }
+        return Promise.all(promises);
+      }
+      let numTo = to,
+          numDelay = delay,
+          numTime = time;
+      return Promise.all(targets.map((target, i) => {
+        if (typeof to === 'function') numTo = to.call(target, i);
+        if (typeof delay === 'function') numDelay = delay.call(target, i);
+        if (typeof time === 'function') numTime = time.call(target, i);
+        return iterate(target, numTo, numDelay, numTime);
+      }));
+    }
+    animate.types = types;
+    animate.wait = wait;
+    animate.animate = animate;
+    animate.keyframes = arrOpts => {
+      let promise = Promise.resolve(true);
+      arrOpts.forEach(opts => {
+        if (Array.isArray(opts)) promise = promise.then(() => Promise.all(opts.map(animate)));
+        promise = promise.then(() => animate(opts));
+      });
+      return promise;
+    };
+    animate.loop = fxn => fxn().then(() => animate.loop(fxn));
+    var animate_1 = animate;
+    return animate_1;
+  }));
+  /*! (c) @aadityataparia */
+  });
+
+  const styles = ['position', 'left', 'top', 'width', 'height', 'z-index'];
+  const FS_CLASS = 'fs';
+  function getNewProps(rect) {
+    const ans = {};
+    styles.forEach(s => {
+      if (s === 'position') {
+        ans[s] = 'fixed';
+      } else if (s === 'z-index') {
+        ans[s] = '99999';
+      } else {
+        ans[s] = rect[s] + 'px';
+      }
+    });
+    return ans;
+  }
+  function makeFullScreen(element, onUpdate) {
+    const rect = element.getBoundingClientRect();
+    const newProps = getNewProps(rect);
+    const clone = element.cloneNode(true);
+    for (let prop in newProps) {
+      element["__o".concat(prop)] = element.style[prop];
+      element["__n".concat(prop)] = newProps[prop];
+      element.style[prop] = newProps[prop];
+    }
+    element.insertAdjacentElement('afterend', clone);
+    element.___clone = clone;
+    element.classList.add(FS_CLASS);
+    return sifrr_animate({
+      target: element.style,
+      to: {
+        left: '0px',
+        top: '0px',
+        width: window.innerWidth + 'px',
+        height: window.innerHeight + 'px'
+      },
+      onUpdate
+    });
+  }
+  function exitFullScreen(element, onUpdate) {
+    element.___clone.remove();
+    return sifrr_animate({
+      target: element.style,
+      to: {
+        left: element.__nleft,
+        top: element.__ntop,
+        width: element.__nwidth,
+        height: element.__nheight
+      },
+      onUpdate
+    }).then(() => {
+      styles.forEach(s => {
+        element.style[s] = element["__o".concat(s)];
+        delete element["__o".concat(s)];
+        delete element["__n".concat(s)];
+      });
+      element.classList.remove(FS_CLASS);
+    });
+  }
+  function toggleFullScreen(element, onUpdate) {
+    if (element.classList.contains(FS_CLASS)) {
+      exitFullScreen(element, onUpdate);
+    } else {
+      makeFullScreen(element, onUpdate);
+    }
+  }
+
   function _templateObject$1() {
     const data = _taggedTemplateLiteral(["<style media=\"screen\">\n  ", "\n</style>\n<style>\n${this.state.style}\n</style>\n", ""], ["<style media=\"screen\">\n  ", "\n</style>\n<style>\n\\${this.state.style}\n</style>\n", ""]);
     _templateObject$1 = function () {
@@ -444,6 +710,9 @@
         if (el.matches('.variant')) this.switchVariant(el.dataset.variantId);
         if (el.matches('.variant span')) this.deleteVariant(el.parentNode.dataset.variantId);
       });
+      this.$('#fs')._click = () => {
+        toggleFullScreen(this.$('#element'));
+      };
     }
     beforeUpdate() {
       this.saveVariant();
