@@ -22,6 +22,6 @@ describe('include', function() {
 
   it('loads js', async function() {
     const js = await page.$eval('#js script', el => el.innerHTML);
-    expect(js).to.equal("window.ok = 'ok';");
+    expect(js).to.equal("window.ok = 'ok';\n");
   });
 });
