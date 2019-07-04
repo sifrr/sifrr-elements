@@ -7,11 +7,12 @@ const globals = {
   '@sifrr/dom': 'Sifrr.Dom',
   '@sifrr/fetch': 'Sifrr.Fetch',
   '@sifrr/storage': 'Sifrr.Storage',
-  '@sifrr/animate': 'Sifrr.animate'
+  '@sifrr/animate': 'Sifrr.animate',
+  'query-string': 'queryString'
 };
 const footer = '/*! (c) @aadityataparia */';
 
-function moduleConfig(name, root, minify = false, isModule = false) {
+function moduleConfig(name, root, minify = false, type) {
   const filename = name.toLowerCase();
   const banner = `/*! ${name} v${version} - sifrr project | MIT licensed | https://github.com/sifrr/sifrr-elements */`;
   return getRollupConfig(
@@ -21,7 +22,7 @@ function moduleConfig(name, root, minify = false, isModule = false) {
       outputFolder: path.join(root, './dist'),
       outputFileName: filename,
       minify,
-      type: isModule ? 'module' : 'browser'
+      type
     },
     {
       output: {
@@ -34,12 +35,11 @@ function moduleConfig(name, root, minify = false, isModule = false) {
   );
 }
 
-module.exports = (name, __dirname, isBrowser = true) => {
-  let ret = [];
-  if (isBrowser) {
-    ret = [moduleConfig(name, __dirname), moduleConfig(name, __dirname, true)];
-  }
-  ret.push(moduleConfig(name, __dirname, false, true));
+module.exports = (name, __dirname) => {
+  let ret = [
+    moduleConfig(name, __dirname, false, ['cjs', 'browser']),
+    moduleConfig(name, __dirname, true, 'browser')
+  ];
 
   return ret;
 };
