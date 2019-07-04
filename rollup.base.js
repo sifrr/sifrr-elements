@@ -6,9 +6,7 @@ const external = ['@sifrr/dom', '@sifrr/fetch', '@sifrr/storage'];
 const globals = {
   '@sifrr/dom': 'Sifrr.Dom',
   '@sifrr/fetch': 'Sifrr.Fetch',
-  '@sifrr/storage': 'Sifrr.Storage',
-  '@sifrr/animate': 'Sifrr.animate',
-  'query-string': 'queryString'
+  '@sifrr/storage': 'Sifrr.Storage'
 };
 const footer = '/*! (c) @aadityataparia */';
 
@@ -31,7 +29,8 @@ function moduleConfig(name, root, minify = false, type) {
         globals
       },
       external
-    }
+    },
+    false
   );
 }
 
