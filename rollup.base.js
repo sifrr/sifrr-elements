@@ -6,7 +6,8 @@ const external = ['@sifrr/dom', '@sifrr/fetch', '@sifrr/storage'];
 const globals = {
   '@sifrr/dom': 'Sifrr.Dom',
   '@sifrr/fetch': 'Sifrr.Fetch',
-  '@sifrr/storage': 'Sifrr.Storage'
+  '@sifrr/storage': 'Sifrr.Storage',
+  '@sifrr/animate': 'Sifrr.animate'
 };
 const footer = '/*! (c) @aadityataparia */';
 
