@@ -7,7 +7,7 @@ jobs:
     steps:
       - add_ssh_keys:
           fingerprints:
-            - "22:0a:b8:85:e7:5a:96:2a:90:5c:16:01:d6:1f:e8:b6"
+            - '22:0a:b8:85:e7:5a:96:2a:90:5c:16:01:d6:1f:e8:b6'
       - restore_cache:
           keys:
             - sifrr-elements-v1-source-{{ .Branch }}-{{ .Revision }}
@@ -17,7 +17,7 @@ jobs:
       - save_cache:
           key: sifrr-elements-v1-source-{{ .Branch }}-{{ .Revision }}
           paths:
-            - ".git"
+            - '.git'
       - restore_cache:
           keys:
             - sifrr-v1-yarn-{{ checksum "yarn.lock" }}
@@ -33,16 +33,14 @@ jobs:
           name: Check chrome version
           command: google-chrome --version
       - run:
-          name: Add git user email and name
+          name: Add git user email and name and Update files
           command: |
-            git config --global user.email "aadityataparia@gmail.com"
+            git config --global user.email "aadityataparia@gmail.com" || exit 0
             git config --global user.name "Aaditya Taparia"
-      - run:
-          name: Update dist files
-          command: ./scripts/distribute
+            ./scripts/distribute
       - run:
           name: Run tests
-          command: COVERAGE=true LCOV=true yarn test -j
+          command: PARALLEL=true COVERAGE=true LCOV=true yarn test -j
       - run:
           name: New Release
           command: |

@@ -19,11 +19,11 @@ const runBrowserTests = process.argv.indexOf('-b') > 0 || process.argv.indexOf('
 const serverOnly = process.argv.indexOf('-s') > 0 || process.argv.indexOf('--server') > 0;
 
 // test port
-let port = 8888;
-const portIndex = Math.max(process.argv.indexOf('--test-port'), process.argv.indexOf('-tp'));
-if (portIndex !== -1) {
-  port = +process.argv[portIndex + 1];
-}
+// let port = 8888;
+// const portIndex = Math.max(process.argv.indexOf('--test-port'), process.argv.indexOf('-tp'));
+// if (portIndex !== -1) {
+//   port = +process.argv[portIndex + 1];
+// }
 
 // check if need to filter
 let filters;
@@ -36,32 +36,42 @@ if (filter > 0) {
 const reporters = ['html'];
 if (process.env.LCOV === 'true') reporters.push('lcov');
 
-const root = path.join(__dirname, '../../', process.argv[2]) || path.resolve('./');
+const roots = (process.argv[2] || './')
+  .split(/[ ,\n]/g)
+  .map(p => path.join(__dirname, '../../', p));
+
+const options = roots.map(root => {
+  return {
+    root,
+    serverOnly,
+    runUnitTests,
+    runBrowserTests,
+    coverage,
+    filters,
+    port: 'random',
+    useJunitReporter,
+    inspect,
+    folders: {
+      static: [path.join(__dirname, '../../dist')],
+      coverage: path.join(__dirname, '../../.nyc_output'),
+      source: path.join(__dirname, '../../elements')
+    },
+    sourceFileRegex: /sifrr-[a-z-]+\/src\/.*\.js$/,
+    junitXmlFile: path.join(__dirname, `../../test-results/${path.basename(root)}/results.xml`),
+    reporters
+  };
+});
 
 const { runTests } = require('@sifrr/dev');
 
-runTests({
-  root,
-  serverOnly,
-  runUnitTests,
-  runBrowserTests,
-  coverage,
-  filters,
-  port,
-  useJunitReporter,
-  inspect,
-  folders: {
-    static: [path.join(__dirname, '../../dist')],
-    coverage: path.join(__dirname, '../../.nyc_output'),
-    source: path.join(__dirname, '../../elements')
-  },
-  sourceFileRegex: /sifrr-[a-z-]+\/src\/.*\.js$/,
-  junitXmlFile: path.join(__dirname, `../../test-results/${path.basename(root)}/results.xml`),
-  reporters
-})
-  .then(() => global.console.log(`All tests passed`))
-  .catch(e => {
-    if (Number(e)) global.console.log(`${e} tests failed!`);
-    else global.console.error(e);
-    process.exit(1);
-  });
+runTests(options.length === 0 ? options[0] : options, process.env.PARALLEL === 'true').then(
+  ({ failures, coverage }) => {
+    console.table(coverage);
+    if (failures > 0) {
+      global.console.error(`${failures} tests failed`);
+      process.exit(1);
+    }
+    global.console.log('All tests passed.');
+    process.exit(0);
+  }
+);
