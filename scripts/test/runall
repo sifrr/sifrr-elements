@@ -6,6 +6,7 @@ STATUS=0
 
 if [[ $COVERAGE == 'true' ]]; then
   rm -rf ./.nyc_output
+  rm -rf ./covergae
 fi
 
 dirs=(./elements/*)

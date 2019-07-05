@@ -30,6 +30,7 @@ const template = SifrrDom.template`<style media="screen">
   </sifrr-tab-header>
 </div>`;
 
+SifrrDom.Event.add('click');
 class SifrrCarousel extends SifrrDom.Element {
   static get template() {
     return template;
