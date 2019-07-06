@@ -1,14 +1,10 @@
 import SifrrDom from '@sifrr/dom';
-import style from './style.scss';
 import html from './template.html';
 import '../../sifrr-code-editor/src/sifrrcodeeditor';
 import { getParam, setParam } from '../../../helpers/urlparams';
 import { toggleFullScreen } from '../../../helpers/makefullscreen';
 
-const template = SifrrDom.template`<style media="screen">
-  ${style}
-</style>
-<style>
+const template = SifrrDom.template`<style>
 \${this.state.style}
 </style>
 ${html}`;
@@ -44,6 +40,10 @@ class SifrrSingleShowcase extends SifrrDom.Element {
 
   static observedAttrs() {
     return ['url'];
+  }
+
+  static get useShadowRoot() {
+    return false;
   }
 
   onConnect() {

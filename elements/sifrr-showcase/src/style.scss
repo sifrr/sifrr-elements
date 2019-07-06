@@ -1,8 +1,6 @@
 * {
   box-sizing: border-box;
-}
-.font {
-  font-family: Roboto, Ariel;
+  font-family: sans-serif;
 }
 .container {
   width: 100%;
@@ -26,6 +24,7 @@ sifrr-single-showcase {
 }
 
 // Single showcase
+$fsHeight: 40px;
 #sidebar {
   width: 30%;
   height: 100%;
@@ -38,18 +37,22 @@ sifrr-single-showcase {
   height: 100%;
 }
 #fs {
-  width: 40px;
-  height: 40px;
+  width: $fsHeight;
+  height: $fsHeight;
   position: absolute;
   right: 5px;
-  bottom: 5px;
-  background-image: url('https://cdn.jsdelivr.net/npm/feather-icons@4.22.1/dist/icons/maximize.svg');
+  top: calc(70% - #{$fsHeight + 5px});
+  color: white;
   background-size: contain;
-  z-index: 5;
+  z-index: 1000;
 }
 #element.fs {
   background: #3a3f5a;
   padding: 0px;
+
+  & ~ #fs {
+    top: calc(100% - #{$fsHeight + 5px});
+  }
 }
 
 // common
@@ -130,9 +133,20 @@ button,
   }
   position: relative;
   display: inline-block;
-  background: #cccccc;
-  border: 1px solid grey;
-  color: #3a3f5a;
+  background: #8c96cc;
+  color: #ffffff;
   font-size: 14px;
   padding: 4px;
+}
+
+button,
+.button,
+input {
+  border: 1px solid #27313a;
+  padding: 4px;
+  font-size: 14px;
+  line-height: 20px;
+  height: 28px;
+  width: 50%;
+  vertical-align: middle;
 }

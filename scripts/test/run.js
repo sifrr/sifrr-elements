@@ -52,7 +52,7 @@ const options = roots.map(root => {
     useJunitReporter,
     inspect,
     folders: {
-      static: [path.join(__dirname, '../../dist')],
+      static: [path.join(__dirname, '../../dist'), path.join(__dirname, '../../showcase')],
       coverage: path.join(__dirname, '../../.nyc_output'),
       source: path.join(__dirname, '../../elements')
     },

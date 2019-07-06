@@ -21,8 +21,8 @@ const template = SifrrDom.template`<style media="screen">
       </span>
       <button class="font" type="button" name="saveFile" _click="\${this.saveFile}">Save to File</button>
       <h3 class="font head">Showcases</h3>
-      <input id="showcaseName" type="text" name="showcase" _input=\${this.changeName} value=\${this.state.showcases[this.state.current].name}>
-      <button class="font" type="button" name="createVariant" _click="\${this.createShowcase}">Create new showcase</button>
+      <input style="width: 100%" id="showcaseName" type="text" name="showcase" _input=\${this.changeName} value=\${this.state.showcases[this.state.current].name}>
+      <button style="width: 100%" class="font" type="button" name="createVariant" _click="\${this.createShowcase}">Create new showcase</button>
       <div id="showcases" data-sifrr-repeat="\${this.state.showcases}">
         <li class="font showcase small \${(this.root && this.state.name === this.root.state.currentSC.name) ? 'current' : ''}" data-showcase-id="\${this.state.key}" draggable="true">\${this.state.name}<span>X</span></li>
       </div>

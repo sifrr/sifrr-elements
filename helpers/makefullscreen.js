@@ -9,7 +9,7 @@ function getNewProps(rect) {
     if (s === 'position') {
       ans[s] = 'fixed';
     } else if (s === 'z-index') {
-      ans[s] = '99999';
+      ans[s] = '999';
     } else {
       ans[s] = rect[s] + 'px';
     }
@@ -43,7 +43,6 @@ function makeFullScreen(element, onUpdate) {
 }
 
 function exitFullScreen(element, onUpdate) {
-  element.___clone.remove();
   return animate({
     target: element.style,
     to: {
@@ -54,6 +53,7 @@ function exitFullScreen(element, onUpdate) {
     },
     onUpdate
   }).then(() => {
+    element.___clone.remove();
     styles.forEach(s => {
       element.style[s] = element[`__o${s}`];
       delete element[`__o${s}`];
