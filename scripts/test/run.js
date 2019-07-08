@@ -19,11 +19,11 @@ const runBrowserTests = process.argv.indexOf('-b') > 0 || process.argv.indexOf('
 const serverOnly = process.argv.indexOf('-s') > 0 || process.argv.indexOf('--server') > 0;
 
 // test port
-// let port = 8888;
-// const portIndex = Math.max(process.argv.indexOf('--test-port'), process.argv.indexOf('-tp'));
-// if (portIndex !== -1) {
-//   port = +process.argv[portIndex + 1];
-// }
+let port = 8888;
+const portIndex = Math.max(process.argv.indexOf('--test-port'), process.argv.indexOf('-tp'));
+if (portIndex !== -1) {
+  port = +process.argv[portIndex + 1];
+}
 
 // check if need to filter
 let filters;
@@ -40,7 +40,7 @@ const roots = (process.argv[2] || './')
   .split(/[ ,\n]/g)
   .map(p => path.join(__dirname, '../../', p));
 
-const options = roots.map(root => {
+const options = roots.map((root, i) => {
   return {
     root,
     serverOnly,
@@ -48,7 +48,7 @@ const options = roots.map(root => {
     runBrowserTests,
     coverage,
     filters,
-    port: 'random',
+    port: port + i,
     useJunitReporter,
     inspect,
     folders: {
