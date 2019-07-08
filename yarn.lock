@@ -781,10 +781,10 @@
   resolved "https://registry.yarnpkg.com/@sifrr/animate/-/animate-0.0.3.tgz#a54d586182b5f8a9b83a2ea6d342419847eccab8"
   integrity sha512-VaWuwk00oRyFuFwP1tkRYx0fiyDtrv1Lcf3oi1tNZDUQn4zAo3snhai3LYfMQHWYWoTWDS0KBAc8DoSpDZ9m6Q==
 
-"@sifrr/dev@0.0.21":
-  version "0.0.21"
-  resolved "https://registry.yarnpkg.com/@sifrr/dev/-/dev-0.0.21.tgz#0aa086dd8dd60a9d84ab7ca9610331681febbd83"
-  integrity sha512-JnIip5MbMsOcVqOmZVv01rhDq2J7JYSrJ55d/SlJjiARFbmMbWB+bZHRadxyI3kZ5yfvGY+0xftWAeu5u0x/mQ==
+"@sifrr/dev@0.0.22":
+  version "0.0.22"
+  resolved "https://registry.yarnpkg.com/@sifrr/dev/-/dev-0.0.22.tgz#3013eb67ac7737df765f871cca6a000892fc6e21"
+  integrity sha512-0+QYKh8elaPso6mFOAakEJbYyPwBVwYbgjfxU0AmAlY4VMk/eX0lZjjgif9mdm4fdFO+d/keWI+CtDliCsAGwQ==
   dependencies:
     "@babel/core" "^7.4.0"
     "@babel/plugin-external-helpers" "^7.2.0"
@@ -833,7 +833,7 @@
     sinon "^7.3.2"
     ts-node "^8.3.0"
     typescript "^3.5.2"
-    uWebSockets.js "github:uNetworking/uWebSockets.js#v15.11.0"
+    uWebSockets.js uNetworking/uWebSockets.js#v15.11.0
 
 "@sifrr/eslint-config@^0.0.2":
   version "0.0.2"
@@ -6406,11 +6406,10 @@ typescript@^3.5.2:
 
 "uWebSockets.js@github:uNetworking/uWebSockets.js#v15.11.0":
   version "15.11.0"
-  uid e7552889a50a7ffa654c41c99a9bad46dd0024c5
   resolved "https://codeload.github.com/uNetworking/uWebSockets.js/tar.gz/e7552889a50a7ffa654c41c99a9bad46dd0024c5"
 
 uWebSockets.js@uNetworking/uWebSockets.js#v15.10.0:
-  version "15.10.0"
+  version "15.11.0"
   resolved "https://codeload.github.com/uNetworking/uWebSockets.js/tar.gz/db6a5f22ebb348ef328ff1fcbdc639f7bff49e11"
 
 uglify-js@3.4.x:
