@@ -53,8 +53,7 @@ const options = roots.map((root, i) => {
     inspect,
     folders: {
       static: [path.join(__dirname, '../../dist'), path.join(__dirname, '../../showcase')],
-      coverage: path.join(__dirname, '../../.nyc_output'),
-      source: path.join(__dirname, '../../elements')
+      coverage: path.join(__dirname, '../../.nyc_output')
     },
     sourceFileRegex: /sifrr-[a-z-]+\/src\/.*\.js$/,
     junitXmlFile: path.join(__dirname, `../../test-results/${path.basename(root)}/results.xml`),
