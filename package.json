@@ -22,9 +22,9 @@
     "opera >= 42",
     "firefox >= 63"
   ],
-  "main": "dist/sifrrelements.cjs.js",
+  "main": "dist/sifrr.elements.cjs.js",
   "module": "src/sifrr.elements.js",
-  "browser": "dist/sifrrelements.js",
+  "browser": "dist/sifrr.elements.js",
   "homepage": "https://github.com/sifrr/sifrr-elements",
   "scripts": {
     "test": "./scripts/test/runall",
