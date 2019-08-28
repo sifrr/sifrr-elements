@@ -13,7 +13,7 @@ describe('tab-header', function() {
         };
       });
 
-      expect(widths.self).to.equal(widths.children);
+      expect(Math.abs(widths.self - widths.children)).to.be.at.most(1);
     });
 
     it('has correct scroll position', async () => {
