@@ -884,10 +884,10 @@
   resolved "https://registry.yarnpkg.com/@sifrr/animate/-/animate-0.0.3.tgz#a54d586182b5f8a9b83a2ea6d342419847eccab8"
   integrity sha512-VaWuwk00oRyFuFwP1tkRYx0fiyDtrv1Lcf3oi1tNZDUQn4zAo3snhai3LYfMQHWYWoTWDS0KBAc8DoSpDZ9m6Q==
 
-"@sifrr/dev@0.0.28":
-  version "0.0.28"
-  resolved "https://registry.yarnpkg.com/@sifrr/dev/-/dev-0.0.28.tgz#f3ebb6350ff2470a25e04b5294d85ca01c0cdff2"
-  integrity sha512-ROlPcjLPPAd84d1ANXVAwDEbUQ66NKN+dACPmYm2sczGIIIuCQwx29bUl/7S3SVFS5w8WNTWN8gtcOemx8jGrg==
+"@sifrr/dev@0.0.29":
+  version "0.0.29"
+  resolved "https://registry.yarnpkg.com/@sifrr/dev/-/dev-0.0.29.tgz#c3f580391a46cf7483109988a58a42ead45c9252"
+  integrity sha512-je5CpgiqZR9zVRS5K6RQFQekIFp/6j6KbbBHwaLl+ALLQJWEdNhqlr0gr3a8fhwW/DcJ4EnFfptEl72oLjDJQQ==
   dependencies:
     "@babel/core" "^7.5.5"
     "@babel/plugin-external-helpers" "^7.2.0"
