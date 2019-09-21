@@ -884,10 +884,10 @@
   resolved "https://registry.yarnpkg.com/@sifrr/animate/-/animate-0.0.3.tgz#a54d586182b5f8a9b83a2ea6d342419847eccab8"
   integrity sha512-VaWuwk00oRyFuFwP1tkRYx0fiyDtrv1Lcf3oi1tNZDUQn4zAo3snhai3LYfMQHWYWoTWDS0KBAc8DoSpDZ9m6Q==
 
-"@sifrr/dev@0.0.30":
-  version "0.0.30"
-  resolved "https://registry.yarnpkg.com/@sifrr/dev/-/dev-0.0.30.tgz#bb6b1382f094a15f8b7ad4ecb75c82507bad3f26"
-  integrity sha512-3yIOqVDHBWDMkyGJG+lJmd/62C4AUYD5Of4pNsOu+sae0/VCS86MmWXMVSn9XNiHLx9b68NLBBO1rZ4RcA/tqg==
+"@sifrr/dev@0.0.31":
+  version "0.0.31"
+  resolved "https://registry.yarnpkg.com/@sifrr/dev/-/dev-0.0.31.tgz#9a735de2b871b59cebb6fe543b1abe1da8b288d5"
+  integrity sha512-6McZLnk0WkHodzBUsKeLLqGmX9yD5PBvR2ABJ0YHT2lmSgqDfu6+XBrh+M/vsgEZqPCm5WLZ7bYe6cVwARRQIg==
   dependencies:
     "@babel/core" "^7.5.5"
     "@babel/plugin-external-helpers" "^7.2.0"
@@ -896,7 +896,7 @@
     "@babel/register" "^7.5.5"
     "@commitlint/cli" "^8.1.0"
     "@commitlint/config-conventional" "^8.1.0"
-    "@sifrr/eslint-config" "^0.0.3"
+    "@sifrr/eslint-config" "^0.0.4"
     "@sifrr/fetch" "^0.0.6"
     "@sifrr/server" "^0.0.6"
     autoprefixer "^9.6.1"
@@ -940,10 +940,10 @@
     typescript "^3.5.3"
     uWebSockets.js "github:uNetworking/uWebSockets.js#v15.11.0"
 
-"@sifrr/eslint-config@^0.0.3":
-  version "0.0.3"
-  resolved "https://registry.yarnpkg.com/@sifrr/eslint-config/-/eslint-config-0.0.3.tgz#ca06c84b2eeb605f174ebb0f2375f7f6014a3191"
-  integrity sha512-/me2FvsaoQrJJOFTazEjQGN2wAmqyXYzL2IdZYGn1ujMj2pk+PathJy908CCpPclNUgmamjflm4zE1DJcEwSoQ==
+"@sifrr/eslint-config@^0.0.4":
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/@sifrr/eslint-config/-/eslint-config-0.0.4.tgz#c6108b5249e06a2ebad3583a958895167a515cbc"
+  integrity sha512-75bW9MU6L0NGwOJeog+hY+AOlWX7+IEy39e7ECimIU7EMU5sQ5NYjCvJlVgcQbL46mfgEx5lyONEkQ/UfIP7SQ==
   dependencies:
     babel-eslint "^10.0.2"
     eslint "^6.0.1"
