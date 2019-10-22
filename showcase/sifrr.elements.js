@@ -1704,7 +1704,7 @@ this.Sifrr.Elements = (function (exports, SifrrDom, SifrrStorage) {
 
   var css$6 = ":host {\n  background: linear-gradient(\n    to right,\n    '${this.bgColor}' 4%,\n    '${this.fgColor}' 25%,\n    '${this.bgColor}' 36%\n  );\n  display: inline-block;\n  animation: shimmer 2.5s linear 0s infinite;\n  background-size: 2000px 100%;\n}\n@keyframes shimmer {\n  0% {\n    background-position: -2000px 0;\n  }\n  100% {\n    background-position: 2000px 0;\n  }\n}\n";
 
-  const properStyle = css$6.replace(/"(\${[^"]*})"/g, '$1');
+  const properStyle = css$6.replace(/'(\${[^']*})'/g, '$1');
 
   function rgbToHsl(r = 0, g = 0, b = 0) {
     r /= 255, g /= 255, b /= 255;
