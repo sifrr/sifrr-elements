@@ -1,7 +1,7 @@
 import SifrrDom from '@sifrr/dom';
 import style from './style.scss';
 
-const CM_VERSION = '5.48.0';
+const CM_VERSION = '5.49.2';
 
 const template = SifrrDom.template`
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/codemirror@${CM_VERSION}/lib/codemirror.css">
