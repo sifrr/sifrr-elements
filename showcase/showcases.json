@@ -1,5 +1,5 @@
 {
-  "current": 5,
+  "current": 6,
   "showcases": [
     {
       "id": 1,
@@ -225,18 +225,18 @@
           "variantName": "with image progress",
           "style": "#element div {\n  width: 500px;\n  background-color: white;\n}\n\n#element .lazy {\n  position: relative;\n  height: 500px;\n  background-color: black;\n}\n\n.lazy > * {\n  position: absolute;\n  height: 500px;\n  width: 500px;\n}\n.lazy > sifrr-progress-round {\n  width: 50px;\n  height: 50px;\n  top: 225px;\n  left: 225px;\n}",
           "code": "<div style=\"height: 1000px\">Scroll down</div>\n<div class=\"lazy\">\n  <img is=\"sifrr-lazy-img\" data-src=\"https://fetch-progress.anthum.com/30kbps/images/sunrise-baseline.jpg\">\n  <sifrr-progress-round progress=\"0\"></sifrr-progress-round>\n</div>\n<div id=\"speed\">speed in kbps</div>\n",
-          "elState": "const speedEl = this.parentNode.$('#speed').firstChild;\nfunction lazyProgress(el) {\n  const progress = el.$('sifrr-progress-round');\n  const img = el.$('img');\n  img.reload()\n  const src = img.dataset.src;\n  img.dataset.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==';\n  img.beforeLoad = () => {\n    Sifrr.Fetch.get(src, {\n      onProgress: (p, speed) => {\n        progress.state = { progress: p };\n        if (speed) speedEl.data = Math.round(speed) + ' kbps'; \n        if (p >= 100) {\n          speedEl.data = '';\n          progress.remove();\n        }\n      }\n    }).then(r => r.blob()).then(b => {\n      img.src = URL.createObjectURL(b);\n    })\n  }\n}\n\nlazyProgress(this.parentNode.$('.lazy'));"
+          "elState": "const speedEl = this.parentNode.$('#speed').firstChild;\nfunction lazyProgress(el) {\n  const progress = el.$('sifrr-progress-round');\n  const img = el.$('img');\n  img.reload()\n  const src = img.dataset.src;\n  img.dataset.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==';\n  img.beforeLoad = () => {\n    Sifrr.Fetch.get(src, {\n      onProgress: ({ percent: p, speed }) => {\n        progress.state = { progress: p };\n        if (speed) speedEl.data = Math.round(speed) + ' kbps'; \n        if (p >= 100) {\n          speedEl.data = '';\n          progress.remove();\n        }\n      }\n    }).then(r => r.blob()).then(b => {\n      img.src = URL.createObjectURL(b);\n    })\n  }\n}\n\nlazyProgress(this.parentNode.$('.lazy'));"
         }
       ],
       "id": 1,
       "element": "sifrr-progress-round",
       "elementUrl": "",
       "isjs": true,
-      "variantName": "attribute",
-      "variantId": 2,
-      "style": "#element > * {\n  height: 200px;\n  width: 200px;\n  margin: auto;\n}",
-      "code": "<sifrr-progress-round progress=\"70\"></sifrr-progress-round>",
-      "elState": "return {\n\n}"
+      "variantName": "with image progress",
+      "variantId": 3,
+      "style": "#element div {\n  width: 500px;\n  background-color: white;\n}\n\n#element .lazy {\n  position: relative;\n  height: 500px;\n  background-color: black;\n}\n\n.lazy > * {\n  position: absolute;\n  height: 500px;\n  width: 500px;\n}\n.lazy > sifrr-progress-round {\n  width: 50px;\n  height: 50px;\n  top: 225px;\n  left: 225px;\n}",
+      "code": "<div style=\"height: 1000px\">Scroll down</div>\n<div class=\"lazy\">\n  <img is=\"sifrr-lazy-img\" data-src=\"https://fetch-progress.anthum.com/30kbps/images/sunrise-baseline.jpg\">\n  <sifrr-progress-round progress=\"0\"></sifrr-progress-round>\n</div>\n<div id=\"speed\">speed in kbps</div>\n",
+      "elState": "const speedEl = this.parentNode.$('#speed').firstChild;\nfunction lazyProgress(el) {\n  const progress = el.$('sifrr-progress-round');\n  const img = el.$('img');\n  img.reload()\n  const src = img.dataset.src;\n  img.dataset.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==';\n  img.beforeLoad = () => {\n    Sifrr.Fetch.get(src, {\n      onProgress: ({ percent: p, speed }) => {\n        progress.state = { progress: p };\n        if (speed) speedEl.data = Math.round(speed) + ' kbps'; \n        if (p >= 100) {\n          speedEl.data = '';\n          progress.remove();\n        }\n      }\n    }).then(r => r.blob()).then(b => {\n      img.src = URL.createObjectURL(b);\n    })\n  }\n}\n\nlazyProgress(this.parentNode.$('.lazy'));"
     },
     {
       "name": "sifrr-shimmer",
@@ -311,32 +311,45 @@
     }
   ],
   "currentSC": {
-    "name": "sifrr-carousel",
+    "id": 1,
+    "name": "sifrr-progress-round",
+    "element": "sifrr-progress-round",
+    "elementUrl": "",
+    "isjs": true,
+    "variantName": "with image progress",
     "variants": [
       {
         "variantId": 1,
-        "variantName": "normal",
-        "style": "#element sifrr-carousel {\n  width: 600px;\n}\n#element sifrr-carousel.fullscreen {\n  width: 100%;\n}\n",
-        "code": "<sifrr-carousel>\n  <img src='https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg?auto=format%2Ccompress&cs=tinysrgb&dpr=1&w=500' slot='content'>\n  <img src='https://helpx.adobe.com/content/dam/help/en/stock/how-to/visual-reverse-image-search/jcr_content/main-pars/image/visual-reverse-image-search-v2_intro.jpg' slot='content'>\n  <img src='https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg?auto=format%2Ccompress&cs=tinysrgb&dpr=1&w=500' slot='preview'>\n  <img src='https://helpx.adobe.com/content/dam/help/en/stock/how-to/visual-reverse-image-search/jcr_content/main-pars/image/visual-reverse-image-search-v2_intro.jpg' slot='preview'>\n  <img src='https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg?auto=format%2Ccompress&cs=tinysrgb&dpr=1&w=500' slot='content'>\n  <img src='https://helpx.adobe.com/content/dam/help/en/stock/how-to/visual-reverse-image-search/jcr_content/main-pars/image/visual-reverse-image-search-v2_intro.jpg' slot='content'>\n  <img src='https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg?auto=format%2Ccompress&cs=tinysrgb&dpr=1&w=500' slot='preview'>\n  <img src='https://helpx.adobe.com/content/dam/help/en/stock/how-to/visual-reverse-image-search/jcr_content/main-pars/image/visual-reverse-image-search-v2_intro.jpg' slot='preview'>\n  <img src='https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg?auto=format%2Ccompress&cs=tinysrgb&dpr=1&w=500' slot='content'>\n  <img src='https://helpx.adobe.com/content/dam/help/en/stock/how-to/visual-reverse-image-search/jcr_content/main-pars/image/visual-reverse-image-search-v2_intro.jpg' slot='content'>\n  <img src='https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg?auto=format%2Ccompress&cs=tinysrgb&dpr=1&w=500' slot='preview'>\n  <img src='https://helpx.adobe.com/content/dam/help/en/stock/how-to/visual-reverse-image-search/jcr_content/main-pars/image/visual-reverse-image-search-v2_intro.jpg' slot='preview'>\n  <img src='https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg?auto=format%2Ccompress&cs=tinysrgb&dpr=1&w=500' slot='content'>\n  <img src='https://helpx.adobe.com/content/dam/help/en/stock/how-to/visual-reverse-image-search/jcr_content/main-pars/image/visual-reverse-image-search-v2_intro.jpg' slot='content'>\n  <img src='https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg?auto=format%2Ccompress&cs=tinysrgb&dpr=1&w=500' slot='preview'>\n  <img src='https://helpx.adobe.com/content/dam/help/en/stock/how-to/visual-reverse-image-search/jcr_content/main-pars/image/visual-reverse-image-search-v2_intro.jpg' slot='preview'>\n</sifrr-carousel>",
-        "elState": "return {\n\n}"
+        "variantName": "state",
+        "style": "#element > * {\n  height: 200px;\n  width: 200px;\n  margin: auto;\n}",
+        "code": "<sifrr-progress-round></sifrr-progress-round>",
+        "elState": "return {\n  progress: 40\n}"
       },
       {
         "variantId": 2,
-        "variantName": "centered images",
-        "style": "#element sifrr-carousel {\n  width: 400px;\n}\n#element sifrr-carousel.fullscreen {\n  width: 100%;\n  height: 100%;\n}\n.cimage {\n  position: relative;\n  height: 300px;\n}\n.fullscreen .cimage {\n  position: relative;\n  height: 80vh;\n}\n.cimage img {\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  transform: translate3d(-50%, -50%, 0);\n  max-height: 100%;\n  max-width: 100%;\n}",
-        "code": "<sifrr-carousel>\n  <div class='cimage' slot='content'>\n    <img src='https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg?auto=format%2Ccompress&cs=tinysrgb&dpr=1&w=500' slot='content'>\n  </div>\n  <div class='cimage' slot='content'>\n    <img src='https://helpx.adobe.com/content/dam/help/en/stock/how-to/visual-reverse-image-search/jcr_content/main-pars/image/visual-reverse-image-search-v2_intro.jpg'>\n  </div>\n  <img src='https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg?auto=format%2Ccompress&cs=tinysrgb&dpr=1&w=500' slot='preview'>\n  <img src='https://helpx.adobe.com/content/dam/help/en/stock/how-to/visual-reverse-image-search/jcr_content/main-pars/image/visual-reverse-image-search-v2_intro.jpg' slot='preview'>\n</sifrr-carousel>",
+        "variantName": "attribute",
+        "style": "#element > * {\n  height: 200px;\n  width: 200px;\n  margin: auto;\n}",
+        "code": "<sifrr-progress-round progress=\"70\"></sifrr-progress-round>",
         "elState": "return {\n\n}"
+      },
+      {
+        "variantId": 4,
+        "variantName": "custom stroke, dark",
+        "style": "#element > * {\n  height: 200px;\n  width: 200px;\n  margin: auto;\n}",
+        "code": "<sifrr-progress-round></sifrr-progress-round>",
+        "elState": "return {\n  stroke: '#000',\n  'stroke-width': 1,\n  progress: 67\n}"
+      },
+      {
+        "variantId": 3,
+        "variantName": "with image progress",
+        "style": "#element div {\n  width: 500px;\n  background-color: white;\n}\n\n#element .lazy {\n  position: relative;\n  height: 500px;\n  background-color: black;\n}\n\n.lazy > * {\n  position: absolute;\n  height: 500px;\n  width: 500px;\n}\n.lazy > sifrr-progress-round {\n  width: 50px;\n  height: 50px;\n  top: 225px;\n  left: 225px;\n}",
+        "code": "<div style=\"height: 1000px\">Scroll down</div>\n<div class=\"lazy\">\n  <img is=\"sifrr-lazy-img\" data-src=\"https://fetch-progress.anthum.com/30kbps/images/sunrise-baseline.jpg\">\n  <sifrr-progress-round progress=\"0\"></sifrr-progress-round>\n</div>\n<div id=\"speed\">speed in kbps</div>\n",
+        "elState": "const speedEl = this.parentNode.$('#speed').firstChild;\nfunction lazyProgress(el) {\n  const progress = el.$('sifrr-progress-round');\n  const img = el.$('img');\n  img.reload()\n  const src = img.dataset.src;\n  img.dataset.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==';\n  img.beforeLoad = () => {\n    Sifrr.Fetch.get(src, {\n      onProgress: ({ percent: p, speed }) => {\n        progress.state = { progress: p };\n        if (speed) speedEl.data = Math.round(speed) + ' kbps'; \n        if (p >= 100) {\n          speedEl.data = '';\n          progress.remove();\n        }\n      }\n    }).then(r => r.blob()).then(b => {\n      img.src = URL.createObjectURL(b);\n    })\n  }\n}\n\nlazyProgress(this.parentNode.$('.lazy'));"
       }
     ],
-    "element": "sifrr-carousel",
-    "id": 1,
-    "elementUrl": "",
-    "isjs": true,
-    "variantName": "normal",
-    "variantId": 1,
-    "style": "#element sifrr-carousel {\n  width: 600px;\n}\n#element sifrr-carousel.fullscreen {\n  width: 100%;\n}\n",
-    "code": "<sifrr-carousel>\n  <img src='https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg?auto=format%2Ccompress&cs=tinysrgb&dpr=1&w=500' slot='content'>\n  <img src='https://helpx.adobe.com/content/dam/help/en/stock/how-to/visual-reverse-image-search/jcr_content/main-pars/image/visual-reverse-image-search-v2_intro.jpg' slot='content'>\n  <img src='https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg?auto=format%2Ccompress&cs=tinysrgb&dpr=1&w=500' slot='preview'>\n  <img src='https://helpx.adobe.com/content/dam/help/en/stock/how-to/visual-reverse-image-search/jcr_content/main-pars/image/visual-reverse-image-search-v2_intro.jpg' slot='preview'>\n  <img src='https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg?auto=format%2Ccompress&cs=tinysrgb&dpr=1&w=500' slot='content'>\n  <img src='https://helpx.adobe.com/content/dam/help/en/stock/how-to/visual-reverse-image-search/jcr_content/main-pars/image/visual-reverse-image-search-v2_intro.jpg' slot='content'>\n  <img src='https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg?auto=format%2Ccompress&cs=tinysrgb&dpr=1&w=500' slot='preview'>\n  <img src='https://helpx.adobe.com/content/dam/help/en/stock/how-to/visual-reverse-image-search/jcr_content/main-pars/image/visual-reverse-image-search-v2_intro.jpg' slot='preview'>\n  <img src='https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg?auto=format%2Ccompress&cs=tinysrgb&dpr=1&w=500' slot='content'>\n  <img src='https://helpx.adobe.com/content/dam/help/en/stock/how-to/visual-reverse-image-search/jcr_content/main-pars/image/visual-reverse-image-search-v2_intro.jpg' slot='content'>\n  <img src='https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg?auto=format%2Ccompress&cs=tinysrgb&dpr=1&w=500' slot='preview'>\n  <img src='https://helpx.adobe.com/content/dam/help/en/stock/how-to/visual-reverse-image-search/jcr_content/main-pars/image/visual-reverse-image-search-v2_intro.jpg' slot='preview'>\n  <img src='https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg?auto=format%2Ccompress&cs=tinysrgb&dpr=1&w=500' slot='content'>\n  <img src='https://helpx.adobe.com/content/dam/help/en/stock/how-to/visual-reverse-image-search/jcr_content/main-pars/image/visual-reverse-image-search-v2_intro.jpg' slot='content'>\n  <img src='https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg?auto=format%2Ccompress&cs=tinysrgb&dpr=1&w=500' slot='preview'>\n  <img src='https://helpx.adobe.com/content/dam/help/en/stock/how-to/visual-reverse-image-search/jcr_content/main-pars/image/visual-reverse-image-search-v2_intro.jpg' slot='preview'>\n</sifrr-carousel>",
-    "elState": "return {\n\n}",
-    "current": 0
+    "variantId": 3,
+    "style": "#element div {\n  width: 500px;\n  background-color: white;\n}\n\n#element .lazy {\n  position: relative;\n  height: 500px;\n  background-color: black;\n}\n\n.lazy > * {\n  position: absolute;\n  height: 500px;\n  width: 500px;\n}\n.lazy > sifrr-progress-round {\n  width: 50px;\n  height: 50px;\n  top: 225px;\n  left: 225px;\n}",
+    "code": "<div style=\"height: 1000px\">Scroll down</div>\n<div class=\"lazy\">\n  <img is=\"sifrr-lazy-img\" data-src=\"https://fetch-progress.anthum.com/30kbps/images/sunrise-baseline.jpg\">\n  <sifrr-progress-round progress=\"0\"></sifrr-progress-round>\n</div>\n<div id=\"speed\">speed in kbps</div>\n",
+    "elState": "const speedEl = this.parentNode.$('#speed').firstChild;\nfunction lazyProgress(el) {\n  const progress = el.$('sifrr-progress-round');\n  const img = el.$('img');\n  img.reload()\n  const src = img.dataset.src;\n  img.dataset.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==';\n  img.beforeLoad = () => {\n    Sifrr.Fetch.get(src, {\n      onProgress: ({ percent: p, speed }) => {\n        progress.state = { progress: p };\n        if (speed) speedEl.data = Math.round(speed) + ' kbps'; \n        if (p >= 100) {\n          speedEl.data = '';\n          progress.remove();\n        }\n      }\n    }).then(r => r.blob()).then(b => {\n      img.src = URL.createObjectURL(b);\n    })\n  }\n}\n\nlazyProgress(this.parentNode.$('.lazy'));"
   }
 }
