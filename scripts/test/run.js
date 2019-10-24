@@ -57,7 +57,8 @@ const options = roots.map((root, i) => {
     },
     sourceFileRegex: /sifrr-[a-z-]+\/src\/.*\.js$/,
     junitXmlFile: path.join(__dirname, `../../test-results/${path.basename(root)}/results.xml`),
-    reporters
+    reporters,
+    preCommand: `cd ${root} && yarn build`
   };
 });
 

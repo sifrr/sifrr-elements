@@ -13,6 +13,11 @@ describe('include', function() {
     expect(html).to.equal('<p>OK</p>');
   });
 
+  it('loads html with selector', async function() {
+    const html = await page.$eval('#htmlSelector', el => el.innerHTML);
+    expect(html).to.equal('<div id="selector"><p>Selector</p></div>');
+  });
+
   it('loads css', async function() {
     const css = await page.$eval('#css style', el => el.innerHTML);
     expect(css).to.equal(`a {

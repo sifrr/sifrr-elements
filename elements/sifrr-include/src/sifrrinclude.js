@@ -2,7 +2,7 @@ import SifrrDom from '@sifrr/dom';
 
 class SifrrInclude extends SifrrDom.Element {
   static syncedAttrs() {
-    return ['url', 'type'];
+    return ['url', 'type', 'selector'];
   }
 
   onConnect() {
@@ -14,13 +14,19 @@ class SifrrInclude extends SifrrDom.Element {
     } else if (this.type === 'css') {
       preffix = '<style>';
       suffix = '</style>';
+    } else {
+      this.type = 'html';
     }
 
     if (this.url) {
       fetch(this.url)
         .then(r => r.text())
         .then(text => {
-          this.innerHTML = preffix + text + suffix;
+          if (this.type === 'html' && this.selector) {
+            const template = SifrrDom.template(text);
+            this.textContent = '';
+            this.appendChild(template.content.querySelector(this.selector));
+          } else this.innerHTML = preffix + text + suffix;
         });
     }
   }
