@@ -12,10 +12,7 @@ function loadPicture(pic) {
     });
     pic = pic.querySelector('img');
   } else if (pic.tagName !== 'IMG') {
-    throw Error(
-      'LazyLoader only supports `picture` or `img` element. Given: ',
-      pic
-    );
+    throw Error('LazyLoader only supports `picture` or `img` element. Given: ', pic);
   }
   moveAttr(pic, 'src');
   moveAttr(pic, 'srcset');
