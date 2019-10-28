@@ -1,8 +1,9 @@
-import SifrrDom from '@sifrr/dom';
-import SifrrStorage from '@sifrr/storage';
+import SifrrDom, { bindStoresToElement } from '@sifrr/dom';
+
+import { showcaseStore } from './stores';
+
 import style from './style.scss';
 import './singleshowcase';
-import { getParam, setParam } from '../../../helpers/urlparams';
 
 const template = SifrrDom.template`<style media="screen">
   ${style}
@@ -13,7 +14,7 @@ const template = SifrrDom.template`<style media="screen">
       <h1 class="font head">Sifrr Showcase</h1>
       <p class="font" id="loader"></p>
       <input id="url" type="text" placeholder="Enter url here..." name="url" />
-      <button type="button" name="loadUrl" _click=\${this.loadUrl}>Load from url</button>
+      <button type="button" name="loadUrl" _click=\${(this.loadUrl)}>Load from url</button>
       <p class="font" id="status"></p>
       <span class="button font">
         Upload File
@@ -21,17 +22,15 @@ const template = SifrrDom.template`<style media="screen">
       </span>
       <button class="font" type="button" name="saveFile" _click="\${this.saveFile}">Save to File</button>
       <h3 class="font head">Showcases</h3>
-      <input style="width: 100%" id="showcaseName" type="text" name="showcase" _input=\${this.changeName} value=\${this.state.showcases[this.state.current].name}>
+      <input style="width: 100%" id="showcaseName" type="text" name="showcase" _input="\${(v) => this.store.setActiveValue({ name: v })}" value="\${this.store.getActiveValue().name}">
       <button style="width: 100%" class="font" type="button" name="createVariant" _click="\${this.createShowcase}">Create new showcase</button>
-      <div id="showcases" data-sifrr-repeat="\${this.state.showcases}">
-        <li class="font showcase small \${(this.root && this.state.name === this.root.state.currentSC.name) ? 'current' : ''}" data-showcase-id="\${this.state.key}" draggable="true">\${this.state.name}<span>X</span></li>
+      <div id="showcases" :sifrr-repeat="\${this.store.getValues()}">
+        <li class="font showcase small \${this.state.active ? 'current' : ''}" draggable="true">\${this.state.name}<span>X</span></li>
       </div>
     </div>
   </div>
-  <sifrr-single-showcase _update=\${this.saveShowcase} _state=\${this.state.currentSC} data-sifrr-bind="currentSC"></sifrr-single-showcase>
+  <sifrr-single-showcase></sifrr-single-showcase>
 </div>`;
-
-const storage = new SifrrStorage({ name: 'showcases', version: '1.0' });
 
 class SifrrShowcase extends SifrrDom.Element {
   static get template() {
@@ -42,16 +41,26 @@ class SifrrShowcase extends SifrrDom.Element {
     return ['url'];
   }
 
+  constructor() {
+    super();
+    bindStoresToElement(this, [showcaseStore]);
+    this.store = showcaseStore;
+    this.store.onStatus = this.onStatus.bind(this);
+  }
+
   onAttributeChange(n, _, value) {
-    if (n === 'url') this.url = value;
+    if (n === 'url') this.loadUrl(value);
+  }
+
+  loadUrl(value) {
+    this.store.fetchStore(value);
   }
 
   onConnect() {
     SifrrDom.Event.addListener('click', '.showcase', (e, el) => {
-      if (el.matches('.showcase')) this.switchShowcase(this.getChildIndex(el));
-      if (el.matches('.showcase span')) this.deleteShowcase(this.getChildIndex(el.parentNode));
+      if (el.matches('.showcase')) this.store.setActive(this.getChildIndex(el));
+      if (el.matches('.showcase span')) this.store.delete(this.getChildIndex(el.parentNode));
     });
-    this.loadUrl();
     if (window.Sortable) {
       const me = this;
       new window.Sortable(this.$('#showcases'), {
@@ -75,99 +84,28 @@ class SifrrShowcase extends SifrrDom.Element {
     return i;
   }
 
-  deleteShowcase(i) {
-    this.state.showcases.splice(i, 1);
-    if (i == this.state.current) this.switchShowcase(this.state.current);
-    else this.switchShowcase(this.state.current - 1);
-  }
-
   createShowcase() {
-    this.state.showcases.splice(this.state.current + 1, 0, {
+    this.store.add({
       name: this.$('#showcaseName').value,
       variants: [],
       element: this.$('#showcaseName').value
     });
-    this.switchShowcase(this.state.current + 1);
-  }
-
-  switchShowcase(i) {
-    i = Number(i);
-    this.current = i;
-    this.$('#showcases').children[this.state.current].classList.remove('current');
-    if (!this.state.showcases[i]) i = this.state.showcases.length - 1;
-    this.state = { current: i, currentSC: this.state.showcases[i] };
-    this.$('#showcases').children[i].classList.add('current');
-    setParam('showcase', i);
   }
 
   onStateChange() {
-    if (this.state.current !== this.current) this.switchShowcase(this.state.current);
+    this.$('#showcases').children[this.store.value.active].classList.add('current');
   }
 
-  saveShowcase() {
-    this.state.showcases[this.state.current] = Object.assign(
-      this.state.showcases[this.state.current],
-      this.state.currentSC
-    );
-    if (this._loaded) {
-      this.$('#status').textContent = 'saving locally!';
-      if (this._timeout) clearTimeout(this._timeout);
-      this._timeout = setTimeout(() => {
-        this._timeout = null;
-        storage.set({ showcases: this.state.showcases, current: this.state.current }).then(() => {
-          this.$('#status').textContent = 'saved locally!';
-        });
-      }, 500);
-    }
-  }
-
-  changeName() {
-    this.state.showcases[this.state.current].name = this.$('#showcaseName').value;
-    this.update();
+  onStatus(v) {
+    this.$('#status').textContent = v;
   }
 
   get el() {
     return this.$('sifrr-single-showcase');
   }
 
-  set url(v) {
-    this._url = v;
-    if (this.getAttribute('url') !== v) this.setAttribute('url', v);
-    if (this.$('#url').value !== v) this.$('#url').value = v;
-    this.loadUrl();
-  }
-
-  get url() {
-    return this._url;
-  }
-
-  loadUrl() {
-    this._url = getParam('url') || this.$('#url').value;
-    window
-      .fetch(this._url)
-      .then(resp => resp.json())
-      .then(v => {
-        this.state.showcases = v.showcases;
-        this.switchShowcase(getParam('showcase') === undefined ? v.current : getParam('showcase'));
-        this.$('#status').textContent = 'loaded from url!';
-      })
-      .catch(e => {
-        this.$('#status').textContent = e.message;
-        storage.all().then(v => {
-          this.$('#status').textContent = 'failed to load from url, loaded from storage!';
-          this._loaded = true;
-          if (Array.isArray(v.showcases)) {
-            this.state.showcases = v.showcases;
-            this.switchShowcase(
-              getParam('showcase') === undefined ? v.current : getParam('showcase')
-            );
-          }
-        });
-      });
-  }
-
   saveFile() {
-    const blob = new Blob([JSON.stringify(this.state, null, 2)], {
+    const blob = new Blob([JSON.stringify(this.store.value, null, 2)], {
       type: 'application/json'
     });
     const a = document.createElement('a');
@@ -180,22 +118,17 @@ class SifrrShowcase extends SifrrDom.Element {
     const file = el.files[0];
     const fr = new FileReader();
     fr.onload = () => {
-      const json = JSON.parse(fr.result);
-      this.state = json;
-      this.switchShowcase(json.current);
-      this.$('#status').textContent = 'loaded from file!';
+      this.store.setValues(JSON.parse(fr.result).showcases);
+      this.store.setActive(JSON.parse(fr.result).active || 0);
+      this.onStatus('loaded from file!');
     };
     fr.readAsText(file);
   }
 }
 
 SifrrShowcase.defaultState = {
-  current: 0,
-  showcases: [
-    {
-      name: 'new'
-    }
-  ]
+  current: -1,
+  showcases: []
 };
 
 SifrrDom.register(SifrrShowcase);

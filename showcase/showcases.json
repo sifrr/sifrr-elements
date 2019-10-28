@@ -2,7 +2,6 @@
   "current": 6,
   "showcases": [
     {
-      "id": 1,
       "element": "sifrr-code-editor",
       "elementUrl": "",
       "isjs": true,
@@ -54,7 +53,6 @@
           "elState": "return {\n\n}"
         }
       ],
-      "id": 1,
       "element": "sifrr-lazy-picture",
       "elementUrl": "",
       "isjs": true,
@@ -107,7 +105,6 @@
         }
       ],
       "element": "sifrr-tab-container",
-      "id": 1,
       "elementUrl": "",
       "isjs": true,
       "variantName": "default",
@@ -157,7 +154,6 @@
         }
       ],
       "element": "sifrr-tab-header",
-      "id": 1,
       "elementUrl": "",
       "isjs": true,
       "variantName": "with tab container",
@@ -186,7 +182,6 @@
         }
       ],
       "element": "sifrr-carousel",
-      "id": 1,
       "elementUrl": "",
       "isjs": true,
       "variantName": "normal",
@@ -228,7 +223,6 @@
           "elState": "const speedEl = this.parentNode.$('#speed').firstChild;\nfunction lazyProgress(el) {\n  const progress = el.$('sifrr-progress-round');\n  const img = el.$('img');\n  img.reload()\n  const src = img.dataset.src;\n  img.dataset.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==';\n  img.beforeLoad = () => {\n    Sifrr.Fetch.get(src, {\n      onProgress: ({ percent: p, speed }) => {\n        progress.state = { progress: p };\n        if (speed) speedEl.data = Math.round(speed) + ' kbps'; \n        if (p >= 100) {\n          speedEl.data = '';\n          progress.remove();\n        }\n      }\n    }).then(r => r.blob()).then(b => {\n      img.src = URL.createObjectURL(b);\n    })\n  }\n}\n\nlazyProgress(this.parentNode.$('.lazy'));"
         }
       ],
-      "id": 1,
       "element": "sifrr-progress-round",
       "elementUrl": "",
       "isjs": true,
@@ -283,7 +277,6 @@
       "variantId": 5,
       "style": "#element > * {\n  height: 50px;\n  width: 200px;\n}",
       "elState": "const allowed = '0123456789abcdef';\nfunction randomCC() {\n  const char = Math.round(Math.random() * (allowed.length - 1));\n  return allowed[char];\n}\nfunction randomColor() {\n  let color = '#';\n  for (let i = 0; i < 6; i++) {\n    color += randomCC();\n  }\n  return color;\n}\nthis.setAttribute('bg-color', randomColor());\nthis.setAttribute('fg-color', randomColor());\n\nreturn {\n\n}",
-      "id": 1,
       "elementUrl": "",
       "isjs": true
     },
@@ -304,14 +297,12 @@
       "style": "",
       "code": "<sifrr-include url=\"./random.html\"></sifrr-include>",
       "elState": "",
-      "id": 1,
       "elementUrl": "",
       "isjs": true,
       "current": 0
     }
   ],
   "currentSC": {
-    "id": 1,
     "name": "sifrr-progress-round",
     "element": "sifrr-progress-round",
     "elementUrl": "",

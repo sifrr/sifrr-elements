@@ -8,10 +8,10 @@ const template = SifrrDom.template`<style>
   ${style}
 </style>
 <div id="showHide" _click=\${this.showHide}></div>
-<sifrr-tab-header style='background: blue; color: white' data-sifrr-html="true">
+<sifrr-tab-header style='background: blue; color: white' :sifrr-html="true">
   \${ this.headingHtml() }
 </sifrr-tab-header>
-<sifrr-tab-container style='height: calc(100vh - 132px)' data-sifrr-html="true">
+<sifrr-tab-container style='height: calc(100vh - 132px)' :sifrr-html="true">
   \${ this.stateHtml() }
 </sifrr-tab-container>
 <footer>

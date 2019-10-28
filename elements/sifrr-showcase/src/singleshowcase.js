@@ -1,7 +1,9 @@
-import SifrrDom from '@sifrr/dom';
+import SifrrDom, { bindStoresToElement } from '@sifrr/dom';
 import html from './template.html';
+
 import '../../sifrr-code-editor/src/sifrrcodeeditor';
-import { getParam, setParam } from '../../../helpers/urlparams';
+
+import { variantStore } from './stores';
 import { toggleFullScreen } from '../../../helpers/makefullscreen';
 
 const template = SifrrDom.template`<style>
@@ -10,28 +12,6 @@ const template = SifrrDom.template`<style>
 ${html}`;
 
 SifrrDom.Event.add('click');
-
-const defaultShowcase = {
-  id: 1,
-  name: 'Placeholder Element',
-  element: 'sifrr-placeholder',
-  elementUrl: '',
-  isjs: true,
-  variantName: '',
-  variants: [
-    {
-      variantId: 1,
-      variantName: 'variant',
-      style: `#element > * {
-  display: block;
-  background-color: white;
-  margin: auto;
-}`,
-      code: '<sifrr-placeholder>\n</sifrr-placeholder>',
-      elState: 'return {\n\n}'
-    }
-  ]
-};
 
 class SifrrSingleShowcase extends SifrrDom.Element {
   static get template() {
@@ -46,19 +26,29 @@ class SifrrSingleShowcase extends SifrrDom.Element {
     return false;
   }
 
+  constructor() {
+    super();
+    bindStoresToElement(this, [variantStore]);
+    this.store = variantStore;
+  }
+
   onConnect() {
-    this.switchVariant(getParam('variant'));
     SifrrDom.Event.addListener('click', '.variant', (e, el) => {
-      if (el.matches('.variant')) this.switchVariant(el.dataset.variantId);
-      if (el.matches('.variant span')) this.deleteVariant(el.parentNode.dataset.variantId);
+      if (el.matches('.variant')) this.store.setActive(this.getChildIndex(el));
+      if (el.matches('.variant span')) this.store.delete(this.getChildIndex(el.parentNode));
     });
     this.$('#fs')._click = () => {
       toggleFullScreen(this.$('#element'));
     };
   }
 
+  getChildIndex(el) {
+    let i = 0;
+    while ((el = el.previousElementSibling) != null) i++;
+    return i;
+  }
+
   beforeUpdate() {
-    this.saveVariant();
     if (!this.state.element) return;
     if (
       this._element !== this.state.element ||
@@ -94,61 +84,14 @@ class SifrrSingleShowcase extends SifrrDom.Element {
     }
   }
 
-  onAttributeChange(name, _, value) {
-    if (name === 'url') this.url = value;
-  }
-
   createNewVariant() {
-    const id = Math.max(...this.state.variants.map(s => s.variantId), 0) + 1;
-    const cid = this.state.variants.findIndex(v => v.variantId == this.state.variantId) + 1 || 1;
-    this.state.variants.splice(
-      cid,
-      0,
-      Object.assign(
-        {},
-        {
-          variantId: id,
-          variantName: this.state.variantName,
-          style: this.state.style || '',
-          code: this.state.code || '',
-          elState: this.state.elState || ''
-        }
-      )
-    );
-    this.switchVariant(id);
-  }
-
-  deleteVariant(id) {
-    this.state.variants.forEach((s, i) => {
-      if (s.variantId == id) {
-        this.state.variants.splice(i, 1);
-        if (this.state.variantId == id)
-          this.switchVariant((this.state.variants[i] || {}).variantId);
-        else this.update();
-      }
+    this.store.add({
+      variantId: id,
+      variantName: this.state.variantName,
+      style: this.state.style || '',
+      code: this.state.code || '',
+      elState: this.state.elState || ''
     });
-  }
-
-  saveVariant() {
-    if (!this.state.variants) this.state.variants = [];
-    const id = this.state.variantId;
-    this.state.variants.forEach(s => {
-      if (s.variantId == id) {
-        Object.assign(s, {
-          variantName: this.state.variantName,
-          style: this.state.style,
-          code: this.state.code,
-          elState: this.state.elState
-        });
-      }
-    });
-  }
-
-  switchVariant(id) {
-    this.$('#element').textContent = '';
-    Object.assign(this.state, this.variant(id));
-    setParam('variant', id);
-    this.update();
   }
 
   updateHtml(e, el) {
@@ -159,16 +102,7 @@ class SifrrSingleShowcase extends SifrrDom.Element {
   element() {
     return this.$('#element').firstElementChild;
   }
-
-  variant(id) {
-    return (
-      this.state.variants.find(s => s.variantId == id) ||
-      this.state.variants[this.state.variants.length - 1]
-    );
-  }
 }
-
-SifrrSingleShowcase.defaultState = defaultShowcase;
 
 SifrrDom.register(SifrrSingleShowcase);
 

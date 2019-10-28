@@ -1,6 +1,6 @@
 import animate from '@sifrr/animate';
 
-const styles = ['position', 'left', 'top', 'width', 'height', 'z-index'];
+const styles = ['position', 'left', 'top', 'right', 'bottom', 'width', 'height', 'z-index'];
 const FS_CLASS = 'fs';
 
 function getNewProps(rect) {

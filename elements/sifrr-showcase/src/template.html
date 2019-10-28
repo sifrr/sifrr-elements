@@ -6,24 +6,15 @@
         id="variantName"
         type="text"
         name="variantName"
-        value="${this.state.variantName}"
-        data-sifrr-bind="variantName"
+        value="${this.store.getActiveValue().variantName}"
+        :sifrr-bind="${this.store.bindUpdate('variantName')}"
       />
       <button class="font" type="button" name="createVariant" _click="${this.createNewVariant}">
         Create new variant
       </button>
-      <style media="screen">
-        #variant${this.state.variantId} {
-          background: #5f616d;
-        }
-      </style>
       <div id="variants">
-        <div data-sifrr-repeat="${this.state.variants}">
-          <li
-            class="font variant small"
-            data-variant-id="${this.state.variantId}"
-            id="variant${this.state.variantId}"
-          >
+        <div :sifrr-repeat="${this.store.getValues()}">
+          <li class="font variant small ${this.state.active ? 'current' : ''}">
             ${this.state.variantName}<span>X</span>
           </li>
         </div>
@@ -33,8 +24,8 @@
       <label class="font small" for="style">Element CSS Styles</label>
       <sifrr-code-editor
         lang="css"
-        data-sifrr-bind="style"
-        value="${this.state.style}"
+        value="${this.store.getActiveValue().style}"
+        :sifrr-bind="${this.store.bindUpdate('style')}"
       ></sifrr-code-editor>
     </div>
     <div class="box">
@@ -42,14 +33,14 @@
       <sifrr-code-editor
         id="elState"
         lang="javascript"
-        data-sifrr-bind="elState"
-        value="${this.state.elState}"
+        value="${this.store.getActiveValue().elState}"
+        :sifrr-bind="${this.store.bindUpdate('elState')}"
       ></sifrr-code-editor>
     </div>
   </div>
   <div class="flex-column" id="main">
-    <div class="box" id="element" data-sifrr-html="true">
-      ${this.state.code}
+    <div class="box" id="element" :sifrr-html="true">
+      ${this.store.getActiveValue().code}
     </div>
     <i id="fs">
       <svg
@@ -74,25 +65,33 @@
         name="elementName"
         placeholder="Enter element name here..."
         _input="${this.updateHtml}"
-        value="${this.state.element}"
+        value="${this.store.getActiveValue().element}"
       />
       <label class="font small" for="customUrl">Custom Url</label>
       <input
         type="text"
         name="customUrl"
         placeholder="Enter element url here..."
-        value="${this.state.elementUrl}"
-        data-sifrr-bind="elementUrl"
+        value="${this.store.getActiveValue().elementUrl}"
+        :sifrr-bind="${this.store.bindUpdate('elementUrl')}"
       />
       <label class="font small" for="elementName">Is JS File</label>
-      <select id="isjs" name="isjs" value="${this.state.isjs}" data-sifrr-bind="isjs">
+      <select
+        id="isjs"
+        name="isjs"
+        value="${this.store.getActiveValue().isjs}"
+        :sifrr-bind="${this.store.bindUpdate('isjs')}"
+      >
         <option value="true">true</option>
         <option value="false">false</option>
       </select>
       <span class="font" id="error"></span>
       <br />
       <label class="font small" for="htmlcode">HTML Code</label>
-      <sifrr-code-editor data-sifrr-bind="code" value="${this.state.code}"></sifrr-code-editor>
+      <sifrr-code-editor
+        :sifrr-bind="${this.store.bindUpdate('code')}"
+        value="${this.store.getActiveValue().code}"
+      ></sifrr-code-editor>
     </div>
   </div>
 </div>

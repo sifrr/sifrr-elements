@@ -39,9 +39,9 @@ Examples as showcase: <https://sifrr.github.io/sifrr-elements/showcase/> (only d
 
 ```html
 // load sifrr-dom
-<script src="https://unpkg.com/@sifrr/sifrr@{version}/packages/browser/sifrr-dom/dist/sifrr.dom.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@sifrr/dom@{version}/dist/sifrr.dom.js"></script>
 // load element you want to add
-<script src="https://unpkg.com/@sifrr/elements@{version}/elements/element-name/dist/elementname.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@sifrr/elements@{version}/elements/element-name/dist/elementname.min.js"></script>
 // for v0.0.3, version = 0.0.3
 ```
 
@@ -50,7 +50,7 @@ Examples as showcase: <https://sifrr.github.io/sifrr-elements/showcase/> (only d
 ```html
 // load sifrr-dom
 <script
-  src="https://unpkg.com/@sifrr/sifrr@{version}/packages/browser/sifrr-dom/dist/sifrr.dom.module.js"
+  src="https://unpkg.com/@sifrr/sifrr-dom@{version}/dist/sifrr.dom.module.js"
   type="module"
 ></script>
 // load element you want to add
@@ -112,6 +112,18 @@ lazyLoader.observe(document.querySelector('.lazy'));
 document.querySelectorAll('.lazy').forEach(lazyLoader.observe);
 
 // observed images' data-src will be changed to src when rootmargin condition is satisfied
+```
+
+### MakeFullScreen
+
+Makes any element fullscreen and back.
+
+```js
+export { makeFullScreen, exitFullScreen } from '@sifrr/elements';
+// make element full screen
+makeFullScreen(document.getElementById('#someElement'));
+// exit full screen
+exitFullScreen(document.getElementById('#someElement'));
 ```
 
 ## License

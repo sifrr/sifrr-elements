@@ -861,7 +861,7 @@ this.Sifrr.Elements = (function (exports, SifrrDom, SifrrStorage) {
 
   var css$3 = "* {\n  box-sizing: border-box;\n  font-family: sans-serif; }\n\n.container {\n  width: 100%;\n  height: 100%;\n  display: flex;\n  flex-wrap: nowrap;\n  background-color: #3a3f5a; }\n\n#sidemenu {\n  width: 15%;\n  height: 100%; }\n\n#sidemenu > * {\n  height: 100%; }\n\nsifrr-single-showcase {\n  width: 85%;\n  height: 100%;\n  display: block; }\n\n#sidebar {\n  width: 30%;\n  height: 100%; }\n\n#sidebar > * {\n  height: 33.33%; }\n\n#main {\n  width: 70%;\n  height: 100%; }\n\n#fs {\n  width: 40px;\n  height: 40px;\n  position: absolute;\n  right: 5px;\n  top: calc(70% - 45px);\n  color: white;\n  background-size: contain;\n  z-index: 1000; }\n\n#element.fs {\n  background: #3a3f5a;\n  padding: 0px; }\n  #element.fs ~ #fs {\n    top: calc(100% - 45px); }\n\n.current {\n  background: #5f616d; }\n\n.flex-column {\n  height: 100%;\n  display: flex;\n  flex-wrap: nowrap;\n  flex-direction: column; }\n\n.box {\n  width: 100%;\n  overflow: scroll;\n  border: 1px solid #5f616d; }\n\n#element {\n  padding: 20px;\n  height: 70%; }\n\n#code {\n  height: 30%; }\n\n#code sifrr-code-editor {\n  height: calc(100% - 48px) !important; }\n\n.head {\n  color: #cccccc;\n  text-align: center; }\n\n.small {\n  color: #8f9cb3;\n  font-size: 16px;\n  line-height: 24px;\n  padding: 4px; }\n\n#error,\n#status {\n  color: red; }\n\nsifrr-code-editor {\n  height: calc(100% - 24px); }\n\nul {\n  padding: 8px;\n  margin: 0; }\n\n#variants {\n  height: calc(100% - 86px);\n  overflow-y: scroll; }\n\n.variant,\n.showcase {\n  list-style-type: none;\n  border-bottom: 1px solid #5f616d; }\n  .variant span,\n  .showcase span {\n    color: red;\n    float: right;\n    margin-right: 10px; }\n\n#saver,\n#loader {\n  color: green;\n  padding: 4px;\n  margin: 0; }\n\nbutton,\n.button {\n  position: relative;\n  display: inline-block;\n  background: #8c96cc;\n  color: #ffffff;\n  font-size: 14px;\n  padding: 4px; }\n  button input,\n  .button input {\n    position: absolute;\n    width: 100%;\n    height: 100%;\n    top: 0;\n    left: 0;\n    opacity: 0; }\n\nbutton,\n.button,\ninput {\n  border: 1px solid #27313a;\n  padding: 4px;\n  font-size: 14px;\n  line-height: 20px;\n  height: 28px;\n  width: 50%;\n  vertical-align: middle; }\n";
 
-  const html = "<div class=\"container\">\n  <div class=\"flex-column\" id=\"sidebar\">\n    <div class=\"box\">\n      <h3 class=\"font head\">Variants</h3>\n      <input id=\"variantName\" type=\"text\" name=\"variantName\" value=\"${this.state.variantName}\" data-sifrr-bind=\"variantName\">\n      <button class=\"font\" type=\"button\" name=\"createVariant\" _click=\"${this.createNewVariant}\">\n        Create new variant\n      </button>\n      <style media=\"screen\">\n        #variant${this.state.variantId} {\n          background: #5f616d;\n        }\n      </style>\n      <div id=\"variants\">\n        <div data-sifrr-repeat=\"${this.state.variants}\">\n          <li class=\"font variant small\" data-variant-id=\"${this.state.variantId}\" id=\"variant${this.state.variantId}\">\n            ${this.state.variantName}<span>X</span>\n          </li>\n        </div>\n      </div>\n    </div>\n    <div class=\"box\">\n      <label class=\"font small\" for=\"style\">Element CSS Styles</label>\n      <sifrr-code-editor lang=\"css\" data-sifrr-bind=\"style\" value=\"${this.state.style}\"></sifrr-code-editor>\n    </div>\n    <div class=\"box\">\n      <label class=\"font small\" for=\"elState\">Element State Function</label>\n      <sifrr-code-editor id=\"elState\" lang=\"javascript\" data-sifrr-bind=\"elState\" value=\"${this.state.elState}\"></sifrr-code-editor>\n    </div>\n  </div>\n  <div class=\"flex-column\" id=\"main\">\n    <div class=\"box\" id=\"element\" data-sifrr-html=\"true\">\n      ${this.state.code}\n    </div>\n    <i id=\"fs\">\n      <svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"feather feather-maximize\">\n        <path d=\"M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3\"/>\n      </svg>\n    </i>\n    <div class=\"box\" id=\"code\">\n      <label class=\"font small\" for=\"elementName\">Element Name</label>\n      <input type=\"text\" name=\"elementName\" placeholder=\"Enter element name here...\" _input=\"${this.updateHtml}\" value=\"${this.state.element}\">\n      <label class=\"font small\" for=\"customUrl\">Custom Url</label>\n      <input type=\"text\" name=\"customUrl\" placeholder=\"Enter element url here...\" value=\"${this.state.elementUrl}\" data-sifrr-bind=\"elementUrl\">\n      <label class=\"font small\" for=\"elementName\">Is JS File</label>\n      <select id=\"isjs\" name=\"isjs\" value=\"${this.state.isjs}\" data-sifrr-bind=\"isjs\">\n        <option value=\"true\">true</option>\n        <option value=\"false\">false</option>\n      </select>\n      <span class=\"font\" id=\"error\"></span>\n      <br>\n      <label class=\"font small\" for=\"htmlcode\">HTML Code</label>\n      <sifrr-code-editor data-sifrr-bind=\"code\" value=\"${this.state.code}\"></sifrr-code-editor>\n    </div>\n  </div>\n</div>\n";
+  const html = "<div class=\"container\">\n  <div class=\"flex-column\" id=\"sidebar\">\n    <div class=\"box\">\n      <h3 class=\"font head\">Variants</h3>\n      <input id=\"variantName\" type=\"text\" name=\"variantName\" value=\"${this.active.variantName}\" data-sifrr-bind=\"variantName\">\n      <button class=\"font\" type=\"button\" name=\"createVariant\" _click=\"${this.createNewVariant}\">\n        Create new variant\n      </button>\n      <style media=\"screen\">\n        #variant${this.active.variantId} {\n          background: #5f616d;\n        }\n      </style>\n      <div id=\"variants\">\n        <div data-sifrr-repeat=\"${this.state.variants}\">\n          <li class=\"font variant small\" data-variant-id=\"${this.state.variantId}\" id=\"variant${this.state.variantId}\">\n            ${this.state.variantName}<span>X</span>\n          </li>\n        </div>\n      </div>\n    </div>\n    <div class=\"box\">\n      <label class=\"font small\" for=\"style\">Element CSS Styles</label>\n      <sifrr-code-editor lang=\"css\" data-sifrr-bind=\"style\" value=\"${this.active.style}\"></sifrr-code-editor>\n    </div>\n    <div class=\"box\">\n      <label class=\"font small\" for=\"elState\">Element State Function</label>\n      <sifrr-code-editor id=\"elState\" lang=\"javascript\" data-sifrr-bind=\"elState\" value=\"${this.active.elState}\"></sifrr-code-editor>\n    </div>\n  </div>\n  <div class=\"flex-column\" id=\"main\">\n    <div class=\"box\" id=\"element\" data-sifrr-html=\"true\">\n      ${this.active.code}\n    </div>\n    <i id=\"fs\">\n      <svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"feather feather-maximize\">\n        <path d=\"M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3\"/>\n      </svg>\n    </i>\n    <div class=\"box\" id=\"code\">\n      <label class=\"font small\" for=\"elementName\">Element Name</label>\n      <input type=\"text\" name=\"elementName\" placeholder=\"Enter element name here...\" _input=\"${this.updateHtml}\" value=\"${this.active.element}\"><br>\n      <label class=\"font small\" for=\"customUrl\">Custom Url</label>\n      <input type=\"text\" name=\"customUrl\" placeholder=\"Enter element url here...\" value=\"${this.active.elementUrl}\" data-sifrr-bind=\"elementUrl\">\n      <label class=\"font small\" for=\"elementName\">Is JS File</label>\n      <select id=\"isjs\" name=\"isjs\" value=\"${this.active.isjs}\" data-sifrr-bind=\"isjs\">\n        <option value=\"true\">true</option>\n        <option value=\"false\">false</option>\n      </select>\n      <span class=\"font\" id=\"error\"></span>\n      <br>\n      <label class=\"font small\" for=\"htmlcode\">HTML Code</label>\n      <sifrr-code-editor data-sifrr-bind=\"code\" value=\"${this.active.code}\"></sifrr-code-editor>\n    </div>\n  </div>\n</div>\n";
 
   var css$4 = ":host {\n  display: block;\n  position: relative; }\n\n* {\n  box-sizing: border-box; }\n\ntextarea {\n  resize: none;\n  border: none; }\n\ntextarea,\n.CodeMirror {\n  height: 100%;\n  width: 100%; }\n";
 
@@ -874,7 +874,7 @@ this.Sifrr.Elements = (function (exports, SifrrDom, SifrrStorage) {
 
     return data;
   }
-  const CM_VERSION = '5.48.0';
+  const CM_VERSION = '5.49.2';
   const template$3 = SifrrDom.template(_templateObject$3(), CM_VERSION, CM_VERSION, css$4);
 
   class SifrrCodeEditor extends SifrrDom.Element {
@@ -1348,12 +1348,7 @@ this.Sifrr.Elements = (function (exports, SifrrDom, SifrrStorage) {
   const template$4 = SifrrDom.template(_templateObject$4(), html);
   SifrrDom.Event.add('click');
   const defaultShowcase = {
-    id: 1,
-    name: 'Placeholder Element',
-    element: 'sifrr-placeholder',
-    elementUrl: '',
-    isjs: true,
-    variantName: '',
+    active: 1,
     variants: [{
       variantId: 1,
       variantName: 'variant',
@@ -1362,6 +1357,7 @@ this.Sifrr.Elements = (function (exports, SifrrDom, SifrrStorage) {
       elState: 'return {\n\n}'
     }]
   };
+  let lastExec;
 
   class SifrrSingleShowcase extends SifrrDom.Element {
     static get template() {
@@ -1404,11 +1400,19 @@ this.Sifrr.Elements = (function (exports, SifrrDom, SifrrStorage) {
     }
 
     onUpdate() {
-      if (this._stateFxnTimeout) clearTimeout(this._stateFxnTimeout);
-      this._stateFxnTimeout = setTimeout(this.runStateFunction.bind(this), 500);
+      if (!lastExec) lastExec = performance.now() - 600;
+      const elapsed = performance.now() - lastExec;
+
+      if (elapsed > 500) {
+        this.runStateFunction();
+      } else {
+        if (!this._stateFxnTimeout) setTimeout(this.runStateFunction.bind(this), 500 - elapsed);
+      }
     }
 
     runStateFunction() {
+      if (this._stateFxnTimeout) clearTimeout(this._stateFxnTimeout);
+      lastExec = performance.now();
       let state;
 
       try {
@@ -1450,24 +1454,21 @@ this.Sifrr.Elements = (function (exports, SifrrDom, SifrrStorage) {
 
     saveVariant() {
       if (!this.state.variants) this.state.variants = [];
-      const id = this.state.variantId;
-      this.state.variants.forEach(s => {
-        if (s.variantId == id) {
-          Object.assign(s, {
-            variantName: this.state.variantName,
-            style: this.state.style,
-            code: this.state.code,
-            elState: this.state.elState
-          });
-        }
+      Object.assign(this.active, {
+        variantName: this.state.variantName,
+        style: this.state.style,
+        code: this.state.code,
+        elState: this.state.elState
       });
     }
 
     switchVariant(id) {
       this.$('#element').textContent = '';
       Object.assign(this.state, this.variant(id));
+      this.state = {
+        active: id
+      };
       setParam('variant', id);
-      this.update();
     }
 
     updateHtml(e, el) {
@@ -1480,6 +1481,10 @@ this.Sifrr.Elements = (function (exports, SifrrDom, SifrrStorage) {
 
     element() {
       return this.$('#element').firstElementChild;
+    }
+
+    get active() {
+      return this.variant(this.state.active);
     }
 
     variant(id) {
@@ -1773,7 +1778,7 @@ this.Sifrr.Elements = (function (exports, SifrrDom, SifrrStorage) {
 
   class SifrrInclude extends SifrrDom.Element {
     static syncedAttrs() {
-      return ['url', 'type'];
+      return ['url', 'type', 'selector'];
     }
 
     onConnect() {
@@ -1786,11 +1791,17 @@ this.Sifrr.Elements = (function (exports, SifrrDom, SifrrStorage) {
       } else if (this.type === 'css') {
         preffix = '<style>';
         suffix = '</style>';
+      } else {
+        this.type = 'html';
       }
 
       if (this.url) {
         fetch(this.url).then(r => r.text()).then(text => {
-          this.innerHTML = preffix + text + suffix;
+          if (this.type === 'html' && this.selector) {
+            const template = SifrrDom.template(text);
+            this.textContent = '';
+            this.appendChild(template.content.querySelector(this.selector));
+          } else this.innerHTML = preffix + text + suffix;
         });
       }
     }
