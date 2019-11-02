@@ -11,7 +11,7 @@
     r="28"
     fill="none"
     stroke="rgba(255, 255, 255, 0.6)"
-    stroke-width="${this['stroke-width']}"
+    stroke-width="${this.strokeWidth || 2}"
   />
   <circle
     id="top"
@@ -19,9 +19,9 @@
     cy="30"
     r="28"
     fill="none"
-    stroke="${this.stroke}"
-    stroke-width="${this['stroke-width']}"
+    stroke="${this.stroke || '#fff'}"
+    stroke-width="${this.strokeWidth || 2}"
     stroke-dasharray="188.5"
-    stroke-dashoffset="${(100 - this.progress) / 100 * 188.5}"
+    stroke-dashoffset="${(100 - (this.progress || 0)) / 100 * 188.5}"
   />
 </svg>

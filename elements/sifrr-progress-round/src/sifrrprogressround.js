@@ -9,16 +9,11 @@ class SifrrProgressRound extends SifrrDom.Element {
   }
 
   onPropsChange(props) {
-    if (['progress', 'stroke', 'stroke-width'].filter(p => props.indexOf(p) > -1).length > 0)
+    if (['progress', 'stroke', 'strokeWidth'].filter(p => props.indexOf(p) > -1).length > 0)
       this.update();
   }
 }
 
-SifrrProgressRound.defaultState = {
-  progress: 0,
-  'stroke-width': 2,
-  stroke: '#fff'
-};
 SifrrDom.register(SifrrProgressRound);
 
 export default SifrrProgressRound;

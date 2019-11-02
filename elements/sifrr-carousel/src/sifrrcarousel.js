@@ -25,7 +25,7 @@ const template = SifrrDom.template`<style media="screen">
   <div class="arrow r">
     <span></span>
   </div>
-  <sifrr-tab-header options='{ "showUnderline": false }'>
+  <sifrr-tab-header :options="\${{ showUnderline: false }}">
     <slot name="preview"></slot>
   </sifrr-tab-header>
 </div>`;
