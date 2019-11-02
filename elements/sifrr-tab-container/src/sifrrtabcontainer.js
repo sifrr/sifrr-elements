@@ -21,8 +21,8 @@ class SifrrTabContainer extends SifrrDom.Element {
     return template;
   }
 
-  static observedAttrs() {
-    return ['options'];
+  onPropsChange(props) {
+    if (props.indexOf('options') > -1) this.refresh();
   }
 
   onConnect() {
@@ -31,13 +31,6 @@ class SifrrTabContainer extends SifrrDom.Element {
     window.addEventListener('resize', () => requestAnimationFrame(this.refresh.bind(this)));
     this.options.slot.addEventListener('slotchange', this.refresh.bind(this, {}));
     this.setScrollEvent();
-  }
-
-  onAttributeChange(n, _, v) {
-    if (n === 'options') {
-      this._attrOptions = JSON.parse(v || '{}');
-      if (this._connected) this.refresh();
-    }
   }
 
   refresh(options) {

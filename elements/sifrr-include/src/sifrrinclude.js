@@ -1,10 +1,6 @@
 import SifrrDom from '@sifrr/dom';
 
 class SifrrInclude extends SifrrDom.Element {
-  static syncedAttrs() {
-    return ['url', 'type', 'selector'];
-  }
-
   onConnect() {
     let preffix = '',
       suffix = '';

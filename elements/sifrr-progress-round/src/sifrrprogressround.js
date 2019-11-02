@@ -8,12 +8,9 @@ class SifrrProgressRound extends SifrrDom.Element {
     return SifrrDom.template(`<style>${style}</style>${template}`);
   }
 
-  static syncedAttrs() {
-    return ['progress', 'stroke', 'stroke-width'];
-  }
-
-  onAttributeChange(n, _, v) {
-    if (n === 'progress' || n === 'stroke' || n === 'stroke-width') this.state = { [n]: Number(v) };
+  onPropsChange(props) {
+    if (['progress', 'stroke', 'stroke-width'].filter(p => props.indexOf(p) > -1).length > 0)
+      this.update();
   }
 }
 

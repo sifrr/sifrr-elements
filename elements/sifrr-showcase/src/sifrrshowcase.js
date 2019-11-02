@@ -22,7 +22,7 @@ const template = SifrrDom.template`<style media="screen">
       </span>
       <button class="font" type="button" name="saveFile" _click="\${this.saveFile}">Save to File</button>
       <h3 class="font head">Showcases</h3>
-      <input style="width: 100%" id="showcaseName" type="text" name="showcase" _input="\${(v) => this.store.setActiveValue({ name: v })}" value="\${this.store.getActiveValue().name}">
+      <input style="width: 100%" id="showcaseName" type="text" name="showcase" :sifrr-bind="\${this.store.bindUpdate('name')}" value="\${this.store.getActiveValue().name}">
       <button style="width: 100%" class="font" type="button" name="createVariant" _click="\${this.createShowcase}">Create new showcase</button>
       <div id="showcases" :sifrr-repeat="\${this.store.getValues()}">
         <li class="font showcase small \${this.state.active ? 'current' : ''}" draggable="true">\${this.state.name}<span>X</span></li>
@@ -61,6 +61,7 @@ class SifrrShowcase extends SifrrDom.Element {
       if (el.matches('.showcase')) this.store.setActive(this.getChildIndex(el));
       if (el.matches('.showcase span')) this.store.delete(this.getChildIndex(el.parentNode));
     });
+    this.store.fetchStore(this.url, this.onStatus.bind(this));
     if (window.Sortable) {
       const me = this;
       new window.Sortable(this.$('#showcases'), {
@@ -118,7 +119,7 @@ class SifrrShowcase extends SifrrDom.Element {
     const file = el.files[0];
     const fr = new FileReader();
     fr.onload = () => {
-      this.store.setValues(JSON.parse(fr.result).showcases);
+      this.store.setValues(JSON.parse(fr.result).values);
       this.store.setActive(JSON.parse(fr.result).active || 0);
       this.onStatus('loaded from file!');
     };

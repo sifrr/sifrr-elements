@@ -1,9 +1,9 @@
 :host {
   background: linear-gradient(
     to right,
-    '${this.bgColor}' 4%,
-    '${this.fgColor}' 25%,
-    '${this.bgColor}' 36%
+    '${this.getBgColor()}' 4%,
+    '${this.getFgColor()}' 25%,
+    '${this.getBgColor()}' 36%
   );
   display: inline-block;
   animation: shimmer 2.5s linear 0s infinite;

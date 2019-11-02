@@ -16,7 +16,7 @@ const template = SifrrDom.template`<style media="screen">
   <sifrr-tab-container>
     <slot name="content"></slot>
   </sifrr-tab-container>
-  <span id="count"></span>
+  <span id="count">\${\`\${this.container.active + 1}/\${this.container.total}\`}</span>
 </div>
 <div id="preview">
   <div class="arrow l">

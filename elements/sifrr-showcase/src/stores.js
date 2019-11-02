@@ -7,7 +7,7 @@ const storage = new SifrrStorage({ name: 'showcases', version: '1.1' });
 const showcaseStore = new SwitchingStore([]);
 const variantStore = new SwitchingStore([]);
 
-showcaseStore.fetchStore = function(url, onStatus) {
+showcaseStore.fetchStore = function(url, onStatus = () => {}) {
   window
     .fetch(url)
     .then(resp => resp.json())
@@ -20,17 +20,15 @@ showcaseStore.fetchStore = function(url, onStatus) {
       onStatus(e.message);
       storage.all().then(v => {
         onStatus('failed to load from url, loaded from storage!');
-        if (Array.isArray(v.showcases)) {
-          this.setValues(v.showcases);
+        if (Array.isArray(v.values)) {
+          this.setValues(v.values);
           this.setActive(v.active || 0);
         }
       });
     })
     .finally(() => {
       this._loaded = true;
-      this.setActiveShowcase(
-        getParam('showcase') === undefined ? v.activeShowcase : getParam('showcase')
-      );
+      this.setActive(getParam('showcase') === undefined ? 0 : getParam('showcase'));
     });
 };
 
@@ -38,28 +36,33 @@ showcaseStore.save = function(onUpdate) {
   storage.set(this.value).then(onUpdate);
 };
 
+const saveFxn = showcaseStore.save.bind(
+  showcaseStore,
+  () => showcaseStore.onStatus('saved locally!'),
+  (showcaseStore._timeout = null)
+);
 showcaseStore.onUpdate = function() {
-  setParam('showcase', this.value.active);
-  console.log(this.getActiveValue().variants);
+  if (getParam('showcase') != this.value.active) setParam('showcase', this.value.active);
   if (
     this.getActiveValue().variants &&
     this.getActiveValue().variants !== variantStore.getValues()
   ) {
-    variantStore.setValues(this.getActiveValue().variants);
+    variantStore.setValues(this.getActiveValue().variants, this.getActiveValue().activeVariant);
   }
+
+  if (this.getActiveValue().activeVariant !== variantStore.value.active) {
+    this.getActiveValue().activeVariant = variantStore.value.active;
+  }
+
+  if (!this.getValues() || this.getValues().length < 1) return;
 
   this.onStatus('saving locally!');
   if (this._timeout) clearTimeout(this._timeout);
-  this._timeout = setTimeout(() => {
-    this._timeout = null;
-    storage.set(this.value).then(() => {
-      this.onStatus('saved locally!');
-    });
-  }, 500);
+  this._timeout = setTimeout(saveFxn, 500);
 };
 
 variantStore.onUpdate = function() {
-  setParam('variant', this.value.active);
+  if (getParam('variant') != this.value.active) setParam('variant', this.value.active);
   showcaseStore.onUpdate();
 };
 

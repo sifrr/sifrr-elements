@@ -9,19 +9,11 @@ const template = SifrrDom.template`
 <style media="screen">
   ${style}
 </style>
-<textarea></textarea>`;
+<textarea value="\${this.value}" _input="\${this.input}"></textarea>`;
 
 class SifrrCodeEditor extends SifrrDom.Element {
   static get template() {
     return template;
-  }
-
-  static observedAttrs() {
-    return ['value', 'theme', 'lang'];
-  }
-
-  static syncedAttrs() {
-    return ['theme'];
   }
 
   static cm() {
@@ -33,11 +25,12 @@ class SifrrCodeEditor extends SifrrDom.Element {
     return this._cm;
   }
 
-  onAttributeChange(n, _, v) {
+  onPropsChange(props) {
     if (this._cmLoaded) {
-      if (n === 'theme') this.cm.setOption('theme', v);
-      if (n === 'lang') this.cm.setOption('mode', this.getTheme());
+      if (props.indexOf('theme') > -1) this.cm.setOption('theme', this.getTheme());
+      if (props.indexOf('lang') > -1) this.cm.setOption('mode', this.lang || 'xml');
     }
+    if (['value', 'theme', 'lang'].filter(p => props.indexOf(p) > -1).length > 0) this.update();
   }
 
   onConnect() {
@@ -46,10 +39,12 @@ class SifrrCodeEditor extends SifrrDom.Element {
 
   input() {
     SifrrDom.Event.trigger(this, 'input');
+    this.value = this.getValue();
     this.update();
   }
 
   cmLoaded() {
+    this.lang = this.lang || 'xml';
     SifrrDom.Loader.executeJS(
       `https://cdn.jsdelivr.net/npm/codemirror@${CM_VERSION}/mode/${this.lang}/${this.lang}.js`
     ).then(() => {
@@ -71,7 +66,7 @@ class SifrrCodeEditor extends SifrrDom.Element {
     return this.theme ? this.theme.split(' ')[0] : 'dracula';
   }
 
-  get value() {
+  getValue() {
     if (this._cmLoaded) return this.cm.getValue();
     else return this.$('textarea').value;
   }
@@ -80,12 +75,6 @@ class SifrrCodeEditor extends SifrrDom.Element {
     if (v === this.value) return;
     if (this._cmLoaded) return this.cm.setValue(v);
     else this.$('textarea').value = v;
-  }
-
-  get lang() {
-    const attr = this.getAttribute('lang');
-    if (!attr || attr === 'html') return 'xml';
-    return attr;
   }
 }
 

@@ -35,19 +35,20 @@ function rgbToHsl(r = 0, g = 0, b = 0) {
 }
 
 class SifrrShimmer extends SifrrDom.Element {
-  static syncedAttrs() {
-    return ['color', 'bg-color', 'fg-color'];
+  onPropsChange(props) {
+    if (['color', 'bg-color', 'fg-color'].filter(p => props.indexOf(p) > -1).length > 0)
+      this.update();
   }
 
   static get template() {
     return SifrrDom.template(`<style>${properStyle}</style>`);
   }
 
-  get bgColor() {
+  getBgColor() {
     return this['bg-color'] || this.colora(0.15);
   }
 
-  get fgColor() {
+  getFgColor() {
     return this['fg-color'] || this.colora(0);
   }
 

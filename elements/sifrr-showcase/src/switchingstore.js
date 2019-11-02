@@ -8,8 +8,9 @@ class ShowcaseStore extends Store {
     });
   }
 
-  setValues(values) {
-    this.set({ values: values || [] });
+  setValues(values, active) {
+    this.value.values = values || [];
+    this.setActive(active || 0);
   }
 
   getValues() {
@@ -28,8 +29,7 @@ class ShowcaseStore extends Store {
 
   add(v) {
     this.value.values.splice(this.value.active + 1, 0, v);
-    this.value.active = this.value.active + 1;
-    this.update();
+    this.setActive(this.value.active + 1);
   }
 
   setActive(active) {
@@ -48,8 +48,6 @@ class ShowcaseStore extends Store {
     if (this.value.values[this.value.active]) {
       Object.assign(this.value.values[this.value.active], v);
       this.update();
-    } else {
-      this.addValue(v);
     }
   }
 }

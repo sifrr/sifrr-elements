@@ -68,11 +68,20 @@ class SifrrSingleShowcase extends SifrrDom.Element {
   }
 
   onUpdate() {
+    const currentTime = Date.now();
     if (this._stateFxnTimeout) clearTimeout(this._stateFxnTimeout);
-    this._stateFxnTimeout = setTimeout(this.runStateFunction.bind(this), 500);
+    if (this._lastStateRun && currentTime - this._lastStateRun < 500) {
+      this._stateFxnTimeout = setTimeout(
+        this.runStateFunction.bind(this),
+        currentTime - this._lastStateRun
+      );
+    } else {
+      this.runStateFunction();
+    }
   }
 
   runStateFunction() {
+    this._lastStateRun = Date.now();
     let state;
     try {
       state = new Function(this.$('#elState').value).call(this.element());
@@ -86,7 +95,6 @@ class SifrrSingleShowcase extends SifrrDom.Element {
 
   createNewVariant() {
     this.store.add({
-      variantId: id,
       variantName: this.state.variantName,
       style: this.state.style || '',
       code: this.state.code || '',
@@ -96,7 +104,7 @@ class SifrrSingleShowcase extends SifrrDom.Element {
 
   updateHtml(e, el) {
     const html = `<${el.value}></${el.value}>`;
-    this.state = { code: html, element: el.value };
+    this.store.setActiveValue({ code: html, element: el.value });
   }
 
   element() {

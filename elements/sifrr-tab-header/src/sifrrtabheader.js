@@ -19,21 +19,14 @@ class SifrrTabHeader extends SifrrDom.Element {
     return template;
   }
 
-  static observedAttrs() {
-    return ['options'];
+  onPropsChange(props) {
+    if (props.indexOf('options') > -1) this.refresh();
   }
 
   onConnect() {
     this._connected = true;
     this.$('slot').addEventListener('slotchange', this.refresh.bind(this, {}));
     this.refresh();
-  }
-
-  onAttributeChange(n, _, v) {
-    if (n === 'options') {
-      this._attrOptions = JSON.parse(v || '{}');
-      if (this._connected) this.refresh();
-    }
   }
 
   refresh(options) {
