@@ -1,6 +1,7 @@
 describe('include', function() {
   before(async () => {
     await page.goto(`${PATH}/include.html`);
+    await page.evaluate(async () => await Sifrr.Dom.loading());
   });
 
   it('loads include', async function() {

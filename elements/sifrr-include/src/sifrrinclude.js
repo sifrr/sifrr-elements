@@ -1,15 +1,16 @@
 import SifrrDom from '@sifrr/dom';
 
 class SifrrInclude extends SifrrDom.Element {
-  onConnect() {
-    let preffix = '',
-      suffix = '';
+  onPropsChange(props) {
+    if (props.filter(p => ['type', 'url', 'selector'].indexOf(p) > -1).length > 0) this.load();
+  }
+
+  load() {
+    let element = false;
     if (this.type === 'js') {
-      preffix = '<script>';
-      suffix = '</script>';
+      element = 'script';
     } else if (this.type === 'css') {
-      preffix = '<style>';
-      suffix = '</style>';
+      element = 'style';
     } else {
       this.type = 'html';
     }
@@ -22,7 +23,10 @@ class SifrrInclude extends SifrrDom.Element {
             const template = SifrrDom.template(text);
             this.textContent = '';
             this.appendChild(template.content.querySelector(this.selector));
-          } else this.innerHTML = preffix + text + suffix;
+          } else
+            this.innerHTML = `${element ? `<${element}>` : ''}${text}${
+              element ? `</${element}>` : ''
+            }`;
         });
     }
   }
