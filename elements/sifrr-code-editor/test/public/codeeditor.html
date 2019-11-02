@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>
-    <meta charset="utf-8">
+    <meta charset="utf-8" />
     <title>Code editor</title>
     <style media="screen">
       sifrr-code-editor {
@@ -11,12 +11,11 @@
     </style>
   </head>
   <body>
-    <sifrr-code-editor></sifrr-code-editor>
-    <sifrr-code-editor lang="javascript"></sifrr-code-editor>
-    <sifrr-code-editor lang="css"></sifrr-code-editor>
-    <script src="https://cdn.jsdelivr.net/npm/@sifrr/dom@0.0.5/dist/sifrr.dom.min.js" charset="utf-8"></script>
+    <main-element></main-element>
+    <script src="/sifrr.dom.js" charset="utf-8"></script>
     <script type="text/javascript">
       Sifrr.Dom.setup();
+      Sifrr.Dom.load('main-element');
     </script>
     <script src="/sifrrcodeeditor.js" charset="utf-8"></script>
   </body>
