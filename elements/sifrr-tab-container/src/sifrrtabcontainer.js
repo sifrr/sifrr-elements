@@ -34,7 +34,7 @@ class SifrrTabContainer extends SifrrDom.Element {
   }
 
   refresh(options) {
-    this._options = Object.assign(
+    this.options = Object.assign(
       {
         content: this,
         slot: this.$('slot'),
@@ -44,10 +44,9 @@ class SifrrTabContainer extends SifrrDom.Element {
         scrollBreakpoint: 0.3,
         loop: false
       },
-      this._options,
+      this.options,
       options
     );
-    this.options = Object.assign({}, this._options, this._attrOptions);
     this.options.tabs = this.options.slot.assignedNodes().filter(n => n.nodeType === 1);
     this.total = this.options.tabs.length;
     if (!this.options.tabs || this.options.tabs.length < 1) return;
