@@ -30,7 +30,7 @@ class SifrrTabHeader extends SifrrDom.Element {
   }
 
   refresh(options) {
-    this._options = Object.assign(
+    this.options = Object.assign(
       {
         content: this,
         slot: this.$('slot'),
@@ -38,10 +38,9 @@ class SifrrTabHeader extends SifrrDom.Element {
         line: this.$('.underline'),
         container: null
       },
-      this._options,
+      this.options,
       options
     );
-    this.options = Object.assign({}, this._options, this._attrOptions);
     this.options.menus = this.options.slot.assignedNodes().filter(n => n.nodeType === 1);
     if (!this.options.menus || this.options.menus.length < 1) return;
     this.setProps();
