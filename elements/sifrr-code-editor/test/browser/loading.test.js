@@ -1,4 +1,6 @@
 async function assertValue(selector, value) {
+  await page.$eval(selector, async el => await el.cmLoaded());
+
   const value0 = await page.$eval(selector, el => el.value);
   expect(value0).to.be.equal(value);
 
@@ -13,7 +15,6 @@ describe('code editor', function() {
   before(async () => {
     await page.goto(`${PATH}/codeeditor.html`);
     await page.evaluate(async () => await Sifrr.Dom.loading());
-    await page.evaluate(async () => await Sifrr.Dom.elements['sifrr-code-editor'].cm());
   });
 
   it('loads code editor', async function() {

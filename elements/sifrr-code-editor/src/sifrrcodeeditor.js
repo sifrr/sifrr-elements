@@ -42,21 +42,24 @@ class SifrrCodeEditor extends SifrrDom.Element {
   }
 
   cmLoaded() {
-    SifrrDom.Loader.executeJS(
-      `https://cdn.jsdelivr.net/npm/codemirror@${CM_VERSION}/mode/${this.getLang()}/${this.getLang()}.js`
-    ).then(() => {
-      this.cm = window.CodeMirror.fromTextArea(this.$('textarea'), {
-        value: this.$('textarea').value,
-        mode: this.getLang(),
-        htmlMode: true,
-        theme: this.getTheme(),
-        indentUnit: 2,
-        tabSize: 2,
-        lineNumbers: true
+    this.loading =
+      this.loading ||
+      SifrrDom.Loader.executeJS(
+        `https://cdn.jsdelivr.net/npm/codemirror@${CM_VERSION}/mode/${this.getLang()}/${this.getLang()}.js`
+      ).then(() => {
+        this.cm = window.CodeMirror.fromTextArea(this.$('textarea'), {
+          value: this.$('textarea').value,
+          mode: this.getLang(),
+          htmlMode: true,
+          theme: this.getTheme(),
+          indentUnit: 2,
+          tabSize: 2,
+          lineNumbers: true
+        });
+        this.cm.on('change', this.setValueFromCm.bind(this));
+        this._cmLoaded = true;
       });
-      this.cm.on('change', this.setValueFromCm.bind(this));
-      this._cmLoaded = true;
-    });
+    return this.loading;
   }
 
   getTheme() {
