@@ -9,6 +9,7 @@ async function getProgress() {
 describe('shows correct progress', () => {
   before(async () => {
     await page.goto(`${PATH}/progress.html`);
+    await page.evaluate(() => Sifrr.Dom.loading());
   });
 
   it('has correct progress in start', async () => {
