@@ -1,44 +1,52 @@
-import SifrrDom from '@sifrr/dom';
+import { html } from '@sifrr/template';
+import { Element, Event, register } from '@sifrr/dom';
 import style from './style.scss';
 import '../../sifrr-tab-header/src/sifrrtabheader';
 import '../../sifrr-tab-container/src/sifrrtabcontainer';
 
-const template = SifrrDom.template`<style media="screen">
-  ${style}
-</style>
-<style media="screen">
-  \${this.state.style || ''}
-</style>
-<div id="bg">
-  <div id="cross">X</div>
-</div>
-<div id="content">
-  <sifrr-tab-container>
-    <slot name="content"></slot>
-  </sifrr-tab-container>
-  <span id="count">\${\`\${this.container.active + 1}/\${this.container.total}\`}</span>
-</div>
-<div id="preview">
-  <div class="arrow l">
-    <span></span>
+const template = html`
+  <style media="screen">
+    ${style}
+  </style>
+  <style media="screen">
+    ${el => el.state.style || ''}
+  </style>
+  <div id="bg">
+    <div id="cross">X</div>
   </div>
-  <div class="arrow r">
-    <span></span>
+  <div id="content">
+    <sifrr-tab-container>
+      <slot name="content"></slot>
+    </sifrr-tab-container>
+    <span id="count">${el => `${el.container.active + 1}/${el.container.total}`}</span>
   </div>
-  <sifrr-tab-header :options="\${{ showUnderline: false }}">
-    <slot name="preview"></slot>
-  </sifrr-tab-header>
-</div>`;
+  <div id="preview">
+    <div class="arrow l">
+      <span></span>
+    </div>
+    <div class="arrow r">
+      <span></span>
+    </div>
+    <sifrr-tab-header ::options="${{ showUnderline: false }}">
+      <slot name="preview"></slot>
+    </sifrr-tab-header>
+  </div>
+`;
 
-SifrrDom.Event.add('click');
-class SifrrCarousel extends SifrrDom.Element {
+Event.add('click');
+class SifrrCarousel extends Element {
   static get template() {
     return template;
   }
 
-  onConnect() {
+  constructor() {
+    super();
+    this.state = { style: '' };
     this.container = this.$('sifrr-tab-container');
     this.header = this.$('sifrr-tab-header');
+  }
+
+  onConnect() {
     this.container.refresh({
       slot: this.$('slot[name=content]')
     });
@@ -51,7 +59,7 @@ class SifrrCarousel extends SifrrDom.Element {
     this._rel = this._rel || this.refresh.bind(this);
     Array.from(this.$$('img', false)).forEach(img => img.addEventListener('load', this._rel));
 
-    SifrrDom.Event.addListener('click', this, (e, t) => {
+    Event.addListener('click', this, (e, t) => {
       if (
         (t.matches('[slot=content]') || t.matches('[slot=content] *')) &&
         !t.matches('.fullscreen *')
@@ -81,7 +89,6 @@ class SifrrCarousel extends SifrrDom.Element {
   }
 }
 
-SifrrCarousel.defaultState = { style: '' };
-SifrrDom.register(SifrrCarousel);
+register(SifrrCarousel);
 
 export default SifrrCarousel;
