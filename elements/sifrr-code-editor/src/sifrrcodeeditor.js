@@ -1,17 +1,26 @@
-import SifrrDom from '@sifrr/dom';
+import { html, memo } from '@sifrr/template';
+import { Element, register, Event, Loader } from '@sifrr/dom';
 import style from './style.scss';
 
 const CM_VERSION = '5.49.2';
 
-const template = SifrrDom.template`
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/codemirror@${CM_VERSION}/lib/codemirror.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/codemirror@${CM_VERSION}/theme/\${this.getTheme()}.css">
-<style media="screen">
-  ${style}
-</style>
-<textarea :value="\${this.value || ''}" _change="\${this.textAreaInput}"></textarea>`;
+const template = html`
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/codemirror@${CM_VERSION}/lib/codemirror.css"
+  />
+  <link
+    rel="stylesheet"
+    href="${el =>
+      `https://cdn.jsdelivr.net/npm/codemirror@${CM_VERSION}/theme/${el.getTheme()}.css`}"
+  />
+  <style media="screen">
+    ${style}
+  </style>
+  <textarea :value=${el => el.value || ''} :_change=${memo(el => el.textAreaInput)}></textarea>
+`;
 
-class SifrrCodeEditor extends SifrrDom.Element {
+class SifrrCodeEditor extends Element {
   static get template() {
     return template;
   }
@@ -19,9 +28,7 @@ class SifrrCodeEditor extends SifrrDom.Element {
   static cm() {
     this._cm =
       this._cm ||
-      SifrrDom.Loader.executeJS(
-        `https://cdn.jsdelivr.net/npm/codemirror@${CM_VERSION}/lib/codemirror.js`
-      );
+      Loader.executeJS(`https://cdn.jsdelivr.net/npm/codemirror@${CM_VERSION}/lib/codemirror.js`);
     return this._cm;
   }
 
@@ -29,12 +36,12 @@ class SifrrCodeEditor extends SifrrDom.Element {
     this.constructor.cm().then(() => this.cmLoaded());
   }
 
-  onPropsChange(props) {
+  onPropChange(prop) {
     if (this._cmLoaded) {
-      if (props.indexOf('theme') > -1) this.cm.setOption('theme', this.getTheme());
-      if (props.indexOf('lang') > -1) this.cm.setOption('mode', this.getLang());
+      if (prop === 'theme') this.cm.setOption('theme', this.getTheme());
+      if (prop === 'lang') this.cm.setOption('mode', this.getLang());
     }
-    if (['value', 'theme', 'lang'].filter(p => props.indexOf(p) > -1).length > 0) this.update();
+    if (['value', 'theme', 'lang'].includes(prop)) this.update();
   }
 
   onUpdate() {
@@ -44,21 +51,24 @@ class SifrrCodeEditor extends SifrrDom.Element {
   cmLoaded() {
     this.loading =
       this.loading ||
-      SifrrDom.Loader.executeJS(
-        `https://cdn.jsdelivr.net/npm/codemirror@${CM_VERSION}/mode/${this.getLang()}/${this.getLang()}.js`
-      ).then(() => {
-        this.cm = window.CodeMirror.fromTextArea(this.$('textarea'), {
-          value: this.$('textarea').value,
-          mode: this.getLang(),
-          htmlMode: true,
-          theme: this.getTheme(),
-          indentUnit: 2,
-          tabSize: 2,
-          lineNumbers: true
-        });
-        this.cm.on('change', this.setValueFromCm.bind(this));
-        this._cmLoaded = true;
-      });
+      this.constructor.cm().then(() =>
+        Loader.executeJS(
+          `https://cdn.jsdelivr.net/npm/codemirror@${CM_VERSION}/mode/${this.getLang()}/${this.getLang()}.js`
+        ).then(() => {
+          this.cm = window.CodeMirror.fromTextArea(this.$('textarea'), {
+            value: this.$('textarea').value,
+            mode: this.getLang(),
+            htmlMode: true,
+            theme: this.getTheme(),
+            indentUnit: 2,
+            tabSize: 2,
+            lineNumbers: true
+          });
+          this.cm.on('change', this.setValueFromCm.bind(this));
+          this._cmLoaded = true;
+        })
+      );
+
     return this.loading;
   }
 
@@ -82,11 +92,11 @@ class SifrrCodeEditor extends SifrrDom.Element {
 
   triggerChange() {
     this.update();
-    SifrrDom.Event.trigger(this, 'input');
-    SifrrDom.Event.trigger(this, 'change');
+    Event.trigger(this, 'input');
+    Event.trigger(this, 'change');
   }
 }
 
-SifrrDom.register(SifrrCodeEditor);
+register(SifrrCodeEditor);
 
 export default SifrrCodeEditor;

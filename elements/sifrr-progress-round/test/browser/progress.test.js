@@ -17,10 +17,10 @@ describe('shows correct progress', () => {
   });
 
   it('has correct progress after setting', async () => {
-    await page.$eval('sifrr-progress-round', el => el.setProp('progress', 10));
+    await page.$eval('sifrr-progress-round', el => el.setProps({ progress: 10 }));
     assert.equal(await getProgress(), 90);
 
-    await page.$eval('sifrr-progress-round', el => el.setProp('progress', 70));
+    await page.$eval('sifrr-progress-round', el => el.setProps({ progress: 70 }));
     assert.equal(await getProgress(), 30);
   });
 });

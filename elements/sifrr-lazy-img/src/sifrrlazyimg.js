@@ -1,7 +1,7 @@
-import SifrrDom from '@sifrr/dom';
+import { Element, register } from '@sifrr/dom';
 import LazyLoader from '../../../helpers/lazyloader';
 
-class SifrrLazyImg extends SifrrDom.Element.extends(HTMLImageElement) {
+class SifrrLazyImg extends Element.extends(HTMLImageElement) {
   static get observer() {
     this._observer = this._observer || new LazyLoader(this.rootMargin);
     return this._observer;
@@ -22,6 +22,6 @@ class SifrrLazyImg extends SifrrDom.Element.extends(HTMLImageElement) {
 
 SifrrLazyImg.rootMargin = '0px 0px 50px 0px';
 
-SifrrDom.register(SifrrLazyImg, { extends: 'img' });
+register(SifrrLazyImg, { extends: 'img' });
 
 export default SifrrLazyImg;

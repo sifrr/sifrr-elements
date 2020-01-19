@@ -27,7 +27,7 @@ describe('code editor', function() {
   });
 
   it('sets value from prop', async function() {
-    await page.$eval('sifrr-code-editor', el => ((el.value = 'ok'), el.onPropsChange(['value'])));
+    await page.$eval('sifrr-code-editor', el => ((el.value = 'ok'), el.onPropChange('value')));
     await assertValue('sifrr-code-editor', 'ok');
   });
 });

@@ -1,8 +1,6 @@
-import SifrrDom from '@sifrr/dom';
+import { Element, register } from '@sifrr/dom';
 
-import style from './style.css';
-
-const properStyle = style.replace(/'(\${[^']*})'/g, '$1');
+import style from './style';
 
 function rgbToHsl(r = 0, g = 0, b = 0) {
   (r /= 255), (g /= 255), (b /= 255);
@@ -34,14 +32,13 @@ function rgbToHsl(r = 0, g = 0, b = 0) {
   return [h, s, l];
 }
 
-class SifrrShimmer extends SifrrDom.Element {
-  onPropsChange(props) {
-    if (['color', 'bg-color', 'fg-color'].filter(p => props.indexOf(p) > -1).length > 0)
-      this.update();
+class SifrrShimmer extends Element {
+  onPropChange(prop) {
+    if (['color', 'bg-color', 'fg-color'].indexOf(prop) > -1) this.update();
   }
 
   static get template() {
-    return SifrrDom.template(`<style>${properStyle}</style>`);
+    return style;
   }
 
   getBgColor() {
@@ -68,6 +65,6 @@ class SifrrShimmer extends SifrrDom.Element {
   }
 }
 
-SifrrDom.register(SifrrShimmer);
+register(SifrrShimmer);
 
 export default SifrrShimmer;

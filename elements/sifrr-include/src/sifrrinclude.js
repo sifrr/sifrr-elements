@@ -1,14 +1,15 @@
-import SifrrDom from '@sifrr/dom';
+import { Element, register, Loader } from '@sifrr/dom';
 
-class SifrrInclude extends SifrrDom.Element {
-  onPropsChange(props) {
-    if (props.filter(p => ['type', 'url', 'selector'].indexOf(p) > -1).length > 0) this.load();
+class SifrrInclude extends Element {
+  onPropChange(prop) {
+    if (['type', 'url', 'selector'].indexOf(prop) > -1) this.load();
   }
 
   load() {
     let element = false;
     if (this.type === 'js') {
       element = 'script';
+      Loader.executeJS(this.url);
     } else if (this.type === 'css') {
       element = 'style';
     } else {
@@ -20,7 +21,8 @@ class SifrrInclude extends SifrrDom.Element {
         .then(r => r.text())
         .then(text => {
           if (this.type === 'html' && this.selector) {
-            const template = SifrrDom.template(text);
+            const template = document.createElement('template');
+            template.innerHTML = text;
             this.textContent = '';
             this.appendChild(template.content.querySelector(this.selector));
           } else
@@ -32,6 +34,6 @@ class SifrrInclude extends SifrrDom.Element {
   }
 }
 
-SifrrDom.register(SifrrInclude);
+register(SifrrInclude);
 
 export default SifrrInclude;

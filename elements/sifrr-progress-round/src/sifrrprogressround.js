@@ -1,11 +1,10 @@
-import SifrrDom from '@sifrr/dom';
+import { Element, register } from '@sifrr/dom';
 
-import template from './template.html';
-import style from './style.css';
+import template from './template';
 
-class SifrrProgressRound extends SifrrDom.Element {
+class SifrrProgressRound extends Element {
   static get template() {
-    return SifrrDom.template(`<style>${style}</style>${template}`);
+    return template;
   }
 
   onPropsChange(props) {
@@ -14,6 +13,6 @@ class SifrrProgressRound extends SifrrDom.Element {
   }
 }
 
-SifrrDom.register(SifrrProgressRound);
+register(SifrrProgressRound);
 
 export default SifrrProgressRound;
