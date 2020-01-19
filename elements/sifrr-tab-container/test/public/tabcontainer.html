@@ -6,10 +6,11 @@
   </head>
   <body>
     <main-element></main-element>
+    <script src="/sifrr.template.js" charset="utf-8"></script>
     <script src="/sifrr.dom.js" charset="utf-8"></script>
     <script type="text/javascript">
       Sifrr.Dom.setup();
-      Sifrr.Dom.load('main-element');
+      Sifrr.Dom.load('main-element', 'elements/main/element.js');
 
       function delay(time) {
         return new Promise(res => setTimeout(res, time));
