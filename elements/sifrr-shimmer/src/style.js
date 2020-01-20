@@ -2,11 +2,13 @@ import { css } from '@sifrr/template';
 
 export default css`
   :host {
+    width: 100%;
+    height: 100%;
     background: linear-gradient(
       to right,
       ${el => el.getBgColor()} 4%,
       ${el => el.getFgColor()} 25%,
-      ${el => el.getBgColor()} 36%
+      ${el => el.getBgColor()} 45%
     );
     display: inline-block;
     animation: shimmer 2.5s linear 0s infinite;

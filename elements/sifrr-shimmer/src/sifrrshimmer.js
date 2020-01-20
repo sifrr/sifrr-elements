@@ -33,12 +33,20 @@ function rgbToHsl(r = 0, g = 0, b = 0) {
 }
 
 class SifrrShimmer extends Element {
+  static get template() {
+    return style;
+  }
+
+  static get observedAttributes() {
+    return ['light'];
+  }
+
   onPropChange(prop) {
     if (['color', 'bg-color', 'fg-color'].indexOf(prop) > -1) this.update();
   }
 
-  static get template() {
-    return style;
+  onAttributeChange() {
+    this.update();
   }
 
   getBgColor() {
@@ -51,7 +59,7 @@ class SifrrShimmer extends Element {
 
   colora(point) {
     const hsl = rgbToHsl(
-      ...(this.color || '170, 170, 170')
+      ...(this.color || '200, 200, 200')
         .replace(/ /g, '')
         .split(',')
         .map(Number)
