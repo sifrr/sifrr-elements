@@ -7,15 +7,17 @@ import '../../sifrr-tab-container/src/sifrrtabcontainer';
 const template = html`
   <style media="screen">
     ${style}
-  </style>
-  <style media="screen">
     ${el => el.state.style || ''}
   </style>
   <div id="bg">
     <div id="cross">X</div>
   </div>
   <div id="content">
-    <sifrr-tab-container>
+    <sifrr-tab-container
+      :style=${el => ({
+        height: el.imageHeight
+      })}
+    >
       <slot name="content"></slot>
     </sifrr-tab-container>
     <span id="count">${el => `${el.container.active + 1}/${el.container.total}`}</span>
