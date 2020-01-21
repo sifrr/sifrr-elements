@@ -492,6 +492,8 @@ this.Sifrr.Template = (function (exports) {
                 node.style[keys[_i2]] = "".concat(newValue[keys[_i2]]); // remove undefined with empty string
               }
             } else node[binding.name] = binding.value;
+
+            hasOnPropChange && node.onPropChange(binding.name, undefined, binding.value);
           }
 
           return "continue";
