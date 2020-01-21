@@ -41,29 +41,26 @@ const saveFxn = showcaseStore.save.bind(
   () => showcaseStore.onStatus('saved locally!'),
   (showcaseStore._timeout = null)
 );
-showcaseStore.onUpdate = function() {
-  if (getParam('showcase') != this.value.active) setParam('showcase', this.value.active);
-  if (
-    this.getActiveValue().variants &&
-    this.getActiveValue().variants !== variantStore.getValues()
-  ) {
-    variantStore.setValues(this.getActiveValue().variants, this.getActiveValue().activeVariant);
+showcaseStore.addListener(function(me) {
+  if (getParam('showcase') != me.value.active) setParam('showcase', me.value.active);
+  if (me.getActiveValue().variants && me.getActiveValue().variants !== variantStore.getValues()) {
+    variantStore.setValues(me.getActiveValue().variants, me.getActiveValue().activeVariant);
   }
 
-  if (this.getActiveValue().activeVariant !== variantStore.value.active) {
-    this.getActiveValue().activeVariant = variantStore.value.active;
+  if (me.getActiveValue().activeVariant !== variantStore.value.active) {
+    me.getActiveValue().activeVariant = variantStore.value.active;
   }
 
-  if (!this.getValues() || this.getValues().length < 1) return;
+  if (!me.getValues() || me.getValues().length < 1) return;
 
-  this.onStatus('saving locally!');
-  if (this._timeout) clearTimeout(this._timeout);
-  this._timeout = setTimeout(saveFxn, 500);
-};
+  me.onStatus('saving locally!');
+  if (me._timeout) clearTimeout(me._timeout);
+  me._timeout = setTimeout(saveFxn, 500);
+});
 
-variantStore.onUpdate = function() {
-  if (getParam('variant') != this.value.active) setParam('variant', this.value.active);
+variantStore.addListener(function(me) {
+  if (getParam('variant') != me.value.active) setParam('variant', me.value.active);
   showcaseStore.onUpdate();
-};
+});
 
 export { showcaseStore, variantStore };

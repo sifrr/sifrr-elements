@@ -474,6 +474,7 @@ this.Sifrr.Template = (function (exports) {
       } = refs[_i];
       var hasOnPropChange = typeof node.onPropChange === 'function';
       var hasUpdate = typeof node.update === 'function';
+      var promise = false;
 
       var _loop2 = function (j) {
         var binding = bindMap[j]; // special direct props (events/style)
@@ -499,13 +500,14 @@ this.Sifrr.Template = (function (exports) {
         var oldValue = currentValues[j];
 
         if (oldValue instanceof Promise) {
-          currentValues[j] = oldValue.then(oldValue => {
-            var newValue = binding.value(props, oldValue);
+          promise = true;
+          currentValues[j] = oldValue.then(oldv => {
+            var newValue = binding.value(props, oldv);
 
             if (newValue instanceof Promise) {
-              return newValue.then(nv => updateOne(node, binding, oldValue, nv, hasOnPropChange));
+              return newValue.then(nv => updateOne(node, binding, oldv, nv, hasOnPropChange));
             } else {
-              return updateOne(node, binding, oldValue, newValue, hasOnPropChange);
+              return updateOne(node, binding, oldv, newValue, hasOnPropChange);
             }
           });
         } else {
@@ -514,6 +516,7 @@ this.Sifrr.Template = (function (exports) {
           var _newValue = binding.value(props, _oldValue);
 
           if (_newValue instanceof Promise) {
+            promise = true;
             currentValues[j] = _newValue.then(nv => updateOne(node, binding, _oldValue, nv, hasOnPropChange));
           } else {
             currentValues[j] = updateOne(node, binding, _oldValue, _newValue, hasOnPropChange);
@@ -527,7 +530,9 @@ this.Sifrr.Template = (function (exports) {
         if (_ret === "continue") continue;
       }
 
-      hasUpdate && Promise.all(currentValues).then(() => node.update());
+      if (hasUpdate) {
+        promise ? Promise.all(currentValues).then(() => node.update()) : node.update();
+      }
     };
 
     for (var _i = refs.length - 1; _i > -1; --_i) {
@@ -639,7 +644,7 @@ this.Sifrr.Template = (function (exports) {
           return oldValue;
         } else if (!Array.isArray(oldValue)) {
           console.warn("oldValue given to Component function was not an Array.\n        template: `".concat(String.raw(str, ...substitutions), "`"));
-        } else if (oldValue.length > 0) {
+        } else if (oldValue.length == 1 && oldValue[0].nodeType === TEXT_NODE) ; else if (oldValue.length > 0) {
           console.warn("oldValue given to Component function was not created by this Component. \n        This might be a bug or caused if you return different \n        components in same binding function.\n        old nodes given: ".concat(oldValue, "\n        template: `").concat(String.raw(str, ...substitutions), "`"));
         }
       }
@@ -985,7 +990,7 @@ this.Sifrr.Template = (function (exports) {
       this.value = initialValue;
     }
 
-    update(newValue) {
+    set(newValue) {
       this.value = newValue;
       this.onUpdate();
     }

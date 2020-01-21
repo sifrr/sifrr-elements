@@ -30,4 +30,9 @@ describe('code editor', function() {
     await page.$eval('sifrr-code-editor', el => ((el.value = 'ok'), el.onPropChange('value')));
     await assertValue('sifrr-code-editor', 'ok');
   });
+
+  it('works with controlled input event', async function() {
+    await page.$eval('sifrr-code-editor', el => ((el.value = 'ok'), el.onPropChange('value')));
+    await assertValue('sifrr-code-editor', 'ok');
+  });
 });

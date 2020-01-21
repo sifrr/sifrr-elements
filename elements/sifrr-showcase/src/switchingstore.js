@@ -1,16 +1,16 @@
-import { Store } from '@sifrr/dom';
+import { Store } from '@sifrr/template';
 
 class ShowcaseStore extends Store {
   constructor(v) {
     super({
-      active: 0,
+      active: -1,
       values: v || []
     });
   }
 
   setValues(values, active) {
     this.value.values = values || [];
-    this.setActive(active || 0);
+    this.setActive(active || this.value.values.length - 1);
   }
 
   getValues() {
@@ -18,7 +18,7 @@ class ShowcaseStore extends Store {
   }
 
   bindUpdate(prop) {
-    return (v => this.setActiveValue({ [prop]: v })).bind(this);
+    return ((v, el) => this.setActiveValue({ [prop]: el ? el.value : v })).bind(this);
   }
 
   delete(index) {
@@ -34,10 +34,10 @@ class ShowcaseStore extends Store {
 
   setActive(active) {
     this.value.values.forEach((v, i) => {
-      if (i === active) v.active = true;
-      else v.active = false;
+      if (i === active) v.isActive = true;
+      else v.isActive = false;
     });
-    this.set({ active });
+    this.setAssign({ active });
   }
 
   getActiveValue() {
@@ -47,8 +47,12 @@ class ShowcaseStore extends Store {
   setActiveValue(v) {
     if (this.value.values[this.value.active]) {
       Object.assign(this.value.values[this.value.active], v);
-      this.update();
+      this.onUpdate();
     }
+  }
+
+  setAssign(newv) {
+    this.set(Object.assign(this.value, newv));
   }
 }
 

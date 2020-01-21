@@ -17,7 +17,7 @@ const template = html`
   <style media="screen">
     ${style}
   </style>
-  <textarea :value=${el => el.value || ''} :_change=${memo(el => el.textAreaInput)}></textarea>
+  <textarea :value=${el => el.value || ''} :_input=${memo(el => el.textAreaInput)}></textarea>
 `;
 
 class SifrrCodeEditor extends Element {
@@ -41,11 +41,12 @@ class SifrrCodeEditor extends Element {
       if (prop === 'theme') this.cm.setOption('theme', this.getTheme());
       if (prop === 'lang') this.cm.setOption('mode', this.getLang());
     }
-    if (['value', 'theme', 'lang'].includes(prop)) this.update();
   }
 
   onUpdate() {
-    if (this._cmLoaded && this.cm.getValue() !== this.value) return this.cm.setValue(this.value);
+    if (this._cmLoaded && this.cm.getValue() !== this.value) {
+      this.cm.setValue(this.value);
+    }
   }
 
   cmLoaded() {
@@ -62,9 +63,12 @@ class SifrrCodeEditor extends Element {
             theme: this.getTheme(),
             indentUnit: 2,
             tabSize: 2,
-            lineNumbers: true
+            matchBrackets: true,
+            lineNumbers: true,
+            onCursorActivity: () => {
+              this.setValueFromCm();
+            }
           });
-          this.cm.on('change', this.setValueFromCm.bind(this));
           this._cmLoaded = true;
         })
       );
