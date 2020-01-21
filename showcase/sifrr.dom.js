@@ -52,16 +52,15 @@ this.Sifrr.Dom = (function (exports, template) {
       return e => {
         var target = e.composedPath ? e.composedPath()[0] : e.target;
         var dom = target;
+        var eventHandler = dom["_".concat(name)] || (dom.hasAttribute ? dom.getAttribute("_".concat(name)) : null);
+
+        if (typeof eventHandler === 'function') {
+          eventHandler.call(window, e, target);
+        } else if (typeof eventHandler === 'string') {
+          new Function('event', 'target', eventHandler).call(window, event, target);
+        }
 
         while (dom) {
-          var eventHandler = dom["_".concat(name)] || (dom.hasAttribute ? dom.getAttribute("_".concat(name)) : null);
-
-          if (typeof eventHandler === 'function') {
-            eventHandler.call(window, e, target);
-          } else if (typeof eventHandler === 'string') {
-            new Function('event', 'target', eventHandler).call(window, event, target);
-          }
-
           cssMatchEvent(e, name, dom, target);
           dom = dom.parentNode || dom.host;
         }
@@ -187,6 +186,7 @@ this.Sifrr.Dom = (function (exports, template) {
         onStateChange() {}
 
         update() {
+          if (!this.connected) return;
           this.beforeUpdate();
           template.update(this.__content, this);
           trigger(this, 'update', {
@@ -274,13 +274,26 @@ this.Sifrr.Dom = (function (exports, template) {
     Loader.all = {};
 
     function createElement(elementClass, props, oldElement) {
+      if (typeof elementClass === 'string') {
+        if (oldElement.tagName.toLowerCase() === elementClass) {
+          oldElement.setProps(props);
+          return oldElement;
+        } else {
+          var element = document.createElement(elementClass);
+          element.setProps(props);
+          return element;
+        }
+      }
+
       if (oldElement instanceof elementClass) {
         oldElement.setProps(props);
         return oldElement;
       } else {
-        var element = document.createElement(elementClass.elementName);
-        element.setProps(props);
-        return element;
+        var _element = document.createElement(elementClass.elementName);
+
+        _element.setProps(props);
+
+        return _element;
       }
     }
 

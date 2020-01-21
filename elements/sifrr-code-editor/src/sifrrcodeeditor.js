@@ -32,6 +32,11 @@ class SifrrCodeEditor extends Element {
     return this._cm;
   }
 
+  constructor() {
+    super();
+    this.value = '';
+  }
+
   onConnect() {
     this.constructor.cm().then(() => this.cmLoaded());
   }
@@ -63,12 +68,9 @@ class SifrrCodeEditor extends Element {
             theme: this.getTheme(),
             indentUnit: 2,
             tabSize: 2,
-            matchBrackets: true,
-            lineNumbers: true,
-            onCursorActivity: () => {
-              this.setValueFromCm();
-            }
+            lineNumbers: true
           });
+          this.cm.on('change', this.setValueFromCm.bind(this));
           this._cmLoaded = true;
         })
       );
@@ -95,7 +97,6 @@ class SifrrCodeEditor extends Element {
   }
 
   triggerChange() {
-    this.update();
     Event.trigger(this, 'input');
     Event.trigger(this, 'change');
   }

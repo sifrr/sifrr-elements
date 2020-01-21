@@ -41,7 +41,7 @@ export default html`
           id="css"
           lang="css"
           :value="${el => el.store.getActiveValue().style || ''}"
-          :_input="${memo(el => el.store.bindUpdate('style'))}"
+          :_change="${memo(el => el.store.bindUpdate('style'))}"
         ></sifrr-code-editor>
       </div>
       <div class="box">
@@ -50,7 +50,7 @@ export default html`
           id="elState"
           lang="javascript"
           :value="${el => el.store.getActiveValue().elState || ''}"
-          :_input="${memo(el => el.store.bindUpdate('elState'))}"
+          :_change="${memo(el => el.store.bindUpdate('elState'))}"
         ></sifrr-code-editor>
       </div>
     </div>
@@ -92,21 +92,12 @@ export default html`
           :_input="${memo(el => el.store.bindUpdate('elementUrl'))}"
         />
         <label class="font small" for="elementName">Is JS File</label>
-        <select
-          id="isjs"
-          name="isjs"
-          :value="${el => el.store.getActiveValue().isjs || ''}"
-          :_input="${memo(el => el.store.bindUpdate('isjs'))}"
-        >
-          <option value="true">true</option>
-          <option value="false">false</option>
-        </select>
         <span class="font" id="error"></span>
         <br />
         <label class="font small" for="htmlcode">HTML Code</label>
         <sifrr-code-editor
           id="elCode"
-          :_input="${memo(el => el.store.bindUpdate('code'))}"
+          :_change="${memo(el => el.store.bindUpdate('code'))}"
           :value="${el => el.store.getActiveValue().code || ''}"
         ></sifrr-code-editor>
       </div>
