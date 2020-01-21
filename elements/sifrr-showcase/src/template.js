@@ -45,7 +45,7 @@ export default html`
         ></sifrr-code-editor>
       </div>
       <div class="box">
-        <label class="font small" for="elState">Element State Function</label>
+        <label class="font small" for="elState">JavaScript (this is element itself)</label>
         <sifrr-code-editor
           id="elState"
           lang="javascript"
