@@ -1,19 +1,21 @@
-import SifrrDom from '@sifrr/dom';
+import { Element, register, Loader } from '@sifrr/dom';
 
-class SifrrInclude extends SifrrDom.Element {
-  static syncedAttrs() {
-    return ['url', 'type', 'selector'];
+class SifrrInclude extends Element {
+  onPropChange(prop) {
+    if (['type', 'url', 'selector'].indexOf(prop) > -1 && this.connected) this.load();
   }
 
   onConnect() {
-    let preffix = '',
-      suffix = '';
+    this.load();
+  }
+
+  load() {
+    let element = false;
     if (this.type === 'js') {
-      preffix = '<script>';
-      suffix = '</script>';
+      element = 'script';
+      Loader.executeJS(this.url);
     } else if (this.type === 'css') {
-      preffix = '<style>';
-      suffix = '</style>';
+      element = 'style';
     } else {
       this.type = 'html';
     }
@@ -23,15 +25,19 @@ class SifrrInclude extends SifrrDom.Element {
         .then(r => r.text())
         .then(text => {
           if (this.type === 'html' && this.selector) {
-            const template = SifrrDom.template(text);
+            const template = document.createElement('template');
+            template.innerHTML = text;
             this.textContent = '';
             this.appendChild(template.content.querySelector(this.selector));
-          } else this.innerHTML = preffix + text + suffix;
+          } else
+            this.innerHTML = `${element ? `<${element}>` : ''}${text}${
+              element ? `</${element}>` : ''
+            }`;
         });
     }
   }
 }
 
-SifrrDom.register(SifrrInclude);
+register(SifrrInclude);
 
 export default SifrrInclude;

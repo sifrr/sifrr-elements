@@ -1,53 +1,13 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>
-    <meta charset="utf-8">
+    <meta charset="utf-8" />
     <title>tabcontainer</title>
   </head>
   <body>
-    <sifrr-tab-container style="width: 400px" id="single" options='{ "animation": "none" }'>
-      <div>
-        Tab 1
-      </div>
-      <div>
-        Tab 2
-      </div>
-      <div>
-        Tab 3
-      </div>
-    </sifrr-tab-container>
-    <sifrr-tab-container style="width: 400px" id="looped" options='{ "animation": "none", "loop": true }'>
-      <div>
-        Tab 1
-      </div>
-      <div>
-        Tab 2
-      </div>
-      <div>
-        Tab 3
-      </div>
-    </sifrr-tab-container>
-    <sifrr-tab-container style="width: 600px" id="multi" options='{ "num": 3, "animation": "none" }'>
-      <div>
-        Tab 1
-      </div>
-      <div>
-        Tab 2
-      </div>
-      <div>
-        Tab 3
-      </div>
-      <div>
-        Tab 4
-      </div>
-      <div>
-        Tab 5
-      </div>
-      <div>
-        Tab 6
-      </div>
-    </sifrr-tab-container>
-    <script src="https://cdn.jsdelivr.net/npm/@sifrr/dom@0.0.5/dist/sifrr.dom.min.js" charset="utf-8"></script>
+    <main-element></main-element>
+    <script src="/sifrr.template.js" charset="utf-8"></script>
+    <script src="/sifrr.dom.js" charset="utf-8"></script>
     <script type="text/javascript">
       Sifrr.Dom.setup();
 
@@ -56,5 +16,6 @@
       }
     </script>
     <script src="/sifrrtabcontainer.js" charset="utf-8"></script>
+    <script src="/elements/main/element.js" charset="utf-8"></script>
   </body>
 </html>

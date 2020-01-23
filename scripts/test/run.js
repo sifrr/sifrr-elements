@@ -52,7 +52,11 @@ const options = roots.map((root, i) => {
     useJunitReporter,
     inspect,
     folders: {
-      static: [path.join(__dirname, '../../dist'), path.join(__dirname, '../../showcase')],
+      static: [
+        path.join(__dirname, '../../dist'),
+        path.join(__dirname, '../../showcase'),
+        path.join(__dirname, '../../elements/sifrr-tab-container/dist')
+      ],
       coverage: path.join(__dirname, '../../.nyc_output')
     },
     sourceFileRegex: /sifrr-[a-z-]+\/src\/.*\.js$/,

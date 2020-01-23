@@ -1,27 +1,18 @@
-import SifrrDom from '@sifrr/dom';
+import { Element, register } from '@sifrr/dom';
 
-import template from './template.html';
-import style from './style.css';
+import template from './template';
 
-class SifrrProgressRound extends SifrrDom.Element {
+class SifrrProgressRound extends Element {
   static get template() {
-    return SifrrDom.template(`<style>${style}</style>${template}`);
+    return template;
   }
 
-  static syncedAttrs() {
-    return ['progress', 'stroke', 'stroke-width'];
-  }
-
-  onAttributeChange(n, _, v) {
-    if (n === 'progress' || n === 'stroke' || n === 'stroke-width') this.state = { [n]: Number(v) };
+  onPropsChange(props) {
+    if (['progress', 'stroke', 'strokeWidth'].filter(p => props.indexOf(p) > -1).length > 0)
+      this.update();
   }
 }
 
-SifrrProgressRound.defaultState = {
-  progress: 0,
-  'stroke-width': 2,
-  stroke: '#fff'
-};
-SifrrDom.register(SifrrProgressRound);
+register(SifrrProgressRound);
 
 export default SifrrProgressRound;

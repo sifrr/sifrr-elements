@@ -3,7 +3,7 @@ this.Sifrr = this.Sifrr || {};
 this.Sifrr.Elements = (function (exports, SifrrDom, SifrrStorage) {
   'use strict';
 
-  SifrrDom = SifrrDom && SifrrDom.hasOwnProperty('default') ? SifrrDom['default'] : SifrrDom;
+  const SifrrDom__default = 'default' in SifrrDom ? SifrrDom['default'] : SifrrDom;
   SifrrStorage = SifrrStorage && SifrrStorage.hasOwnProperty('default') ? SifrrStorage['default'] : SifrrStorage;
 
   function moveAttr(el, attr) {
@@ -57,7 +57,7 @@ this.Sifrr.Elements = (function (exports, SifrrDom, SifrrStorage) {
     this._observe(el);
   };
 
-  class SifrrLazyImg extends SifrrDom.Element.extends(HTMLImageElement) {
+  class SifrrLazyImg extends SifrrDom__default.Element.extends(HTMLImageElement) {
     static get observer() {
       this._observer = this._observer || new LazyLoader(this.rootMargin);
       return this._observer;
@@ -78,11 +78,11 @@ this.Sifrr.Elements = (function (exports, SifrrDom, SifrrStorage) {
   }
 
   SifrrLazyImg.rootMargin = '0px 0px 50px 0px';
-  SifrrDom.register(SifrrLazyImg, {
+  SifrrDom__default.register(SifrrLazyImg, {
     extends: 'img'
   });
 
-  class SifrrLazyPicture extends SifrrDom.Element.extends(HTMLPictureElement) {
+  class SifrrLazyPicture extends SifrrDom__default.Element.extends(HTMLPictureElement) {
     static get observer() {
       this._observer = this._observer || new LazyLoader(this.rootMargin);
       return this._observer;
@@ -103,7 +103,7 @@ this.Sifrr.Elements = (function (exports, SifrrDom, SifrrStorage) {
   }
 
   SifrrLazyPicture.rootMargin = '0px 0px 50px 0px';
-  SifrrDom.register(SifrrLazyPicture, {
+  SifrrDom__default.register(SifrrLazyPicture, {
     extends: 'picture'
   });
 
@@ -130,28 +130,21 @@ this.Sifrr.Elements = (function (exports, SifrrDom, SifrrStorage) {
 
     return data;
   }
-  const template = SifrrDom.template(_templateObject(), css);
+  const template = SifrrDom__default.template(_templateObject(), css);
 
-  class SifrrTabHeader extends SifrrDom.Element {
+  class SifrrTabHeader extends SifrrDom__default.Element {
     static get template() {
       return template;
     }
 
-    static observedAttrs() {
-      return ['options'];
+    onPropsChange(props) {
+      if (props.indexOf('options') > -1) this.refresh();
     }
 
     onConnect() {
       this._connected = true;
       this.$('slot').addEventListener('slotchange', this.refresh.bind(this, {}));
       this.refresh();
-    }
-
-    onAttributeChange(n, _, v) {
-      if (n === 'options') {
-        this._attrOptions = JSON.parse(v || '{}');
-        if (this._connected) this.refresh();
-      }
     }
 
     refresh(options) {
@@ -176,7 +169,7 @@ this.Sifrr.Elements = (function (exports, SifrrDom, SifrrStorage) {
       if (this.options.container) {
         const c = this.options.container;
         c.onScrollPercent = this.setScrollPercent.bind(this);
-        SifrrDom.Event.addListener('update', c, () => this.active = c.active);
+        SifrrDom__default.Event.addListener('update', c, () => this.active = c.active);
       }
 
       this.setScrollPercent(0);
@@ -241,7 +234,7 @@ this.Sifrr.Elements = (function (exports, SifrrDom, SifrrStorage) {
 
   }
 
-  SifrrDom.register(SifrrTabHeader);
+  SifrrDom__default.register(SifrrTabHeader);
 
   var css$1 = ":host {\n  box-sizing: border-box;\n  width: 100%;\n  display: block;\n  position: relative;\n  overflow-x: auto;\n  margin: 0; }\n\n.tabs {\n  min-height: 1px;\n  display: block; }\n\n.tabs::slotted(*) {\n  float: left;\n  max-height: 100%;\n  height: 100%;\n  overflow-x: hidden;\n  overflow-y: auto;\n  vertical-align: middle;\n  box-sizing: border-box; }\n";
 
@@ -433,15 +426,15 @@ this.Sifrr.Elements = (function (exports, SifrrDom, SifrrStorage) {
 
     return data;
   }
-  const template$1 = SifrrDom.template(_templateObject$1(), css$1);
+  const template$1 = SifrrDom__default.template(_templateObject$1(), css$1);
 
-  class SifrrTabContainer extends SifrrDom.Element {
+  class SifrrTabContainer extends SifrrDom__default.Element {
     static get template() {
       return template$1;
     }
 
-    static observedAttrs() {
-      return ['options'];
+    onPropsChange(props) {
+      if (props.indexOf('options') > -1) this.refresh();
     }
 
     onConnect() {
@@ -450,13 +443,6 @@ this.Sifrr.Elements = (function (exports, SifrrDom, SifrrStorage) {
       window.addEventListener('resize', () => requestAnimationFrame(this.refresh.bind(this)));
       this.options.slot.addEventListener('slotchange', this.refresh.bind(this, {}));
       this.setScrollEvent();
-    }
-
-    onAttributeChange(n, _, v) {
-      if (n === 'options') {
-        this._attrOptions = JSON.parse(v || '{}');
-        if (this._connected) this.refresh();
-      }
     }
 
     refresh(options) {
@@ -579,12 +565,12 @@ this.Sifrr.Elements = (function (exports, SifrrDom, SifrrStorage) {
 
   }
 
-  SifrrDom.register(SifrrTabContainer);
+  SifrrDom__default.register(SifrrTabContainer);
 
   var css$2 = ":host {\n  position: fixed;\n  right: 0;\n  top: 0;\n  bottom: 0;\n  height: 100%;\n  max-width: 100%;\n  width: 320px;\n  z-index: 1000;\n  background-color: rgba(0, 0, 0, 0.8);\n  transform: translate3d(100%, 0, 0);\n  transition: all 0.2s ease; }\n\n:host(.show) {\n  transform: translate3d(0, 0, 0); }\n\n* {\n  box-sizing: border-box; }\n\n#showHide {\n  position: fixed;\n  left: -30px;\n  top: 0;\n  bottom: 0;\n  width: 30px;\n  height: 30px;\n  margin-top: 5px;\n  background-color: blue;\n  z-index: 2; }\n\n.stateContainer {\n  padding-left: 10px;\n  margin-left: 10px;\n  border-left: 1px solid white;\n  position: relative; }\n\n.stateContainer.off {\n  opacity: 0.5; }\n\n.stateContainer .dotC {\n  position: absolute;\n  top: 0;\n  left: -10px;\n  width: 20px;\n  height: 100%;\n  cursor: pointer; }\n\n.stateContainer .dotC .dot {\n  position: absolute;\n  top: 50%;\n  left: 10px;\n  width: 10px;\n  height: 10px;\n  transform: translate3d(-50%, -50%, 0);\n  background-color: white;\n  border-radius: 50%; }\n\n.stateContainer .delete {\n  position: absolute;\n  top: 0;\n  right: 0;\n  padding: 4px;\n  background-color: rgba(0, 0, 0, 0.7);\n  color: white;\n  cursor: pointer; }\n\n.state {\n  white-space: pre-wrap;\n  max-height: 90px;\n  overflow: hidden;\n  background-color: rgba(255, 255, 255, 0.97);\n  padding: 5px;\n  margin-bottom: 5px;\n  position: relative;\n  cursor: pointer; }\n\n.state:hover::after {\n  content: '\\\\\\/';\n  position: absolute;\n  bottom: 0;\n  left: 0;\n  width: 100%;\n  background-color: rgba(0, 0, 0, 0.7);\n  text-align: center;\n  color: white; }\n\n.state.open {\n  max-height: none; }\n\n.state.open:hover::after {\n  content: '\\/\\\\'; }\n\n.key {\n  color: red; }\n\n.string {\n  color: green; }\n\n.number,\n.null,\n.boolean {\n  color: blue; }\n\nfooter {\n  position: absolute;\n  bottom: 0; }\n\ninput {\n  margin: 3px;\n  width: calc(100% - 6px);\n  padding: 3px; }\n\n.btn3 {\n  margin: 3px;\n  width: calc(33% - 8px);\n  padding: 3px;\n  background: white; }\n";
 
   function _templateObject$2() {
-    const data = _taggedTemplateLiteral(["<style>\n  ", "\n</style>\n<div id=\"showHide\" _click=${this.showHide}></div>\n<sifrr-tab-header style='background: blue; color: white' data-sifrr-html=\"true\">\n  ${ this.headingHtml() }\n</sifrr-tab-header>\n<sifrr-tab-container style='height: calc(100vh - 132px)' data-sifrr-html=\"true\">\n  ${ this.stateHtml() }\n</sifrr-tab-container>\n<footer>\n  <input _keyup=${this.addTargetOnEnter} id=\"addTargetInput\" type=\"text\" name=\"addTargetInput\" value=\"\" placeholder=\"Enter css selector query of target\">\n  <button _click=${this.addTarget} class=\"btn3\" type=\"button\" name=\"addTargetButton\">Add Taget</button>\n  <button _click=${this.commitAll} class=\"btn3\" type=\"button\" name=\"commitAll\">Commit All</button>\n  <button _click=${this.resetAllToFirstState} class=\"btn3\" type=\"button\" name=\"resetAll\">Reset All</button>\n  <button _click=${this.saveData} class=\"btn3\" type=\"button\" name=\"saveData\">Save Data</button>\n  <button _click=${this.loadData} class=\"btn3\" type=\"button\" name=\"loadData\">Load Data</button>\n  <button _click=${this.clearAll} class=\"btn3\" type=\"button\" name=\"clearAll\">Remove All</button>\n</footer>"], ["<style>\n  ", "\n</style>\n<div id=\"showHide\" _click=\\${this.showHide}></div>\n<sifrr-tab-header style='background: blue; color: white' data-sifrr-html=\"true\">\n  \\${ this.headingHtml() }\n</sifrr-tab-header>\n<sifrr-tab-container style='height: calc(100vh - 132px)' data-sifrr-html=\"true\">\n  \\${ this.stateHtml() }\n</sifrr-tab-container>\n<footer>\n  <input _keyup=\\${this.addTargetOnEnter} id=\"addTargetInput\" type=\"text\" name=\"addTargetInput\" value=\"\" placeholder=\"Enter css selector query of target\">\n  <button _click=\\${this.addTarget} class=\"btn3\" type=\"button\" name=\"addTargetButton\">Add Taget</button>\n  <button _click=\\${this.commitAll} class=\"btn3\" type=\"button\" name=\"commitAll\">Commit All</button>\n  <button _click=\\${this.resetAllToFirstState} class=\"btn3\" type=\"button\" name=\"resetAll\">Reset All</button>\n  <button _click=\\${this.saveData} class=\"btn3\" type=\"button\" name=\"saveData\">Save Data</button>\n  <button _click=\\${this.loadData} class=\"btn3\" type=\"button\" name=\"loadData\">Load Data</button>\n  <button _click=\\${this.clearAll} class=\"btn3\" type=\"button\" name=\"clearAll\">Remove All</button>\n</footer>"]);
+    const data = _taggedTemplateLiteral(["<style>\n  ", "\n</style>\n<div id=\"showHide\" _click=${this.showHide}></div>\n<sifrr-tab-header style='background: blue; color: white' :sifrr-html=\"true\">\n  ${ this.headingHtml() }\n</sifrr-tab-header>\n<sifrr-tab-container style='height: calc(100vh - 132px)' :sifrr-html=\"true\">\n  ${ this.stateHtml() }\n</sifrr-tab-container>\n<footer>\n  <input _keyup=${this.addTargetOnEnter} id=\"addTargetInput\" type=\"text\" name=\"addTargetInput\" value=\"\" placeholder=\"Enter css selector query of target\">\n  <button _click=${this.addTarget} class=\"btn3\" type=\"button\" name=\"addTargetButton\">Add Taget</button>\n  <button _click=${this.commitAll} class=\"btn3\" type=\"button\" name=\"commitAll\">Commit All</button>\n  <button _click=${this.resetAllToFirstState} class=\"btn3\" type=\"button\" name=\"resetAll\">Reset All</button>\n  <button _click=${this.saveData} class=\"btn3\" type=\"button\" name=\"saveData\">Save Data</button>\n  <button _click=${this.loadData} class=\"btn3\" type=\"button\" name=\"loadData\">Load Data</button>\n  <button _click=${this.clearAll} class=\"btn3\" type=\"button\" name=\"clearAll\">Remove All</button>\n</footer>"], ["<style>\n  ", "\n</style>\n<div id=\"showHide\" _click=\\${this.showHide}></div>\n<sifrr-tab-header style='background: blue; color: white' :sifrr-html=\"true\">\n  \\${ this.headingHtml() }\n</sifrr-tab-header>\n<sifrr-tab-container style='height: calc(100vh - 132px)' :sifrr-html=\"true\">\n  \\${ this.stateHtml() }\n</sifrr-tab-container>\n<footer>\n  <input _keyup=\\${this.addTargetOnEnter} id=\"addTargetInput\" type=\"text\" name=\"addTargetInput\" value=\"\" placeholder=\"Enter css selector query of target\">\n  <button _click=\\${this.addTarget} class=\"btn3\" type=\"button\" name=\"addTargetButton\">Add Taget</button>\n  <button _click=\\${this.commitAll} class=\"btn3\" type=\"button\" name=\"commitAll\">Commit All</button>\n  <button _click=\\${this.resetAllToFirstState} class=\"btn3\" type=\"button\" name=\"resetAll\">Reset All</button>\n  <button _click=\\${this.saveData} class=\"btn3\" type=\"button\" name=\"saveData\">Save Data</button>\n  <button _click=\\${this.loadData} class=\"btn3\" type=\"button\" name=\"loadData\">Load Data</button>\n  <button _click=\\${this.clearAll} class=\"btn3\" type=\"button\" name=\"clearAll\">Remove All</button>\n</footer>"]);
 
     _templateObject$2 = function () {
       return data;
@@ -592,11 +578,11 @@ this.Sifrr.Elements = (function (exports, SifrrDom, SifrrStorage) {
 
     return data;
   }
-  const template$2 = SifrrDom.template(_templateObject$2(), css$2);
-  SifrrDom.Event.add('click');
-  SifrrDom.Event.add('keyup');
+  const template$2 = SifrrDom__default.template(_templateObject$2(), css$2);
+  SifrrDom__default.Event.add('click');
+  SifrrDom__default.Event.add('keyup');
 
-  class SifrrStater extends SifrrDom.Element {
+  class SifrrStater extends SifrrDom__default.Element {
     static get template() {
       return template$2;
     }
@@ -606,24 +592,24 @@ this.Sifrr.Elements = (function (exports, SifrrDom, SifrrStorage) {
       this.storage = new SifrrStorage({
         name: 'sifrr-stater' + window.location.href
       });
-      SifrrDom.Event.addListener('click', '.state', function (e, el) {
+      SifrrDom__default.Event.addListener('click', '.state', function (e, el) {
         el.classList.contains('open') ? el.classList.remove('open') : el.classList.add('open');
       });
-      SifrrDom.Event.addListener('click', '.dotC', function (e, target, el) {
+      SifrrDom__default.Event.addListener('click', '.dotC', function (e, target, el) {
         me.toState(parseInt(el.dataset.target), parseInt(el.dataset.stateIndex));
       });
-      SifrrDom.Event.addListener('click', '.delete', function (e, el) {
+      SifrrDom__default.Event.addListener('click', '.delete', function (e, el) {
         me.deleteState(parseInt(el.dataset.target), parseInt(el.dataset.stateIndex));
       });
-      SifrrDom.Event.addListener('click', '.commit', function (e, el) {
+      SifrrDom__default.Event.addListener('click', '.commit', function (e, el) {
         const i = parseInt(el.parentNode.dataset.target);
         me.commit(i);
       });
-      SifrrDom.Event.addListener('click', '.reset', function (e, el) {
+      SifrrDom__default.Event.addListener('click', '.reset', function (e, el) {
         const i = parseInt(el.parentNode.dataset.target);
         me.resetToFirstState(i);
       });
-      SifrrDom.Event.addListener('click', '.remove', function (e, el) {
+      SifrrDom__default.Event.addListener('click', '.remove', function (e, el) {
         const i = parseInt(el.parentNode.dataset.target);
         me.removeTarget(i);
       });
@@ -857,98 +843,62 @@ this.Sifrr.Elements = (function (exports, SifrrDom, SifrrStorage) {
     queries: [],
     activeStates: []
   };
-  SifrrDom.register(SifrrStater);
+  SifrrDom__default.register(SifrrStater);
 
-  var css$3 = "* {\n  box-sizing: border-box;\n  font-family: sans-serif; }\n\n.container {\n  width: 100%;\n  height: 100%;\n  display: flex;\n  flex-wrap: nowrap;\n  background-color: #3a3f5a; }\n\n#sidemenu {\n  width: 15%;\n  height: 100%; }\n\n#sidemenu > * {\n  height: 100%; }\n\nsifrr-single-showcase {\n  width: 85%;\n  height: 100%;\n  display: block; }\n\n#sidebar {\n  width: 30%;\n  height: 100%; }\n\n#sidebar > * {\n  height: 33.33%; }\n\n#main {\n  width: 70%;\n  height: 100%; }\n\n#fs {\n  width: 40px;\n  height: 40px;\n  position: absolute;\n  right: 5px;\n  top: calc(70% - 45px);\n  color: white;\n  background-size: contain;\n  z-index: 1000; }\n\n#element.fs {\n  background: #3a3f5a;\n  padding: 0px; }\n  #element.fs ~ #fs {\n    top: calc(100% - 45px); }\n\n.current {\n  background: #5f616d; }\n\n.flex-column {\n  height: 100%;\n  display: flex;\n  flex-wrap: nowrap;\n  flex-direction: column; }\n\n.box {\n  width: 100%;\n  overflow: scroll;\n  border: 1px solid #5f616d; }\n\n#element {\n  padding: 20px;\n  height: 70%; }\n\n#code {\n  height: 30%; }\n\n#code sifrr-code-editor {\n  height: calc(100% - 48px) !important; }\n\n.head {\n  color: #cccccc;\n  text-align: center; }\n\n.small {\n  color: #8f9cb3;\n  font-size: 16px;\n  line-height: 24px;\n  padding: 4px; }\n\n#error,\n#status {\n  color: red; }\n\nsifrr-code-editor {\n  height: calc(100% - 24px); }\n\nul {\n  padding: 8px;\n  margin: 0; }\n\n#variants {\n  height: calc(100% - 86px);\n  overflow-y: scroll; }\n\n.variant,\n.showcase {\n  list-style-type: none;\n  border-bottom: 1px solid #5f616d; }\n  .variant span,\n  .showcase span {\n    color: red;\n    float: right;\n    margin-right: 10px; }\n\n#saver,\n#loader {\n  color: green;\n  padding: 4px;\n  margin: 0; }\n\nbutton,\n.button {\n  position: relative;\n  display: inline-block;\n  background: #8c96cc;\n  color: #ffffff;\n  font-size: 14px;\n  padding: 4px; }\n  button input,\n  .button input {\n    position: absolute;\n    width: 100%;\n    height: 100%;\n    top: 0;\n    left: 0;\n    opacity: 0; }\n\nbutton,\n.button,\ninput {\n  border: 1px solid #27313a;\n  padding: 4px;\n  font-size: 14px;\n  line-height: 20px;\n  height: 28px;\n  width: 50%;\n  vertical-align: middle; }\n";
-
-  const html = "<div class=\"container\">\n  <div class=\"flex-column\" id=\"sidebar\">\n    <div class=\"box\">\n      <h3 class=\"font head\">Variants</h3>\n      <input id=\"variantName\" type=\"text\" name=\"variantName\" value=\"${this.active.variantName}\" data-sifrr-bind=\"variantName\">\n      <button class=\"font\" type=\"button\" name=\"createVariant\" _click=\"${this.createNewVariant}\">\n        Create new variant\n      </button>\n      <style media=\"screen\">\n        #variant${this.active.variantId} {\n          background: #5f616d;\n        }\n      </style>\n      <div id=\"variants\">\n        <div data-sifrr-repeat=\"${this.state.variants}\">\n          <li class=\"font variant small\" data-variant-id=\"${this.state.variantId}\" id=\"variant${this.state.variantId}\">\n            ${this.state.variantName}<span>X</span>\n          </li>\n        </div>\n      </div>\n    </div>\n    <div class=\"box\">\n      <label class=\"font small\" for=\"style\">Element CSS Styles</label>\n      <sifrr-code-editor lang=\"css\" data-sifrr-bind=\"style\" value=\"${this.active.style}\"></sifrr-code-editor>\n    </div>\n    <div class=\"box\">\n      <label class=\"font small\" for=\"elState\">Element State Function</label>\n      <sifrr-code-editor id=\"elState\" lang=\"javascript\" data-sifrr-bind=\"elState\" value=\"${this.active.elState}\"></sifrr-code-editor>\n    </div>\n  </div>\n  <div class=\"flex-column\" id=\"main\">\n    <div class=\"box\" id=\"element\" data-sifrr-html=\"true\">\n      ${this.active.code}\n    </div>\n    <i id=\"fs\">\n      <svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"feather feather-maximize\">\n        <path d=\"M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3\"/>\n      </svg>\n    </i>\n    <div class=\"box\" id=\"code\">\n      <label class=\"font small\" for=\"elementName\">Element Name</label>\n      <input type=\"text\" name=\"elementName\" placeholder=\"Enter element name here...\" _input=\"${this.updateHtml}\" value=\"${this.active.element}\"><br>\n      <label class=\"font small\" for=\"customUrl\">Custom Url</label>\n      <input type=\"text\" name=\"customUrl\" placeholder=\"Enter element url here...\" value=\"${this.active.elementUrl}\" data-sifrr-bind=\"elementUrl\">\n      <label class=\"font small\" for=\"elementName\">Is JS File</label>\n      <select id=\"isjs\" name=\"isjs\" value=\"${this.active.isjs}\" data-sifrr-bind=\"isjs\">\n        <option value=\"true\">true</option>\n        <option value=\"false\">false</option>\n      </select>\n      <span class=\"font\" id=\"error\"></span>\n      <br>\n      <label class=\"font small\" for=\"htmlcode\">HTML Code</label>\n      <sifrr-code-editor data-sifrr-bind=\"code\" value=\"${this.active.code}\"></sifrr-code-editor>\n    </div>\n  </div>\n</div>\n";
-
-  var css$4 = ":host {\n  display: block;\n  position: relative; }\n\n* {\n  box-sizing: border-box; }\n\ntextarea {\n  resize: none;\n  border: none; }\n\ntextarea,\n.CodeMirror {\n  height: 100%;\n  width: 100%; }\n";
-
-  function _templateObject$3() {
-    const data = _taggedTemplateLiteral(["\n<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/npm/codemirror@", "/lib/codemirror.css\">\n<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/npm/codemirror@", "/theme/${this.getTheme()}.css\">\n<style media=\"screen\">\n  ", "\n</style>\n<textarea></textarea>"], ["\n<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/npm/codemirror@", "/lib/codemirror.css\">\n<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/npm/codemirror@", "/theme/\\${this.getTheme()}.css\">\n<style media=\"screen\">\n  ", "\n</style>\n<textarea></textarea>"]);
-
-    _templateObject$3 = function () {
-      return data;
-    };
-
-    return data;
-  }
-  const CM_VERSION = '5.49.2';
-  const template$3 = SifrrDom.template(_templateObject$3(), CM_VERSION, CM_VERSION, css$4);
-
-  class SifrrCodeEditor extends SifrrDom.Element {
-    static get template() {
-      return template$3;
-    }
-
-    static observedAttrs() {
-      return ['value', 'theme', 'lang'];
-    }
-
-    static syncedAttrs() {
-      return ['theme'];
-    }
-
-    static cm() {
-      this._cm = this._cm || SifrrDom.Loader.executeJS("https://cdn.jsdelivr.net/npm/codemirror@".concat(CM_VERSION, "/lib/codemirror.js"));
-      return this._cm;
-    }
-
-    onAttributeChange(n, _, v) {
-      if (this._cmLoaded) {
-        if (n === 'theme') this.cm.setOption('theme', v);
-        if (n === 'lang') this.cm.setOption('mode', this.getTheme());
-      }
-    }
-
-    onConnect() {
-      this.constructor.cm().then(() => this.cmLoaded());
-    }
-
-    input() {
-      SifrrDom.Event.trigger(this, 'input');
-      this.update();
-    }
-
-    cmLoaded() {
-      SifrrDom.Loader.executeJS("https://cdn.jsdelivr.net/npm/codemirror@".concat(CM_VERSION, "/mode/").concat(this.lang, "/").concat(this.lang, ".js")).then(() => {
-        this.cm = window.CodeMirror.fromTextArea(this.$('textarea'), {
-          value: this.$('textarea').value,
-          mode: this.lang,
-          htmlMode: true,
-          theme: this.getTheme(),
-          indentUnit: 2,
-          tabSize: 2,
-          lineNumbers: true
-        });
-        this.cm.on('change', this.input.bind(this));
-        this._cmLoaded = true;
+  class ShowcaseStore extends SifrrDom.Store {
+    constructor(v) {
+      super({
+        active: 0,
+        values: v || []
       });
     }
 
-    getTheme() {
-      return this.theme ? this.theme.split(' ')[0] : 'dracula';
+    setValues(values, active) {
+      this.value.values = values || [];
+      this.setActive(active || 0);
     }
 
-    get value() {
-      if (this._cmLoaded) return this.cm.getValue();else return this.$('textarea').value;
+    getValues() {
+      return this.value.values;
     }
 
-    set value(v) {
-      if (v === this.value) return;
-      if (this._cmLoaded) return this.cm.setValue(v);else this.$('textarea').value = v;
+    bindUpdate(prop) {
+      return (v => this.setActiveValue({
+        [prop]: v
+      })).bind(this);
     }
 
-    get lang() {
-      const attr = this.getAttribute('lang');
-      if (!attr || attr === 'html') return 'xml';
-      return attr;
+    delete(index) {
+      this.value.values.splice(index, 1);
+      if (index !== this.value.active) this.setActive(this.value.active - 1);else this.update();
+    }
+
+    add(v) {
+      this.value.values.splice(this.value.active + 1, 0, v);
+      this.setActive(this.value.active + 1);
+    }
+
+    setActive(active) {
+      this.value.values.forEach((v, i) => {
+        if (i === active) v.active = true;else v.active = false;
+      });
+      this.set({
+        active
+      });
+    }
+
+    getActiveValue() {
+      return this.value.values[this.value.active] || {};
+    }
+
+    setActiveValue(v) {
+      if (this.value.values[this.value.active]) {
+        Object.assign(this.value.values[this.value.active], v);
+        this.update();
+      }
     }
 
   }
-
-  SifrrDom.register(SifrrCodeEditor);
 
   var strictUriEncode = str => encodeURIComponent(str).replace(/[!'()*]/g, x => `%${x.charCodeAt(0).toString(16).toUpperCase()}`);
 
@@ -1263,7 +1213,144 @@ this.Sifrr.Elements = (function (exports, SifrrDom, SifrrStorage) {
     history.replaceState(newParams, 'Title', "".concat(location.pathname, "?").concat(queryString.stringify(newParams)));
   }
 
-  const styles = ['position', 'left', 'top', 'width', 'height', 'z-index'];
+  const storage = new SifrrStorage({
+    name: 'showcases',
+    version: '1.1'
+  });
+  const showcaseStore = new ShowcaseStore([]);
+  const variantStore = new ShowcaseStore([]);
+
+  showcaseStore.fetchStore = function (url, onStatus) {
+    window.fetch(url).then(resp => resp.json()).then(v => {
+      this.setValues(v.showcases);
+      this.setActive(v.active || 0);
+      onStatus('loaded from url!');
+    }).catch(e => {
+      onStatus(e.message);
+      storage.all().then(v => {
+        onStatus('failed to load from url, loaded from storage!');
+
+        if (Array.isArray(v.values)) {
+          this.setValues(v.values);
+          this.setActive(v.active || 0);
+        }
+      });
+    }).finally(() => {
+      this._loaded = true;
+      this.setActive(getParam('showcase') === undefined ? 0 : getParam('showcase'));
+    });
+  };
+
+  showcaseStore.save = function (onUpdate) {
+    storage.set(this.value).then(onUpdate);
+  };
+
+  const saveFxn = showcaseStore.save.bind(showcaseStore, () => showcaseStore.onStatus('saved locally!'), showcaseStore._timeout = null);
+
+  showcaseStore.onUpdate = function () {
+    if (getParam('showcase') != this.value.active) setParam('showcase', this.value.active);
+
+    if (this.getActiveValue().variants && this.getActiveValue().variants !== variantStore.getValues()) {
+      variantStore.setValues(this.getActiveValue().variants, this.getActiveValue().activeVariant);
+    }
+
+    if (this.getActiveValue().activeVariant !== variantStore.value.active) {
+      this.getActiveValue().activeVariant = variantStore.value.active;
+    }
+
+    if (!this.getValues() || this.getValues().length < 1) return;
+    this.onStatus('saving locally!');
+    if (this._timeout) clearTimeout(this._timeout);
+    this._timeout = setTimeout(saveFxn, 500);
+  };
+
+  variantStore.onUpdate = function () {
+    if (getParam('variant') != this.value.active) setParam('variant', this.value.active);
+    showcaseStore.onUpdate();
+  };
+
+  var css$3 = "* {\n  box-sizing: border-box;\n  font-family: sans-serif; }\n\n.container {\n  width: 100%;\n  height: 100%;\n  display: flex;\n  flex-wrap: nowrap;\n  background-color: #3a3f5a; }\n\n#sidemenu {\n  width: 15%;\n  height: 100%; }\n\n#sidemenu > * {\n  height: 100%; }\n\nsifrr-single-showcase {\n  width: 85%;\n  height: 100%;\n  display: block; }\n\n#sidebar {\n  width: 30%;\n  height: 100%; }\n\n#sidebar > * {\n  height: 33.33%; }\n\n#main {\n  width: 70%;\n  height: 100%; }\n\n#fs {\n  width: 40px;\n  height: 40px;\n  position: absolute;\n  right: 5px;\n  top: calc(70% - 45px);\n  color: white;\n  background-size: contain;\n  z-index: 1000; }\n\n#element.fs {\n  background: #3a3f5a;\n  padding: 0px; }\n  #element.fs ~ #fs {\n    top: calc(100% - 45px); }\n\n.current {\n  background: #5f616d; }\n\n.flex-column {\n  height: 100%;\n  display: flex;\n  flex-wrap: nowrap;\n  flex-direction: column; }\n\n.box {\n  width: 100%;\n  overflow: scroll;\n  border: 1px solid #5f616d; }\n\n#element {\n  padding: 20px;\n  height: 70%; }\n\n#code {\n  height: 30%; }\n\n#code sifrr-code-editor {\n  height: calc(100% - 48px) !important; }\n\n.head {\n  color: #cccccc;\n  text-align: center; }\n\n.small {\n  color: #8f9cb3;\n  font-size: 16px;\n  line-height: 24px;\n  padding: 4px; }\n\n#error,\n#status {\n  color: red; }\n\nsifrr-code-editor {\n  height: calc(100% - 24px); }\n\nul {\n  padding: 8px;\n  margin: 0; }\n\n#variants {\n  height: calc(100% - 86px);\n  overflow-y: scroll; }\n\n.variant,\n.showcase {\n  list-style-type: none;\n  border-bottom: 1px solid #5f616d; }\n  .variant span,\n  .showcase span {\n    color: red;\n    float: right;\n    margin-right: 10px; }\n\n#saver,\n#loader {\n  color: green;\n  padding: 4px;\n  margin: 0; }\n\nbutton,\n.button {\n  position: relative;\n  display: inline-block;\n  background: #8c96cc;\n  color: #ffffff;\n  font-size: 14px;\n  padding: 4px; }\n  button input,\n  .button input {\n    position: absolute;\n    width: 100%;\n    height: 100%;\n    top: 0;\n    left: 0;\n    opacity: 0; }\n\nbutton,\n.button,\ninput {\n  border: 1px solid #27313a;\n  padding: 4px;\n  font-size: 14px;\n  line-height: 20px;\n  height: 28px;\n  width: 50%;\n  vertical-align: middle; }\n";
+
+  const html = "<div class=\"container\">\n  <div class=\"flex-column\" id=\"sidebar\">\n    <div class=\"box\">\n      <h3 class=\"font head\">Variants</h3>\n      <input id=\"variantName\" type=\"text\" name=\"variantName\" value=\"${this.store.getActiveValue().variantName}\" :sifrr-bind=\"${this.store.bindUpdate('variantName')}\">\n      <button class=\"font\" type=\"button\" name=\"createVariant\" _click=\"${this.createNewVariant}\">\n        Create new variant\n      </button>\n      <div id=\"variants\">\n        <div :sifrr-repeat=\"${this.store.getValues()}\">\n          <li class=\"font variant small ${this.state.active ? 'current' : ''}\">\n            ${this.state.variantName}<span>X</span>\n          </li>\n        </div>\n      </div>\n    </div>\n    <div class=\"box\">\n      <label class=\"font small\" for=\"style\">Element CSS Styles</label>\n      <sifrr-code-editor lang=\"css\" value=\"${this.store.getActiveValue().style}\" :sifrr-bind=\"${this.store.bindUpdate('style')}\"></sifrr-code-editor>\n    </div>\n    <div class=\"box\">\n      <label class=\"font small\" for=\"elState\">Element State Function</label>\n      <sifrr-code-editor id=\"elState\" lang=\"javascript\" value=\"${this.store.getActiveValue().elState}\" :sifrr-bind=\"${this.store.bindUpdate('elState')}\"></sifrr-code-editor>\n    </div>\n  </div>\n  <div class=\"flex-column\" id=\"main\">\n    <div class=\"box\" id=\"element\" :sifrr-html=\"true\">\n      ${this.store.getActiveValue().code}\n    </div>\n    <i id=\"fs\">\n      <svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"feather feather-maximize\">\n        <path d=\"M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3\"/>\n      </svg>\n    </i>\n    <div class=\"box\" id=\"code\">\n      <label class=\"font small\" for=\"elementName\">Element Name</label>\n      <input type=\"text\" name=\"elementName\" placeholder=\"Enter element name here...\" _input=\"${this.updateHtml}\" value=\"${this.store.getActiveValue().element}\">\n      <label class=\"font small\" for=\"customUrl\">Custom Url</label>\n      <input type=\"text\" name=\"customUrl\" placeholder=\"Enter element url here...\" value=\"${this.store.getActiveValue().elementUrl}\" :sifrr-bind=\"${this.store.bindUpdate('elementUrl')}\">\n      <label class=\"font small\" for=\"elementName\">Is JS File</label>\n      <select id=\"isjs\" name=\"isjs\" value=\"${this.store.getActiveValue().isjs}\" :sifrr-bind=\"${this.store.bindUpdate('isjs')}\">\n        <option value=\"true\">true</option>\n        <option value=\"false\">false</option>\n      </select>\n      <span class=\"font\" id=\"error\"></span>\n      <br>\n      <label class=\"font small\" for=\"htmlcode\">HTML Code</label>\n      <sifrr-code-editor :sifrr-bind=\"${this.store.bindUpdate('code')}\" value=\"${this.store.getActiveValue().code}\"></sifrr-code-editor>\n    </div>\n  </div>\n</div>\n";
+
+  var css$4 = ":host {\n  display: block;\n  position: relative; }\n\n* {\n  box-sizing: border-box; }\n\ntextarea {\n  resize: none;\n  border: none; }\n\ntextarea,\n.CodeMirror {\n  height: 100%;\n  width: 100%; }\n";
+
+  function _templateObject$3() {
+    const data = _taggedTemplateLiteral(["\n<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/npm/codemirror@", "/lib/codemirror.css\">\n<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/npm/codemirror@", "/theme/${this.getTheme()}.css\">\n<style media=\"screen\">\n  ", "\n</style>\n<textarea value=\"${this.value}\" _input=\"${this.input}\"></textarea>"], ["\n<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/npm/codemirror@", "/lib/codemirror.css\">\n<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/npm/codemirror@", "/theme/\\${this.getTheme()}.css\">\n<style media=\"screen\">\n  ", "\n</style>\n<textarea value=\"\\${this.value}\" _input=\"\\${this.input}\"></textarea>"]);
+
+    _templateObject$3 = function () {
+      return data;
+    };
+
+    return data;
+  }
+  const CM_VERSION = '5.49.2';
+  const template$3 = SifrrDom__default.template(_templateObject$3(), CM_VERSION, CM_VERSION, css$4);
+
+  class SifrrCodeEditor extends SifrrDom__default.Element {
+    static get template() {
+      return template$3;
+    }
+
+    static cm() {
+      this._cm = this._cm || SifrrDom__default.Loader.executeJS("https://cdn.jsdelivr.net/npm/codemirror@".concat(CM_VERSION, "/lib/codemirror.js"));
+      return this._cm;
+    }
+
+    onPropsChange(props) {
+      if (this._cmLoaded) {
+        if (props.indexOf('theme') > -1) this.cm.setOption('theme', this.getTheme());
+        if (props.indexOf('lang') > -1) this.cm.setOption('mode', this.lang || 'xml');
+      }
+
+      if (['value', 'theme', 'lang'].filter(p => props.indexOf(p) > -1).length > 0) this.update();
+    }
+
+    onConnect() {
+      this.constructor.cm().then(() => this.cmLoaded());
+    }
+
+    input() {
+      SifrrDom__default.Event.trigger(this, 'input');
+      this.value = this.getValue();
+      this.update();
+    }
+
+    cmLoaded() {
+      this.lang = this.lang || 'xml';
+      SifrrDom__default.Loader.executeJS("https://cdn.jsdelivr.net/npm/codemirror@".concat(CM_VERSION, "/mode/").concat(this.lang, "/").concat(this.lang, ".js")).then(() => {
+        this.cm = window.CodeMirror.fromTextArea(this.$('textarea'), {
+          value: this.$('textarea').value,
+          mode: this.lang,
+          htmlMode: true,
+          theme: this.getTheme(),
+          indentUnit: 2,
+          tabSize: 2,
+          lineNumbers: true
+        });
+        this.cm.on('change', this.input.bind(this));
+        this._cmLoaded = true;
+      });
+    }
+
+    getTheme() {
+      return this.theme ? this.theme.split(' ')[0] : 'dracula';
+    }
+
+    getValue() {
+      if (this._cmLoaded) return this.cm.getValue();else return this.$('textarea').value;
+    }
+
+    set value(v) {
+      if (v === this.value) return;
+      if (this._cmLoaded) return this.cm.setValue(v);else this.$('textarea').value = v;
+    }
+
+  }
+
+  SifrrDom__default.register(SifrrCodeEditor);
+
+  const styles = ['position', 'left', 'top', 'right', 'bottom', 'width', 'height', 'z-index'];
   const FS_CLASS = 'fs';
 
   function getNewProps(rect) {
@@ -1345,21 +1432,10 @@ this.Sifrr.Elements = (function (exports, SifrrDom, SifrrStorage) {
 
     return data;
   }
-  const template$4 = SifrrDom.template(_templateObject$4(), html);
-  SifrrDom.Event.add('click');
-  const defaultShowcase = {
-    active: 1,
-    variants: [{
-      variantId: 1,
-      variantName: 'variant',
-      style: "#element > * {\n  display: block;\n  background-color: white;\n  margin: auto;\n}",
-      code: '<sifrr-placeholder>\n</sifrr-placeholder>',
-      elState: 'return {\n\n}'
-    }]
-  };
-  let lastExec;
+  const template$4 = SifrrDom__default.template(_templateObject$4(), html);
+  SifrrDom__default.Event.add('click');
 
-  class SifrrSingleShowcase extends SifrrDom.Element {
+  class SifrrSingleShowcase extends SifrrDom__default.Element {
     static get template() {
       return template$4;
     }
@@ -1372,11 +1448,16 @@ this.Sifrr.Elements = (function (exports, SifrrDom, SifrrStorage) {
       return false;
     }
 
+    constructor() {
+      super();
+      SifrrDom.bindStoresToElement(this, [variantStore]);
+      this.store = variantStore;
+    }
+
     onConnect() {
-      this.switchVariant(getParam('variant'));
-      SifrrDom.Event.addListener('click', '.variant', (e, el) => {
-        if (el.matches('.variant')) this.switchVariant(el.dataset.variantId);
-        if (el.matches('.variant span')) this.deleteVariant(el.parentNode.dataset.variantId);
+      SifrrDom__default.Event.addListener('click', '.variant', (e, el) => {
+        if (el.matches('.variant')) this.store.setActive(this.getChildIndex(el));
+        if (el.matches('.variant span')) this.store.delete(this.getChildIndex(el.parentNode));
       });
 
       this.$('#fs')._click = () => {
@@ -1384,12 +1465,19 @@ this.Sifrr.Elements = (function (exports, SifrrDom, SifrrStorage) {
       };
     }
 
+    getChildIndex(el) {
+      let i = 0;
+
+      while ((el = el.previousElementSibling) != null) i++;
+
+      return i;
+    }
+
     beforeUpdate() {
-      this.saveVariant();
       if (!this.state.element) return;
 
       if (this._element !== this.state.element || this._js !== this.state.isjs || this._url !== this.state.elementUrl) {
-        SifrrDom.load(this.state.element, {
+        SifrrDom__default.load(this.state.element, {
           js: this.state.isjs == 'true',
           url: this.state.elementUrl ? this.state.elementUrl : undefined
         }).then(() => this.$('#error').innerText = '').catch(e => this.$('#error').innerText = e.message);
@@ -1400,19 +1488,18 @@ this.Sifrr.Elements = (function (exports, SifrrDom, SifrrStorage) {
     }
 
     onUpdate() {
-      if (!lastExec) lastExec = performance.now() - 600;
-      const elapsed = performance.now() - lastExec;
+      const currentTime = Date.now();
+      if (this._stateFxnTimeout) clearTimeout(this._stateFxnTimeout);
 
-      if (elapsed > 500) {
-        this.runStateFunction();
+      if (this._lastStateRun && currentTime - this._lastStateRun < 500) {
+        this._stateFxnTimeout = setTimeout(this.runStateFunction.bind(this), currentTime - this._lastStateRun);
       } else {
-        if (!this._stateFxnTimeout) setTimeout(this.runStateFunction.bind(this), 500 - elapsed);
+        this.runStateFunction();
       }
     }
 
     runStateFunction() {
-      if (this._stateFxnTimeout) clearTimeout(this._stateFxnTimeout);
-      lastExec = performance.now();
+      this._lastStateRun = Date.now();
       let state;
 
       try {
@@ -1426,78 +1513,33 @@ this.Sifrr.Elements = (function (exports, SifrrDom, SifrrStorage) {
       }
     }
 
-    onAttributeChange(name, _, value) {
-      if (name === 'url') this.url = value;
-    }
-
     createNewVariant() {
-      const id = Math.max(...this.state.variants.map(s => s.variantId), 0) + 1;
-      const cid = this.state.variants.findIndex(v => v.variantId == this.state.variantId) + 1 || 1;
-      this.state.variants.splice(cid, 0, Object.assign({}, {
-        variantId: id,
+      this.store.add({
         variantName: this.state.variantName,
         style: this.state.style || '',
         code: this.state.code || '',
         elState: this.state.elState || ''
-      }));
-      this.switchVariant(id);
-    }
-
-    deleteVariant(id) {
-      this.state.variants.forEach((s, i) => {
-        if (s.variantId == id) {
-          this.state.variants.splice(i, 1);
-          if (this.state.variantId == id) this.switchVariant((this.state.variants[i] || {}).variantId);else this.update();
-        }
       });
-    }
-
-    saveVariant() {
-      if (!this.state.variants) this.state.variants = [];
-      Object.assign(this.active, {
-        variantName: this.state.variantName,
-        style: this.state.style,
-        code: this.state.code,
-        elState: this.state.elState
-      });
-    }
-
-    switchVariant(id) {
-      this.$('#element').textContent = '';
-      Object.assign(this.state, this.variant(id));
-      this.state = {
-        active: id
-      };
-      setParam('variant', id);
     }
 
     updateHtml(e, el) {
       const html = "<".concat(el.value, "></").concat(el.value, ">");
-      this.state = {
+      this.store.setActiveValue({
         code: html,
         element: el.value
-      };
+      });
     }
 
     element() {
       return this.$('#element').firstElementChild;
     }
 
-    get active() {
-      return this.variant(this.state.active);
-    }
-
-    variant(id) {
-      return this.state.variants.find(s => s.variantId == id) || this.state.variants[this.state.variants.length - 1];
-    }
-
   }
 
-  SifrrSingleShowcase.defaultState = defaultShowcase;
-  SifrrDom.register(SifrrSingleShowcase);
+  SifrrDom__default.register(SifrrSingleShowcase);
 
   function _templateObject$5() {
-    const data = _taggedTemplateLiteral(["<style media=\"screen\">\n  ", "\n</style>\n<div class=\"container\">\n  <div class=\"flex-column\" id=\"sidemenu\">\n    <div class=\"box\">\n      <h1 class=\"font head\">Sifrr Showcase</h1>\n      <p class=\"font\" id=\"loader\"></p>\n      <input id=\"url\" type=\"text\" placeholder=\"Enter url here...\" name=\"url\" />\n      <button type=\"button\" name=\"loadUrl\" _click=${this.loadUrl}>Load from url</button>\n      <p class=\"font\" id=\"status\"></p>\n      <span class=\"button font\">\n        Upload File\n        <input type=\"file\" name=\"file\" accept=\"application/json\" _input=\"${this.loadFile}\" />\n      </span>\n      <button class=\"font\" type=\"button\" name=\"saveFile\" _click=\"${this.saveFile}\">Save to File</button>\n      <h3 class=\"font head\">Showcases</h3>\n      <input style=\"width: 100%\" id=\"showcaseName\" type=\"text\" name=\"showcase\" _input=${this.changeName} value=${this.state.showcases[this.state.current].name}>\n      <button style=\"width: 100%\" class=\"font\" type=\"button\" name=\"createVariant\" _click=\"${this.createShowcase}\">Create new showcase</button>\n      <div id=\"showcases\" data-sifrr-repeat=\"${this.state.showcases}\">\n        <li class=\"font showcase small ${(this.root && this.state.name === this.root.state.currentSC.name) ? 'current' : ''}\" data-showcase-id=\"${this.state.key}\" draggable=\"true\">${this.state.name}<span>X</span></li>\n      </div>\n    </div>\n  </div>\n  <sifrr-single-showcase _update=${this.saveShowcase} _state=${this.state.currentSC} data-sifrr-bind=\"currentSC\"></sifrr-single-showcase>\n</div>"], ["<style media=\"screen\">\n  ", "\n</style>\n<div class=\"container\">\n  <div class=\"flex-column\" id=\"sidemenu\">\n    <div class=\"box\">\n      <h1 class=\"font head\">Sifrr Showcase</h1>\n      <p class=\"font\" id=\"loader\"></p>\n      <input id=\"url\" type=\"text\" placeholder=\"Enter url here...\" name=\"url\" />\n      <button type=\"button\" name=\"loadUrl\" _click=\\${this.loadUrl}>Load from url</button>\n      <p class=\"font\" id=\"status\"></p>\n      <span class=\"button font\">\n        Upload File\n        <input type=\"file\" name=\"file\" accept=\"application/json\" _input=\"\\${this.loadFile}\" />\n      </span>\n      <button class=\"font\" type=\"button\" name=\"saveFile\" _click=\"\\${this.saveFile}\">Save to File</button>\n      <h3 class=\"font head\">Showcases</h3>\n      <input style=\"width: 100%\" id=\"showcaseName\" type=\"text\" name=\"showcase\" _input=\\${this.changeName} value=\\${this.state.showcases[this.state.current].name}>\n      <button style=\"width: 100%\" class=\"font\" type=\"button\" name=\"createVariant\" _click=\"\\${this.createShowcase}\">Create new showcase</button>\n      <div id=\"showcases\" data-sifrr-repeat=\"\\${this.state.showcases}\">\n        <li class=\"font showcase small \\${(this.root && this.state.name === this.root.state.currentSC.name) ? 'current' : ''}\" data-showcase-id=\"\\${this.state.key}\" draggable=\"true\">\\${this.state.name}<span>X</span></li>\n      </div>\n    </div>\n  </div>\n  <sifrr-single-showcase _update=\\${this.saveShowcase} _state=\\${this.state.currentSC} data-sifrr-bind=\"currentSC\"></sifrr-single-showcase>\n</div>"]);
+    const data = _taggedTemplateLiteral(["<style media=\"screen\">\n  ", "\n</style>\n<div class=\"container\">\n  <div class=\"flex-column\" id=\"sidemenu\">\n    <div class=\"box\">\n      <h1 class=\"font head\">Sifrr Showcase</h1>\n      <p class=\"font\" id=\"loader\"></p>\n      <input id=\"url\" type=\"text\" placeholder=\"Enter url here...\" name=\"url\" />\n      <button type=\"button\" name=\"loadUrl\" _click=${(this.loadUrl)}>Load from url</button>\n      <p class=\"font\" id=\"status\"></p>\n      <span class=\"button font\">\n        Upload File\n        <input type=\"file\" name=\"file\" accept=\"application/json\" _input=\"${this.loadFile}\" />\n      </span>\n      <button class=\"font\" type=\"button\" name=\"saveFile\" _click=\"${this.saveFile}\">Save to File</button>\n      <h3 class=\"font head\">Showcases</h3>\n      <input style=\"width: 100%\" id=\"showcaseName\" type=\"text\" name=\"showcase\" :sifrr-bind=\"${this.store.bindUpdate('name')}\" value=\"${this.store.getActiveValue().name}\">\n      <button style=\"width: 100%\" class=\"font\" type=\"button\" name=\"createVariant\" _click=\"${this.createShowcase}\">Create new showcase</button>\n      <div id=\"showcases\" :sifrr-repeat=\"${this.store.getValues()}\">\n        <li class=\"font showcase small ${this.state.active ? 'current' : ''}\" draggable=\"true\">${this.state.name}<span>X</span></li>\n      </div>\n    </div>\n  </div>\n  <sifrr-single-showcase></sifrr-single-showcase>\n</div>"], ["<style media=\"screen\">\n  ", "\n</style>\n<div class=\"container\">\n  <div class=\"flex-column\" id=\"sidemenu\">\n    <div class=\"box\">\n      <h1 class=\"font head\">Sifrr Showcase</h1>\n      <p class=\"font\" id=\"loader\"></p>\n      <input id=\"url\" type=\"text\" placeholder=\"Enter url here...\" name=\"url\" />\n      <button type=\"button\" name=\"loadUrl\" _click=\\${(this.loadUrl)}>Load from url</button>\n      <p class=\"font\" id=\"status\"></p>\n      <span class=\"button font\">\n        Upload File\n        <input type=\"file\" name=\"file\" accept=\"application/json\" _input=\"\\${this.loadFile}\" />\n      </span>\n      <button class=\"font\" type=\"button\" name=\"saveFile\" _click=\"\\${this.saveFile}\">Save to File</button>\n      <h3 class=\"font head\">Showcases</h3>\n      <input style=\"width: 100%\" id=\"showcaseName\" type=\"text\" name=\"showcase\" :sifrr-bind=\"\\${this.store.bindUpdate('name')}\" value=\"\\${this.store.getActiveValue().name}\">\n      <button style=\"width: 100%\" class=\"font\" type=\"button\" name=\"createVariant\" _click=\"\\${this.createShowcase}\">Create new showcase</button>\n      <div id=\"showcases\" :sifrr-repeat=\"\\${this.store.getValues()}\">\n        <li class=\"font showcase small \\${this.state.active ? 'current' : ''}\" draggable=\"true\">\\${this.state.name}<span>X</span></li>\n      </div>\n    </div>\n  </div>\n  <sifrr-single-showcase></sifrr-single-showcase>\n</div>"]);
 
     _templateObject$5 = function () {
       return data;
@@ -1505,13 +1547,9 @@ this.Sifrr.Elements = (function (exports, SifrrDom, SifrrStorage) {
 
     return data;
   }
-  const template$5 = SifrrDom.template(_templateObject$5(), css$3);
-  const storage = new SifrrStorage({
-    name: 'showcases',
-    version: '1.0'
-  });
+  const template$5 = SifrrDom__default.template(_templateObject$5(), css$3);
 
-  class SifrrShowcase extends SifrrDom.Element {
+  class SifrrShowcase extends SifrrDom__default.Element {
     static get template() {
       return template$5;
     }
@@ -1520,16 +1558,27 @@ this.Sifrr.Elements = (function (exports, SifrrDom, SifrrStorage) {
       return ['url'];
     }
 
+    constructor() {
+      super();
+      SifrrDom.bindStoresToElement(this, [showcaseStore]);
+      this.store = showcaseStore;
+      this.store.onStatus = this.onStatus.bind(this);
+    }
+
     onAttributeChange(n, _, value) {
-      if (n === 'url') this.url = value;
+      if (n === 'url') this.loadUrl(value);
+    }
+
+    loadUrl(value) {
+      this.store.fetchStore(value);
     }
 
     onConnect() {
-      SifrrDom.Event.addListener('click', '.showcase', (e, el) => {
-        if (el.matches('.showcase')) this.switchShowcase(this.getChildIndex(el));
-        if (el.matches('.showcase span')) this.deleteShowcase(this.getChildIndex(el.parentNode));
+      SifrrDom__default.Event.addListener('click', '.showcase', (e, el) => {
+        if (el.matches('.showcase')) this.store.setActive(this.getChildIndex(el));
+        if (el.matches('.showcase span')) this.store.delete(this.getChildIndex(el.parentNode));
       });
-      this.loadUrl();
+      this.store.fetchStore(this.url, this.onStatus.bind(this));
 
       if (window.Sortable) {
         const me = this;
@@ -1556,97 +1605,28 @@ this.Sifrr.Elements = (function (exports, SifrrDom, SifrrStorage) {
       return i;
     }
 
-    deleteShowcase(i) {
-      this.state.showcases.splice(i, 1);
-      if (i == this.state.current) this.switchShowcase(this.state.current);else this.switchShowcase(this.state.current - 1);
-    }
-
     createShowcase() {
-      this.state.showcases.splice(this.state.current + 1, 0, {
+      this.store.add({
         name: this.$('#showcaseName').value,
         variants: [],
         element: this.$('#showcaseName').value
       });
-      this.switchShowcase(this.state.current + 1);
-    }
-
-    switchShowcase(i) {
-      i = Number(i);
-      this.current = i;
-      this.$('#showcases').children[this.state.current].classList.remove('current');
-      if (!this.state.showcases[i]) i = this.state.showcases.length - 1;
-      this.state = {
-        current: i,
-        currentSC: this.state.showcases[i]
-      };
-      this.$('#showcases').children[i].classList.add('current');
-      setParam('showcase', i);
     }
 
     onStateChange() {
-      if (this.state.current !== this.current) this.switchShowcase(this.state.current);
+      this.$('#showcases').children[this.store.value.active].classList.add('current');
     }
 
-    saveShowcase() {
-      this.state.showcases[this.state.current] = Object.assign(this.state.showcases[this.state.current], this.state.currentSC);
-
-      if (this._loaded) {
-        this.$('#status').textContent = 'saving locally!';
-        if (this._timeout) clearTimeout(this._timeout);
-        this._timeout = setTimeout(() => {
-          this._timeout = null;
-          storage.set({
-            showcases: this.state.showcases,
-            current: this.state.current
-          }).then(() => {
-            this.$('#status').textContent = 'saved locally!';
-          });
-        }, 500);
-      }
-    }
-
-    changeName() {
-      this.state.showcases[this.state.current].name = this.$('#showcaseName').value;
-      this.update();
+    onStatus(v) {
+      this.$('#status').textContent = v;
     }
 
     get el() {
       return this.$('sifrr-single-showcase');
     }
 
-    set url(v) {
-      this._url = v;
-      if (this.getAttribute('url') !== v) this.setAttribute('url', v);
-      if (this.$('#url').value !== v) this.$('#url').value = v;
-      this.loadUrl();
-    }
-
-    get url() {
-      return this._url;
-    }
-
-    loadUrl() {
-      this._url = getParam('url') || this.$('#url').value;
-      window.fetch(this._url).then(resp => resp.json()).then(v => {
-        this.state.showcases = v.showcases;
-        this.switchShowcase(getParam('showcase') === undefined ? v.current : getParam('showcase'));
-        this.$('#status').textContent = 'loaded from url!';
-      }).catch(e => {
-        this.$('#status').textContent = e.message;
-        storage.all().then(v => {
-          this.$('#status').textContent = 'failed to load from url, loaded from storage!';
-          this._loaded = true;
-
-          if (Array.isArray(v.showcases)) {
-            this.state.showcases = v.showcases;
-            this.switchShowcase(getParam('showcase') === undefined ? v.current : getParam('showcase'));
-          }
-        });
-      });
-    }
-
     saveFile() {
-      const blob = new Blob([JSON.stringify(this.state, null, 2)], {
+      const blob = new Blob([JSON.stringify(this.store.value, null, 2)], {
         type: 'application/json'
       });
       const a = document.createElement('a');
@@ -1660,10 +1640,9 @@ this.Sifrr.Elements = (function (exports, SifrrDom, SifrrStorage) {
       const fr = new FileReader();
 
       fr.onload = () => {
-        const json = JSON.parse(fr.result);
-        this.state = json;
-        this.switchShowcase(json.current);
-        this.$('#status').textContent = 'loaded from file!';
+        this.store.setValues(JSON.parse(fr.result).values);
+        this.store.setActive(JSON.parse(fr.result).active || 0);
+        this.onStatus('loaded from file!');
       };
 
       fr.readAsText(file);
@@ -1672,30 +1651,22 @@ this.Sifrr.Elements = (function (exports, SifrrDom, SifrrStorage) {
   }
 
   SifrrShowcase.defaultState = {
-    current: 0,
-    showcases: [{
-      name: 'new'
-    }]
+    current: -1,
+    showcases: []
   };
-  SifrrDom.register(SifrrShowcase);
+  SifrrDom__default.register(SifrrShowcase);
 
-  const template$6 = "<svg xmlns:xlink=\"http://www.w3.org/1999/xlink\" preserveAspectRatio=\"xMinYMin meet\" width=\"100%\" height=\"100%\" viewBox=\"0 0 60 60\">\n  <circle cx=\"30\" cy=\"30\" r=\"28\" fill=\"none\" stroke=\"rgba(255, 255, 255, 0.6)\" stroke-width=\"${this.state['stroke-width']}\"/>\n  <circle id=\"top\" cx=\"30\" cy=\"30\" r=\"28\" fill=\"none\" stroke=\"${this.state.stroke}\" stroke-width=\"${this.state['stroke-width']}\" stroke-dasharray=\"188.5\" stroke-dashoffset=\"${(100 - this.state.progress) / 100 * 188.5}\"/>\n</svg>\n";
+  const template$6 = "<svg xmlns:xlink=\"http://www.w3.org/1999/xlink\" preserveAspectRatio=\"xMinYMin meet\" width=\"100%\" height=\"100%\" viewBox=\"0 0 60 60\">\n  <circle cx=\"30\" cy=\"30\" r=\"28\" fill=\"none\" stroke=\"rgba(255, 255, 255, 0.6)\" stroke-width=\"${this['stroke-width']}\"/>\n  <circle id=\"top\" cx=\"30\" cy=\"30\" r=\"28\" fill=\"none\" stroke=\"${this.stroke}\" stroke-width=\"${this['stroke-width']}\" stroke-dasharray=\"188.5\" stroke-dashoffset=\"${(100 - this.progress) / 100 * 188.5}\"/>\n</svg>\n";
 
   var css$5 = ":host {\n  display: inline-block;\n}\n\n/* rotate svg */\nsvg {\n  transform: rotate(-90deg);\n}\n";
 
-  class SifrrProgressRound extends SifrrDom.Element {
+  class SifrrProgressRound extends SifrrDom__default.Element {
     static get template() {
-      return SifrrDom.template("<style>".concat(css$5, "</style>").concat(template$6));
+      return SifrrDom__default.template("<style>".concat(css$5, "</style>").concat(template$6));
     }
 
-    static syncedAttrs() {
-      return ['progress', 'stroke', 'stroke-width'];
-    }
-
-    onAttributeChange(n, _, v) {
-      if (n === 'progress' || n === 'stroke' || n === 'stroke-width') this.state = {
-        [n]: Number(v)
-      };
+    onPropsChange(props) {
+      if (['progress', 'stroke', 'stroke-width'].filter(p => props.indexOf(p) > -1).length > 0) this.update();
     }
 
   }
@@ -1705,9 +1676,9 @@ this.Sifrr.Elements = (function (exports, SifrrDom, SifrrStorage) {
     'stroke-width': 2,
     stroke: '#fff'
   };
-  SifrrDom.register(SifrrProgressRound);
+  SifrrDom__default.register(SifrrProgressRound);
 
-  var css$6 = ":host {\n  background: linear-gradient(\n    to right,\n    '${this.bgColor}' 4%,\n    '${this.fgColor}' 25%,\n    '${this.bgColor}' 36%\n  );\n  display: inline-block;\n  animation: shimmer 2.5s linear 0s infinite;\n  background-size: 2000px 100%;\n}\n@keyframes shimmer {\n  0% {\n    background-position: -2000px 0;\n  }\n  100% {\n    background-position: 2000px 0;\n  }\n}\n";
+  var css$6 = ":host {\n  background: linear-gradient(\n    to right,\n    '${this.getBgColor()}' 4%,\n    '${this.getFgColor()}' 25%,\n    '${this.getBgColor()}' 36%\n  );\n  display: inline-block;\n  animation: shimmer 2.5s linear 0s infinite;\n  background-size: 2000px 100%;\n}\n@keyframes shimmer {\n  0% {\n    background-position: -2000px 0;\n  }\n  100% {\n    background-position: 2000px 0;\n  }\n}\n";
 
   const properStyle = css$6.replace(/'(\${[^']*})'/g, '$1');
 
@@ -1745,20 +1716,20 @@ this.Sifrr.Elements = (function (exports, SifrrDom, SifrrStorage) {
     return [h, s, l];
   }
 
-  class SifrrShimmer extends SifrrDom.Element {
-    static syncedAttrs() {
-      return ['color', 'bg-color', 'fg-color'];
+  class SifrrShimmer extends SifrrDom__default.Element {
+    onPropsChange(props) {
+      if (['color', 'bg-color', 'fg-color'].filter(p => props.indexOf(p) > -1).length > 0) this.update();
     }
 
     static get template() {
-      return SifrrDom.template("<style>".concat(properStyle, "</style>"));
+      return SifrrDom__default.template("<style>".concat(properStyle, "</style>"));
     }
 
-    get bgColor() {
+    getBgColor() {
       return this['bg-color'] || this.colora(0.15);
     }
 
-    get fgColor() {
+    getFgColor() {
       return this['fg-color'] || this.colora(0);
     }
 
@@ -1774,13 +1745,9 @@ this.Sifrr.Elements = (function (exports, SifrrDom, SifrrStorage) {
 
   }
 
-  SifrrDom.register(SifrrShimmer);
+  SifrrDom__default.register(SifrrShimmer);
 
-  class SifrrInclude extends SifrrDom.Element {
-    static syncedAttrs() {
-      return ['url', 'type', 'selector'];
-    }
-
+  class SifrrInclude extends SifrrDom__default.Element {
     onConnect() {
       let preffix = '',
           suffix = '';
@@ -1798,7 +1765,7 @@ this.Sifrr.Elements = (function (exports, SifrrDom, SifrrStorage) {
       if (this.url) {
         fetch(this.url).then(r => r.text()).then(text => {
           if (this.type === 'html' && this.selector) {
-            const template = SifrrDom.template(text);
+            const template = SifrrDom__default.template(text);
             this.textContent = '';
             this.appendChild(template.content.querySelector(this.selector));
           } else this.innerHTML = preffix + text + suffix;
@@ -1808,12 +1775,12 @@ this.Sifrr.Elements = (function (exports, SifrrDom, SifrrStorage) {
 
   }
 
-  SifrrDom.register(SifrrInclude);
+  SifrrDom__default.register(SifrrInclude);
 
   var css$7 = ":host {\n  display: block;\n  width: 100%; }\n\n#preview,\n#content {\n  position: relative; }\n\n#preview {\n  padding: 0 24px; }\n\n/* count, fs, and bg */\n#count {\n  position: absolute; }\n\n#count {\n  bottom: 6px;\n  right: 6px;\n  background: rgba(255, 255, 255, 0.7);\n  border-radius: 10px;\n  font-size: 14px;\n  padding: 4px 6px; }\n\n#bg {\n  background: rgba(255, 255, 255, 0.9);\n  display: none;\n  height: 100%;\n  width: 100%; }\n  #bg #cross {\n    position: absolute;\n    top: 6px;\n    right: 6px;\n    width: 32px;\n    height: 32px;\n    font-family: 'Helvetica', 'Arial', sans-serif;\n    font-size: 32px; }\n\n/* Arrows css */\n.arrow {\n  position: absolute;\n  z-index: 5;\n  top: 0;\n  bottom: 0; }\n\n.arrow > * {\n  position: absolute;\n  width: 8px;\n  height: 8px;\n  margin: -6px 5px;\n  top: 50%;\n  border: solid white;\n  border-width: 0 3px 3px 0;\n  display: inline-block;\n  padding: 3px; }\n\n.arrow.l {\n  left: 0;\n  cursor: w-resize; }\n\n.arrow.l > * {\n  left: 0;\n  transform: rotate(135deg); }\n\n.arrow.r {\n  right: 0;\n  cursor: e-resize; }\n\n.arrow.r > * {\n  right: 0;\n  transform: rotate(-45deg); }\n\n/* drop shadow */\n.arrow > *,\n#cross {\n  filter: drop-shadow(-1px -1px 3px #000);\n  -webkit-user-select: none;\n     -moz-user-select: none;\n          user-select: none;\n  color: white;\n  z-index: 3; }\n\n/* slot elements css */\nslot[name='preview']::slotted(*) {\n  height: 64px;\n  opacity: 0.5; }\n\nslot[name='preview']::slotted(*.active) {\n  border: 1px solid white;\n  opacity: 1; }\n\nsifrr-tab-header {\n  height: 64px; }\n\n/* Full screen css */\n:host(.fullscreen) {\n  position: fixed;\n  width: 100%;\n  height: 100%;\n  left: 0;\n  top: 0;\n  z-index: 9999; }\n  :host(.fullscreen) #bg {\n    display: block;\n    z-index: 1; }\n  :host(.fullscreen) #preview,\n  :host(.fullscreen) #content {\n    position: absolute;\n    left: 0;\n    right: 0;\n    margin: auto; }\n  :host(.fullscreen) #preview {\n    bottom: 30px;\n    max-width: 90%;\n    z-index: 2; }\n  :host(.fullscreen) #content {\n    z-index: 2;\n    max-width: 90%;\n    max-height: calc(100% - 150px);\n    top: calc(50% - 55px);\n    transform: translateY(-50%);\n    overflow: hidden; }\n";
 
   function _templateObject$6() {
-    const data = _taggedTemplateLiteral(["<style media=\"screen\">\n  ", "\n</style>\n<style media=\"screen\">\n  ${this.state.style || ''}\n</style>\n<div id=\"bg\">\n  <div id=\"cross\">X</div>\n</div>\n<div id=\"content\">\n  <sifrr-tab-container>\n    <slot name=\"content\"></slot>\n  </sifrr-tab-container>\n  <span id=\"count\"></span>\n</div>\n<div id=\"preview\">\n  <div class=\"arrow l\">\n    <span></span>\n  </div>\n  <div class=\"arrow r\">\n    <span></span>\n  </div>\n  <sifrr-tab-header options='{ \"showUnderline\": false }'>\n    <slot name=\"preview\"></slot>\n  </sifrr-tab-header>\n</div>"], ["<style media=\"screen\">\n  ", "\n</style>\n<style media=\"screen\">\n  \\${this.state.style || ''}\n</style>\n<div id=\"bg\">\n  <div id=\"cross\">X</div>\n</div>\n<div id=\"content\">\n  <sifrr-tab-container>\n    <slot name=\"content\"></slot>\n  </sifrr-tab-container>\n  <span id=\"count\"></span>\n</div>\n<div id=\"preview\">\n  <div class=\"arrow l\">\n    <span></span>\n  </div>\n  <div class=\"arrow r\">\n    <span></span>\n  </div>\n  <sifrr-tab-header options='{ \"showUnderline\": false }'>\n    <slot name=\"preview\"></slot>\n  </sifrr-tab-header>\n</div>"]);
+    const data = _taggedTemplateLiteral(["<style media=\"screen\">\n  ", "\n</style>\n<style media=\"screen\">\n  ${this.state.style || ''}\n</style>\n<div id=\"bg\">\n  <div id=\"cross\">X</div>\n</div>\n<div id=\"content\">\n  <sifrr-tab-container>\n    <slot name=\"content\"></slot>\n  </sifrr-tab-container>\n  <span id=\"count\">${`${this.container.active + 1}/${this.container.total}`}</span>\n</div>\n<div id=\"preview\">\n  <div class=\"arrow l\">\n    <span></span>\n  </div>\n  <div class=\"arrow r\">\n    <span></span>\n  </div>\n  <sifrr-tab-header options='{ \"showUnderline\": false }'>\n    <slot name=\"preview\"></slot>\n  </sifrr-tab-header>\n</div>"], ["<style media=\"screen\">\n  ", "\n</style>\n<style media=\"screen\">\n  \\${this.state.style || ''}\n</style>\n<div id=\"bg\">\n  <div id=\"cross\">X</div>\n</div>\n<div id=\"content\">\n  <sifrr-tab-container>\n    <slot name=\"content\"></slot>\n  </sifrr-tab-container>\n  <span id=\"count\">\\${\\`\\${this.container.active + 1}/\\${this.container.total}\\`}</span>\n</div>\n<div id=\"preview\">\n  <div class=\"arrow l\">\n    <span></span>\n  </div>\n  <div class=\"arrow r\">\n    <span></span>\n  </div>\n  <sifrr-tab-header options='{ \"showUnderline\": false }'>\n    <slot name=\"preview\"></slot>\n  </sifrr-tab-header>\n</div>"]);
 
     _templateObject$6 = function () {
       return data;
@@ -1821,10 +1788,10 @@ this.Sifrr.Elements = (function (exports, SifrrDom, SifrrStorage) {
 
     return data;
   }
-  const template$7 = SifrrDom.template(_templateObject$6(), css$7);
-  SifrrDom.Event.add('click');
+  const template$7 = SifrrDom__default.template(_templateObject$6(), css$7);
+  SifrrDom__default.Event.add('click');
 
-  class SifrrCarousel extends SifrrDom.Element {
+  class SifrrCarousel extends SifrrDom__default.Element {
     static get template() {
       return template$7;
     }
@@ -1841,7 +1808,7 @@ this.Sifrr.Elements = (function (exports, SifrrDom, SifrrStorage) {
       });
       this._rel = this._rel || this.refresh.bind(this);
       Array.from(this.$$('img', false)).forEach(img => img.addEventListener('load', this._rel));
-      SifrrDom.Event.addListener('click', this, (e, t) => {
+      SifrrDom__default.Event.addListener('click', this, (e, t) => {
         if ((t.matches('[slot=content]') || t.matches('[slot=content] *')) && !t.matches('.fullscreen *')) this.fullScreen(true);else if (t.matches('#bg') || t.matches('#bg *')) this.fullScreen(false);else if (t.matches('.arrow.l') || t.matches('.arrow.l span')) this.container.prev();else if (t.matches('.arrow.r') || t.matches('.arrow.r span')) this.container.next();
       });
 
@@ -1870,7 +1837,7 @@ this.Sifrr.Elements = (function (exports, SifrrDom, SifrrStorage) {
   SifrrCarousel.defaultState = {
     style: ''
   };
-  SifrrDom.register(SifrrCarousel);
+  SifrrDom__default.register(SifrrCarousel);
 
   window.LazyLoader = LazyLoader;
   window.makeFullScreen = makeFullScreen;

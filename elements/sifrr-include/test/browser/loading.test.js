@@ -1,6 +1,7 @@
 describe('include', function() {
   before(async () => {
     await page.goto(`${PATH}/include.html`);
+    await page.evaluate(async () => await Sifrr.Dom.loading());
   });
 
   it('loads include', async function() {
@@ -28,5 +29,6 @@ describe('include', function() {
   it('loads js', async function() {
     const js = await page.$eval('#js script', el => el.innerHTML);
     expect(js).to.equal("window.ok = 'ok';\n");
+    expect(await page.evaluate(() => window.ok)).to.equal('ok');
   });
 });

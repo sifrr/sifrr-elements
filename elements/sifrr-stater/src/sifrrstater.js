@@ -1,61 +1,107 @@
-import SifrrDom from '@sifrr/dom';
+import { html, createTemplateFromString } from '@sifrr/template';
+import { Element, register, Event } from '@sifrr/dom';
 import SifrrStorage from '@sifrr/storage';
 import '../../sifrr-tab-header/src/sifrrtabheader';
 import '../../sifrr-tab-container/src/sifrrtabcontainer';
 import style from './style.scss';
+import States from './states';
 
-const template = SifrrDom.template`<style>
-  ${style}
-</style>
-<div id="showHide" _click=\${this.showHide}></div>
-<sifrr-tab-header style='background: blue; color: white' :sifrr-html="true">
-  \${ this.headingHtml() }
-</sifrr-tab-header>
-<sifrr-tab-container style='height: calc(100vh - 132px)' :sifrr-html="true">
-  \${ this.stateHtml() }
-</sifrr-tab-container>
-<footer>
-  <input _keyup=\${this.addTargetOnEnter} id="addTargetInput" type="text" name="addTargetInput" value="" placeholder="Enter css selector query of target">
-  <button _click=\${this.addTarget} class="btn3" type="button" name="addTargetButton">Add Taget</button>
-  <button _click=\${this.commitAll} class="btn3" type="button" name="commitAll">Commit All</button>
-  <button _click=\${this.resetAllToFirstState} class="btn3" type="button" name="resetAll">Reset All</button>
-  <button _click=\${this.saveData} class="btn3" type="button" name="saveData">Save Data</button>
-  <button _click=\${this.loadData} class="btn3" type="button" name="loadData">Load Data</button>
-  <button _click=\${this.clearAll} class="btn3" type="button" name="clearAll">Remove All</button>
-</footer>`;
+const template = html`
+  <style>
+    ${style}
+  </style>
+  <div id="showHide" :_click="${el => el.showHide.bind(el)}"></div>
+  <sifrr-tab-header style="background: blue; color: white" :sifrr-html="true">
+    ${el => createTemplateFromString(el.headingHtml()).content.childNodes}
+  </sifrr-tab-header>
+  <sifrr-tab-container style="height: calc(100vh - 132px)" :sifrr-html="true">
+    ${(el, oldV) =>
+      el.state.states.map((states, i) =>
+        States({ states, index: i, activeState: el.state.activeStates[i] }, oldV[i])
+      )}
+  </sifrr-tab-container>
+  <footer>
+    <input
+      :_keyup="${el => el.addTargetOnEnter.bind(el)}"
+      id="addTargetInput"
+      type="text"
+      name="addTargetInput"
+      value=""
+      placeholder="Enter css selector query of target"
+    />
+    <button
+      :_click="${el => el.addTarget.bind(el)}"
+      class="btn3"
+      type="button"
+      name="addTargetButton"
+    >
+      Add Taget
+    </button>
+    <button :_click="${el => el.commitAll.bind(el)}" class="btn3" type="button" name="commitAll">
+      Commit All
+    </button>
+    <button
+      :_click="${el => el.resetAllToFirstState.bind(el)}"
+      class="btn3"
+      type="button"
+      name="resetAll"
+    >
+      Reset All
+    </button>
+    <button :_click="${el => el.saveData.bind(el)}" class="btn3" type="button" name="saveData">
+      Save Data
+    </button>
+    <button :_click="${el => el.loadData.bind(el)}" class="btn3" type="button" name="loadData">
+      Load Data
+    </button>
+    <button :_click="${el => el.clearAll.bind(el)}" class="btn3" type="button" name="clearAll">
+      Remove All
+    </button>
+  </footer>
+`;
 
-SifrrDom.Event.add('click');
-SifrrDom.Event.add('keyup');
-class SifrrStater extends SifrrDom.Element {
+Event.add('click');
+Event.add('keyup');
+class SifrrStater extends Element {
   static get template() {
     return template;
   }
 
+  constructor() {
+    super();
+    this.state = {
+      targets: [],
+      states: [],
+      queries: [],
+      activeStates: []
+    };
+  }
+
   onConnect() {
     let me = this;
-    this.storage = new SifrrStorage({
-      name: 'sifrr-stater' + window.location.href
-    });
-    SifrrDom.Event.addListener('click', '.state', function(e, el) {
+    Event.addListener('click', '.state', function(e, el) {
       el.classList.contains('open') ? el.classList.remove('open') : el.classList.add('open');
     });
-    SifrrDom.Event.addListener('click', '.dotC', function(e, target, el) {
+    Event.addListener('click', '.dotC', function(e, target, el) {
       me.toState(parseInt(el.dataset.target), parseInt(el.dataset.stateIndex));
     });
-    SifrrDom.Event.addListener('click', '.delete', function(e, el) {
+    Event.addListener('click', '.delete', function(e, el) {
       me.deleteState(parseInt(el.dataset.target), parseInt(el.dataset.stateIndex));
     });
-    SifrrDom.Event.addListener('click', '.commit', function(e, el) {
+    Event.addListener('click', '.commit', function(e, el) {
       const i = parseInt(el.parentNode.dataset.target);
       me.commit(i);
     });
-    SifrrDom.Event.addListener('click', '.reset', function(e, el) {
+    Event.addListener('click', '.reset', function(e, el) {
       const i = parseInt(el.parentNode.dataset.target);
       me.resetToFirstState(i);
     });
-    SifrrDom.Event.addListener('click', '.remove', function(e, el) {
+    Event.addListener('click', '.remove', function(e, el) {
       const i = parseInt(el.parentNode.dataset.target);
       me.removeTarget(i);
+    });
+    this.storage = new SifrrStorage({
+      name: 'sifrr-stater' + window.location.href
     });
   }
 
@@ -73,32 +119,10 @@ class SifrrStater extends SifrrDom.Element {
     return this.state.queries.map(q => `<span>${q}</span>`).join('');
   }
 
-  stateHtml() {
-    let me = this;
-    return this.state.states
-      .map(
-        (s, i) =>
-          `<div data-target="${i}">
-      <button class="btn3 commit" type="button" name="commit">Commit</button>
-      <button class="btn3 reset" type="button" name="reset">Reset</button>
-      <button class="btn3 remove" type="button" name="remove">Remove</button>
-      ${s
-        .map(
-          (jsn, j) => `<div class="stateContainer ${j <= me.state.activeStates[i] ? 'on' : 'off'}">
-                           <div class="dotC" data-target="${i}" data-state-index="${j}"><div class="dot"></div></div>
-                           <div class="state">${SifrrStater.prettyJSON(jsn)}</div>
-                           <div class="delete" data-target="${i}" data-state-index="${j}">X</div>
-                           </div>`
-        )
-        .join('')}</div>`
-      )
-      .join('');
-  }
-
   addTarget(query) {
     if (typeof query !== 'string') query = this.$('#addTargetInput').value;
     let target = window.document.querySelector(query);
-    if (!target.isSifrr) {
+    if (!target || !target.isSifrr) {
       window.console.log('Invalid Sifrr Element.', target);
       return false;
     }
@@ -174,7 +198,7 @@ class SifrrStater extends SifrrDom.Element {
   toState(el, n) {
     const { index, target } = this.getTarget(el);
     this.state.activeStates[index] = n;
-    target.state = this.state.states[index][n];
+    target.setState(this.state.states[index][n]);
     this.update();
   }
 
@@ -244,40 +268,8 @@ class SifrrStater extends SifrrDom.Element {
       target: target
     };
   }
-
-  static prettyJSON(json) {
-    json = JSON.stringify(json, null, 4);
-    json = json
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;');
-    return json.replace(
-      /("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+-]?\d+)?)/g,
-      function(match) {
-        let cls = 'number';
-        if (/:$/.test(match)) {
-          cls = 'key';
-          return '<span class="' + cls + '">' + match + '</span>';
-        } else if (/^"/.test(match)) {
-          cls = 'string';
-        } else if (/true|false/.test(match)) {
-          cls = 'boolean';
-        } else if (/null/.test(match)) {
-          cls = 'null';
-        }
-        return '<span class="' + cls + '">' + match + '</span>';
-      }
-    );
-  }
 }
 
-SifrrStater.defaultState = {
-  targets: [],
-  states: [],
-  queries: [],
-  activeStates: []
-};
-
-SifrrDom.register(SifrrStater);
+register(SifrrStater);
 
 export default SifrrStater;

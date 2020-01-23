@@ -1,15 +1,16 @@
-import { Store } from '@sifrr/dom';
+import { Store } from '@sifrr/template';
 
 class ShowcaseStore extends Store {
   constructor(v) {
     super({
-      active: 0,
+      active: -1,
       values: v || []
     });
   }
 
-  setValues(values) {
-    this.set({ values: values || [] });
+  setValues(values, active) {
+    this.value.values = values || [];
+    this.setActive(active || this.value.values.length - 1);
   }
 
   getValues() {
@@ -17,7 +18,7 @@ class ShowcaseStore extends Store {
   }
 
   bindUpdate(prop) {
-    return (v => this.setActiveValue({ [prop]: v })).bind(this);
+    return ((v, el) => this.setActiveValue({ [prop]: el ? el.value : v })).bind(this);
   }
 
   delete(index) {
@@ -28,16 +29,15 @@ class ShowcaseStore extends Store {
 
   add(v) {
     this.value.values.splice(this.value.active + 1, 0, v);
-    this.value.active = this.value.active + 1;
-    this.update();
+    this.setActive(this.value.active + 1);
   }
 
   setActive(active) {
     this.value.values.forEach((v, i) => {
-      if (i === active) v.active = true;
-      else v.active = false;
+      if (i === active) v.isActive = true;
+      else v.isActive = false;
     });
-    this.set({ active });
+    this.setAssign({ active });
   }
 
   getActiveValue() {
@@ -47,10 +47,12 @@ class ShowcaseStore extends Store {
   setActiveValue(v) {
     if (this.value.values[this.value.active]) {
       Object.assign(this.value.values[this.value.active], v);
-      this.update();
-    } else {
-      this.addValue(v);
+      this.onUpdate();
     }
+  }
+
+  setAssign(newv) {
+    this.set(Object.assign(this.value, newv));
   }
 }
 

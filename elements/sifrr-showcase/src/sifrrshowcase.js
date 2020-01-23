@@ -1,38 +1,71 @@
-import SifrrDom, { bindStoresToElement } from '@sifrr/dom';
+import { html, memo } from '@sifrr/template';
+import { Element, register, Event } from '@sifrr/dom';
 
 import { showcaseStore } from './stores';
 
-import style from './style.scss';
 import './singleshowcase';
+import { Li } from './template.js';
+import style from './style.scss';
 
-const template = SifrrDom.template`<style media="screen">
-  ${style}
-</style>
-<div class="container">
-  <div class="flex-column" id="sidemenu">
-    <div class="box">
-      <h1 class="font head">Sifrr Showcase</h1>
-      <p class="font" id="loader"></p>
-      <input id="url" type="text" placeholder="Enter url here..." name="url" />
-      <button type="button" name="loadUrl" _click=\${(this.loadUrl)}>Load from url</button>
-      <p class="font" id="status"></p>
-      <span class="button font">
-        Upload File
-        <input type="file" name="file" accept="application/json" _input="\${this.loadFile}" />
-      </span>
-      <button class="font" type="button" name="saveFile" _click="\${this.saveFile}">Save to File</button>
-      <h3 class="font head">Showcases</h3>
-      <input style="width: 100%" id="showcaseName" type="text" name="showcase" _input="\${(v) => this.store.setActiveValue({ name: v })}" value="\${this.store.getActiveValue().name}">
-      <button style="width: 100%" class="font" type="button" name="createVariant" _click="\${this.createShowcase}">Create new showcase</button>
-      <div id="showcases" :sifrr-repeat="\${this.store.getValues()}">
-        <li class="font showcase small \${this.state.active ? 'current' : ''}" draggable="true">\${this.state.name}<span>X</span></li>
+const template = html`
+  <style media="screen">
+    ${style}
+  </style>
+  <div class="container">
+    <div class="flex-column" id="sidemenu">
+      <div class="box">
+        <h1 class="font head">Sifrr Showcase</h1>
+        <p class="font" id="loader"></p>
+        <input id="url" type="text" placeholder="Enter url here..." name="url" />
+        <button type="button" name="loadUrl" :_click="${memo(el => el.loadUrl.bind(el))}">
+          Load from url
+        </button>
+        <p class="font" id="status"></p>
+        <span class="button font">
+          Upload File
+          <input
+            type="file"
+            name="file"
+            accept="application/json"
+            :_input="${memo(el => el.loadFile.bind(el))}"
+          />
+        </span>
+        <button
+          class="font"
+          type="button"
+          name="saveFile"
+          :_click="${memo(el => el.saveFile.bind(el))}"
+        >
+          Save to File
+        </button>
+        <h3 class="font head">Showcases</h3>
+        <input
+          style="width: 100%"
+          id="showcaseName"
+          type="text"
+          name="showcase"
+          :_input="${memo(el => el.store.bindUpdate('name'))}"
+          :value="${el => el.store.getActiveValue().name || ''}"
+        />
+        <button
+          style="width: 100%"
+          class="font"
+          type="button"
+          name="createVariant"
+          :_click="${memo(el => el.createShowcase.bind(el))}"
+        >
+          Create new showcase
+        </button>
+        <div id="showcases">
+          ${(el, oldValue) => el.store.getValues().map((v, i) => Li(v, oldValue[i]))}
+        </div>
       </div>
     </div>
+    <sifrr-single-showcase></sifrr-single-showcase>
   </div>
-  <sifrr-single-showcase></sifrr-single-showcase>
-</div>`;
+`;
 
-class SifrrShowcase extends SifrrDom.Element {
+class SifrrShowcase extends Element {
   static get template() {
     return template;
   }
@@ -43,7 +76,11 @@ class SifrrShowcase extends SifrrDom.Element {
 
   constructor() {
     super();
-    bindStoresToElement(this, [showcaseStore]);
+    this.state = {
+      current: -1,
+      showcases: []
+    };
+    showcaseStore.addListener(() => this.update());
     this.store = showcaseStore;
     this.store.onStatus = this.onStatus.bind(this);
   }
@@ -57,10 +94,11 @@ class SifrrShowcase extends SifrrDom.Element {
   }
 
   onConnect() {
-    SifrrDom.Event.addListener('click', '.showcase', (e, el) => {
-      if (el.matches('.showcase')) this.store.setActive(this.getChildIndex(el));
-      if (el.matches('.showcase span')) this.store.delete(this.getChildIndex(el.parentNode));
+    Event.addListener('click', '#showcases', (e, el) => {
+      if (el.matches('li')) this.store.setActive(this.getChildIndex(el));
+      if (el.matches('li span')) this.store.delete(this.getChildIndex(el.parentNode));
     });
+    this.store.fetchStore(this.url, this.onStatus.bind(this));
     if (window.Sortable) {
       const me = this;
       new window.Sortable(this.$('#showcases'), {
@@ -118,7 +156,7 @@ class SifrrShowcase extends SifrrDom.Element {
     const file = el.files[0];
     const fr = new FileReader();
     fr.onload = () => {
-      this.store.setValues(JSON.parse(fr.result).showcases);
+      this.store.setValues(JSON.parse(fr.result).values);
       this.store.setActive(JSON.parse(fr.result).active || 0);
       this.onStatus('loaded from file!');
     };
@@ -126,11 +164,6 @@ class SifrrShowcase extends SifrrDom.Element {
   }
 }
 
-SifrrShowcase.defaultState = {
-  current: -1,
-  showcases: []
-};
-
-SifrrDom.register(SifrrShowcase);
+register(SifrrShowcase);
 
 export default SifrrShowcase;

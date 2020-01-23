@@ -1,21 +1,23 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>
-    <meta charset="utf-8">
+    <meta charset="utf-8" />
     <title>tabheader</title>
   </head>
   <body style="width: 800px">
     <sifrr-tab-header id="single">
-      <span>hea jsfn ksf sjkdf ksdnf kjsdnf jksdfk jsdfksdhf jksdhf kjsdhf kjsdhf kjsdf ding 1</span>
+      <span
+        >hea jsfn ksf sjkdf ksdnf kjsdnf jksdfk jsdfksdhf jksdhf kjsdhf kjsdhf kjsdf ding 1</span
+      >
       <span>he sdf sndfkj sdkfj sdkfh ksjdfhk jsdhfk jsdfkj sading 2</span>
-      <span>hea sdlfj skdf hdksfh djksfh ksdfhksdfh  ksdhk sdding 3</span>
+      <span>hea sdlfj skdf hdksfh djksfh ksdfhksdfh ksdhk sdding 3</span>
     </sifrr-tab-header>
     <sifrr-tab-header id="tabs">
       <span>heading 1</span>
       <span>heading 2</span>
       <span>heading 3</span>
     </sifrr-tab-header>
-    <sifrr-tab-container id="container" options='{ "animation": "none" }'>
+    <sifrr-tab-container id="container">
       <div>
         Tab 1
       </div>
@@ -26,7 +28,8 @@
         Tab 3
       </div>
     </sifrr-tab-container>
-    <script src="https://cdn.jsdelivr.net/npm/@sifrr/dom@0.0.5/dist/sifrr.dom.min.js" charset="utf-8"></script>
+    <script src="/sifrr.template.js" charset="utf-8"></script>
+    <script src="/sifrr.dom.js" charset="utf-8"></script>
     <script type="text/javascript">
       Sifrr.Dom.setup();
 
@@ -34,9 +37,10 @@
         return new Promise(res => setTimeout(res, time));
       }
     </script>
-    <script src="/sifrr.elements.js" charset="utf-8"></script>
     <script src="/sifrrtabheader.js" charset="utf-8"></script>
+    <script src="/sifrrtabcontainer.js" charset="utf-8"></script>
     <script type="text/javascript">
+      document.$('#container').refresh({ animation: 'none' });
       document.$('#tabs').refresh({ container: document.$('#container') });
     </script>
   </body>

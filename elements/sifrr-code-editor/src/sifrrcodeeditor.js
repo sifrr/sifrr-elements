@@ -1,94 +1,107 @@
-import SifrrDom from '@sifrr/dom';
+import { html, memo } from '@sifrr/template';
+import { Element, register, Event, Loader } from '@sifrr/dom';
 import style from './style.scss';
 
 const CM_VERSION = '5.49.2';
 
-const template = SifrrDom.template`
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/codemirror@${CM_VERSION}/lib/codemirror.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/codemirror@${CM_VERSION}/theme/\${this.getTheme()}.css">
-<style media="screen">
-  ${style}
-</style>
-<textarea></textarea>`;
+const template = html`
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/codemirror@${CM_VERSION}/lib/codemirror.css"
+  />
+  <link
+    rel="stylesheet"
+    href="${el =>
+      `https://cdn.jsdelivr.net/npm/codemirror@${CM_VERSION}/theme/${el.getTheme()}.css`}"
+  />
+  <style media="screen">
+    ${style}
+  </style>
+  <textarea :value=${el => el.value || ''} :_input=${memo(el => el.textAreaInput)}></textarea>
+`;
 
-class SifrrCodeEditor extends SifrrDom.Element {
+class SifrrCodeEditor extends Element {
   static get template() {
     return template;
-  }
-
-  static observedAttrs() {
-    return ['value', 'theme', 'lang'];
-  }
-
-  static syncedAttrs() {
-    return ['theme'];
   }
 
   static cm() {
     this._cm =
       this._cm ||
-      SifrrDom.Loader.executeJS(
-        `https://cdn.jsdelivr.net/npm/codemirror@${CM_VERSION}/lib/codemirror.js`
-      );
+      Loader.executeJS(`https://cdn.jsdelivr.net/npm/codemirror@${CM_VERSION}/lib/codemirror.js`);
     return this._cm;
   }
 
-  onAttributeChange(n, _, v) {
-    if (this._cmLoaded) {
-      if (n === 'theme') this.cm.setOption('theme', v);
-      if (n === 'lang') this.cm.setOption('mode', this.getTheme());
-    }
+  constructor() {
+    super();
+    this.value = '';
   }
 
   onConnect() {
     this.constructor.cm().then(() => this.cmLoaded());
   }
 
-  input() {
-    SifrrDom.Event.trigger(this, 'input');
-    this.update();
+  onPropChange(prop) {
+    if (this._cmLoaded) {
+      if (prop === 'theme') this.cm.setOption('theme', this.getTheme());
+      if (prop === 'lang') this.cm.setOption('mode', this.getLang());
+    }
+  }
+
+  onUpdate() {
+    if (this._cmLoaded && this.cm.getValue() !== this.value) {
+      this.cm.setValue(this.value);
+    }
   }
 
   cmLoaded() {
-    SifrrDom.Loader.executeJS(
-      `https://cdn.jsdelivr.net/npm/codemirror@${CM_VERSION}/mode/${this.lang}/${this.lang}.js`
-    ).then(() => {
-      this.cm = window.CodeMirror.fromTextArea(this.$('textarea'), {
-        value: this.$('textarea').value,
-        mode: this.lang,
-        htmlMode: true,
-        theme: this.getTheme(),
-        indentUnit: 2,
-        tabSize: 2,
-        lineNumbers: true
-      });
-      this.cm.on('change', this.input.bind(this));
-      this._cmLoaded = true;
-    });
+    this.loading =
+      this.loading ||
+      this.constructor.cm().then(() =>
+        Loader.executeJS(
+          `https://cdn.jsdelivr.net/npm/codemirror@${CM_VERSION}/mode/${this.getLang()}/${this.getLang()}.js`
+        ).then(() => {
+          this.cm = window.CodeMirror.fromTextArea(this.$('textarea'), {
+            value: this.$('textarea').value,
+            mode: this.getLang(),
+            htmlMode: true,
+            theme: this.getTheme(),
+            indentUnit: 2,
+            tabSize: 2,
+            lineNumbers: true
+          });
+          this.cm.on('change', this.setValueFromCm.bind(this));
+          this._cmLoaded = true;
+        })
+      );
+
+    return this.loading;
   }
 
   getTheme() {
     return this.theme ? this.theme.split(' ')[0] : 'dracula';
   }
 
-  get value() {
-    if (this._cmLoaded) return this.cm.getValue();
-    else return this.$('textarea').value;
+  getLang() {
+    return this.lang || 'xml';
   }
 
-  set value(v) {
-    if (v === this.value) return;
-    if (this._cmLoaded) return this.cm.setValue(v);
-    else this.$('textarea').value = v;
+  textAreaInput() {
+    this.value = this.$('textarea').value;
+    this.triggerChange();
   }
 
-  get lang() {
-    const attr = this.getAttribute('lang');
-    if (!attr || attr === 'html') return 'xml';
-    return attr;
+  setValueFromCm() {
+    this.value = this.cm.getValue();
+    this.triggerChange();
+  }
+
+  triggerChange() {
+    Event.trigger(this, 'input');
+    Event.trigger(this, 'change');
   }
 }
 
-SifrrDom.register(SifrrCodeEditor);
+register(SifrrCodeEditor);
 
 export default SifrrCodeEditor;

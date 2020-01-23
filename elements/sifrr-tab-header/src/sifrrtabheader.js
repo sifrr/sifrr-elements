@@ -1,26 +1,30 @@
-import SifrrDom from '@sifrr/dom';
+import { html } from '@sifrr/template';
+import { Element, register, Event } from '@sifrr/dom';
 import style from './style.scss';
 
-const template = SifrrDom.template`<style media="screen">
-  ${style}
-  slot::slotted(*) {
-    \${this.options ? this.options.style : ''}
-  }
-  :host {
-    padding-bottom: \${this.options && this.options.showUnderline ? '3px' : '0'};
-  }
-</style>
-<slot>
-</slot>
-<div class="underline"></div>`;
+const template = html`
+  <style media="screen">
+    ${style}
+    slot::slotted(*) {
+      ${el => (el.options ? el.options.style : '')}
+    }
+    :host {
+      padding-bottom: ${el => (el.options && el.options.showunderline ? '3px' : '0')}
+    }
+  </style>
+  <slot></slot>
+  <div class="underline"></div>
+`;
 
-class SifrrTabHeader extends SifrrDom.Element {
+Event.add('click');
+
+class SifrrTabHeader extends Element {
   static get template() {
     return template;
   }
 
-  static observedAttrs() {
-    return ['options'];
+  onPropsChange(props) {
+    if (props.indexOf('options') > -1) this.refresh();
   }
 
   onConnect() {
@@ -29,15 +33,8 @@ class SifrrTabHeader extends SifrrDom.Element {
     this.refresh();
   }
 
-  onAttributeChange(n, _, v) {
-    if (n === 'options') {
-      this._attrOptions = JSON.parse(v || '{}');
-      if (this._connected) this.refresh();
-    }
-  }
-
   refresh(options) {
-    this._options = Object.assign(
+    this.options = Object.assign(
       {
         content: this,
         slot: this.$('slot'),
@@ -45,23 +42,22 @@ class SifrrTabHeader extends SifrrDom.Element {
         line: this.$('.underline'),
         container: null
       },
-      this._options,
+      this.options,
       options
     );
-    this.options = Object.assign({}, this._options, this._attrOptions);
     this.options.menus = this.options.slot.assignedNodes().filter(n => n.nodeType === 1);
     if (!this.options.menus || this.options.menus.length < 1) return;
-    this.setProps();
+    this.setCProps();
     this.active = this.active || 0;
   }
 
-  setProps() {
+  setCProps() {
     if (!this.options.showUnderline) this.options.line.style.display = 'none';
     this.setMenuProps();
     if (this.options.container) {
       const c = this.options.container;
       c.onScrollPercent = this.setScrollPercent.bind(this);
-      SifrrDom.Event.addListener('update', c, () => (this.active = c.active));
+      Event.addListener('update', c, () => (this.active = c.active));
     }
     this.setScrollPercent(0);
   }
@@ -133,5 +129,5 @@ class SifrrTabHeader extends SifrrDom.Element {
   }
 }
 
-SifrrDom.register(SifrrTabHeader);
+register(SifrrTabHeader);
 export default SifrrTabHeader;

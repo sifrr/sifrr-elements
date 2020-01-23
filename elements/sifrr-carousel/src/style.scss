@@ -6,6 +6,7 @@
 #preview,
 #content {
   position: relative;
+  cursor: pointer;
 }
 
 #preview {
@@ -90,6 +91,7 @@
   user-select: none;
   color: white;
   z-index: 3;
+  cursor: pointer;
 }
 
 /* slot elements css */
@@ -100,6 +102,7 @@ slot[name='preview']::slotted(*) {
 
 slot[name='preview']::slotted(*.active) {
   border: 1px solid white;
+  box-sizing: border-box;
   opacity: 1;
 }
 

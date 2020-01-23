@@ -1,28 +1,30 @@
-import SifrrDom from '@sifrr/dom';
+import { html } from '@sifrr/template';
+import { Element, register } from '@sifrr/dom';
 import style from './style.scss';
 import animate from '@sifrr/animate';
 
-const template = SifrrDom.template`<style media="screen">
-  ${style}
-</style>
-<style media="screen">
-  .tabs {
-    width: \${this.totalWidth};
-  }
-  .tabs::slotted(*) {
-    width: \${this.tabWidth};
-  }
-</style>
-<slot class="tabs">
-</slot>`;
+const template = html`
+  <style media="screen">
+    ${style}
+  </style>
+  <style media="screen">
+    .tabs {
+      width: ${el => el.totalWidth};
+    }
+    .tabs::slotted(*) {
+      width: ${el => el.tabWidth};
+    }
+  </style>
+  <slot class="tabs"> </slot>
+`;
 
-class SifrrTabContainer extends SifrrDom.Element {
+class SifrrTabContainer extends Element {
   static get template() {
     return template;
   }
 
-  static observedAttrs() {
-    return ['options'];
+  onPropChange(prop) {
+    if (prop === 'options') this.refresh();
   }
 
   onConnect() {
@@ -33,15 +35,8 @@ class SifrrTabContainer extends SifrrDom.Element {
     this.setScrollEvent();
   }
 
-  onAttributeChange(n, _, v) {
-    if (n === 'options') {
-      this._attrOptions = JSON.parse(v || '{}');
-      if (this._connected) this.refresh();
-    }
-  }
-
   refresh(options) {
-    this._options = Object.assign(
+    this.options = Object.assign(
       {
         content: this,
         slot: this.$('slot'),
@@ -51,10 +46,9 @@ class SifrrTabContainer extends SifrrDom.Element {
         scrollBreakpoint: 0.3,
         loop: false
       },
-      this._options,
+      this.options,
       options
     );
-    this.options = Object.assign({}, this._options, this._attrOptions);
     this.options.tabs = this.options.slot.assignedNodes().filter(n => n.nodeType === 1);
     this.total = this.options.tabs.length;
     if (!this.options.tabs || this.options.tabs.length < 1) return;
@@ -162,5 +156,5 @@ class SifrrTabContainer extends SifrrDom.Element {
   }
 }
 
-SifrrDom.register(SifrrTabContainer);
+register(SifrrTabContainer);
 export default SifrrTabContainer;

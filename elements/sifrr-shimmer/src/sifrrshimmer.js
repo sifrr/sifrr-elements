@@ -1,8 +1,6 @@
-import SifrrDom from '@sifrr/dom';
+import { Element, register } from '@sifrr/dom';
 
-import style from './style.css';
-
-const properStyle = style.replace(/'(\${[^']*})'/g, '$1');
+import style from './style';
 
 function rgbToHsl(r = 0, g = 0, b = 0) {
   (r /= 255), (g /= 255), (b /= 255);
@@ -34,26 +32,34 @@ function rgbToHsl(r = 0, g = 0, b = 0) {
   return [h, s, l];
 }
 
-class SifrrShimmer extends SifrrDom.Element {
-  static syncedAttrs() {
-    return ['color', 'bg-color', 'fg-color'];
-  }
-
+class SifrrShimmer extends Element {
   static get template() {
-    return SifrrDom.template(`<style>${properStyle}</style>`);
+    return style;
   }
 
-  get bgColor() {
+  static get observedAttributes() {
+    return ['light'];
+  }
+
+  onPropChange(prop) {
+    if (['color', 'bg-color', 'fg-color'].indexOf(prop) > -1) this.update();
+  }
+
+  onAttributeChange() {
+    this.update();
+  }
+
+  getBgColor() {
     return this['bg-color'] || this.colora(0.15);
   }
 
-  get fgColor() {
+  getFgColor() {
     return this['fg-color'] || this.colora(0);
   }
 
   colora(point) {
     const hsl = rgbToHsl(
-      ...(this.color || '170, 170, 170')
+      ...(this.color || '200, 200, 200')
         .replace(/ /g, '')
         .split(',')
         .map(Number)
@@ -67,6 +73,6 @@ class SifrrShimmer extends SifrrDom.Element {
   }
 }
 
-SifrrDom.register(SifrrShimmer);
+register(SifrrShimmer);
 
 export default SifrrShimmer;

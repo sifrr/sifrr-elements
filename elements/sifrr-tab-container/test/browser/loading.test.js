@@ -1,6 +1,7 @@
 describe('tab-container', function() {
   before(async () => {
     await page.goto(`${PATH}/tabcontainer.html`);
+    await page.evaluate(async () => await Sifrr.Dom.loading());
   });
 
   it('loads tab-container', async function() {
