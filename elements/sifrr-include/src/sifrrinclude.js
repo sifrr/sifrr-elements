@@ -2,7 +2,11 @@ import { Element, register, Loader } from '@sifrr/dom';
 
 class SifrrInclude extends Element {
   onPropChange(prop) {
-    if (['type', 'url', 'selector'].indexOf(prop) > -1) this.load();
+    if (['type', 'url', 'selector'].indexOf(prop) > -1 && this.connected) this.load();
+  }
+
+  onConnect() {
+    this.load();
   }
 
   load() {
