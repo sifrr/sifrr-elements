@@ -42,6 +42,6 @@
   },
   "dependencies": {
     "@sifrr/animate": "^0.0.3",
-    "query-string": "^6.8.0"
+    "query-string": "^7.1.0"
   }
 }
